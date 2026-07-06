@@ -1,0 +1,23 @@
+-- Critical fix for an intermittent crash found during repeated end-to-end testing:
+-- "Cannot read properties of undefined (reading '0')" at getCurrentExercise(), only
+-- SOMETIMES, right after the opponent accepts a challenge.
+--
+-- Root cause: `questions` is a jsonb column and can be large enough for Postgres to
+-- TOAST it (store it out-of-line). acceptDuel() only updates `status`/`accepted_at` -
+-- it never touches `questions`. By default (REPLICA IDENTITY DEFAULT), when a TOASTed
+-- column's value is UNCHANGED by an UPDATE, Postgres's logical replication (which
+-- powers Supabase Realtime) omits that column from the WAL record entirely, so
+-- `payload.new.questions` arrives as undefined on the challenger's client - it then
+-- sets `state.duelQueue = undefined` and crashes on the first render. This only
+-- reproduced intermittently because it depends on whether that particular batch of
+-- generated questions happened to serialize past the TOAST threshold (~2KB) - smaller
+-- batches stayed inline and never hit the bug, larger ones always did.
+--
+-- Fix: REPLICA IDENTITY FULL forces Postgres to include the complete row (every
+-- column, TOASTed or not) in the WAL record for every UPDATE, regardless of what
+-- actually changed.
+--
+-- HOW TO APPLY: same as the other migrations - paste into Supabase Dashboard -> SQL
+-- Editor -> New query -> Run.
+
+alter table public.duels replica identity full;

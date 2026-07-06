@@ -1,0 +1,5 @@
+project name: Minhanhlingo
+API URL :https://nczyhvwwlcqgzqxcyhnm.supabase.co/rest/v1/
+project ID: nczyhvwwlcqgzqxcyhnm
+project region: ap-southeast-1
+API key: sb_publishable_I2owhJyvlMse9NlO6ntL6g_4dzXR0CN

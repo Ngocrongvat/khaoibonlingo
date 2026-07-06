@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KhoaiBonlingo - Học tiếng Anh vui mỗi ngày</title>
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+</head>
+<body style="background-color: #fff;">
+    <div id="app">
+        <header class="top-nav">
+            <div class="nav-left">
+                <div class="nav-more-wrapper">
+                    <button id="nav-more-btn" class="icon-btn" title="Menu">☰</button>
+                    <button id="home-btn" class="icon-btn" title="Trang chủ">🏠</button>
+                    <div id="nav-more-menu" class="nav-more-menu hidden">
+                        <button id="practice-btn" class="nav-more-item"><span>🏋️</span> Luyện tập</button>
+                        <button id="assessment-btn" class="nav-more-item"><span>📝</span> Bài kiểm tra đánh giá</button>
+                        <button id="ielts-btn" class="nav-more-item"><span>🎓</span> Luyện thi IELTS</button>
+                        <button id="duel-btn" class="nav-more-item"><span>⚔️</span> Đấu 1v1</button>
+                        <button id="leaderboard-btn" class="nav-more-item"><span>🏆</span> Bảng xếp hạng</button>
+                        <button id="games-btn" class="nav-more-item"><span>🎮</span> Trò chơi</button>
+                        <button id="achievements-btn" class="nav-more-item"><span>🎖️</span> Bảng thành tích</button>
+                        <button id="admin-btn" class="nav-more-item" style="display: none;"><span>👑</span> Quản trị</button>
+                        <div class="nav-more-divider"></div>
+                        <button id="close-lesson" class="nav-more-item nav-more-item-exit"><span>🚪</span> Exit</button>
+                    </div>
+                </div>
+            </div>
+            <div class="nav-center">
+                <div class="progress-container">
+                    <div id="progress-bar" class="progress-fill"></div>
+                </div>
+            </div>
+            <div class="nav-right">
+                <div class="stats-group">
+                    <div class="stat-item" title="Streak">
+                        <span class="stat-icon">🔥</span>
+                        <span id="streak">0</span>
+                    </div>
+                    <div class="stat-item" title="XP">
+                        <span class="stat-icon">⭐</span>
+                        <span id="xp">0</span>
+                    </div>
+                    <div class="stat-item" title="Hearts">
+                        <span class="stat-icon">❤️</span>
+                        <span id="hearts">10</span>
+                    </div>
+                    <button class="user-badge" id="user-display" title="Cài đặt tài khoản">
+                        <span class="user-badge-avatar-wrap">
+                            <span class="user-badge-avatar" id="user-badge-avatar">🙂</span>
+                            <span class="user-badge-rank" id="user-badge-rank" title=""></span>
+                        </span>
+                        <span id="user-badge-name">Guest</span>
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <main class="content">
+            <div id="lesson-container">
+                <!-- Auth Screen -->
+                <div id="auth-screen" class="welcome-screen">
+                    <div class="duo-character">🍠</div>
+                    <h1 style="text-align: center;">KhoaiBonlingo</h1>
+                    <div class="auth-box" style="display: flex; flex-direction: column; gap: 15px; margin: 30px auto; width: 80%; max-width: 300px;">
+                        <input type="email" id="email-input" placeholder="Email..." class="input-field" style="padding: 15px; border: 2px solid #e5e5e5; border-radius: 12px; text-align: center;">
+                        <input type="password" id="password-input" placeholder="Mật khẩu..." class="input-field" style="padding: 15px; border: 2px solid #e5e5e5; border-radius: 12px; text-align: center;">
+                        <button id="login-btn" class="btn-primary" style="padding: 15px; background-color: #58cc02; color: white; border: none; border-radius: 12px; font-weight: 800; cursor: pointer;">ĐĂNG NHẬP</button>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <footer class="bottom-nav">
+            <button id="skip-btn" class="btn-skip" style="display: none;">BỎ QUA CÂU NÀY</button>
+            <button id="check-btn" class="btn-secondary" disabled>KIỂM TRA</button>
+        </footer>
+    </div>
+
+    <div id="modal-overlay" class="hidden">
+        <div class="modal">
+            <div id="modal-mascot" class="mascot"></div>
+            <div id="modal-icon"></div>
+            <h2 id="modal-title">Kết quả</h2>
+            <p id="modal-msg"></p>
+            <button id="modal-btn" class="btn-primary">TIẾP TỤC</button>
+        </div>
+    </div>
+
+    <script src="data/data.js"></script>
+    <script src="data/vocab-bank.js"></script>
+    <script src="data/grammar-patterns.js"></script>
+    <script src="data/reading-templates.js"></script>
+    <script src="data/dialogue-templates.js"></script>
+    <script src="data/listening-templates.js"></script>
+    <script src="data/ielts-reading.js"></script>
+    <script src="data/ielts-listening.js"></script>
+    <script src="data/ielts-writing-prompts.js"></script>
+    <script src="data/ielts-speaking-prompts.js"></script>
+    <script src="assets/js/exercise-generator.js"></script>
+    <script src="assets/js/error-tracker.js"></script>
+    <script src="assets/js/games.js"></script>
+    <script src="assets/js/badges.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="assets/js/supabase-config.js"></script>
+    <script src="assets/js/supabase-client.js"></script>
+    <script src="assets/js/leaderboard.js"></script>
+    <script src="assets/js/duel.js"></script>
+    <script src="assets/js/auth.js"></script>
+    <script src="assets/js/app.js"></script>
+</body>
+</html>
