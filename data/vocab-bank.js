@@ -16548,6 +16548,3588 @@ const VOCAB_BANK = {
       "vi": "Cân điện tử",
       "topic": "Padding",
       "difficulty": 2
+    },
+    {
+      "en": "tongs",
+      "vi": "kẹp gắp",
+      "topic": "Kitchen Gadgets & Appliances",
+      "difficulty": 2
+    },
+    {
+      "en": "spatula",
+      "vi": "xẻng lật đồ ăn",
+      "topic": "Kitchen Gadgets & Appliances",
+      "difficulty": 2
+    },
+    {
+      "en": "rolling pin",
+      "vi": "cây cán bột",
+      "topic": "Kitchen Gadgets & Appliances",
+      "difficulty": 2
+    },
+    {
+      "en": "peeler",
+      "vi": "dao gọt vỏ",
+      "topic": "Kitchen Gadgets & Appliances",
+      "difficulty": 2
+    },
+    {
+      "en": "can opener",
+      "vi": "dụng cụ mở hộp",
+      "topic": "Kitchen Gadgets & Appliances",
+      "difficulty": 2
+    },
+    {
+      "en": "mixing bowl",
+      "vi": "tô trộn",
+      "topic": "Kitchen Gadgets & Appliances",
+      "difficulty": 2
+    },
+    {
+      "en": "measuring cup",
+      "vi": "cốc đong",
+      "topic": "Kitchen Gadgets & Appliances",
+      "difficulty": 2
+    },
+    {
+      "en": "oven mitt",
+      "vi": "găng tay lò nướng",
+      "topic": "Kitchen Gadgets & Appliances",
+      "difficulty": 2
+    },
+    {
+      "en": "dish rack",
+      "vi": "giá để bát",
+      "topic": "Kitchen Gadgets & Appliances",
+      "difficulty": 2
+    },
+    {
+      "en": "strainer",
+      "vi": "cái rây/lọc",
+      "topic": "Kitchen Gadgets & Appliances",
+      "difficulty": 2
+    },
+    {
+      "en": "funnel",
+      "vi": "cái phễu",
+      "topic": "Kitchen Gadgets & Appliances",
+      "difficulty": 2
+    },
+    {
+      "en": "skewer",
+      "vi": "xiên nướng",
+      "topic": "Kitchen Gadgets & Appliances",
+      "difficulty": 2
+    },
+    {
+      "en": "baking tray",
+      "vi": "khay nướng",
+      "topic": "Kitchen Gadgets & Appliances",
+      "difficulty": 2
+    },
+    {
+      "en": "muffin tin",
+      "vi": "khuôn bánh muffin",
+      "topic": "Kitchen Gadgets & Appliances",
+      "difficulty": 2
+    },
+    {
+      "en": "flowerpot",
+      "vi": "chậu hoa",
+      "topic": "Garden & Plants",
+      "difficulty": 2
+    },
+    {
+      "en": "hoe",
+      "vi": "cuốc",
+      "topic": "Garden & Plants",
+      "difficulty": 2
+    },
+    {
+      "en": "seedling",
+      "vi": "cây con",
+      "topic": "Garden & Plants",
+      "difficulty": 2
+    },
+    {
+      "en": "thorn",
+      "vi": "gai",
+      "topic": "Garden & Plants",
+      "difficulty": 2
+    },
+    {
+      "en": "compost",
+      "vi": "phân hữu cơ",
+      "topic": "Garden & Plants",
+      "difficulty": 2
+    },
+    {
+      "en": "hedge",
+      "vi": "hàng rào cây",
+      "topic": "Garden & Plants",
+      "difficulty": 2
+    },
+    {
+      "en": "lawn",
+      "vi": "bãi cỏ",
+      "topic": "Garden & Plants",
+      "difficulty": 2
+    },
+    {
+      "en": "pond",
+      "vi": "ao nhỏ",
+      "topic": "Garden & Plants",
+      "difficulty": 2
+    },
+    {
+      "en": "trellis",
+      "vi": "giàn leo",
+      "topic": "Garden & Plants",
+      "difficulty": 2
+    },
+    {
+      "en": "pergola",
+      "vi": "giàn che",
+      "topic": "Garden & Plants",
+      "difficulty": 2
+    },
+    {
+      "en": "gardener",
+      "vi": "người làm vườn",
+      "topic": "Garden & Plants",
+      "difficulty": 2
+    },
+    {
+      "en": "pruning shears",
+      "vi": "kéo cắt tỉa",
+      "topic": "Garden & Plants",
+      "difficulty": 2
+    },
+    {
+      "en": "sprinkler",
+      "vi": "vòi phun nước",
+      "topic": "Garden & Plants",
+      "difficulty": 2
+    },
+    {
+      "en": "gnome",
+      "vi": "tượng chú lùn vườn",
+      "topic": "Garden & Plants",
+      "difficulty": 2
+    },
+    {
+      "en": "coral reef",
+      "vi": "rạn san hô",
+      "topic": "Ocean & Marine Life",
+      "difficulty": 2
+    },
+    {
+      "en": "oyster",
+      "vi": "con hàu",
+      "topic": "Ocean & Marine Life",
+      "difficulty": 2
+    },
+    {
+      "en": "seaweed",
+      "vi": "rong biển",
+      "topic": "Ocean & Marine Life",
+      "difficulty": 2
+    },
+    {
+      "en": "tide",
+      "vi": "thủy triều",
+      "topic": "Ocean & Marine Life",
+      "difficulty": 2
+    },
+    {
+      "en": "current",
+      "vi": "dòng hải lưu",
+      "topic": "Ocean & Marine Life",
+      "difficulty": 2
+    },
+    {
+      "en": "shore",
+      "vi": "bờ biển",
+      "topic": "Ocean & Marine Life",
+      "difficulty": 2
+    },
+    {
+      "en": "lagoon",
+      "vi": "đầm phá",
+      "topic": "Ocean & Marine Life",
+      "difficulty": 2
+    },
+    {
+      "en": "plankton",
+      "vi": "sinh vật phù du",
+      "topic": "Ocean & Marine Life",
+      "difficulty": 2
+    },
+    {
+      "en": "lighthouse",
+      "vi": "ngọn hải đăng",
+      "topic": "Ocean & Marine Life",
+      "difficulty": 2
+    },
+    {
+      "en": "anchor",
+      "vi": "cái mỏ neo",
+      "topic": "Ocean & Marine Life",
+      "difficulty": 2
+    },
+    {
+      "en": "sail",
+      "vi": "cánh buồm",
+      "topic": "Ocean & Marine Life",
+      "difficulty": 2
+    },
+    {
+      "en": "deck",
+      "vi": "boong tàu",
+      "topic": "Ocean & Marine Life",
+      "difficulty": 2
+    },
+    {
+      "en": "chessboard",
+      "vi": "bàn cờ vua",
+      "topic": "Board Games & Toys",
+      "difficulty": 2
+    },
+    {
+      "en": "playing card",
+      "vi": "lá bài",
+      "topic": "Board Games & Toys",
+      "difficulty": 2
+    },
+    {
+      "en": "token",
+      "vi": "quân cờ/thẻ đại diện",
+      "topic": "Board Games & Toys",
+      "difficulty": 2
+    },
+    {
+      "en": "dominoes",
+      "vi": "domino",
+      "topic": "Board Games & Toys",
+      "difficulty": 2
+    },
+    {
+      "en": "jigsaw puzzle",
+      "vi": "trò chơi ghép hình",
+      "topic": "Board Games & Toys",
+      "difficulty": 2
+    },
+    {
+      "en": "building blocks",
+      "vi": "khối xếp hình",
+      "topic": "Board Games & Toys",
+      "difficulty": 2
+    },
+    {
+      "en": "action figure",
+      "vi": "mô hình nhân vật",
+      "topic": "Board Games & Toys",
+      "difficulty": 2
+    },
+    {
+      "en": "stuffed animal",
+      "vi": "thú nhồi bông",
+      "topic": "Board Games & Toys",
+      "difficulty": 2
+    },
+    {
+      "en": "yo-yo",
+      "vi": "con quay yoyo",
+      "topic": "Board Games & Toys",
+      "difficulty": 2
+    },
+    {
+      "en": "marbles",
+      "vi": "bi ve",
+      "topic": "Board Games & Toys",
+      "difficulty": 2
+    },
+    {
+      "en": "toy car",
+      "vi": "xe đồ chơi",
+      "topic": "Board Games & Toys",
+      "difficulty": 2
+    },
+    {
+      "en": "rocking horse",
+      "vi": "ngựa gỗ bập bênh",
+      "topic": "Board Games & Toys",
+      "difficulty": 2
+    },
+    {
+      "en": "sandbox",
+      "vi": "hộp cát chơi",
+      "topic": "Board Games & Toys",
+      "difficulty": 2
+    },
+    {
+      "en": "swing set",
+      "vi": "bộ xích đu",
+      "topic": "Board Games & Toys",
+      "difficulty": 2
+    },
+    {
+      "en": "video game console",
+      "vi": "máy chơi game",
+      "topic": "Board Games & Toys",
+      "difficulty": 2
+    },
+    {
+      "en": "remote control",
+      "vi": "điều khiển từ xa",
+      "topic": "Board Games & Toys",
+      "difficulty": 2
+    },
+    {
+      "en": "toy blocks",
+      "vi": "khối gỗ xếp",
+      "topic": "Board Games & Toys",
+      "difficulty": 2
+    },
+    {
+      "en": "spinning wheel",
+      "vi": "bánh xe quay",
+      "topic": "Board Games & Toys",
+      "difficulty": 2
+    },
+    {
+      "en": "bubble wand",
+      "vi": "que thổi bong bóng",
+      "topic": "Board Games & Toys",
+      "difficulty": 2
+    },
+    {
+      "en": "water gun",
+      "vi": "súng nước",
+      "topic": "Board Games & Toys",
+      "difficulty": 2
+    },
+    {
+      "en": "sticky note",
+      "vi": "giấy nhớ",
+      "topic": "School & Office Supplies",
+      "difficulty": 2
+    },
+    {
+      "en": "worksheet",
+      "vi": "phiếu bài tập",
+      "topic": "School & Office Supplies",
+      "difficulty": 2
+    },
+    {
+      "en": "scanner",
+      "vi": "máy quét",
+      "topic": "School & Office Supplies",
+      "difficulty": 2
+    },
+    {
+      "en": "tape dispenser",
+      "vi": "máy cắt băng keo",
+      "topic": "School & Office Supplies",
+      "difficulty": 2
+    },
+    {
+      "en": "podium",
+      "vi": "bục giảng",
+      "topic": "School & Office Supplies",
+      "difficulty": 2
+    },
+    {
+      "en": "file cabinet",
+      "vi": "tủ đựng hồ sơ",
+      "topic": "School & Office Supplies",
+      "difficulty": 2
+    },
+    {
+      "en": "shower head",
+      "vi": "vòi sen",
+      "topic": "Bathroom & Personal Care",
+      "difficulty": 2
+    },
+    {
+      "en": "hairdryer",
+      "vi": "máy sấy tóc",
+      "topic": "Bathroom & Personal Care",
+      "difficulty": 2
+    },
+    {
+      "en": "bathrobe",
+      "vi": "áo choàng tắm",
+      "topic": "Bathroom & Personal Care",
+      "difficulty": 2
+    },
+    {
+      "en": "floss",
+      "vi": "chỉ nha khoa",
+      "topic": "Bathroom & Personal Care",
+      "difficulty": 2
+    },
+    {
+      "en": "mascara",
+      "vi": "mascara mí mắt",
+      "topic": "Bathroom & Personal Care",
+      "difficulty": 2
+    },
+    {
+      "en": "mattress",
+      "vi": "nệm giường",
+      "topic": "Bedroom & Living Room",
+      "difficulty": 2
+    },
+    {
+      "en": "bed frame",
+      "vi": "khung giường",
+      "topic": "Bedroom & Living Room",
+      "difficulty": 2
+    },
+    {
+      "en": "rug",
+      "vi": "thảm trải sàn",
+      "topic": "Bedroom & Living Room",
+      "difficulty": 2
+    },
+    {
+      "en": "coffee table",
+      "vi": "bàn trà",
+      "topic": "Bedroom & Living Room",
+      "difficulty": 2
+    },
+    {
+      "en": "remote",
+      "vi": "điều khiển ti vi",
+      "topic": "Bedroom & Living Room",
+      "difficulty": 2
+    },
+    {
+      "en": "cushion",
+      "vi": "gối tựa",
+      "topic": "Bedroom & Living Room",
+      "difficulty": 2
+    },
+    {
+      "en": "armchair",
+      "vi": "ghế bành",
+      "topic": "Bedroom & Living Room",
+      "difficulty": 2
+    },
+    {
+      "en": "ceiling fan",
+      "vi": "quạt trần",
+      "topic": "Bedroom & Living Room",
+      "difficulty": 2
+    },
+    {
+      "en": "chandelier",
+      "vi": "đèn chùm",
+      "topic": "Bedroom & Living Room",
+      "difficulty": 2
+    },
+    {
+      "en": "picture frame",
+      "vi": "khung ảnh",
+      "topic": "Bedroom & Living Room",
+      "difficulty": 2
+    },
+    {
+      "en": "closet",
+      "vi": "tủ âm tường",
+      "topic": "Bedroom & Living Room",
+      "difficulty": 2
+    },
+    {
+      "en": "mat",
+      "vi": "thảm chùi chân",
+      "topic": "Bedroom & Living Room",
+      "difficulty": 2
+    },
+    {
+      "en": "blinds",
+      "vi": "rèm cuốn",
+      "topic": "Bedroom & Living Room",
+      "difficulty": 2
+    },
+    {
+      "en": "diaper",
+      "vi": "tã lót",
+      "topic": "Personal & Pet Care",
+      "difficulty": 2
+    },
+    {
+      "en": "stroller",
+      "vi": "xe đẩy em bé",
+      "topic": "Personal & Pet Care",
+      "difficulty": 2
+    },
+    {
+      "en": "pacifier",
+      "vi": "ti giả",
+      "topic": "Personal & Pet Care",
+      "difficulty": 2
+    },
+    {
+      "en": "bib",
+      "vi": "yếm ăn",
+      "topic": "Personal & Pet Care",
+      "difficulty": 2
+    },
+    {
+      "en": "baby bottle",
+      "vi": "bình sữa",
+      "topic": "Personal & Pet Care",
+      "difficulty": 2
+    },
+    {
+      "en": "high chair",
+      "vi": "ghế ăn cho bé",
+      "topic": "Personal & Pet Care",
+      "difficulty": 2
+    },
+    {
+      "en": "playpen",
+      "vi": "cũi chơi",
+      "topic": "Personal & Pet Care",
+      "difficulty": 2
+    },
+    {
+      "en": "pet bed",
+      "vi": "ổ nằm cho thú cưng",
+      "topic": "Personal & Pet Care",
+      "difficulty": 2
+    },
+    {
+      "en": "dog bowl",
+      "vi": "bát ăn cho chó",
+      "topic": "Personal & Pet Care",
+      "difficulty": 2
+    },
+    {
+      "en": "pet carrier",
+      "vi": "túi/lồng vận chuyển thú cưng",
+      "topic": "Personal & Pet Care",
+      "difficulty": 2
+    },
+    {
+      "en": "scratching post",
+      "vi": "trụ cào móng cho mèo",
+      "topic": "Personal & Pet Care",
+      "difficulty": 2
+    },
+    {
+      "en": "campfire",
+      "vi": "lửa trại",
+      "topic": "Camping & Outdoor Gear",
+      "difficulty": 2
+    },
+    {
+      "en": "backpacking gear",
+      "vi": "đồ dùng đi phượt",
+      "topic": "Camping & Outdoor Gear",
+      "difficulty": 2
+    },
+    {
+      "en": "hiking boots",
+      "vi": "giày leo núi",
+      "topic": "Camping & Outdoor Gear",
+      "difficulty": 2
+    },
+    {
+      "en": "trail",
+      "vi": "đường mòn",
+      "topic": "Camping & Outdoor Gear",
+      "difficulty": 2
+    },
+    {
+      "en": "canteen",
+      "vi": "bình nước cá nhân",
+      "topic": "Camping & Outdoor Gear",
+      "difficulty": 2
+    },
+    {
+      "en": "hammock",
+      "vi": "võng",
+      "topic": "Camping & Outdoor Gear",
+      "difficulty": 2
+    },
+    {
+      "en": "lantern",
+      "vi": "đèn lồng",
+      "topic": "Camping & Outdoor Gear",
+      "difficulty": 2
+    },
+    {
+      "en": "cooler",
+      "vi": "thùng đá giữ lạnh",
+      "topic": "Camping & Outdoor Gear",
+      "difficulty": 2
+    },
+    {
+      "en": "camping stove",
+      "vi": "bếp cắm trại",
+      "topic": "Camping & Outdoor Gear",
+      "difficulty": 2
+    },
+    {
+      "en": "multi-tool",
+      "vi": "dụng cụ đa năng",
+      "topic": "Camping & Outdoor Gear",
+      "difficulty": 2
+    },
+    {
+      "en": "insect repellent",
+      "vi": "thuốc chống côn trùng",
+      "topic": "Camping & Outdoor Gear",
+      "difficulty": 2
+    },
+    {
+      "en": "walking stick",
+      "vi": "gậy đi bộ",
+      "topic": "Camping & Outdoor Gear",
+      "difficulty": 2
+    },
+    {
+      "en": "campsite",
+      "vi": "khu cắm trại",
+      "topic": "Camping & Outdoor Gear",
+      "difficulty": 2
+    },
+    {
+      "en": "barbell",
+      "vi": "tạ đòn",
+      "topic": "Fitness & Gym Equipment",
+      "difficulty": 2
+    },
+    {
+      "en": "resistance band",
+      "vi": "dây kháng lực",
+      "topic": "Fitness & Gym Equipment",
+      "difficulty": 2
+    },
+    {
+      "en": "exercise bike",
+      "vi": "xe đạp tập",
+      "topic": "Fitness & Gym Equipment",
+      "difficulty": 2
+    },
+    {
+      "en": "weight bench",
+      "vi": "ghế tập tạ",
+      "topic": "Fitness & Gym Equipment",
+      "difficulty": 2
+    },
+    {
+      "en": "kettlebell",
+      "vi": "tạ ấm",
+      "topic": "Fitness & Gym Equipment",
+      "difficulty": 2
+    },
+    {
+      "en": "gym locker",
+      "vi": "tủ khóa phòng gym",
+      "topic": "Fitness & Gym Equipment",
+      "difficulty": 2
+    },
+    {
+      "en": "protein shake",
+      "vi": "sữa protein",
+      "topic": "Fitness & Gym Equipment",
+      "difficulty": 2
+    },
+    {
+      "en": "gym bag",
+      "vi": "túi tập gym",
+      "topic": "Fitness & Gym Equipment",
+      "difficulty": 2
+    },
+    {
+      "en": "personal trainer",
+      "vi": "huấn luyện viên cá nhân",
+      "topic": "Fitness & Gym Equipment",
+      "difficulty": 2
+    },
+    {
+      "en": "squat rack",
+      "vi": "giá tập squat",
+      "topic": "Fitness & Gym Equipment",
+      "difficulty": 2
+    },
+    {
+      "en": "pull-up bar",
+      "vi": "xà đơn",
+      "topic": "Fitness & Gym Equipment",
+      "difficulty": 2
+    },
+    {
+      "en": "ab roller",
+      "vi": "con lăn tập bụng",
+      "topic": "Fitness & Gym Equipment",
+      "difficulty": 2
+    },
+    {
+      "en": "foam roller",
+      "vi": "con lăn massage",
+      "topic": "Fitness & Gym Equipment",
+      "difficulty": 2
+    },
+    {
+      "en": "sauna",
+      "vi": "phòng xông hơi",
+      "topic": "Fitness & Gym Equipment",
+      "difficulty": 2
+    },
+    {
+      "en": "keyboard shortcut",
+      "vi": "phím tắt",
+      "topic": "Programming & Software",
+      "difficulty": 2
+    },
+    {
+      "en": "backup",
+      "vi": "sao lưu dữ liệu",
+      "topic": "Programming & Software",
+      "difficulty": 2
+    },
+    {
+      "en": "operating system",
+      "vi": "hệ điều hành",
+      "topic": "Programming & Software",
+      "difficulty": 2
+    },
+    {
+      "en": "bandwidth",
+      "vi": "băng thông",
+      "topic": "Programming & Software",
+      "difficulty": 2
+    },
+    {
+      "en": "folder icon",
+      "vi": "biểu tượng thư mục",
+      "topic": "Programming & Software",
+      "difficulty": 2
+    },
+    {
+      "en": "antivirus",
+      "vi": "phần mềm diệt vi-rút",
+      "topic": "Programming & Software",
+      "difficulty": 2
+    },
+    {
+      "en": "download speed",
+      "vi": "tốc độ tải xuống",
+      "topic": "Programming & Software",
+      "difficulty": 2
+    },
+    {
+      "en": "upload speed",
+      "vi": "tốc độ tải lên",
+      "topic": "Programming & Software",
+      "difficulty": 2
+    },
+    {
+      "en": "courtroom",
+      "vi": "phòng xử án",
+      "topic": "Legal & Court Terms",
+      "difficulty": 2
+    },
+    {
+      "en": "appeal",
+      "vi": "kháng cáo",
+      "topic": "Legal & Court Terms",
+      "difficulty": 2
+    },
+    {
+      "en": "stethoscope",
+      "vi": "ống nghe",
+      "topic": "Medical Equipment & Departments",
+      "difficulty": 2
+    },
+    {
+      "en": "operating room",
+      "vi": "phòng phẫu thuật",
+      "topic": "Medical Equipment & Departments",
+      "difficulty": 2
+    },
+    {
+      "en": "waiting room",
+      "vi": "phòng chờ",
+      "topic": "Medical Equipment & Departments",
+      "difficulty": 2
+    },
+    {
+      "en": "scalpel",
+      "vi": "dao mổ",
+      "topic": "Medical Equipment & Departments",
+      "difficulty": 2
+    },
+    {
+      "en": "ward",
+      "vi": "khu bệnh viện",
+      "topic": "Medical Equipment & Departments",
+      "difficulty": 2
+    },
+    {
+      "en": "sneakers",
+      "vi": "giày thể thao",
+      "topic": "Fashion, Footwear & Accessories",
+      "difficulty": 2
+    },
+    {
+      "en": "high heels",
+      "vi": "giày cao gót",
+      "topic": "Fashion, Footwear & Accessories",
+      "difficulty": 2
+    },
+    {
+      "en": "flip-flops",
+      "vi": "dép xỏ ngón",
+      "topic": "Fashion, Footwear & Accessories",
+      "difficulty": 2
+    },
+    {
+      "en": "backpack purse",
+      "vi": "túi ba lô thời trang",
+      "topic": "Fashion, Footwear & Accessories",
+      "difficulty": 2
+    },
+    {
+      "en": "gloves",
+      "vi": "găng tay",
+      "topic": "Fashion, Footwear & Accessories",
+      "difficulty": 2
+    },
+    {
+      "en": "earrings",
+      "vi": "bông tai",
+      "topic": "Fashion, Footwear & Accessories",
+      "difficulty": 2
+    },
+    {
+      "en": "meteor",
+      "vi": "sao băng",
+      "topic": "Astronomy & Earth Science",
+      "difficulty": 2
+    },
+    {
+      "en": "solar system",
+      "vi": "hệ mặt trời",
+      "topic": "Astronomy & Earth Science",
+      "difficulty": 2
+    },
+    {
+      "en": "plateau",
+      "vi": "cao nguyên",
+      "topic": "Astronomy & Earth Science",
+      "difficulty": 2
+    },
+    {
+      "en": "sediment",
+      "vi": "trầm tích",
+      "topic": "Astronomy & Earth Science",
+      "difficulty": 2
+    },
+    {
+      "en": "mineral",
+      "vi": "khoáng chất",
+      "topic": "Astronomy & Earth Science",
+      "difficulty": 2
+    },
+    {
+      "en": "crater",
+      "vi": "miệng núi lửa/hố thiên thạch",
+      "topic": "Astronomy & Earth Science",
+      "difficulty": 2
+    },
+    {
+      "en": "tectonic plate",
+      "vi": "mảng kiến tạo",
+      "topic": "Astronomy & Earth Science",
+      "difficulty": 2
+    },
+    {
+      "en": "magma",
+      "vi": "mắc-ma",
+      "topic": "Astronomy & Earth Science",
+      "difficulty": 2
+    },
+    {
+      "en": "fossil",
+      "vi": "hóa thạch",
+      "topic": "Astronomy & Earth Science",
+      "difficulty": 2
+    },
+    {
+      "en": "patience",
+      "vi": "sự kiên nhẫn",
+      "topic": "Emotions & Personality (More Nouns)",
+      "difficulty": 2
+    },
+    {
+      "en": "guilt",
+      "vi": "cảm giác tội lỗi",
+      "topic": "Emotions & Personality (More Nouns)",
+      "difficulty": 2
+    },
+    {
+      "en": "despair",
+      "vi": "sự tuyệt vọng",
+      "topic": "Emotions & Personality (More Nouns)",
+      "difficulty": 2
+    },
+    {
+      "en": "courage",
+      "vi": "lòng dũng cảm",
+      "topic": "Emotions & Personality (More Nouns)",
+      "difficulty": 2
+    },
+    {
+      "en": "kindness",
+      "vi": "lòng tốt",
+      "topic": "Emotions & Personality (More Nouns)",
+      "difficulty": 2
+    },
+    {
+      "en": "honesty",
+      "vi": "sự trung thực",
+      "topic": "Emotions & Personality (More Nouns)",
+      "difficulty": 2
+    },
+    {
+      "en": "generosity",
+      "vi": "sự hào phóng",
+      "topic": "Emotions & Personality (More Nouns)",
+      "difficulty": 2
+    },
+    {
+      "en": "loyalty",
+      "vi": "lòng trung thành",
+      "topic": "Emotions & Personality (More Nouns)",
+      "difficulty": 2
+    },
+    {
+      "en": "humility",
+      "vi": "sự khiêm tốn",
+      "topic": "Emotions & Personality (More Nouns)",
+      "difficulty": 2
+    },
+    {
+      "en": "determination",
+      "vi": "sự quyết tâm",
+      "topic": "Emotions & Personality (More Nouns)",
+      "difficulty": 2
+    },
+    {
+      "en": "optimism",
+      "vi": "sự lạc quan",
+      "topic": "Emotions & Personality (More Nouns)",
+      "difficulty": 2
+    },
+    {
+      "en": "pessimism",
+      "vi": "sự bi quan",
+      "topic": "Emotions & Personality (More Nouns)",
+      "difficulty": 2
+    },
+    {
+      "en": "enthusiasm",
+      "vi": "sự nhiệt tình",
+      "topic": "Emotions & Personality (More Nouns)",
+      "difficulty": 2
+    },
+    {
+      "en": "lasagna",
+      "vi": "mì lasagna",
+      "topic": "World Cuisine Dishes",
+      "difficulty": 2
+    },
+    {
+      "en": "risotto",
+      "vi": "cơm risotto",
+      "topic": "World Cuisine Dishes",
+      "difficulty": 2
+    },
+    {
+      "en": "paella",
+      "vi": "cơm paella",
+      "topic": "World Cuisine Dishes",
+      "difficulty": 2
+    },
+    {
+      "en": "ramen",
+      "vi": "mì ramen",
+      "topic": "World Cuisine Dishes",
+      "difficulty": 2
+    },
+    {
+      "en": "dumpling",
+      "vi": "bánh bao/sủi cảo",
+      "topic": "World Cuisine Dishes",
+      "difficulty": 2
+    },
+    {
+      "en": "tempura",
+      "vi": "món tempura",
+      "topic": "World Cuisine Dishes",
+      "difficulty": 2
+    },
+    {
+      "en": "kimchi",
+      "vi": "kim chi",
+      "topic": "World Cuisine Dishes",
+      "difficulty": 2
+    },
+    {
+      "en": "bibimbap",
+      "vi": "cơm trộn bibimbap",
+      "topic": "World Cuisine Dishes",
+      "difficulty": 2
+    },
+    {
+      "en": "croissant",
+      "vi": "bánh sừng bò",
+      "topic": "World Cuisine Dishes",
+      "difficulty": 2
+    },
+    {
+      "en": "baguette",
+      "vi": "bánh mì baguette",
+      "topic": "World Cuisine Dishes",
+      "difficulty": 2
+    },
+    {
+      "en": "quiche",
+      "vi": "bánh trứng quiche",
+      "topic": "World Cuisine Dishes",
+      "difficulty": 2
+    },
+    {
+      "en": "burrito",
+      "vi": "bánh burrito",
+      "topic": "World Cuisine Dishes",
+      "difficulty": 2
+    },
+    {
+      "en": "taco",
+      "vi": "bánh taco",
+      "topic": "World Cuisine Dishes",
+      "difficulty": 2
+    },
+    {
+      "en": "enchilada",
+      "vi": "món enchilada",
+      "topic": "World Cuisine Dishes",
+      "difficulty": 2
+    },
+    {
+      "en": "guacamole",
+      "vi": "sốt guacamole",
+      "topic": "World Cuisine Dishes",
+      "difficulty": 2
+    },
+    {
+      "en": "hummus",
+      "vi": "sốt hummus",
+      "topic": "World Cuisine Dishes",
+      "difficulty": 2
+    },
+    {
+      "en": "falafel",
+      "vi": "viên falafel",
+      "topic": "World Cuisine Dishes",
+      "difficulty": 2
+    },
+    {
+      "en": "kebab",
+      "vi": "thịt xiên kebab",
+      "topic": "World Cuisine Dishes",
+      "difficulty": 2
+    },
+    {
+      "en": "naan",
+      "vi": "bánh naan",
+      "topic": "World Cuisine Dishes",
+      "difficulty": 2
+    },
+    {
+      "en": "samosa",
+      "vi": "bánh samosa",
+      "topic": "World Cuisine Dishes",
+      "difficulty": 2
+    },
+    {
+      "en": "dim sum",
+      "vi": "điểm tâm",
+      "topic": "World Cuisine Dishes",
+      "difficulty": 2
+    },
+    {
+      "en": "dumplings soup",
+      "vi": "súp sủi cảo",
+      "topic": "World Cuisine Dishes",
+      "difficulty": 2
+    },
+    {
+      "en": "pad thai",
+      "vi": "mì xào pad thai",
+      "topic": "World Cuisine Dishes",
+      "difficulty": 2
+    },
+    {
+      "en": "spring roll",
+      "vi": "chả giò/nem cuốn",
+      "topic": "World Cuisine Dishes",
+      "difficulty": 2
+    },
+    {
+      "en": "moussaka",
+      "vi": "món moussaka",
+      "topic": "World Cuisine Dishes",
+      "difficulty": 2
+    },
+    {
+      "en": "goulash",
+      "vi": "món goulash",
+      "topic": "World Cuisine Dishes",
+      "difficulty": 2
+    },
+    {
+      "en": "schnitzel",
+      "vi": "thịt cốt lết schnitzel",
+      "topic": "World Cuisine Dishes",
+      "difficulty": 2
+    },
+    {
+      "en": "fondue",
+      "vi": "món fondue",
+      "topic": "World Cuisine Dishes",
+      "difficulty": 2
+    },
+    {
+      "en": "sewing needle",
+      "vi": "kim khâu",
+      "topic": "Craft & Hobby Supplies",
+      "difficulty": 2
+    },
+    {
+      "en": "thread",
+      "vi": "chỉ may",
+      "topic": "Craft & Hobby Supplies",
+      "difficulty": 2
+    },
+    {
+      "en": "crochet hook",
+      "vi": "móc len",
+      "topic": "Craft & Hobby Supplies",
+      "difficulty": 2
+    },
+    {
+      "en": "glue gun",
+      "vi": "súng bắn keo",
+      "topic": "Craft & Hobby Supplies",
+      "difficulty": 2
+    },
+    {
+      "en": "paintbrush",
+      "vi": "cọ vẽ",
+      "topic": "Craft & Hobby Supplies",
+      "difficulty": 2
+    },
+    {
+      "en": "easel",
+      "vi": "giá vẽ",
+      "topic": "Craft & Hobby Supplies",
+      "difficulty": 2
+    },
+    {
+      "en": "pottery wheel",
+      "vi": "bàn xoay gốm",
+      "topic": "Craft & Hobby Supplies",
+      "difficulty": 2
+    },
+    {
+      "en": "bead",
+      "vi": "hạt cườm",
+      "topic": "Craft & Hobby Supplies",
+      "difficulty": 2
+    },
+    {
+      "en": "stencil",
+      "vi": "khuôn vẽ mẫu",
+      "topic": "Craft & Hobby Supplies",
+      "difficulty": 2
+    },
+    {
+      "en": "craft knife",
+      "vi": "dao rọc thủ công",
+      "topic": "Craft & Hobby Supplies",
+      "difficulty": 2
+    },
+    {
+      "en": "felt",
+      "vi": "vải nỉ",
+      "topic": "Craft & Hobby Supplies",
+      "difficulty": 2
+    },
+    {
+      "en": "sequins",
+      "vi": "kim sa",
+      "topic": "Craft & Hobby Supplies",
+      "difficulty": 2
+    },
+    {
+      "en": "scrapbook",
+      "vi": "sổ lưu niệm",
+      "topic": "Craft & Hobby Supplies",
+      "difficulty": 2
+    },
+    {
+      "en": "calligraphy pen",
+      "vi": "bút thư pháp",
+      "topic": "Craft & Hobby Supplies",
+      "difficulty": 2
+    },
+    {
+      "en": "ink",
+      "vi": "mực",
+      "topic": "Craft & Hobby Supplies",
+      "difficulty": 2
+    },
+    {
+      "en": "woodcarving",
+      "vi": "điêu khắc gỗ",
+      "topic": "Craft & Hobby Supplies",
+      "difficulty": 2
+    },
+    {
+      "en": "macrame",
+      "vi": "thắt nút macrame",
+      "topic": "Craft & Hobby Supplies",
+      "difficulty": 2
+    },
+    {
+      "en": "brake pedal",
+      "vi": "bàn đạp phanh",
+      "topic": "Vehicle Parts",
+      "difficulty": 2
+    },
+    {
+      "en": "fuel tank",
+      "vi": "bình xăng",
+      "topic": "Vehicle Parts",
+      "difficulty": 2
+    },
+    {
+      "en": "rearview mirror",
+      "vi": "gương chiếu hậu",
+      "topic": "Vehicle Parts",
+      "difficulty": 2
+    },
+    {
+      "en": "airbag",
+      "vi": "túi khí",
+      "topic": "Vehicle Parts",
+      "difficulty": 2
+    },
+    {
+      "en": "axle",
+      "vi": "trục xe",
+      "topic": "Vehicle Parts",
+      "difficulty": 2
+    },
+    {
+      "en": "odometer",
+      "vi": "đồng hồ đo quãng đường",
+      "topic": "Vehicle Parts",
+      "difficulty": 2
+    },
+    {
+      "en": "speedometer",
+      "vi": "đồng hồ tốc độ",
+      "topic": "Vehicle Parts",
+      "difficulty": 2
+    },
+    {
+      "en": "spark plug",
+      "vi": "bugi",
+      "topic": "Vehicle Parts",
+      "difficulty": 2
+    },
+    {
+      "en": "radiator",
+      "vi": "bộ tản nhiệt",
+      "topic": "Vehicle Parts",
+      "difficulty": 2
+    },
+    {
+      "en": "suspension",
+      "vi": "hệ thống treo",
+      "topic": "Vehicle Parts",
+      "difficulty": 2
+    },
+    {
+      "en": "transmission",
+      "vi": "hộp số",
+      "topic": "Vehicle Parts",
+      "difficulty": 2
+    },
+    {
+      "en": "windshield wiper",
+      "vi": "cần gạt nước",
+      "topic": "Vehicle Parts",
+      "difficulty": 2
+    },
+    {
+      "en": "gas pedal",
+      "vi": "bàn đạp ga",
+      "topic": "Vehicle Parts",
+      "difficulty": 2
+    },
+    {
+      "en": "thunderstorm",
+      "vi": "giông bão",
+      "topic": "Meteorology & Natural Disasters",
+      "difficulty": 2
+    },
+    {
+      "en": "lightning bolt",
+      "vi": "tia sét",
+      "topic": "Meteorology & Natural Disasters",
+      "difficulty": 2
+    },
+    {
+      "en": "hailstorm",
+      "vi": "bão mưa đá",
+      "topic": "Meteorology & Natural Disasters",
+      "difficulty": 2
+    },
+    {
+      "en": "humidity level",
+      "vi": "độ ẩm",
+      "topic": "Meteorology & Natural Disasters",
+      "difficulty": 2
+    },
+    {
+      "en": "climate change",
+      "vi": "biến đổi khí hậu",
+      "topic": "Meteorology & Natural Disasters",
+      "difficulty": 2
+    },
+    {
+      "en": "air pressure",
+      "vi": "áp suất không khí",
+      "topic": "Meteorology & Natural Disasters",
+      "difficulty": 2
+    },
+    {
+      "en": "wind speed",
+      "vi": "tốc độ gió",
+      "topic": "Meteorology & Natural Disasters",
+      "difficulty": 2
+    },
+    {
+      "en": "cotton fabric",
+      "vi": "vải cotton",
+      "topic": "Textile, Fabric & Sewing Terms",
+      "difficulty": 2
+    },
+    {
+      "en": "silk fabric",
+      "vi": "vải lụa",
+      "topic": "Textile, Fabric & Sewing Terms",
+      "difficulty": 2
+    },
+    {
+      "en": "wool fabric",
+      "vi": "vải len",
+      "topic": "Textile, Fabric & Sewing Terms",
+      "difficulty": 2
+    },
+    {
+      "en": "linen fabric",
+      "vi": "vải lanh",
+      "topic": "Textile, Fabric & Sewing Terms",
+      "difficulty": 2
+    },
+    {
+      "en": "denim",
+      "vi": "vải bò/jean",
+      "topic": "Textile, Fabric & Sewing Terms",
+      "difficulty": 2
+    },
+    {
+      "en": "velvet",
+      "vi": "nhung",
+      "topic": "Textile, Fabric & Sewing Terms",
+      "difficulty": 2
+    },
+    {
+      "en": "satin",
+      "vi": "sa tanh",
+      "topic": "Textile, Fabric & Sewing Terms",
+      "difficulty": 2
+    },
+    {
+      "en": "polyester",
+      "vi": "vải polyester",
+      "topic": "Textile, Fabric & Sewing Terms",
+      "difficulty": 2
+    },
+    {
+      "en": "pattern (sewing)",
+      "vi": "rập may",
+      "topic": "Textile, Fabric & Sewing Terms",
+      "difficulty": 2
+    },
+    {
+      "en": "stitch",
+      "vi": "mũi khâu",
+      "topic": "Textile, Fabric & Sewing Terms",
+      "difficulty": 2
+    },
+    {
+      "en": "sewing machine",
+      "vi": "máy khâu",
+      "topic": "Textile, Fabric & Sewing Terms",
+      "difficulty": 2
+    },
+    {
+      "en": "dye",
+      "vi": "thuốc nhuộm",
+      "topic": "Textile, Fabric & Sewing Terms",
+      "difficulty": 2
+    },
+    {
+      "en": "texture (fabric)",
+      "vi": "kết cấu vải",
+      "topic": "Textile, Fabric & Sewing Terms",
+      "difficulty": 2
+    },
+    {
+      "en": "blacksmith",
+      "vi": "thợ rèn",
+      "topic": "Specific Professions & Roles",
+      "difficulty": 2
+    },
+    {
+      "en": "tailor role",
+      "vi": "thợ may (nghề)",
+      "topic": "Specific Professions & Roles",
+      "difficulty": 2
+    },
+    {
+      "en": "florist",
+      "vi": "người bán hoa",
+      "topic": "Specific Professions & Roles",
+      "difficulty": 2
+    },
+    {
+      "en": "baker",
+      "vi": "thợ làm bánh",
+      "topic": "Specific Professions & Roles",
+      "difficulty": 2
+    },
+    {
+      "en": "butcher",
+      "vi": "người bán thịt",
+      "topic": "Specific Professions & Roles",
+      "difficulty": 2
+    },
+    {
+      "en": "veterinarian",
+      "vi": "bác sĩ thú y",
+      "topic": "Specific Professions & Roles",
+      "difficulty": 2
+    },
+    {
+      "en": "electrician apprentice",
+      "vi": "thợ học việc điện",
+      "topic": "Specific Professions & Roles",
+      "difficulty": 2
+    },
+    {
+      "en": "locksmith",
+      "vi": "thợ khóa",
+      "topic": "Specific Professions & Roles",
+      "difficulty": 2
+    },
+    {
+      "en": "surveyor",
+      "vi": "người khảo sát",
+      "topic": "Specific Professions & Roles",
+      "difficulty": 2
+    },
+    {
+      "en": "archaeologist",
+      "vi": "nhà khảo cổ học",
+      "topic": "Specific Professions & Roles",
+      "difficulty": 2
+    },
+    {
+      "en": "astronomer",
+      "vi": "nhà thiên văn học",
+      "topic": "Specific Professions & Roles",
+      "difficulty": 2
+    },
+    {
+      "en": "geologist",
+      "vi": "nhà địa chất học",
+      "topic": "Specific Professions & Roles",
+      "difficulty": 2
+    },
+    {
+      "en": "linguist",
+      "vi": "nhà ngôn ngữ học",
+      "topic": "Specific Professions & Roles",
+      "difficulty": 2
+    },
+    {
+      "en": "philosopher",
+      "vi": "nhà triết học",
+      "topic": "Specific Professions & Roles",
+      "difficulty": 2
+    },
+    {
+      "en": "sociologist",
+      "vi": "nhà xã hội học",
+      "topic": "Specific Professions & Roles",
+      "difficulty": 2
+    },
+    {
+      "en": "anthropologist",
+      "vi": "nhà nhân chủng học",
+      "topic": "Specific Professions & Roles",
+      "difficulty": 2
+    },
+    {
+      "en": "ambassador",
+      "vi": "đại sứ",
+      "topic": "Specific Professions & Roles",
+      "difficulty": 2
+    },
+    {
+      "en": "choreographer",
+      "vi": "biên đạo múa",
+      "topic": "Specific Professions & Roles",
+      "difficulty": 2
+    },
+    {
+      "en": "composer",
+      "vi": "nhà soạn nhạc",
+      "topic": "Specific Professions & Roles",
+      "difficulty": 2
+    },
+    {
+      "en": "harmony",
+      "vi": "hòa âm",
+      "topic": "Music Theory & Performance",
+      "difficulty": 2
+    },
+    {
+      "en": "tempo",
+      "vi": "nhịp độ",
+      "topic": "Music Theory & Performance",
+      "difficulty": 2
+    },
+    {
+      "en": "pitch",
+      "vi": "cao độ",
+      "topic": "Music Theory & Performance",
+      "difficulty": 2
+    },
+    {
+      "en": "chord",
+      "vi": "hợp âm",
+      "topic": "Music Theory & Performance",
+      "difficulty": 2
+    },
+    {
+      "en": "scale (music)",
+      "vi": "thang âm",
+      "topic": "Music Theory & Performance",
+      "difficulty": 2
+    },
+    {
+      "en": "note (music)",
+      "vi": "nốt nhạc",
+      "topic": "Music Theory & Performance",
+      "difficulty": 2
+    },
+    {
+      "en": "sheet music",
+      "vi": "bản nhạc",
+      "topic": "Music Theory & Performance",
+      "difficulty": 2
+    },
+    {
+      "en": "conductor",
+      "vi": "nhạc trưởng",
+      "topic": "Music Theory & Performance",
+      "difficulty": 2
+    },
+    {
+      "en": "solo",
+      "vi": "độc tấu",
+      "topic": "Music Theory & Performance",
+      "difficulty": 2
+    },
+    {
+      "en": "duet",
+      "vi": "song ca/song tấu",
+      "topic": "Music Theory & Performance",
+      "difficulty": 2
+    },
+    {
+      "en": "audition",
+      "vi": "buổi thử giọng",
+      "topic": "Music Theory & Performance",
+      "difficulty": 2
+    },
+    {
+      "en": "rehearsal",
+      "vi": "buổi tập luyện",
+      "topic": "Music Theory & Performance",
+      "difficulty": 2
+    },
+    {
+      "en": "interest rate",
+      "vi": "lãi suất",
+      "topic": "Banking, Investment & Insurance Terms",
+      "difficulty": 2
+    },
+    {
+      "en": "stock market",
+      "vi": "thị trường chứng khoán",
+      "topic": "Banking, Investment & Insurance Terms",
+      "difficulty": 2
+    },
+    {
+      "en": "dividend",
+      "vi": "cổ tức",
+      "topic": "Banking, Investment & Insurance Terms",
+      "difficulty": 2
+    },
+    {
+      "en": "policyholder",
+      "vi": "người mua bảo hiểm",
+      "topic": "Banking, Investment & Insurance Terms",
+      "difficulty": 2
+    },
+    {
+      "en": "asset",
+      "vi": "tài sản",
+      "topic": "Banking, Investment & Insurance Terms",
+      "difficulty": 2
+    },
+    {
+      "en": "currency exchange",
+      "vi": "đổi ngoại tệ",
+      "topic": "Banking, Investment & Insurance Terms",
+      "difficulty": 2
+    },
+    {
+      "en": "budget plan",
+      "vi": "kế hoạch ngân sách",
+      "topic": "Banking, Investment & Insurance Terms",
+      "difficulty": 2
+    },
+    {
+      "en": "churro",
+      "vi": "bánh churro",
+      "topic": "Desserts, Snacks & Drinks Around the World",
+      "difficulty": 2
+    },
+    {
+      "en": "baklava",
+      "vi": "bánh baklava",
+      "topic": "Desserts, Snacks & Drinks Around the World",
+      "difficulty": 2
+    },
+    {
+      "en": "flan",
+      "vi": "bánh flan",
+      "topic": "Desserts, Snacks & Drinks Around the World",
+      "difficulty": 2
+    },
+    {
+      "en": "mochi",
+      "vi": "bánh mochi",
+      "topic": "Desserts, Snacks & Drinks Around the World",
+      "difficulty": 2
+    },
+    {
+      "en": "shortbread",
+      "vi": "bánh quy bơ",
+      "topic": "Desserts, Snacks & Drinks Around the World",
+      "difficulty": 2
+    },
+    {
+      "en": "pretzel",
+      "vi": "bánh quy xoắn",
+      "topic": "Desserts, Snacks & Drinks Around the World",
+      "difficulty": 2
+    },
+    {
+      "en": "nachos",
+      "vi": "bánh nachos",
+      "topic": "Desserts, Snacks & Drinks Around the World",
+      "difficulty": 2
+    },
+    {
+      "en": "smoothie bowl",
+      "vi": "tô sinh tố",
+      "topic": "Desserts, Snacks & Drinks Around the World",
+      "difficulty": 2
+    },
+    {
+      "en": "bubble tea",
+      "vi": "trà sữa trân châu",
+      "topic": "Desserts, Snacks & Drinks Around the World",
+      "difficulty": 2
+    },
+    {
+      "en": "matcha",
+      "vi": "bột trà xanh matcha",
+      "topic": "Desserts, Snacks & Drinks Around the World",
+      "difficulty": 2
+    },
+    {
+      "en": "mocktail",
+      "vi": "thức uống không cồn",
+      "topic": "Desserts, Snacks & Drinks Around the World",
+      "difficulty": 2
+    },
+    {
+      "en": "cider",
+      "vi": "rượu táo",
+      "topic": "Desserts, Snacks & Drinks Around the World",
+      "difficulty": 2
+    },
+    {
+      "en": "ginger tea",
+      "vi": "trà gừng",
+      "topic": "Desserts, Snacks & Drinks Around the World",
+      "difficulty": 2
+    },
+    {
+      "en": "coconut water",
+      "vi": "nước dừa",
+      "topic": "Desserts, Snacks & Drinks Around the World",
+      "difficulty": 2
+    },
+    {
+      "en": "sugarcane juice",
+      "vi": "nước mía",
+      "topic": "Desserts, Snacks & Drinks Around the World",
+      "difficulty": 2
+    },
+    {
+      "en": "sticky rice",
+      "vi": "xôi",
+      "topic": "Desserts, Snacks & Drinks Around the World",
+      "difficulty": 2
+    },
+    {
+      "en": "egg tart",
+      "vi": "bánh trứng",
+      "topic": "Desserts, Snacks & Drinks Around the World",
+      "difficulty": 2
+    },
+    {
+      "en": "air traffic controller",
+      "vi": "kiểm soát viên không lưu",
+      "topic": "More Specific Professions",
+      "difficulty": 2
+    },
+    {
+      "en": "zookeeper",
+      "vi": "người chăm sóc thú ở sở thú",
+      "topic": "More Specific Professions",
+      "difficulty": 2
+    },
+    {
+      "en": "lifeguard",
+      "vi": "nhân viên cứu hộ",
+      "topic": "More Specific Professions",
+      "difficulty": 2
+    },
+    {
+      "en": "park ranger",
+      "vi": "kiểm lâm viên",
+      "topic": "More Specific Professions",
+      "difficulty": 2
+    },
+    {
+      "en": "event planner",
+      "vi": "người tổ chức sự kiện",
+      "topic": "More Specific Professions",
+      "difficulty": 2
+    },
+    {
+      "en": "personal shopper",
+      "vi": "người mua sắm cá nhân",
+      "topic": "More Specific Professions",
+      "difficulty": 2
+    },
+    {
+      "en": "makeup artist",
+      "vi": "chuyên viên trang điểm",
+      "topic": "More Specific Professions",
+      "difficulty": 2
+    },
+    {
+      "en": "tattoo artist",
+      "vi": "thợ xăm",
+      "topic": "More Specific Professions",
+      "difficulty": 2
+    },
+    {
+      "en": "locksmith apprentice",
+      "vi": "người học nghề thợ khóa",
+      "topic": "More Specific Professions",
+      "difficulty": 2
+    },
+    {
+      "en": "welder",
+      "vi": "thợ hàn",
+      "topic": "More Specific Professions",
+      "difficulty": 2
+    },
+    {
+      "en": "plumber assistant",
+      "vi": "phụ tá thợ ống nước",
+      "topic": "More Specific Professions",
+      "difficulty": 2
+    },
+    {
+      "en": "crane operator",
+      "vi": "người vận hành cần cẩu",
+      "topic": "More Specific Professions",
+      "difficulty": 2
+    },
+    {
+      "en": "forklift operator",
+      "vi": "người lái xe nâng",
+      "topic": "More Specific Professions",
+      "difficulty": 2
+    },
+    {
+      "en": "stunt performer",
+      "vi": "diễn viên đóng thế",
+      "topic": "More Specific Professions",
+      "difficulty": 2
+    },
+    {
+      "en": "puppeteer",
+      "vi": "nghệ sĩ múa rối",
+      "topic": "More Specific Professions",
+      "difficulty": 2
+    },
+    {
+      "en": "ventriloquist",
+      "vi": "nghệ sĩ lồng tiếng bụng",
+      "topic": "More Specific Professions",
+      "difficulty": 2
+    },
+    {
+      "en": "lifeguard trainer",
+      "vi": "huấn luyện viên cứu hộ",
+      "topic": "More Specific Professions",
+      "difficulty": 2
+    },
+    {
+      "en": "beekeeper",
+      "vi": "người nuôi ong",
+      "topic": "More Specific Professions",
+      "difficulty": 2
+    },
+    {
+      "en": "winemaker",
+      "vi": "người làm rượu vang",
+      "topic": "More Specific Professions",
+      "difficulty": 2
+    },
+    {
+      "en": "brewer",
+      "vi": "người nấu bia",
+      "topic": "More Specific Professions",
+      "difficulty": 2
+    },
+    {
+      "en": "locksmith trainer",
+      "vi": "người đào tạo thợ khóa",
+      "topic": "More Specific Professions",
+      "difficulty": 2
+    },
+    {
+      "en": "taxidermist",
+      "vi": "người nhồi bông thú vật",
+      "topic": "More Specific Professions",
+      "difficulty": 2
+    },
+    {
+      "en": "cartographer",
+      "vi": "nhà vẽ bản đồ",
+      "topic": "More Specific Professions",
+      "difficulty": 2
+    },
+    {
+      "en": "dragon",
+      "vi": "rồng",
+      "topic": "Mythology & Folklore",
+      "difficulty": 2
+    },
+    {
+      "en": "phoenix",
+      "vi": "phượng hoàng",
+      "topic": "Mythology & Folklore",
+      "difficulty": 2
+    },
+    {
+      "en": "unicorn",
+      "vi": "kỳ lân",
+      "topic": "Mythology & Folklore",
+      "difficulty": 2
+    },
+    {
+      "en": "mermaid",
+      "vi": "nàng tiên cá",
+      "topic": "Mythology & Folklore",
+      "difficulty": 2
+    },
+    {
+      "en": "fairy",
+      "vi": "nàng tiên",
+      "topic": "Mythology & Folklore",
+      "difficulty": 2
+    },
+    {
+      "en": "witch",
+      "vi": "phù thủy",
+      "topic": "Mythology & Folklore",
+      "difficulty": 2
+    },
+    {
+      "en": "wizard",
+      "vi": "pháp sư",
+      "topic": "Mythology & Folklore",
+      "difficulty": 2
+    },
+    {
+      "en": "ghost",
+      "vi": "con ma",
+      "topic": "Mythology & Folklore",
+      "difficulty": 2
+    },
+    {
+      "en": "vampire",
+      "vi": "ma cà rồng",
+      "topic": "Mythology & Folklore",
+      "difficulty": 2
+    },
+    {
+      "en": "werewolf",
+      "vi": "người sói",
+      "topic": "Mythology & Folklore",
+      "difficulty": 2
+    },
+    {
+      "en": "giant",
+      "vi": "người khổng lồ",
+      "topic": "Mythology & Folklore",
+      "difficulty": 2
+    },
+    {
+      "en": "goblin",
+      "vi": "yêu tinh",
+      "topic": "Mythology & Folklore",
+      "difficulty": 2
+    },
+    {
+      "en": "elf",
+      "vi": "yêu tinh nhỏ (elf)",
+      "topic": "Mythology & Folklore",
+      "difficulty": 2
+    },
+    {
+      "en": "demon",
+      "vi": "quỷ dữ",
+      "topic": "Mythology & Folklore",
+      "difficulty": 2
+    },
+    {
+      "en": "angel",
+      "vi": "thiên thần",
+      "topic": "Mythology & Folklore",
+      "difficulty": 2
+    },
+    {
+      "en": "folktale",
+      "vi": "truyện dân gian",
+      "topic": "Mythology & Folklore",
+      "difficulty": 2
+    },
+    {
+      "en": "spell",
+      "vi": "câu thần chú",
+      "topic": "Mythology & Folklore",
+      "difficulty": 2
+    },
+    {
+      "en": "curse",
+      "vi": "lời nguyền",
+      "topic": "Mythology & Folklore",
+      "difficulty": 2
+    },
+    {
+      "en": "treasure chest",
+      "vi": "rương kho báu",
+      "topic": "Mythology & Folklore",
+      "difficulty": 2
+    },
+    {
+      "en": "sorcerer",
+      "vi": "thầy phù thủy",
+      "topic": "Mythology & Folklore",
+      "difficulty": 2
+    },
+    {
+      "en": "oracle",
+      "vi": "nhà tiên tri",
+      "topic": "Mythology & Folklore",
+      "difficulty": 2
+    },
+    {
+      "en": "prophecy",
+      "vi": "lời tiên tri",
+      "topic": "Mythology & Folklore",
+      "difficulty": 2
+    },
+    {
+      "en": "kingdom",
+      "vi": "vương quốc",
+      "topic": "Mythology & Folklore",
+      "difficulty": 2
+    },
+    {
+      "en": "throne",
+      "vi": "ngai vàng",
+      "topic": "Mythology & Folklore",
+      "difficulty": 2
+    },
+    {
+      "en": "knight",
+      "vi": "hiệp sĩ",
+      "topic": "Mythology & Folklore",
+      "difficulty": 2
+    },
+    {
+      "en": "sword",
+      "vi": "thanh kiếm",
+      "topic": "Mythology & Folklore",
+      "difficulty": 2
+    },
+    {
+      "en": "shield",
+      "vi": "khiên chắn",
+      "topic": "Mythology & Folklore",
+      "difficulty": 2
+    },
+    {
+      "en": "zodiac sign",
+      "vi": "cung hoàng đạo",
+      "topic": "Zodiac, Gemstones & Astrology",
+      "difficulty": 2
+    },
+    {
+      "en": "horoscope",
+      "vi": "tử vi",
+      "topic": "Zodiac, Gemstones & Astrology",
+      "difficulty": 2
+    },
+    {
+      "en": "diamond (gem)",
+      "vi": "kim cương",
+      "topic": "Zodiac, Gemstones & Astrology",
+      "difficulty": 2
+    },
+    {
+      "en": "ruby",
+      "vi": "hồng ngọc",
+      "topic": "Zodiac, Gemstones & Astrology",
+      "difficulty": 2
+    },
+    {
+      "en": "emerald",
+      "vi": "ngọc lục bảo",
+      "topic": "Zodiac, Gemstones & Astrology",
+      "difficulty": 2
+    },
+    {
+      "en": "sapphire",
+      "vi": "ngọc bích lam",
+      "topic": "Zodiac, Gemstones & Astrology",
+      "difficulty": 2
+    },
+    {
+      "en": "pearl",
+      "vi": "ngọc trai",
+      "topic": "Zodiac, Gemstones & Astrology",
+      "difficulty": 2
+    },
+    {
+      "en": "topaz",
+      "vi": "đá topaz",
+      "topic": "Zodiac, Gemstones & Astrology",
+      "difficulty": 2
+    },
+    {
+      "en": "amethyst",
+      "vi": "thạch anh tím",
+      "topic": "Zodiac, Gemstones & Astrology",
+      "difficulty": 2
+    },
+    {
+      "en": "jade",
+      "vi": "ngọc bích",
+      "topic": "Zodiac, Gemstones & Astrology",
+      "difficulty": 2
+    },
+    {
+      "en": "garnet",
+      "vi": "đá garnet",
+      "topic": "Zodiac, Gemstones & Astrology",
+      "difficulty": 2
+    },
+    {
+      "en": "opal",
+      "vi": "đá mắt mèo opal",
+      "topic": "Zodiac, Gemstones & Astrology",
+      "difficulty": 2
+    },
+    {
+      "en": "crystal ball",
+      "vi": "quả cầu pha lê",
+      "topic": "Zodiac, Gemstones & Astrology",
+      "difficulty": 2
+    },
+    {
+      "en": "tarot card",
+      "vi": "lá bài tarot",
+      "topic": "Zodiac, Gemstones & Astrology",
+      "difficulty": 2
+    },
+    {
+      "en": "fortune teller",
+      "vi": "thầy bói",
+      "topic": "Zodiac, Gemstones & Astrology",
+      "difficulty": 2
+    },
+    {
+      "en": "destiny",
+      "vi": "định mệnh",
+      "topic": "Zodiac, Gemstones & Astrology",
+      "difficulty": 2
+    },
+    {
+      "en": "constellation map",
+      "vi": "bản đồ chòm sao",
+      "topic": "Zodiac, Gemstones & Astrology",
+      "difficulty": 2
+    },
+    {
+      "en": "birthstone",
+      "vi": "đá tháng sinh",
+      "topic": "Zodiac, Gemstones & Astrology",
+      "difficulty": 2
+    },
+    {
+      "en": "ballet",
+      "vi": "múa ba lê",
+      "topic": "Dance, Martial Arts & Yoga Terms",
+      "difficulty": 2
+    },
+    {
+      "en": "tango",
+      "vi": "điệu tango",
+      "topic": "Dance, Martial Arts & Yoga Terms",
+      "difficulty": 2
+    },
+    {
+      "en": "salsa dance",
+      "vi": "điệu nhảy salsa",
+      "topic": "Dance, Martial Arts & Yoga Terms",
+      "difficulty": 2
+    },
+    {
+      "en": "waltz",
+      "vi": "điệu valse",
+      "topic": "Dance, Martial Arts & Yoga Terms",
+      "difficulty": 2
+    },
+    {
+      "en": "hip hop dance",
+      "vi": "nhảy hip hop",
+      "topic": "Dance, Martial Arts & Yoga Terms",
+      "difficulty": 2
+    },
+    {
+      "en": "breakdance",
+      "vi": "nhảy breakdance",
+      "topic": "Dance, Martial Arts & Yoga Terms",
+      "difficulty": 2
+    },
+    {
+      "en": "taekwondo",
+      "vi": "taekwondo",
+      "topic": "Dance, Martial Arts & Yoga Terms",
+      "difficulty": 2
+    },
+    {
+      "en": "judo",
+      "vi": "judo",
+      "topic": "Dance, Martial Arts & Yoga Terms",
+      "difficulty": 2
+    },
+    {
+      "en": "kung fu",
+      "vi": "kung fu",
+      "topic": "Dance, Martial Arts & Yoga Terms",
+      "difficulty": 2
+    },
+    {
+      "en": "boxing match",
+      "vi": "trận đấu quyền anh",
+      "topic": "Dance, Martial Arts & Yoga Terms",
+      "difficulty": 2
+    },
+    {
+      "en": "wrestling match",
+      "vi": "trận đấu vật",
+      "topic": "Dance, Martial Arts & Yoga Terms",
+      "difficulty": 2
+    },
+    {
+      "en": "yoga pose",
+      "vi": "tư thế yoga",
+      "topic": "Dance, Martial Arts & Yoga Terms",
+      "difficulty": 2
+    },
+    {
+      "en": "stretching routine",
+      "vi": "bài tập giãn cơ",
+      "topic": "Dance, Martial Arts & Yoga Terms",
+      "difficulty": 2
+    },
+    {
+      "en": "martial artist",
+      "vi": "võ sĩ",
+      "topic": "Dance, Martial Arts & Yoga Terms",
+      "difficulty": 2
+    },
+    {
+      "en": "choreography",
+      "vi": "biên đạo múa (nghệ thuật)",
+      "topic": "Dance, Martial Arts & Yoga Terms",
+      "difficulty": 2
+    },
+    {
+      "en": "dance studio",
+      "vi": "phòng tập múa",
+      "topic": "Dance, Martial Arts & Yoga Terms",
+      "difficulty": 2
+    },
+    {
+      "en": "belt rank",
+      "vi": "đai (võ thuật)",
+      "topic": "Dance, Martial Arts & Yoga Terms",
+      "difficulty": 2
+    },
+    {
+      "en": "sparring",
+      "vi": "giao đấu tập luyện",
+      "topic": "Dance, Martial Arts & Yoga Terms",
+      "difficulty": 2
+    },
+    {
+      "en": "mystery novel",
+      "vi": "tiểu thuyết trinh thám",
+      "topic": "Literature & Film Genres",
+      "difficulty": 2
+    },
+    {
+      "en": "thriller",
+      "vi": "phim/truyện giật gân",
+      "topic": "Literature & Film Genres",
+      "difficulty": 2
+    },
+    {
+      "en": "romance novel",
+      "vi": "tiểu thuyết lãng mạn",
+      "topic": "Literature & Film Genres",
+      "difficulty": 2
+    },
+    {
+      "en": "science fiction",
+      "vi": "khoa học viễn tưởng",
+      "topic": "Literature & Film Genres",
+      "difficulty": 2
+    },
+    {
+      "en": "fantasy novel",
+      "vi": "tiểu thuyết giả tưởng",
+      "topic": "Literature & Film Genres",
+      "difficulty": 2
+    },
+    {
+      "en": "biography",
+      "vi": "tiểu sử",
+      "topic": "Literature & Film Genres",
+      "difficulty": 2
+    },
+    {
+      "en": "autobiography",
+      "vi": "tự truyện",
+      "topic": "Literature & Film Genres",
+      "difficulty": 2
+    },
+    {
+      "en": "memoir",
+      "vi": "hồi ký",
+      "topic": "Literature & Film Genres",
+      "difficulty": 2
+    },
+    {
+      "en": "poetry collection",
+      "vi": "tuyển tập thơ",
+      "topic": "Literature & Film Genres",
+      "difficulty": 2
+    },
+    {
+      "en": "short story",
+      "vi": "truyện ngắn",
+      "topic": "Literature & Film Genres",
+      "difficulty": 2
+    },
+    {
+      "en": "comic book",
+      "vi": "truyện tranh",
+      "topic": "Literature & Film Genres",
+      "difficulty": 2
+    },
+    {
+      "en": "graphic novel",
+      "vi": "tiểu thuyết đồ họa",
+      "topic": "Literature & Film Genres",
+      "difficulty": 2
+    },
+    {
+      "en": "documentary",
+      "vi": "phim tài liệu",
+      "topic": "Literature & Film Genres",
+      "difficulty": 2
+    },
+    {
+      "en": "animation film",
+      "vi": "phim hoạt hình",
+      "topic": "Literature & Film Genres",
+      "difficulty": 2
+    },
+    {
+      "en": "horror film",
+      "vi": "phim kinh dị",
+      "topic": "Literature & Film Genres",
+      "difficulty": 2
+    },
+    {
+      "en": "comedy film",
+      "vi": "phim hài",
+      "topic": "Literature & Film Genres",
+      "difficulty": 2
+    },
+    {
+      "en": "drama film",
+      "vi": "phim chính kịch",
+      "topic": "Literature & Film Genres",
+      "difficulty": 2
+    },
+    {
+      "en": "action film",
+      "vi": "phim hành động",
+      "topic": "Literature & Film Genres",
+      "difficulty": 2
+    },
+    {
+      "en": "plot twist",
+      "vi": "tình tiết bất ngờ",
+      "topic": "Literature & Film Genres",
+      "difficulty": 2
+    },
+    {
+      "en": "protagonist",
+      "vi": "nhân vật chính",
+      "topic": "Literature & Film Genres",
+      "difficulty": 2
+    },
+    {
+      "en": "antagonist",
+      "vi": "nhân vật phản diện",
+      "topic": "Literature & Film Genres",
+      "difficulty": 2
+    },
+    {
+      "en": "narrator",
+      "vi": "người kể chuyện",
+      "topic": "Literature & Film Genres",
+      "difficulty": 2
+    },
+    {
+      "en": "screenplay",
+      "vi": "kịch bản phim",
+      "topic": "Literature & Film Genres",
+      "difficulty": 2
+    },
+    {
+      "en": "element (chemistry)",
+      "vi": "nguyên tố hóa học",
+      "topic": "Chemistry & Physics Terms",
+      "difficulty": 2
+    },
+    {
+      "en": "compound",
+      "vi": "hợp chất",
+      "topic": "Chemistry & Physics Terms",
+      "difficulty": 2
+    },
+    {
+      "en": "solution (chemistry)",
+      "vi": "dung dịch",
+      "topic": "Chemistry & Physics Terms",
+      "difficulty": 2
+    },
+    {
+      "en": "acid",
+      "vi": "axit",
+      "topic": "Chemistry & Physics Terms",
+      "difficulty": 2
+    },
+    {
+      "en": "base (chemistry)",
+      "vi": "bazơ",
+      "topic": "Chemistry & Physics Terms",
+      "difficulty": 2
+    },
+    {
+      "en": "catalyst",
+      "vi": "chất xúc tác",
+      "topic": "Chemistry & Physics Terms",
+      "difficulty": 2
+    },
+    {
+      "en": "electron",
+      "vi": "điện tử",
+      "topic": "Chemistry & Physics Terms",
+      "difficulty": 2
+    },
+    {
+      "en": "proton",
+      "vi": "proton",
+      "topic": "Chemistry & Physics Terms",
+      "difficulty": 2
+    },
+    {
+      "en": "neutron",
+      "vi": "neutron",
+      "topic": "Chemistry & Physics Terms",
+      "difficulty": 2
+    },
+    {
+      "en": "force",
+      "vi": "lực",
+      "topic": "Chemistry & Physics Terms",
+      "difficulty": 2
+    },
+    {
+      "en": "velocity",
+      "vi": "vận tốc",
+      "topic": "Chemistry & Physics Terms",
+      "difficulty": 2
+    },
+    {
+      "en": "acceleration",
+      "vi": "gia tốc",
+      "topic": "Chemistry & Physics Terms",
+      "difficulty": 2
+    },
+    {
+      "en": "mass",
+      "vi": "khối lượng",
+      "topic": "Chemistry & Physics Terms",
+      "difficulty": 2
+    },
+    {
+      "en": "density",
+      "vi": "mật độ",
+      "topic": "Chemistry & Physics Terms",
+      "difficulty": 2
+    },
+    {
+      "en": "friction",
+      "vi": "ma sát",
+      "topic": "Chemistry & Physics Terms",
+      "difficulty": 2
+    },
+    {
+      "en": "magnetism",
+      "vi": "từ tính",
+      "topic": "Chemistry & Physics Terms",
+      "difficulty": 2
+    },
+    {
+      "en": "voltage",
+      "vi": "hiệu điện thế",
+      "topic": "Chemistry & Physics Terms",
+      "difficulty": 2
+    },
+    {
+      "en": "circuit",
+      "vi": "mạch điện",
+      "topic": "Chemistry & Physics Terms",
+      "difficulty": 2
+    },
+    {
+      "en": "wavelength",
+      "vi": "bước sóng",
+      "topic": "Chemistry & Physics Terms",
+      "difficulty": 2
+    },
+    {
+      "en": "frequency",
+      "vi": "tần số",
+      "topic": "Chemistry & Physics Terms",
+      "difficulty": 2
+    },
+    {
+      "en": "radiation",
+      "vi": "bức xạ",
+      "topic": "Chemistry & Physics Terms",
+      "difficulty": 2
+    },
+    {
+      "en": "poodle",
+      "vi": "chó poodle",
+      "topic": "Dog & Cat Breeds",
+      "difficulty": 2
+    },
+    {
+      "en": "bulldog",
+      "vi": "chó bulldog",
+      "topic": "Dog & Cat Breeds",
+      "difficulty": 2
+    },
+    {
+      "en": "beagle",
+      "vi": "chó beagle",
+      "topic": "Dog & Cat Breeds",
+      "difficulty": 2
+    },
+    {
+      "en": "dachshund",
+      "vi": "chó dachshund",
+      "topic": "Dog & Cat Breeds",
+      "difficulty": 2
+    },
+    {
+      "en": "chihuahua",
+      "vi": "chó chihuahua",
+      "topic": "Dog & Cat Breeds",
+      "difficulty": 2
+    },
+    {
+      "en": "husky",
+      "vi": "chó husky",
+      "topic": "Dog & Cat Breeds",
+      "difficulty": 2
+    },
+    {
+      "en": "golden retriever",
+      "vi": "chó golden retriever",
+      "topic": "Dog & Cat Breeds",
+      "difficulty": 2
+    },
+    {
+      "en": "labrador",
+      "vi": "chó labrador",
+      "topic": "Dog & Cat Breeds",
+      "difficulty": 2
+    },
+    {
+      "en": "pug",
+      "vi": "chó pug",
+      "topic": "Dog & Cat Breeds",
+      "difficulty": 2
+    },
+    {
+      "en": "corgi",
+      "vi": "chó corgi",
+      "topic": "Dog & Cat Breeds",
+      "difficulty": 2
+    },
+    {
+      "en": "persian cat",
+      "vi": "mèo Ba Tư",
+      "topic": "Dog & Cat Breeds",
+      "difficulty": 2
+    },
+    {
+      "en": "siamese cat",
+      "vi": "mèo Xiêm",
+      "topic": "Dog & Cat Breeds",
+      "difficulty": 2
+    },
+    {
+      "en": "maine coon",
+      "vi": "mèo Maine Coon",
+      "topic": "Dog & Cat Breeds",
+      "difficulty": 2
+    },
+    {
+      "en": "tabby cat",
+      "vi": "mèo vằn",
+      "topic": "Dog & Cat Breeds",
+      "difficulty": 2
+    },
+    {
+      "en": "calico cat",
+      "vi": "mèo tam thể",
+      "topic": "Dog & Cat Breeds",
+      "difficulty": 2
+    },
+    {
+      "en": "sphynx cat",
+      "vi": "mèo Sphynx (không lông)",
+      "topic": "Dog & Cat Breeds",
+      "difficulty": 2
+    },
+    {
+      "en": "tulip",
+      "vi": "hoa tulip",
+      "topic": "Flowers & Trees",
+      "difficulty": 2
+    },
+    {
+      "en": "daisy",
+      "vi": "hoa cúc dại",
+      "topic": "Flowers & Trees",
+      "difficulty": 2
+    },
+    {
+      "en": "lily",
+      "vi": "hoa loa kèn",
+      "topic": "Flowers & Trees",
+      "difficulty": 2
+    },
+    {
+      "en": "daffodil",
+      "vi": "hoa thủy tiên",
+      "topic": "Flowers & Trees",
+      "difficulty": 2
+    },
+    {
+      "en": "peony",
+      "vi": "hoa mẫu đơn",
+      "topic": "Flowers & Trees",
+      "difficulty": 2
+    },
+    {
+      "en": "jasmine",
+      "vi": "hoa nhài",
+      "topic": "Flowers & Trees",
+      "difficulty": 2
+    },
+    {
+      "en": "marigold",
+      "vi": "hoa vạn thọ",
+      "topic": "Flowers & Trees",
+      "difficulty": 2
+    },
+    {
+      "en": "oak tree",
+      "vi": "cây sồi",
+      "topic": "Flowers & Trees",
+      "difficulty": 2
+    },
+    {
+      "en": "pine tree",
+      "vi": "cây thông",
+      "topic": "Flowers & Trees",
+      "difficulty": 2
+    },
+    {
+      "en": "maple tree",
+      "vi": "cây phong",
+      "topic": "Flowers & Trees",
+      "difficulty": 2
+    },
+    {
+      "en": "willow tree",
+      "vi": "cây liễu",
+      "topic": "Flowers & Trees",
+      "difficulty": 2
+    },
+    {
+      "en": "cherry blossom",
+      "vi": "hoa anh đào",
+      "topic": "Flowers & Trees",
+      "difficulty": 2
+    },
+    {
+      "en": "bonsai",
+      "vi": "cây bonsai",
+      "topic": "Flowers & Trees",
+      "difficulty": 2
+    },
+    {
+      "en": "checkers",
+      "vi": "cờ đam",
+      "topic": "Board & Card Game Names",
+      "difficulty": 2
+    },
+    {
+      "en": "backgammon",
+      "vi": "cờ tào cáo",
+      "topic": "Board & Card Game Names",
+      "difficulty": 2
+    },
+    {
+      "en": "scrabble",
+      "vi": "trò chơi scrabble",
+      "topic": "Board & Card Game Names",
+      "difficulty": 2
+    },
+    {
+      "en": "monopoly",
+      "vi": "trò chơi cờ tỷ phú",
+      "topic": "Board & Card Game Names",
+      "difficulty": 2
+    },
+    {
+      "en": "poker",
+      "vi": "bài poker",
+      "topic": "Board & Card Game Names",
+      "difficulty": 2
+    },
+    {
+      "en": "blackjack",
+      "vi": "bài xì dách",
+      "topic": "Board & Card Game Names",
+      "difficulty": 2
+    },
+    {
+      "en": "bridge (card game)",
+      "vi": "bài bridge",
+      "topic": "Board & Card Game Names",
+      "difficulty": 2
+    },
+    {
+      "en": "solitaire",
+      "vi": "bài một mình",
+      "topic": "Board & Card Game Names",
+      "difficulty": 2
+    },
+    {
+      "en": "uno",
+      "vi": "bài uno",
+      "topic": "Board & Card Game Names",
+      "difficulty": 2
+    },
+    {
+      "en": "charades",
+      "vi": "trò chơi đố diễn kịch câm",
+      "topic": "Board & Card Game Names",
+      "difficulty": 2
+    },
+    {
+      "en": "trivia game",
+      "vi": "trò chơi đố vui kiến thức",
+      "topic": "Board & Card Game Names",
+      "difficulty": 2
+    },
+    {
+      "en": "bingo",
+      "vi": "trò chơi lô tô",
+      "topic": "Board & Card Game Names",
+      "difficulty": 2
+    },
+    {
+      "en": "darts",
+      "vi": "phi tiêu",
+      "topic": "Board & Card Game Names",
+      "difficulty": 2
+    },
+    {
+      "en": "billiards",
+      "vi": "bi-a",
+      "topic": "Board & Card Game Names",
+      "difficulty": 2
+    },
+    {
+      "en": "ping pong",
+      "vi": "bóng bàn",
+      "topic": "Board & Card Game Names",
+      "difficulty": 2
+    },
+    {
+      "en": "comma",
+      "vi": "dấu phẩy",
+      "topic": "Punctuation & Grammar Terms",
+      "difficulty": 2
+    },
+    {
+      "en": "question mark",
+      "vi": "dấu chấm hỏi",
+      "topic": "Punctuation & Grammar Terms",
+      "difficulty": 2
+    },
+    {
+      "en": "exclamation mark",
+      "vi": "dấu chấm than",
+      "topic": "Punctuation & Grammar Terms",
+      "difficulty": 2
+    },
+    {
+      "en": "colon",
+      "vi": "dấu hai chấm",
+      "topic": "Punctuation & Grammar Terms",
+      "difficulty": 2
+    },
+    {
+      "en": "semicolon",
+      "vi": "dấu chấm phẩy",
+      "topic": "Punctuation & Grammar Terms",
+      "difficulty": 2
+    },
+    {
+      "en": "apostrophe",
+      "vi": "dấu nháy đơn",
+      "topic": "Punctuation & Grammar Terms",
+      "difficulty": 2
+    },
+    {
+      "en": "quotation mark",
+      "vi": "dấu ngoặc kép",
+      "topic": "Punctuation & Grammar Terms",
+      "difficulty": 2
+    },
+    {
+      "en": "hyphen",
+      "vi": "dấu gạch nối",
+      "topic": "Punctuation & Grammar Terms",
+      "difficulty": 2
+    },
+    {
+      "en": "parenthesis",
+      "vi": "dấu ngoặc đơn",
+      "topic": "Punctuation & Grammar Terms",
+      "difficulty": 2
+    },
+    {
+      "en": "subject (grammar)",
+      "vi": "chủ ngữ",
+      "topic": "Punctuation & Grammar Terms",
+      "difficulty": 2
+    },
+    {
+      "en": "predicate",
+      "vi": "vị ngữ",
+      "topic": "Punctuation & Grammar Terms",
+      "difficulty": 2
+    },
+    {
+      "en": "clause",
+      "vi": "mệnh đề",
+      "topic": "Punctuation & Grammar Terms",
+      "difficulty": 2
+    },
+    {
+      "en": "phrase",
+      "vi": "cụm từ",
+      "topic": "Punctuation & Grammar Terms",
+      "difficulty": 2
+    },
+    {
+      "en": "tense",
+      "vi": "thì (ngữ pháp)",
+      "topic": "Punctuation & Grammar Terms",
+      "difficulty": 2
+    },
+    {
+      "en": "preposition",
+      "vi": "giới từ",
+      "topic": "Punctuation & Grammar Terms",
+      "difficulty": 2
+    },
+    {
+      "en": "conjunction",
+      "vi": "liên từ",
+      "topic": "Punctuation & Grammar Terms",
+      "difficulty": 2
+    },
+    {
+      "en": "adjective clause",
+      "vi": "mệnh đề tính từ",
+      "topic": "Punctuation & Grammar Terms",
+      "difficulty": 2
+    },
+    {
+      "en": "cricket insect",
+      "vi": "dế mèn",
+      "topic": "Insects & Bugs (Specific)",
+      "difficulty": 2
+    },
+    {
+      "en": "millipede",
+      "vi": "cuốn chiếu",
+      "topic": "Insects & Bugs (Specific)",
+      "difficulty": 2
+    },
+    {
+      "en": "cocoon",
+      "vi": "kén",
+      "topic": "Insects & Bugs (Specific)",
+      "difficulty": 2
+    },
+    {
+      "en": "larva",
+      "vi": "ấu trùng",
+      "topic": "Insects & Bugs (Specific)",
+      "difficulty": 2
+    },
+    {
+      "en": "aphid",
+      "vi": "rệp cây",
+      "topic": "Insects & Bugs (Specific)",
+      "difficulty": 2
+    },
+    {
+      "en": "gnat",
+      "vi": "muỗi nhỏ",
+      "topic": "Insects & Bugs (Specific)",
+      "difficulty": 2
+    },
+    {
+      "en": "cello",
+      "vi": "đàn cello",
+      "topic": "Specific Musical Instruments",
+      "difficulty": 2
+    },
+    {
+      "en": "trombone",
+      "vi": "kèn trombone",
+      "topic": "Specific Musical Instruments",
+      "difficulty": 2
+    },
+    {
+      "en": "clarinet",
+      "vi": "kèn clarinet",
+      "topic": "Specific Musical Instruments",
+      "difficulty": 2
+    },
+    {
+      "en": "saxophone",
+      "vi": "kèn saxophone",
+      "topic": "Specific Musical Instruments",
+      "difficulty": 2
+    },
+    {
+      "en": "harp",
+      "vi": "đàn hạc",
+      "topic": "Specific Musical Instruments",
+      "difficulty": 2
+    },
+    {
+      "en": "accordion",
+      "vi": "đàn accordion",
+      "topic": "Specific Musical Instruments",
+      "difficulty": 2
+    },
+    {
+      "en": "banjo",
+      "vi": "đàn banjo",
+      "topic": "Specific Musical Instruments",
+      "difficulty": 2
+    },
+    {
+      "en": "ukulele",
+      "vi": "đàn ukulele",
+      "topic": "Specific Musical Instruments",
+      "difficulty": 2
+    },
+    {
+      "en": "harmonica",
+      "vi": "kèn harmonica",
+      "topic": "Specific Musical Instruments",
+      "difficulty": 2
+    },
+    {
+      "en": "xylophone",
+      "vi": "đàn xylophone",
+      "topic": "Specific Musical Instruments",
+      "difficulty": 2
+    },
+    {
+      "en": "tambourine",
+      "vi": "trống lục lạc",
+      "topic": "Specific Musical Instruments",
+      "difficulty": 2
+    },
+    {
+      "en": "bagpipes",
+      "vi": "kèn túi",
+      "topic": "Specific Musical Instruments",
+      "difficulty": 2
+    },
+    {
+      "en": "cymbal",
+      "vi": "chũm chọe",
+      "topic": "Specific Musical Instruments",
+      "difficulty": 2
+    },
+    {
+      "en": "oboe",
+      "vi": "kèn oboe",
+      "topic": "Specific Musical Instruments",
+      "difficulty": 2
+    },
+    {
+      "en": "bassoon",
+      "vi": "kèn bassoon",
+      "topic": "Specific Musical Instruments",
+      "difficulty": 2
+    },
+    {
+      "en": "synthesizer",
+      "vi": "đàn tổng hợp",
+      "topic": "Specific Musical Instruments",
+      "difficulty": 2
+    },
+    {
+      "en": "sitar",
+      "vi": "đàn sitar",
+      "topic": "Specific Musical Instruments",
+      "difficulty": 2
+    },
+    {
+      "en": "bongo drum",
+      "vi": "trống bongo",
+      "topic": "Specific Musical Instruments",
+      "difficulty": 2
+    },
+    {
+      "en": "armor",
+      "vi": "áo giáp",
+      "topic": "Weapons & Historical Armor (Fiction/History Context)",
+      "difficulty": 2
+    },
+    {
+      "en": "helmet knight",
+      "vi": "mũ giáp hiệp sĩ",
+      "topic": "Weapons & Historical Armor (Fiction/History Context)",
+      "difficulty": 2
+    },
+    {
+      "en": "shield knight",
+      "vi": "khiên hiệp sĩ",
+      "topic": "Weapons & Historical Armor (Fiction/History Context)",
+      "difficulty": 2
+    },
+    {
+      "en": "bow and arrow",
+      "vi": "cung tên",
+      "topic": "Weapons & Historical Armor (Fiction/History Context)",
+      "difficulty": 2
+    },
+    {
+      "en": "crossbow",
+      "vi": "nỏ",
+      "topic": "Weapons & Historical Armor (Fiction/History Context)",
+      "difficulty": 2
+    },
+    {
+      "en": "spear",
+      "vi": "giáo mác",
+      "topic": "Weapons & Historical Armor (Fiction/History Context)",
+      "difficulty": 2
+    },
+    {
+      "en": "catapult",
+      "vi": "máy bắn đá",
+      "topic": "Weapons & Historical Armor (Fiction/History Context)",
+      "difficulty": 2
+    },
+    {
+      "en": "cannon",
+      "vi": "đại bác",
+      "topic": "Weapons & Historical Armor (Fiction/History Context)",
+      "difficulty": 2
+    },
+    {
+      "en": "dagger",
+      "vi": "dao găm",
+      "topic": "Weapons & Historical Armor (Fiction/History Context)",
+      "difficulty": 2
+    },
+    {
+      "en": "axe",
+      "vi": "rìu",
+      "topic": "Weapons & Historical Armor (Fiction/History Context)",
+      "difficulty": 2
+    },
+    {
+      "en": "crown",
+      "vi": "vương miện",
+      "topic": "Weapons & Historical Armor (Fiction/History Context)",
+      "difficulty": 2
+    },
+    {
+      "en": "scepter",
+      "vi": "quyền trượng",
+      "topic": "Weapons & Historical Armor (Fiction/History Context)",
+      "difficulty": 2
+    },
+    {
+      "en": "banner",
+      "vi": "cờ hiệu",
+      "topic": "Weapons & Historical Armor (Fiction/History Context)",
+      "difficulty": 2
+    },
+    {
+      "en": "fortress",
+      "vi": "pháo đài",
+      "topic": "Weapons & Historical Armor (Fiction/History Context)",
+      "difficulty": 2
+    },
+    {
+      "en": "moat",
+      "vi": "hào nước quanh lâu đài",
+      "topic": "Weapons & Historical Armor (Fiction/History Context)",
+      "difficulty": 2
+    },
+    {
+      "en": "drawbridge",
+      "vi": "cầu kéo",
+      "topic": "Weapons & Historical Armor (Fiction/History Context)",
+      "difficulty": 2
+    },
+    {
+      "en": "watchtower",
+      "vi": "tháp canh",
+      "topic": "Weapons & Historical Armor (Fiction/History Context)",
+      "difficulty": 2
+    },
+    {
+      "en": "dungeon",
+      "vi": "ngục tối",
+      "topic": "Weapons & Historical Armor (Fiction/History Context)",
+      "difficulty": 2
+    },
+    {
+      "en": "trapeze",
+      "vi": "xà đu",
+      "topic": "Circus & Performance Arts",
+      "difficulty": 2
+    },
+    {
+      "en": "juggler",
+      "vi": "người tung hứng",
+      "topic": "Circus & Performance Arts",
+      "difficulty": 2
+    },
+    {
+      "en": "ringmaster",
+      "vi": "người dẫn chương trình xiếc",
+      "topic": "Circus & Performance Arts",
+      "difficulty": 2
+    },
+    {
+      "en": "unicycle",
+      "vi": "xe đạp một bánh",
+      "topic": "Circus & Performance Arts",
+      "difficulty": 2
+    },
+    {
+      "en": "stilts",
+      "vi": "cà kheo",
+      "topic": "Circus & Performance Arts",
+      "difficulty": 2
+    },
+    {
+      "en": "circus tent",
+      "vi": "lều xiếc",
+      "topic": "Circus & Performance Arts",
+      "difficulty": 2
+    },
+    {
+      "en": "fire breather",
+      "vi": "người phun lửa",
+      "topic": "Circus & Performance Arts",
+      "difficulty": 2
+    },
+    {
+      "en": "contortionist",
+      "vi": "người uốn dẻo",
+      "topic": "Circus & Performance Arts",
+      "difficulty": 2
+    },
+    {
+      "en": "ventriloquist dummy",
+      "vi": "con rối lồng tiếng",
+      "topic": "Circus & Performance Arts",
+      "difficulty": 2
+    },
+    {
+      "en": "magic wand",
+      "vi": "đũa phép",
+      "topic": "Circus & Performance Arts",
+      "difficulty": 2
+    },
+    {
+      "en": "top hat",
+      "vi": "mũ chóp cao",
+      "topic": "Circus & Performance Arts",
+      "difficulty": 2
+    },
+    {
+      "en": "juggling ball",
+      "vi": "bóng tung hứng",
+      "topic": "Circus & Performance Arts",
+      "difficulty": 2
+    },
+    {
+      "en": "circus ring",
+      "vi": "sân khấu tròn xiếc",
+      "topic": "Circus & Performance Arts",
+      "difficulty": 2
+    },
+    {
+      "en": "space station",
+      "vi": "trạm không gian",
+      "topic": "Space Exploration & Rockets",
+      "difficulty": 2
+    },
+    {
+      "en": "astronaut suit",
+      "vi": "bộ đồ phi hành gia",
+      "topic": "Space Exploration & Rockets",
+      "difficulty": 2
+    },
+    {
+      "en": "launch pad",
+      "vi": "bệ phóng",
+      "topic": "Space Exploration & Rockets",
+      "difficulty": 2
+    },
+    {
+      "en": "space shuttle",
+      "vi": "tàu con thoi",
+      "topic": "Space Exploration & Rockets",
+      "difficulty": 2
+    },
+    {
+      "en": "lunar module",
+      "vi": "mô-đun đổ bộ mặt trăng",
+      "topic": "Space Exploration & Rockets",
+      "difficulty": 2
+    },
+    {
+      "en": "space helmet",
+      "vi": "mũ phi hành gia",
+      "topic": "Space Exploration & Rockets",
+      "difficulty": 2
+    },
+    {
+      "en": "mission control",
+      "vi": "trung tâm điều khiển sứ mệnh",
+      "topic": "Space Exploration & Rockets",
+      "difficulty": 2
+    },
+    {
+      "en": "orbit path",
+      "vi": "đường quỹ đạo",
+      "topic": "Space Exploration & Rockets",
+      "difficulty": 2
+    },
+    {
+      "en": "space capsule",
+      "vi": "khoang tàu vũ trụ",
+      "topic": "Space Exploration & Rockets",
+      "difficulty": 2
+    },
+    {
+      "en": "rover",
+      "vi": "xe tự hành thám hiểm",
+      "topic": "Space Exploration & Rockets",
+      "difficulty": 2
+    },
+    {
+      "en": "space suit",
+      "vi": "bộ đồ vũ trụ",
+      "topic": "Space Exploration & Rockets",
+      "difficulty": 2
+    },
+    {
+      "en": "pirate ship",
+      "vi": "tàu cướp biển",
+      "topic": "Pirate & Sailing Theme",
+      "difficulty": 2
+    },
+    {
+      "en": "treasure map",
+      "vi": "bản đồ kho báu",
+      "topic": "Pirate & Sailing Theme",
+      "difficulty": 2
+    },
+    {
+      "en": "captain hat",
+      "vi": "mũ thuyền trưởng",
+      "topic": "Pirate & Sailing Theme",
+      "difficulty": 2
+    },
+    {
+      "en": "eye patch",
+      "vi": "miếng che mắt",
+      "topic": "Pirate & Sailing Theme",
+      "difficulty": 2
+    },
+    {
+      "en": "cannonball",
+      "vi": "đạn đại bác",
+      "topic": "Pirate & Sailing Theme",
+      "difficulty": 2
+    },
+    {
+      "en": "skull flag",
+      "vi": "cờ đầu lâu",
+      "topic": "Pirate & Sailing Theme",
+      "difficulty": 2
+    },
+    {
+      "en": "compass rose",
+      "vi": "la bàn hàng hải",
+      "topic": "Pirate & Sailing Theme",
+      "difficulty": 2
+    },
+    {
+      "en": "plank",
+      "vi": "tấm ván đi trên tàu",
+      "topic": "Pirate & Sailing Theme",
+      "difficulty": 2
+    },
+    {
+      "en": "rum bottle",
+      "vi": "chai rượu rum",
+      "topic": "Pirate & Sailing Theme",
+      "difficulty": 2
+    },
+    {
+      "en": "deckhand",
+      "vi": "thủy thủ boong tàu",
+      "topic": "Pirate & Sailing Theme",
+      "difficulty": 2
+    },
+    {
+      "en": "mast",
+      "vi": "cột buồm",
+      "topic": "Pirate & Sailing Theme",
+      "difficulty": 2
+    },
+    {
+      "en": "porthole",
+      "vi": "cửa sổ tròn tàu",
+      "topic": "Pirate & Sailing Theme",
+      "difficulty": 2
+    },
+    {
+      "en": "galleon",
+      "vi": "tàu buồm lớn",
+      "topic": "Pirate & Sailing Theme",
+      "difficulty": 2
+    },
+    {
+      "en": "silo",
+      "vi": "kho chứa lúa",
+      "topic": "Farm Life & Rural Terms",
+      "difficulty": 2
+    },
+    {
+      "en": "scarecrow",
+      "vi": "bù nhìn",
+      "topic": "Farm Life & Rural Terms",
+      "difficulty": 2
+    },
+    {
+      "en": "haystack",
+      "vi": "đống rơm",
+      "topic": "Farm Life & Rural Terms",
+      "difficulty": 2
+    },
+    {
+      "en": "stable",
+      "vi": "chuồng ngựa",
+      "topic": "Farm Life & Rural Terms",
+      "difficulty": 2
+    },
+    {
+      "en": "pen (animal)",
+      "vi": "chuồng nhốt nhỏ",
+      "topic": "Farm Life & Rural Terms",
+      "difficulty": 2
+    },
+    {
+      "en": "irrigation ditch",
+      "vi": "mương tưới tiêu",
+      "topic": "Farm Life & Rural Terms",
+      "difficulty": 2
+    },
+    {
+      "en": "vineyard",
+      "vi": "vườn nho",
+      "topic": "Farm Life & Rural Terms",
+      "difficulty": 2
+    },
+    {
+      "en": "harvest festival",
+      "vi": "lễ hội thu hoạch",
+      "topic": "Farm Life & Rural Terms",
+      "difficulty": 2
+    },
+    {
+      "en": "farmhand",
+      "vi": "người làm nông",
+      "topic": "Farm Life & Rural Terms",
+      "difficulty": 2
+    },
+    {
+      "en": "pasture fence",
+      "vi": "hàng rào đồng cỏ",
+      "topic": "Farm Life & Rural Terms",
+      "difficulty": 2
+    },
+    {
+      "en": "grain silo",
+      "vi": "kho chứa hạt",
+      "topic": "Farm Life & Rural Terms",
+      "difficulty": 2
+    },
+    {
+      "en": "rainbow arc",
+      "vi": "vòng cung cầu vồng",
+      "topic": "Weather Phenomena (Rare/Specific)",
+      "difficulty": 2
+    },
+    {
+      "en": "mirage",
+      "vi": "ảo ảnh (sa mạc)",
+      "topic": "Weather Phenomena (Rare/Specific)",
+      "difficulty": 2
+    },
+    {
+      "en": "aurora",
+      "vi": "cực quang",
+      "topic": "Weather Phenomena (Rare/Specific)",
+      "difficulty": 2
+    },
+    {
+      "en": "dust storm",
+      "vi": "bão bụi",
+      "topic": "Weather Phenomena (Rare/Specific)",
+      "difficulty": 2
+    },
+    {
+      "en": "heat lightning",
+      "vi": "sét nhiệt",
+      "topic": "Weather Phenomena (Rare/Specific)",
+      "difficulty": 2
+    },
+    {
+      "en": "sleet",
+      "vi": "mưa tuyết",
+      "topic": "Weather Phenomena (Rare/Specific)",
+      "difficulty": 2
+    },
+    {
+      "en": "frost pattern",
+      "vi": "hoa văn sương giá",
+      "topic": "Weather Phenomena (Rare/Specific)",
+      "difficulty": 2
+    },
+    {
+      "en": "whirlwind",
+      "vi": "lốc xoáy nhỏ",
+      "topic": "Weather Phenomena (Rare/Specific)",
+      "difficulty": 2
+    },
+    {
+      "en": "squall",
+      "vi": "gió giật mạnh",
+      "topic": "Weather Phenomena (Rare/Specific)",
+      "difficulty": 2
+    },
+    {
+      "en": "waterspout",
+      "vi": "vòi rồng trên biển",
+      "topic": "Weather Phenomena (Rare/Specific)",
+      "difficulty": 2
+    },
+    {
+      "en": "periscope",
+      "vi": "kính tiềm vọng",
+      "topic": "Optical & Scientific Instruments",
+      "difficulty": 2
+    },
+    {
+      "en": "prism",
+      "vi": "lăng kính",
+      "topic": "Optical & Scientific Instruments",
+      "difficulty": 2
+    },
+    {
+      "en": "pipette",
+      "vi": "ống hút thí nghiệm",
+      "topic": "Optical & Scientific Instruments",
+      "difficulty": 2
+    },
+    {
+      "en": "bunsen burner",
+      "vi": "đèn cồn thí nghiệm",
+      "topic": "Optical & Scientific Instruments",
+      "difficulty": 2
+    },
+    {
+      "en": "thermometer lab",
+      "vi": "nhiệt kế phòng thí nghiệm",
+      "topic": "Optical & Scientific Instruments",
+      "difficulty": 2
+    },
+    {
+      "en": "scale weight",
+      "vi": "quả cân",
+      "topic": "Optical & Scientific Instruments",
+      "difficulty": 2
+    },
+    {
+      "en": "centrifuge",
+      "vi": "máy ly tâm",
+      "topic": "Optical & Scientific Instruments",
+      "difficulty": 2
+    },
+    {
+      "en": "lab coat",
+      "vi": "áo blouse phòng thí nghiệm",
+      "topic": "Optical & Scientific Instruments",
+      "difficulty": 2
     }
   ],
   "verbs": [
@@ -16558,7 +20140,8 @@ const VOCAB_BANK = {
         "base": "be",
         "thirdPerson": "is",
         "past": "was",
-        "ing": "being"
+        "ing": "being",
+        "pastParticiple": "was"
       },
       "difficulty": 1,
       "takesObject": false
@@ -16570,7 +20153,8 @@ const VOCAB_BANK = {
         "base": "have",
         "thirdPerson": "has",
         "past": "had",
-        "ing": "having"
+        "ing": "having",
+        "pastParticiple": "had"
       },
       "difficulty": 1,
       "stative": true
@@ -16582,7 +20166,8 @@ const VOCAB_BANK = {
         "base": "do",
         "thirdPerson": "does",
         "past": "did",
-        "ing": "doing"
+        "ing": "doing",
+        "pastParticiple": "did"
       },
       "difficulty": 1
     },
@@ -16593,7 +20178,8 @@ const VOCAB_BANK = {
         "base": "go",
         "thirdPerson": "goes",
         "past": "went",
-        "ing": "going"
+        "ing": "going",
+        "pastParticiple": "went"
       },
       "difficulty": 1,
       "takesObject": false
@@ -16605,7 +20191,8 @@ const VOCAB_BANK = {
         "base": "come",
         "thirdPerson": "comes",
         "past": "came",
-        "ing": "coming"
+        "ing": "coming",
+        "pastParticiple": "came"
       },
       "difficulty": 1,
       "takesObject": false
@@ -16617,7 +20204,8 @@ const VOCAB_BANK = {
         "base": "eat",
         "thirdPerson": "eats",
         "past": "ate",
-        "ing": "eating"
+        "ing": "eating",
+        "pastParticiple": "eaten"
       },
       "difficulty": 1
     },
@@ -16628,7 +20216,8 @@ const VOCAB_BANK = {
         "base": "drink",
         "thirdPerson": "drinks",
         "past": "drank",
-        "ing": "drinking"
+        "ing": "drinking",
+        "pastParticiple": "drunk"
       },
       "difficulty": 1
     },
@@ -16639,7 +20228,8 @@ const VOCAB_BANK = {
         "base": "sleep",
         "thirdPerson": "sleeps",
         "past": "slept",
-        "ing": "sleeping"
+        "ing": "sleeping",
+        "pastParticiple": "slept"
       },
       "difficulty": 1,
       "takesObject": false
@@ -16651,7 +20241,8 @@ const VOCAB_BANK = {
         "base": "work",
         "thirdPerson": "works",
         "past": "worked",
-        "ing": "working"
+        "ing": "working",
+        "pastParticiple": "worked"
       },
       "difficulty": 1,
       "takesObject": false
@@ -16663,7 +20254,8 @@ const VOCAB_BANK = {
         "base": "study",
         "thirdPerson": "studies",
         "past": "studied",
-        "ing": "studying"
+        "ing": "studying",
+        "pastParticiple": "studied"
       },
       "difficulty": 1
     },
@@ -16674,7 +20266,8 @@ const VOCAB_BANK = {
         "base": "play",
         "thirdPerson": "plays",
         "past": "played",
-        "ing": "playing"
+        "ing": "playing",
+        "pastParticiple": "played"
       },
       "difficulty": 1
     },
@@ -16685,7 +20278,8 @@ const VOCAB_BANK = {
         "base": "read",
         "thirdPerson": "reads",
         "past": "read",
-        "ing": "reading"
+        "ing": "reading",
+        "pastParticiple": "read"
       },
       "difficulty": 1
     },
@@ -16696,7 +20290,8 @@ const VOCAB_BANK = {
         "base": "write",
         "thirdPerson": "writes",
         "past": "wrote",
-        "ing": "writing"
+        "ing": "writing",
+        "pastParticiple": "wrote"
       },
       "difficulty": 1
     },
@@ -16707,7 +20302,8 @@ const VOCAB_BANK = {
         "base": "watch",
         "thirdPerson": "watches",
         "past": "watched",
-        "ing": "watching"
+        "ing": "watching",
+        "pastParticiple": "watched"
       },
       "difficulty": 1
     },
@@ -16718,7 +20314,8 @@ const VOCAB_BANK = {
         "base": "listen",
         "thirdPerson": "listens",
         "past": "listened",
-        "ing": "listening"
+        "ing": "listening",
+        "pastParticiple": "listened"
       },
       "difficulty": 1,
       "takesObject": false
@@ -16730,7 +20327,8 @@ const VOCAB_BANK = {
         "base": "speak",
         "thirdPerson": "speaks",
         "past": "spoke",
-        "ing": "speaking"
+        "ing": "speaking",
+        "pastParticiple": "spoke"
       },
       "difficulty": 2,
       "takesObject": false
@@ -16742,7 +20340,8 @@ const VOCAB_BANK = {
         "base": "walk",
         "thirdPerson": "walks",
         "past": "walked",
-        "ing": "walking"
+        "ing": "walking",
+        "pastParticiple": "walked"
       },
       "difficulty": 1,
       "takesObject": false
@@ -16754,7 +20353,8 @@ const VOCAB_BANK = {
         "base": "run",
         "thirdPerson": "runs",
         "past": "ran",
-        "ing": "running"
+        "ing": "running",
+        "pastParticiple": "ran"
       },
       "difficulty": 1,
       "takesObject": false
@@ -16766,7 +20366,8 @@ const VOCAB_BANK = {
         "base": "sit",
         "thirdPerson": "sits",
         "past": "sat",
-        "ing": "sitting"
+        "ing": "sitting",
+        "pastParticiple": "sat"
       },
       "difficulty": 1,
       "takesObject": false
@@ -16778,7 +20379,8 @@ const VOCAB_BANK = {
         "base": "stand",
         "thirdPerson": "stands",
         "past": "stood",
-        "ing": "standing"
+        "ing": "standing",
+        "pastParticiple": "stood"
       },
       "difficulty": 1,
       "takesObject": false
@@ -16790,7 +20392,8 @@ const VOCAB_BANK = {
         "base": "open",
         "thirdPerson": "opens",
         "past": "opened",
-        "ing": "opening"
+        "ing": "opening",
+        "pastParticiple": "opened"
       },
       "difficulty": 1
     },
@@ -16801,7 +20404,8 @@ const VOCAB_BANK = {
         "base": "close",
         "thirdPerson": "closes",
         "past": "closed",
-        "ing": "closing"
+        "ing": "closing",
+        "pastParticiple": "closed"
       },
       "difficulty": 1
     },
@@ -16812,7 +20416,8 @@ const VOCAB_BANK = {
         "base": "buy",
         "thirdPerson": "buys",
         "past": "bought",
-        "ing": "buying"
+        "ing": "buying",
+        "pastParticiple": "bought"
       },
       "difficulty": 1
     },
@@ -16823,7 +20428,8 @@ const VOCAB_BANK = {
         "base": "sell",
         "thirdPerson": "sells",
         "past": "sold",
-        "ing": "selling"
+        "ing": "selling",
+        "pastParticiple": "sold"
       },
       "difficulty": 2
     },
@@ -16834,7 +20440,8 @@ const VOCAB_BANK = {
         "base": "give",
         "thirdPerson": "gives",
         "past": "gave",
-        "ing": "giving"
+        "ing": "giving",
+        "pastParticiple": "given"
       },
       "difficulty": 1
     },
@@ -16845,7 +20452,8 @@ const VOCAB_BANK = {
         "base": "take",
         "thirdPerson": "takes",
         "past": "took",
-        "ing": "taking"
+        "ing": "taking",
+        "pastParticiple": "took"
       },
       "difficulty": 1
     },
@@ -16856,7 +20464,8 @@ const VOCAB_BANK = {
         "base": "make",
         "thirdPerson": "makes",
         "past": "made",
-        "ing": "making"
+        "ing": "making",
+        "pastParticiple": "made"
       },
       "difficulty": 1,
       "takesObject": false
@@ -16868,7 +20477,8 @@ const VOCAB_BANK = {
         "base": "cook",
         "thirdPerson": "cooks",
         "past": "cooked",
-        "ing": "cooking"
+        "ing": "cooking",
+        "pastParticiple": "cooked"
       },
       "difficulty": 1
     },
@@ -16879,7 +20489,8 @@ const VOCAB_BANK = {
         "base": "clean",
         "thirdPerson": "cleans",
         "past": "cleaned",
-        "ing": "cleaning"
+        "ing": "cleaning",
+        "pastParticiple": "cleaned"
       },
       "difficulty": 1
     },
@@ -16890,7 +20501,8 @@ const VOCAB_BANK = {
         "base": "wash",
         "thirdPerson": "washes",
         "past": "washed",
-        "ing": "washing"
+        "ing": "washing",
+        "pastParticiple": "washed"
       },
       "difficulty": 1
     },
@@ -16901,7 +20513,8 @@ const VOCAB_BANK = {
         "base": "help",
         "thirdPerson": "helps",
         "past": "helped",
-        "ing": "helping"
+        "ing": "helping",
+        "pastParticiple": "helped"
       },
       "difficulty": 1
     },
@@ -16912,7 +20525,8 @@ const VOCAB_BANK = {
         "base": "need",
         "thirdPerson": "needs",
         "past": "needed",
-        "ing": "needing"
+        "ing": "needing",
+        "pastParticiple": "needed"
       },
       "difficulty": 1,
       "stative": true
@@ -16924,7 +20538,8 @@ const VOCAB_BANK = {
         "base": "want",
         "thirdPerson": "wants",
         "past": "wanted",
-        "ing": "wanting"
+        "ing": "wanting",
+        "pastParticiple": "wanted"
       },
       "difficulty": 1,
       "stative": true
@@ -16936,7 +20551,8 @@ const VOCAB_BANK = {
         "base": "like",
         "thirdPerson": "likes",
         "past": "liked",
-        "ing": "liking"
+        "ing": "liking",
+        "pastParticiple": "liked"
       },
       "difficulty": 1,
       "stative": true
@@ -16948,7 +20564,8 @@ const VOCAB_BANK = {
         "base": "love",
         "thirdPerson": "loves",
         "past": "loved",
-        "ing": "loving"
+        "ing": "loving",
+        "pastParticiple": "loved"
       },
       "difficulty": 1,
       "stative": true
@@ -16960,7 +20577,8 @@ const VOCAB_BANK = {
         "base": "hate",
         "thirdPerson": "hates",
         "past": "hated",
-        "ing": "hating"
+        "ing": "hating",
+        "pastParticiple": "hated"
       },
       "difficulty": 2,
       "stative": true
@@ -16972,7 +20590,8 @@ const VOCAB_BANK = {
         "base": "know",
         "thirdPerson": "knows",
         "past": "knew",
-        "ing": "knowing"
+        "ing": "knowing",
+        "pastParticiple": "knew"
       },
       "difficulty": 1,
       "stative": true
@@ -16984,7 +20603,8 @@ const VOCAB_BANK = {
         "base": "think",
         "thirdPerson": "thinks",
         "past": "thought",
-        "ing": "thinking"
+        "ing": "thinking",
+        "pastParticiple": "thought"
       },
       "difficulty": 2,
       "takesObject": false
@@ -16996,7 +20616,8 @@ const VOCAB_BANK = {
         "base": "believe",
         "thirdPerson": "believes",
         "past": "believed",
-        "ing": "believing"
+        "ing": "believing",
+        "pastParticiple": "believed"
       },
       "difficulty": 2,
       "stative": true
@@ -17008,7 +20629,8 @@ const VOCAB_BANK = {
         "base": "remember",
         "thirdPerson": "remembers",
         "past": "remembered",
-        "ing": "remembering"
+        "ing": "remembering",
+        "pastParticiple": "remembered"
       },
       "difficulty": 2,
       "stative": true
@@ -17020,7 +20642,8 @@ const VOCAB_BANK = {
         "base": "forget",
         "thirdPerson": "forgets",
         "past": "forgot",
-        "ing": "forgetting"
+        "ing": "forgetting",
+        "pastParticiple": "forgot"
       },
       "difficulty": 2,
       "stative": true
@@ -17032,7 +20655,8 @@ const VOCAB_BANK = {
         "base": "understand",
         "thirdPerson": "understands",
         "past": "understood",
-        "ing": "understanding"
+        "ing": "understanding",
+        "pastParticiple": "understood"
       },
       "difficulty": 2,
       "stative": true
@@ -17044,7 +20668,8 @@ const VOCAB_BANK = {
         "base": "learn",
         "thirdPerson": "learns",
         "past": "learned",
-        "ing": "learning"
+        "ing": "learning",
+        "pastParticiple": "learned"
       },
       "difficulty": 1
     },
@@ -17055,7 +20680,8 @@ const VOCAB_BANK = {
         "base": "teach",
         "thirdPerson": "teaches",
         "past": "taught",
-        "ing": "teaching"
+        "ing": "teaching",
+        "pastParticiple": "taught"
       },
       "difficulty": 2
     },
@@ -17066,7 +20692,8 @@ const VOCAB_BANK = {
         "base": "ask",
         "thirdPerson": "asks",
         "past": "asked",
-        "ing": "asking"
+        "ing": "asking",
+        "pastParticiple": "asked"
       },
       "difficulty": 1
     },
@@ -17077,7 +20704,8 @@ const VOCAB_BANK = {
         "base": "answer",
         "thirdPerson": "answers",
         "past": "answered",
-        "ing": "answering"
+        "ing": "answering",
+        "pastParticiple": "answered"
       },
       "difficulty": 1
     },
@@ -17088,7 +20716,8 @@ const VOCAB_BANK = {
         "base": "tell",
         "thirdPerson": "tells",
         "past": "told",
-        "ing": "telling"
+        "ing": "telling",
+        "pastParticiple": "told"
       },
       "difficulty": 2
     },
@@ -17099,7 +20728,8 @@ const VOCAB_BANK = {
         "base": "say",
         "thirdPerson": "says",
         "past": "said",
-        "ing": "saying"
+        "ing": "saying",
+        "pastParticiple": "said"
       },
       "difficulty": 1,
       "takesObject": false
@@ -17111,7 +20741,8 @@ const VOCAB_BANK = {
         "base": "see",
         "thirdPerson": "sees",
         "past": "saw",
-        "ing": "seeing"
+        "ing": "seeing",
+        "pastParticiple": "saw"
       },
       "difficulty": 1,
       "stative": true
@@ -17123,7 +20754,8 @@ const VOCAB_BANK = {
         "base": "look",
         "thirdPerson": "looks",
         "past": "looked",
-        "ing": "looking"
+        "ing": "looking",
+        "pastParticiple": "looked"
       },
       "difficulty": 1,
       "takesObject": false
@@ -17135,7 +20767,8 @@ const VOCAB_BANK = {
         "base": "find",
         "thirdPerson": "finds",
         "past": "found",
-        "ing": "finding"
+        "ing": "finding",
+        "pastParticiple": "found"
       },
       "difficulty": 2
     },
@@ -17146,7 +20779,8 @@ const VOCAB_BANK = {
         "base": "lose",
         "thirdPerson": "loses",
         "past": "lost",
-        "ing": "losing"
+        "ing": "losing",
+        "pastParticiple": "lost"
       },
       "difficulty": 2
     },
@@ -17157,7 +20791,8 @@ const VOCAB_BANK = {
         "base": "start",
         "thirdPerson": "starts",
         "past": "started",
-        "ing": "starting"
+        "ing": "starting",
+        "pastParticiple": "started"
       },
       "difficulty": 1
     },
@@ -17168,7 +20803,8 @@ const VOCAB_BANK = {
         "base": "finish",
         "thirdPerson": "finishes",
         "past": "finished",
-        "ing": "finishing"
+        "ing": "finishing",
+        "pastParticiple": "finished"
       },
       "difficulty": 1
     },
@@ -17179,7 +20815,8 @@ const VOCAB_BANK = {
         "base": "stop",
         "thirdPerson": "stops",
         "past": "stopped",
-        "ing": "stopping"
+        "ing": "stopping",
+        "pastParticiple": "stopped"
       },
       "difficulty": 1
     },
@@ -17190,7 +20827,8 @@ const VOCAB_BANK = {
         "base": "try",
         "thirdPerson": "tries",
         "past": "tried",
-        "ing": "trying"
+        "ing": "trying",
+        "pastParticiple": "tried"
       },
       "difficulty": 1
     },
@@ -17201,7 +20839,8 @@ const VOCAB_BANK = {
         "base": "wait",
         "thirdPerson": "waits",
         "past": "waited",
-        "ing": "waiting"
+        "ing": "waiting",
+        "pastParticiple": "waited"
       },
       "difficulty": 1,
       "takesObject": false
@@ -17213,7 +20852,8 @@ const VOCAB_BANK = {
         "base": "meet",
         "thirdPerson": "meets",
         "past": "met",
-        "ing": "meeting"
+        "ing": "meeting",
+        "pastParticiple": "met"
       },
       "difficulty": 1
     },
@@ -17224,7 +20864,8 @@ const VOCAB_BANK = {
         "base": "visit",
         "thirdPerson": "visits",
         "past": "visited",
-        "ing": "visiting"
+        "ing": "visiting",
+        "pastParticiple": "visited"
       },
       "difficulty": 2
     },
@@ -17235,7 +20876,8 @@ const VOCAB_BANK = {
         "base": "travel",
         "thirdPerson": "travels",
         "past": "traveled",
-        "ing": "traveling"
+        "ing": "traveling",
+        "pastParticiple": "traveled"
       },
       "difficulty": 2,
       "takesObject": false
@@ -17247,7 +20889,8 @@ const VOCAB_BANK = {
         "base": "drive",
         "thirdPerson": "drives",
         "past": "drove",
-        "ing": "driving"
+        "ing": "driving",
+        "pastParticiple": "driven"
       },
       "difficulty": 2
     },
@@ -17258,7 +20901,8 @@ const VOCAB_BANK = {
         "base": "fly",
         "thirdPerson": "flies",
         "past": "flew",
-        "ing": "flying"
+        "ing": "flying",
+        "pastParticiple": "flown"
       },
       "difficulty": 2,
       "takesObject": false
@@ -17270,7 +20914,8 @@ const VOCAB_BANK = {
         "base": "swim",
         "thirdPerson": "swims",
         "past": "swam",
-        "ing": "swimming"
+        "ing": "swimming",
+        "pastParticiple": "swum"
       },
       "difficulty": 1,
       "takesObject": false
@@ -17282,7 +20927,8 @@ const VOCAB_BANK = {
         "base": "dance",
         "thirdPerson": "dances",
         "past": "danced",
-        "ing": "dancing"
+        "ing": "dancing",
+        "pastParticiple": "danced"
       },
       "difficulty": 1,
       "takesObject": false
@@ -17294,7 +20940,8 @@ const VOCAB_BANK = {
         "base": "sing",
         "thirdPerson": "sings",
         "past": "sang",
-        "ing": "singing"
+        "ing": "singing",
+        "pastParticiple": "sang"
       },
       "difficulty": 1,
       "takesObject": false
@@ -17306,7 +20953,8 @@ const VOCAB_BANK = {
         "base": "smile",
         "thirdPerson": "smiles",
         "past": "smiled",
-        "ing": "smiling"
+        "ing": "smiling",
+        "pastParticiple": "smiled"
       },
       "difficulty": 2,
       "takesObject": false
@@ -17318,7 +20966,8 @@ const VOCAB_BANK = {
         "base": "laugh",
         "thirdPerson": "laughs",
         "past": "laughed",
-        "ing": "laughing"
+        "ing": "laughing",
+        "pastParticiple": "laughed"
       },
       "difficulty": 2,
       "takesObject": false
@@ -17330,7 +20979,8 @@ const VOCAB_BANK = {
         "base": "cry",
         "thirdPerson": "cries",
         "past": "cried",
-        "ing": "crying"
+        "ing": "crying",
+        "pastParticiple": "cried"
       },
       "difficulty": 2,
       "takesObject": false
@@ -17342,7 +20992,8 @@ const VOCAB_BANK = {
         "base": "feel",
         "thirdPerson": "feels",
         "past": "felt",
-        "ing": "feeling"
+        "ing": "feeling",
+        "pastParticiple": "felt"
       },
       "difficulty": 2,
       "takesObject": false
@@ -17354,7 +21005,8 @@ const VOCAB_BANK = {
         "base": "live",
         "thirdPerson": "lives",
         "past": "lived",
-        "ing": "living"
+        "ing": "living",
+        "pastParticiple": "lived"
       },
       "difficulty": 1,
       "takesObject": false
@@ -17366,7 +21018,8 @@ const VOCAB_BANK = {
         "base": "grow",
         "thirdPerson": "grows",
         "past": "grew",
-        "ing": "growing"
+        "ing": "growing",
+        "pastParticiple": "grew"
       },
       "difficulty": 2,
       "takesObject": false
@@ -17378,7 +21031,8 @@ const VOCAB_BANK = {
         "base": "change",
         "thirdPerson": "changes",
         "past": "changed",
-        "ing": "changing"
+        "ing": "changing",
+        "pastParticiple": "changed"
       },
       "difficulty": 2
     },
@@ -17389,7 +21043,8 @@ const VOCAB_BANK = {
         "base": "move",
         "thirdPerson": "moves",
         "past": "moved",
-        "ing": "moving"
+        "ing": "moving",
+        "pastParticiple": "moved"
       },
       "difficulty": 1,
       "takesObject": false
@@ -17401,7 +21056,8 @@ const VOCAB_BANK = {
         "base": "stay",
         "thirdPerson": "stays",
         "past": "stayed",
-        "ing": "staying"
+        "ing": "staying",
+        "pastParticiple": "stayed"
       },
       "difficulty": 1,
       "takesObject": false
@@ -17413,7 +21069,8 @@ const VOCAB_BANK = {
         "base": "leave",
         "thirdPerson": "leaves",
         "past": "left",
-        "ing": "leaving"
+        "ing": "leaving",
+        "pastParticiple": "left"
       },
       "difficulty": 2,
       "takesObject": false
@@ -17425,7 +21082,8 @@ const VOCAB_BANK = {
         "base": "arrive",
         "thirdPerson": "arrives",
         "past": "arrived",
-        "ing": "arriving"
+        "ing": "arriving",
+        "pastParticiple": "arrived"
       },
       "difficulty": 2,
       "takesObject": false
@@ -17437,7 +21095,8 @@ const VOCAB_BANK = {
         "base": "return",
         "thirdPerson": "returns",
         "past": "returned",
-        "ing": "returning"
+        "ing": "returning",
+        "pastParticiple": "returned"
       },
       "difficulty": 2
     },
@@ -17448,7 +21107,8 @@ const VOCAB_BANK = {
         "base": "send",
         "thirdPerson": "sends",
         "past": "sent",
-        "ing": "sending"
+        "ing": "sending",
+        "pastParticiple": "sent"
       },
       "difficulty": 1
     },
@@ -17459,7 +21119,8 @@ const VOCAB_BANK = {
         "base": "receive",
         "thirdPerson": "receives",
         "past": "received",
-        "ing": "receiving"
+        "ing": "receiving",
+        "pastParticiple": "received"
       },
       "difficulty": 2
     },
@@ -17470,7 +21131,8 @@ const VOCAB_BANK = {
         "base": "call",
         "thirdPerson": "calls",
         "past": "called",
-        "ing": "calling"
+        "ing": "calling",
+        "pastParticiple": "called"
       },
       "difficulty": 1
     },
@@ -17481,7 +21143,8 @@ const VOCAB_BANK = {
         "base": "pay",
         "thirdPerson": "pays",
         "past": "paid",
-        "ing": "paying"
+        "ing": "paying",
+        "pastParticiple": "paid"
       },
       "difficulty": 1
     },
@@ -17492,7 +21155,8 @@ const VOCAB_BANK = {
         "base": "spend",
         "thirdPerson": "spends",
         "past": "spent",
-        "ing": "spending"
+        "ing": "spending",
+        "pastParticiple": "spent"
       },
       "difficulty": 2
     },
@@ -17503,7 +21167,8 @@ const VOCAB_BANK = {
         "base": "save",
         "thirdPerson": "saves",
         "past": "saved",
-        "ing": "saving"
+        "ing": "saving",
+        "pastParticiple": "saved"
       },
       "difficulty": 2
     },
@@ -17514,7 +21179,8 @@ const VOCAB_BANK = {
         "base": "wear",
         "thirdPerson": "wears",
         "past": "wore",
-        "ing": "wearing"
+        "ing": "wearing",
+        "pastParticiple": "worn"
       },
       "difficulty": 1
     },
@@ -17525,7 +21191,8 @@ const VOCAB_BANK = {
         "base": "carry",
         "thirdPerson": "carries",
         "past": "carried",
-        "ing": "carrying"
+        "ing": "carrying",
+        "pastParticiple": "carried"
       },
       "difficulty": 2
     },
@@ -17536,7 +21203,8 @@ const VOCAB_BANK = {
         "base": "hold",
         "thirdPerson": "holds",
         "past": "held",
-        "ing": "holding"
+        "ing": "holding",
+        "pastParticiple": "held"
       },
       "difficulty": 2
     },
@@ -17547,7 +21215,8 @@ const VOCAB_BANK = {
         "base": "build",
         "thirdPerson": "builds",
         "past": "built",
-        "ing": "building"
+        "ing": "building",
+        "pastParticiple": "built"
       },
       "difficulty": 2,
       "takesObject": false
@@ -17559,7 +21228,8 @@ const VOCAB_BANK = {
         "base": "break",
         "thirdPerson": "breaks",
         "past": "broke",
-        "ing": "breaking"
+        "ing": "breaking",
+        "pastParticiple": "broke"
       },
       "difficulty": 2
     },
@@ -17570,7 +21240,8 @@ const VOCAB_BANK = {
         "base": "fix",
         "thirdPerson": "fixes",
         "past": "fixed",
-        "ing": "fixing"
+        "ing": "fixing",
+        "pastParticiple": "fixed"
       },
       "difficulty": 2
     },
@@ -17581,7 +21252,8 @@ const VOCAB_BANK = {
         "base": "push",
         "thirdPerson": "pushes",
         "past": "pushed",
-        "ing": "pushing"
+        "ing": "pushing",
+        "pastParticiple": "pushed"
       },
       "difficulty": 1
     },
@@ -17592,7 +21264,8 @@ const VOCAB_BANK = {
         "base": "pull",
         "thirdPerson": "pulls",
         "past": "pulled",
-        "ing": "pulling"
+        "ing": "pulling",
+        "pastParticiple": "pulled"
       },
       "difficulty": 1
     },
@@ -17603,7 +21276,8 @@ const VOCAB_BANK = {
         "base": "bake",
         "thirdPerson": "bakes",
         "past": "baked",
-        "ing": "baking"
+        "ing": "baking",
+        "pastParticiple": "baked"
       },
       "difficulty": 2
     },
@@ -17614,7 +21288,8 @@ const VOCAB_BANK = {
         "base": "boil",
         "thirdPerson": "boils",
         "past": "boiled",
-        "ing": "boiling"
+        "ing": "boiling",
+        "pastParticiple": "boiled"
       },
       "difficulty": 2
     },
@@ -17625,7 +21300,8 @@ const VOCAB_BANK = {
         "base": "fry",
         "thirdPerson": "fries",
         "past": "fried",
-        "ing": "frying"
+        "ing": "frying",
+        "pastParticiple": "fried"
       },
       "difficulty": 2
     },
@@ -17636,7 +21312,8 @@ const VOCAB_BANK = {
         "base": "taste",
         "thirdPerson": "tastes",
         "past": "tasted",
-        "ing": "tasting"
+        "ing": "tasting",
+        "pastParticiple": "tasted"
       },
       "difficulty": 2
     },
@@ -17647,7 +21324,8 @@ const VOCAB_BANK = {
         "base": "serve",
         "thirdPerson": "serves",
         "past": "served",
-        "ing": "serving"
+        "ing": "serving",
+        "pastParticiple": "served"
       },
       "difficulty": 2
     },
@@ -17658,7 +21336,8 @@ const VOCAB_BANK = {
         "base": "fold",
         "thirdPerson": "folds",
         "past": "folded",
-        "ing": "folding"
+        "ing": "folding",
+        "pastParticiple": "folded"
       },
       "difficulty": 2
     },
@@ -17669,7 +21348,8 @@ const VOCAB_BANK = {
         "base": "iron",
         "thirdPerson": "irons",
         "past": "ironed",
-        "ing": "ironing"
+        "ing": "ironing",
+        "pastParticiple": "ironed"
       },
       "difficulty": 2
     },
@@ -17680,7 +21360,8 @@ const VOCAB_BANK = {
         "base": "decorate",
         "thirdPerson": "decorates",
         "past": "decorated",
-        "ing": "decorating"
+        "ing": "decorating",
+        "pastParticiple": "decorated"
       },
       "difficulty": 2
     },
@@ -17691,7 +21372,8 @@ const VOCAB_BANK = {
         "base": "renovate",
         "thirdPerson": "renovates",
         "past": "renovated",
-        "ing": "renovating"
+        "ing": "renovating",
+        "pastParticiple": "renovated"
       },
       "difficulty": 3
     },
@@ -17702,7 +21384,8 @@ const VOCAB_BANK = {
         "base": "stir",
         "thirdPerson": "stirs",
         "past": "stirred",
-        "ing": "stirring"
+        "ing": "stirring",
+        "pastParticiple": "stirred"
       },
       "difficulty": 2
     },
@@ -17713,7 +21396,8 @@ const VOCAB_BANK = {
         "base": "pour",
         "thirdPerson": "pours",
         "past": "poured",
-        "ing": "pouring"
+        "ing": "pouring",
+        "pastParticiple": "poured"
       },
       "difficulty": 2
     },
@@ -17724,7 +21408,8 @@ const VOCAB_BANK = {
         "base": "chop",
         "thirdPerson": "chops",
         "past": "chopped",
-        "ing": "chopping"
+        "ing": "chopping",
+        "pastParticiple": "chopped"
       },
       "difficulty": 2
     },
@@ -17735,7 +21420,8 @@ const VOCAB_BANK = {
         "base": "slice",
         "thirdPerson": "slices",
         "past": "sliced",
-        "ing": "slicing"
+        "ing": "slicing",
+        "pastParticiple": "sliced"
       },
       "difficulty": 2
     },
@@ -17746,7 +21432,8 @@ const VOCAB_BANK = {
         "base": "peel",
         "thirdPerson": "peels",
         "past": "peeled",
-        "ing": "peeling"
+        "ing": "peeling",
+        "pastParticiple": "peeled"
       },
       "difficulty": 2
     },
@@ -17757,7 +21444,8 @@ const VOCAB_BANK = {
         "base": "download",
         "thirdPerson": "downloads",
         "past": "downloaded",
-        "ing": "downloading"
+        "ing": "downloading",
+        "pastParticiple": "downloaded"
       },
       "difficulty": 1
     },
@@ -17768,7 +21456,8 @@ const VOCAB_BANK = {
         "base": "upload",
         "thirdPerson": "uploads",
         "past": "uploaded",
-        "ing": "uploading"
+        "ing": "uploading",
+        "pastParticiple": "uploaded"
       },
       "difficulty": 2
     },
@@ -17779,7 +21468,8 @@ const VOCAB_BANK = {
         "base": "install",
         "thirdPerson": "installs",
         "past": "installed",
-        "ing": "installing"
+        "ing": "installing",
+        "pastParticiple": "installed"
       },
       "difficulty": 2
     },
@@ -17790,7 +21480,8 @@ const VOCAB_BANK = {
         "base": "click",
         "thirdPerson": "clicks",
         "past": "clicked",
-        "ing": "clicking"
+        "ing": "clicking",
+        "pastParticiple": "clicked"
       },
       "difficulty": 1
     },
@@ -17801,7 +21492,8 @@ const VOCAB_BANK = {
         "base": "type",
         "thirdPerson": "types",
         "past": "typed",
-        "ing": "typing"
+        "ing": "typing",
+        "pastParticiple": "typed"
       },
       "difficulty": 1
     },
@@ -17812,7 +21504,8 @@ const VOCAB_BANK = {
         "base": "delete",
         "thirdPerson": "deletes",
         "past": "deleted",
-        "ing": "deleting"
+        "ing": "deleting",
+        "pastParticiple": "deleted"
       },
       "difficulty": 1
     },
@@ -17823,7 +21516,8 @@ const VOCAB_BANK = {
         "base": "print",
         "thirdPerson": "prints",
         "past": "printed",
-        "ing": "printing"
+        "ing": "printing",
+        "pastParticiple": "printed"
       },
       "difficulty": 1
     },
@@ -17834,7 +21528,8 @@ const VOCAB_BANK = {
         "base": "scan",
         "thirdPerson": "scans",
         "past": "scanned",
-        "ing": "scanning"
+        "ing": "scanning",
+        "pastParticiple": "scanned"
       },
       "difficulty": 2
     },
@@ -17845,9 +21540,11 @@ const VOCAB_BANK = {
         "base": "invest",
         "thirdPerson": "invests",
         "past": "invested",
-        "ing": "investing"
+        "ing": "investing",
+        "pastParticiple": "invested"
       },
-      "difficulty": 2
+      "difficulty": 2,
+      "takesObject": false
     },
     {
       "en": "negotiate",
@@ -17856,7 +21553,8 @@ const VOCAB_BANK = {
         "base": "negotiate",
         "thirdPerson": "negotiates",
         "past": "negotiated",
-        "ing": "negotiating"
+        "ing": "negotiating",
+        "pastParticiple": "negotiated"
       },
       "difficulty": 3
     },
@@ -17867,7 +21565,8 @@ const VOCAB_BANK = {
         "base": "sign",
         "thirdPerson": "signs",
         "past": "signed",
-        "ing": "signing"
+        "ing": "signing",
+        "pastParticiple": "signed"
       },
       "difficulty": 2
     },
@@ -17878,7 +21577,8 @@ const VOCAB_BANK = {
         "base": "budget",
         "thirdPerson": "budgets",
         "past": "budgeted",
-        "ing": "budgeting"
+        "ing": "budgeting",
+        "pastParticiple": "budgeted"
       },
       "difficulty": 3
     },
@@ -17889,7 +21589,8 @@ const VOCAB_BANK = {
         "base": "compose",
         "thirdPerson": "composes",
         "past": "composed",
-        "ing": "composing"
+        "ing": "composing",
+        "pastParticiple": "composed"
       },
       "difficulty": 3
     },
@@ -17900,7 +21601,8 @@ const VOCAB_BANK = {
         "base": "perform",
         "thirdPerson": "performs",
         "past": "performed",
-        "ing": "performing"
+        "ing": "performing",
+        "pastParticiple": "performed"
       },
       "difficulty": 2
     },
@@ -17911,7 +21613,8 @@ const VOCAB_BANK = {
         "base": "record",
         "thirdPerson": "records",
         "past": "recorded",
-        "ing": "recording"
+        "ing": "recording",
+        "pastParticiple": "recorded"
       },
       "difficulty": 2
     },
@@ -17922,7 +21625,8 @@ const VOCAB_BANK = {
         "base": "sketch",
         "thirdPerson": "sketches",
         "past": "sketched",
-        "ing": "sketching"
+        "ing": "sketching",
+        "pastParticiple": "sketched"
       },
       "difficulty": 2
     },
@@ -17933,7 +21637,8 @@ const VOCAB_BANK = {
         "base": "throw",
         "thirdPerson": "throws",
         "past": "threw",
-        "ing": "throwing"
+        "ing": "throwing",
+        "pastParticiple": "threw"
       },
       "difficulty": 1
     },
@@ -17944,7 +21649,8 @@ const VOCAB_BANK = {
         "base": "catch",
         "thirdPerson": "catches",
         "past": "caught",
-        "ing": "catching"
+        "ing": "catching",
+        "pastParticiple": "caught"
       },
       "difficulty": 1
     },
@@ -17955,7 +21661,8 @@ const VOCAB_BANK = {
         "base": "kick",
         "thirdPerson": "kicks",
         "past": "kicked",
-        "ing": "kicking"
+        "ing": "kicking",
+        "pastParticiple": "kicked"
       },
       "difficulty": 1
     },
@@ -17966,7 +21673,8 @@ const VOCAB_BANK = {
         "base": "hit",
         "thirdPerson": "hits",
         "past": "hit",
-        "ing": "hitting"
+        "ing": "hitting",
+        "pastParticiple": "hit"
       },
       "difficulty": 1
     },
@@ -17977,7 +21685,8 @@ const VOCAB_BANK = {
         "base": "score",
         "thirdPerson": "scores",
         "past": "scored",
-        "ing": "scoring"
+        "ing": "scoring",
+        "pastParticiple": "scored"
       },
       "difficulty": 2
     },
@@ -17988,7 +21697,8 @@ const VOCAB_BANK = {
         "base": "win",
         "thirdPerson": "wins",
         "past": "won",
-        "ing": "winning"
+        "ing": "winning",
+        "pastParticiple": "won"
       },
       "difficulty": 1
     },
@@ -17999,7 +21709,8 @@ const VOCAB_BANK = {
         "base": "translate",
         "thirdPerson": "translates",
         "past": "translated",
-        "ing": "translating"
+        "ing": "translating",
+        "pastParticiple": "translated"
       },
       "difficulty": 2
     },
@@ -18010,7 +21721,8 @@ const VOCAB_BANK = {
         "base": "announce",
         "thirdPerson": "announces",
         "past": "announced",
-        "ing": "announcing"
+        "ing": "announcing",
+        "pastParticiple": "announced"
       },
       "difficulty": 2
     },
@@ -18021,7 +21733,8 @@ const VOCAB_BANK = {
         "base": "publish",
         "thirdPerson": "publishes",
         "past": "published",
-        "ing": "publishing"
+        "ing": "publishing",
+        "pastParticiple": "published"
       },
       "difficulty": 2
     },
@@ -18032,7 +21745,8 @@ const VOCAB_BANK = {
         "base": "broadcast",
         "thirdPerson": "broadcasts",
         "past": "broadcast",
-        "ing": "broadcasting"
+        "ing": "broadcasting",
+        "pastParticiple": "broadcast"
       },
       "difficulty": 2
     },
@@ -18043,7 +21757,8 @@ const VOCAB_BANK = {
         "base": "borrow",
         "thirdPerson": "borrows",
         "past": "borrowed",
-        "ing": "borrowing"
+        "ing": "borrowing",
+        "pastParticiple": "borrowed"
       },
       "difficulty": 1
     },
@@ -18054,7 +21769,8 @@ const VOCAB_BANK = {
         "base": "lend",
         "thirdPerson": "lends",
         "past": "lent",
-        "ing": "lending"
+        "ing": "lending",
+        "pastParticiple": "lent"
       },
       "difficulty": 2
     },
@@ -18065,7 +21781,8 @@ const VOCAB_BANK = {
         "base": "rent",
         "thirdPerson": "rents",
         "past": "rented",
-        "ing": "renting"
+        "ing": "renting",
+        "pastParticiple": "rented"
       },
       "difficulty": 2
     },
@@ -18076,7 +21793,8 @@ const VOCAB_BANK = {
         "base": "transfer",
         "thirdPerson": "transfers",
         "past": "transferred",
-        "ing": "transferring"
+        "ing": "transferring",
+        "pastParticiple": "transferred"
       },
       "difficulty": 2
     },
@@ -18087,7 +21805,8 @@ const VOCAB_BANK = {
         "base": "calculate",
         "thirdPerson": "calculates",
         "past": "calculated",
-        "ing": "calculating"
+        "ing": "calculating",
+        "pastParticiple": "calculated"
       },
       "difficulty": 2
     },
@@ -18098,7 +21817,8 @@ const VOCAB_BANK = {
         "base": "measure",
         "thirdPerson": "measures",
         "past": "measured",
-        "ing": "measuring"
+        "ing": "measuring",
+        "pastParticiple": "measured"
       },
       "difficulty": 2
     },
@@ -18109,7 +21829,8 @@ const VOCAB_BANK = {
         "base": "weigh",
         "thirdPerson": "weighs",
         "past": "weighed",
-        "ing": "weighing"
+        "ing": "weighing",
+        "pastParticiple": "weighed"
       },
       "difficulty": 2
     },
@@ -18120,7 +21841,8 @@ const VOCAB_BANK = {
         "base": "count",
         "thirdPerson": "counts",
         "past": "counted",
-        "ing": "counting"
+        "ing": "counting",
+        "pastParticiple": "counted"
       },
       "difficulty": 1
     },
@@ -18131,7 +21853,8 @@ const VOCAB_BANK = {
         "base": "organize",
         "thirdPerson": "organizes",
         "past": "organized",
-        "ing": "organizing"
+        "ing": "organizing",
+        "pastParticiple": "organized"
       },
       "difficulty": 2
     },
@@ -18142,7 +21865,8 @@ const VOCAB_BANK = {
         "base": "label",
         "thirdPerson": "labels",
         "past": "labeled",
-        "ing": "labeling"
+        "ing": "labeling",
+        "pastParticiple": "labeled"
       },
       "difficulty": 2
     },
@@ -18153,7 +21877,8 @@ const VOCAB_BANK = {
         "base": "wrap",
         "thirdPerson": "wraps",
         "past": "wrapped",
-        "ing": "wrapping"
+        "ing": "wrapping",
+        "pastParticiple": "wrapped"
       },
       "difficulty": 2
     },
@@ -18164,7 +21889,8 @@ const VOCAB_BANK = {
         "base": "deliver",
         "thirdPerson": "delivers",
         "past": "delivered",
-        "ing": "delivering"
+        "ing": "delivering",
+        "pastParticiple": "delivered"
       },
       "difficulty": 2
     },
@@ -18175,7 +21901,8 @@ const VOCAB_BANK = {
         "base": "ship",
         "thirdPerson": "ships",
         "past": "shipped",
-        "ing": "shipping"
+        "ing": "shipping",
+        "pastParticiple": "shipped"
       },
       "difficulty": 2
     },
@@ -18186,7 +21913,8 @@ const VOCAB_BANK = {
         "base": "graduate",
         "thirdPerson": "graduates",
         "past": "graduated",
-        "ing": "graduating"
+        "ing": "graduating",
+        "pastParticiple": "graduated"
       },
       "difficulty": 2
     },
@@ -18197,7 +21925,8 @@ const VOCAB_BANK = {
         "base": "enroll",
         "thirdPerson": "enrolls",
         "past": "enrolled",
-        "ing": "enrolling"
+        "ing": "enrolling",
+        "pastParticiple": "enrolled"
       },
       "difficulty": 2
     },
@@ -18208,7 +21937,8 @@ const VOCAB_BANK = {
         "base": "register",
         "thirdPerson": "registers",
         "past": "registered",
-        "ing": "registering"
+        "ing": "registering",
+        "pastParticiple": "registered"
       },
       "difficulty": 2
     },
@@ -18219,7 +21949,8 @@ const VOCAB_BANK = {
         "base": "admit",
         "thirdPerson": "admits",
         "past": "admitted",
-        "ing": "admitting"
+        "ing": "admitting",
+        "pastParticiple": "admitted"
       },
       "difficulty": 3
     },
@@ -18230,7 +21961,8 @@ const VOCAB_BANK = {
         "base": "approve",
         "thirdPerson": "approves",
         "past": "approved",
-        "ing": "approving"
+        "ing": "approving",
+        "pastParticiple": "approved"
       },
       "difficulty": 2
     },
@@ -18241,7 +21973,8 @@ const VOCAB_BANK = {
         "base": "deny",
         "thirdPerson": "denies",
         "past": "denied",
-        "ing": "denying"
+        "ing": "denying",
+        "pastParticiple": "denied"
       },
       "difficulty": 2
     },
@@ -18252,7 +21985,8 @@ const VOCAB_BANK = {
         "base": "request",
         "thirdPerson": "requests",
         "past": "requested",
-        "ing": "requesting"
+        "ing": "requesting",
+        "pastParticiple": "requested"
       },
       "difficulty": 2
     },
@@ -18263,7 +21997,8 @@ const VOCAB_BANK = {
         "base": "donate",
         "thirdPerson": "donates",
         "past": "donated",
-        "ing": "donating"
+        "ing": "donating",
+        "pastParticiple": "donated"
       },
       "difficulty": 2
     },
@@ -18274,7 +22009,8 @@ const VOCAB_BANK = {
         "base": "contribute",
         "thirdPerson": "contributes",
         "past": "contributed",
-        "ing": "contributing"
+        "ing": "contributing",
+        "pastParticiple": "contributed"
       },
       "difficulty": 2
     },
@@ -18285,7 +22021,8 @@ const VOCAB_BANK = {
         "base": "fund",
         "thirdPerson": "funds",
         "past": "funded",
-        "ing": "funding"
+        "ing": "funding",
+        "pastParticiple": "funded"
       },
       "difficulty": 3
     },
@@ -18296,7 +22033,8 @@ const VOCAB_BANK = {
         "base": "finance",
         "thirdPerson": "finances",
         "past": "financed",
-        "ing": "financing"
+        "ing": "financing",
+        "pastParticiple": "financed"
       },
       "difficulty": 3
     },
@@ -18307,9 +22045,11 @@ const VOCAB_BANK = {
         "base": "increase",
         "thirdPerson": "increases",
         "past": "increased",
-        "ing": "increasing"
+        "ing": "increasing",
+        "pastParticiple": "increased"
       },
-      "difficulty": 2
+      "difficulty": 2,
+      "takesObject": false
     },
     {
       "en": "decrease",
@@ -18318,9 +22058,11 @@ const VOCAB_BANK = {
         "base": "decrease",
         "thirdPerson": "decreases",
         "past": "decreased",
-        "ing": "decreasing"
+        "ing": "decreasing",
+        "pastParticiple": "decreased"
       },
-      "difficulty": 2
+      "difficulty": 2,
+      "takesObject": false
     },
     {
       "en": "raise",
@@ -18329,7 +22071,8 @@ const VOCAB_BANK = {
         "base": "raise",
         "thirdPerson": "raises",
         "past": "raised",
-        "ing": "raising"
+        "ing": "raising",
+        "pastParticiple": "raised"
       },
       "difficulty": 2
     },
@@ -18340,7 +22083,8 @@ const VOCAB_BANK = {
         "base": "lower",
         "thirdPerson": "lowers",
         "past": "lowered",
-        "ing": "lowering"
+        "ing": "lowering",
+        "pastParticiple": "lowered"
       },
       "difficulty": 2
     },
@@ -18351,9 +22095,11 @@ const VOCAB_BANK = {
         "base": "adjust",
         "thirdPerson": "adjusts",
         "past": "adjusted",
-        "ing": "adjusting"
+        "ing": "adjusting",
+        "pastParticiple": "adjusted"
       },
-      "difficulty": 2
+      "difficulty": 2,
+      "takesObject": false
     },
     {
       "en": "modify",
@@ -18362,7 +22108,8 @@ const VOCAB_BANK = {
         "base": "modify",
         "thirdPerson": "modifies",
         "past": "modified",
-        "ing": "modifying"
+        "ing": "modifying",
+        "pastParticiple": "modified"
       },
       "difficulty": 3
     },
@@ -18373,7 +22120,8 @@ const VOCAB_BANK = {
         "base": "upgrade",
         "thirdPerson": "upgrades",
         "past": "upgraded",
-        "ing": "upgrading"
+        "ing": "upgrading",
+        "pastParticiple": "upgraded"
       },
       "difficulty": 2
     },
@@ -18384,7 +22132,8 @@ const VOCAB_BANK = {
         "base": "refund",
         "thirdPerson": "refunds",
         "past": "refunded",
-        "ing": "refunding"
+        "ing": "refunding",
+        "pastParticiple": "refunded"
       },
       "difficulty": 2
     },
@@ -18395,7 +22144,8 @@ const VOCAB_BANK = {
         "base": "reimburse",
         "thirdPerson": "reimburses",
         "past": "reimbursed",
-        "ing": "reimbursing"
+        "ing": "reimbursing",
+        "pastParticiple": "reimbursed"
       },
       "difficulty": 3
     },
@@ -18406,7 +22156,8 @@ const VOCAB_BANK = {
         "base": "charge",
         "thirdPerson": "charges",
         "past": "charged",
-        "ing": "charging"
+        "ing": "charging",
+        "pastParticiple": "charged"
       },
       "difficulty": 2
     },
@@ -18417,7 +22168,8 @@ const VOCAB_BANK = {
         "base": "bill",
         "thirdPerson": "bills",
         "past": "billed",
-        "ing": "billing"
+        "ing": "billing",
+        "pastParticiple": "billed"
       },
       "difficulty": 3
     },
@@ -18428,7 +22180,8 @@ const VOCAB_BANK = {
         "base": "deduct",
         "thirdPerson": "deducts",
         "past": "deducted",
-        "ing": "deducting"
+        "ing": "deducting",
+        "pastParticiple": "deducted"
       },
       "difficulty": 3
     },
@@ -18439,7 +22192,8 @@ const VOCAB_BANK = {
         "base": "subtract",
         "thirdPerson": "subtracts",
         "past": "subtracted",
-        "ing": "subtracting"
+        "ing": "subtracting",
+        "pastParticiple": "subtracted"
       },
       "difficulty": 2
     },
@@ -18450,7 +22204,8 @@ const VOCAB_BANK = {
         "base": "add",
         "thirdPerson": "adds",
         "past": "added",
-        "ing": "adding"
+        "ing": "adding",
+        "pastParticiple": "added"
       },
       "difficulty": 1
     },
@@ -18461,9 +22216,11 @@ const VOCAB_BANK = {
         "base": "multiply",
         "thirdPerson": "multiplies",
         "past": "multiplied",
-        "ing": "multiplying"
+        "ing": "multiplying",
+        "pastParticiple": "multiplied"
       },
-      "difficulty": 2
+      "difficulty": 2,
+      "takesObject": false
     },
     {
       "en": "divide",
@@ -18472,9 +22229,11 @@ const VOCAB_BANK = {
         "base": "divide",
         "thirdPerson": "divides",
         "past": "divided",
-        "ing": "dividing"
+        "ing": "dividing",
+        "pastParticiple": "divided"
       },
-      "difficulty": 2
+      "difficulty": 2,
+      "takesObject": false
     },
     {
       "en": "plant",
@@ -18483,7 +22242,8 @@ const VOCAB_BANK = {
         "base": "plant",
         "thirdPerson": "plants",
         "past": "planted",
-        "ing": "planting"
+        "ing": "planting",
+        "pastParticiple": "planted"
       },
       "difficulty": 2
     },
@@ -18494,7 +22254,8 @@ const VOCAB_BANK = {
         "base": "water",
         "thirdPerson": "waters",
         "past": "watered",
-        "ing": "watering"
+        "ing": "watering",
+        "pastParticiple": "watered"
       },
       "difficulty": 2
     },
@@ -18505,7 +22266,8 @@ const VOCAB_BANK = {
         "base": "harvest",
         "thirdPerson": "harvests",
         "past": "harvested",
-        "ing": "harvesting"
+        "ing": "harvesting",
+        "pastParticiple": "harvested"
       },
       "difficulty": 2
     },
@@ -18516,7 +22278,8 @@ const VOCAB_BANK = {
         "base": "feed",
         "thirdPerson": "feeds",
         "past": "fed",
-        "ing": "feeding"
+        "ing": "feeding",
+        "pastParticiple": "fed"
       },
       "difficulty": 1
     },
@@ -18527,7 +22290,8 @@ const VOCAB_BANK = {
         "base": "pet",
         "thirdPerson": "pets",
         "past": "petted",
-        "ing": "petting"
+        "ing": "petting",
+        "pastParticiple": "petted"
       },
       "difficulty": 1
     },
@@ -18538,7 +22302,8 @@ const VOCAB_BANK = {
         "base": "adopt",
         "thirdPerson": "adopts",
         "past": "adopted",
-        "ing": "adopting"
+        "ing": "adopting",
+        "pastParticiple": "adopted"
       },
       "difficulty": 2
     },
@@ -18549,7 +22314,8 @@ const VOCAB_BANK = {
         "base": "rescue",
         "thirdPerson": "rescues",
         "past": "rescued",
-        "ing": "rescuing"
+        "ing": "rescuing",
+        "pastParticiple": "rescued"
       },
       "difficulty": 2
     },
@@ -18560,7 +22326,8 @@ const VOCAB_BANK = {
         "base": "sponsor",
         "thirdPerson": "sponsors",
         "past": "sponsored",
-        "ing": "sponsoring"
+        "ing": "sponsoring",
+        "pastParticiple": "sponsored"
       },
       "difficulty": 3
     },
@@ -18571,7 +22338,8 @@ const VOCAB_BANK = {
         "base": "supervise",
         "thirdPerson": "supervises",
         "past": "supervised",
-        "ing": "supervising"
+        "ing": "supervising",
+        "pastParticiple": "supervised"
       },
       "difficulty": 3
     },
@@ -18582,7 +22350,8 @@ const VOCAB_BANK = {
         "base": "manage",
         "thirdPerson": "manages",
         "past": "managed",
-        "ing": "managing"
+        "ing": "managing",
+        "pastParticiple": "managed"
       },
       "difficulty": 2
     },
@@ -18593,7 +22362,8 @@ const VOCAB_BANK = {
         "base": "promote",
         "thirdPerson": "promotes",
         "past": "promoted",
-        "ing": "promoting"
+        "ing": "promoting",
+        "pastParticiple": "promoted"
       },
       "difficulty": 2
     },
@@ -18604,7 +22374,8 @@ const VOCAB_BANK = {
         "base": "attend",
         "thirdPerson": "attends",
         "past": "attended",
-        "ing": "attending"
+        "ing": "attending",
+        "pastParticiple": "attended"
       },
       "difficulty": 2
     },
@@ -18615,7 +22386,8 @@ const VOCAB_BANK = {
         "base": "host",
         "thirdPerson": "hosts",
         "past": "hosted",
-        "ing": "hosting"
+        "ing": "hosting",
+        "pastParticiple": "hosted"
       },
       "difficulty": 2
     },
@@ -18626,7 +22398,8 @@ const VOCAB_BANK = {
         "base": "invite",
         "thirdPerson": "invites",
         "past": "invited",
-        "ing": "inviting"
+        "ing": "inviting",
+        "pastParticiple": "invited"
       },
       "difficulty": 1
     },
@@ -18637,7 +22410,8 @@ const VOCAB_BANK = {
         "base": "greet",
         "thirdPerson": "greets",
         "past": "greeted",
-        "ing": "greeting"
+        "ing": "greeting",
+        "pastParticiple": "greeted"
       },
       "difficulty": 2
     },
@@ -18648,7 +22422,8 @@ const VOCAB_BANK = {
         "base": "introduce",
         "thirdPerson": "introduces",
         "past": "introduced",
-        "ing": "introducing"
+        "ing": "introducing",
+        "pastParticiple": "introduced"
       },
       "difficulty": 2
     },
@@ -18659,7 +22434,8 @@ const VOCAB_BANK = {
         "base": "thank",
         "thirdPerson": "thanks",
         "past": "thanked",
-        "ing": "thanking"
+        "ing": "thanking",
+        "pastParticiple": "thanked"
       },
       "difficulty": 1
     },
@@ -18670,7 +22446,8 @@ const VOCAB_BANK = {
         "base": "forgive",
         "thirdPerson": "forgives",
         "past": "forgave",
-        "ing": "forgiving"
+        "ing": "forgiving",
+        "pastParticiple": "forgave"
       },
       "difficulty": 2
     },
@@ -18681,7 +22458,8 @@ const VOCAB_BANK = {
         "base": "warn",
         "thirdPerson": "warns",
         "past": "warned",
-        "ing": "warning"
+        "ing": "warning",
+        "pastParticiple": "warned"
       },
       "difficulty": 2
     },
@@ -18692,7 +22470,8 @@ const VOCAB_BANK = {
         "base": "notify",
         "thirdPerson": "notifies",
         "past": "notified",
-        "ing": "notifying"
+        "ing": "notifying",
+        "pastParticiple": "notified"
       },
       "difficulty": 3
     },
@@ -18703,7 +22482,8 @@ const VOCAB_BANK = {
         "base": "inform",
         "thirdPerson": "informs",
         "past": "informed",
-        "ing": "informing"
+        "ing": "informing",
+        "pastParticiple": "informed"
       },
       "difficulty": 2
     },
@@ -18714,7 +22494,8 @@ const VOCAB_BANK = {
         "base": "confirm",
         "thirdPerson": "confirms",
         "past": "confirmed",
-        "ing": "confirming"
+        "ing": "confirming",
+        "pastParticiple": "confirmed"
       },
       "difficulty": 2
     },
@@ -18724,8 +22505,9 @@ const VOCAB_BANK = {
       "forms": {
         "base": "cancel",
         "thirdPerson": "cancels",
-        "past": "cancelled",
-        "ing": "cancelling"
+        "past": "canceled",
+        "ing": "canceling",
+        "pastParticiple": "canceled"
       },
       "difficulty": 2
     },
@@ -18736,7 +22518,8 @@ const VOCAB_BANK = {
         "base": "reserve",
         "thirdPerson": "reserves",
         "past": "reserved",
-        "ing": "reserving"
+        "ing": "reserving",
+        "pastParticiple": "reserved"
       },
       "difficulty": 2
     },
@@ -18747,7 +22530,8 @@ const VOCAB_BANK = {
         "base": "book",
         "thirdPerson": "books",
         "past": "booked",
-        "ing": "booking"
+        "ing": "booking",
+        "pastParticiple": "booked"
       },
       "difficulty": 1
     },
@@ -18758,7 +22542,8 @@ const VOCAB_BANK = {
         "base": "explore",
         "thirdPerson": "explores",
         "past": "explored",
-        "ing": "exploring"
+        "ing": "exploring",
+        "pastParticiple": "explored"
       },
       "difficulty": 2
     },
@@ -18769,7 +22554,8 @@ const VOCAB_BANK = {
         "base": "investigate",
         "thirdPerson": "investigates",
         "past": "investigated",
-        "ing": "investigating"
+        "ing": "investigating",
+        "pastParticiple": "investigated"
       },
       "difficulty": 3
     },
@@ -18780,7 +22566,8 @@ const VOCAB_BANK = {
         "base": "examine",
         "thirdPerson": "examines",
         "past": "examined",
-        "ing": "examining"
+        "ing": "examining",
+        "pastParticiple": "examined"
       },
       "difficulty": 2
     },
@@ -18791,7 +22578,8 @@ const VOCAB_BANK = {
         "base": "inspect",
         "thirdPerson": "inspects",
         "past": "inspected",
-        "ing": "inspecting"
+        "ing": "inspecting",
+        "pastParticiple": "inspected"
       },
       "difficulty": 2
     },
@@ -18802,7 +22590,8 @@ const VOCAB_BANK = {
         "base": "solve",
         "thirdPerson": "solves",
         "past": "solved",
-        "ing": "solving"
+        "ing": "solving",
+        "pastParticiple": "solved"
       },
       "difficulty": 2
     },
@@ -18813,7 +22602,8 @@ const VOCAB_BANK = {
         "base": "guess",
         "thirdPerson": "guesses",
         "past": "guessed",
-        "ing": "guessing"
+        "ing": "guessing",
+        "pastParticiple": "guessed"
       },
       "difficulty": 1
     },
@@ -18824,7 +22614,8 @@ const VOCAB_BANK = {
         "base": "forecast",
         "thirdPerson": "forecasts",
         "past": "forecast",
-        "ing": "forecasting"
+        "ing": "forecasting",
+        "pastParticiple": "forecast"
       },
       "difficulty": 2,
       "takesObject": false
@@ -18836,7 +22627,8 @@ const VOCAB_BANK = {
         "base": "edit",
         "thirdPerson": "edits",
         "past": "edited",
-        "ing": "editing"
+        "ing": "editing",
+        "pastParticiple": "edited"
       },
       "difficulty": 2
     },
@@ -18847,7 +22639,8 @@ const VOCAB_BANK = {
         "base": "photograph",
         "thirdPerson": "photographs",
         "past": "photographed",
-        "ing": "photographing"
+        "ing": "photographing",
+        "pastParticiple": "photographed"
       },
       "difficulty": 2
     },
@@ -18858,7 +22651,8 @@ const VOCAB_BANK = {
         "base": "rehearse",
         "thirdPerson": "rehearses",
         "past": "rehearsed",
-        "ing": "rehearsing"
+        "ing": "rehearsing",
+        "pastParticiple": "rehearsed"
       },
       "difficulty": 3
     },
@@ -18869,7 +22663,8 @@ const VOCAB_BANK = {
         "base": "assemble",
         "thirdPerson": "assembles",
         "past": "assembled",
-        "ing": "assembling"
+        "ing": "assembling",
+        "pastParticiple": "assembled"
       },
       "difficulty": 2
     },
@@ -18880,7 +22675,8 @@ const VOCAB_BANK = {
         "base": "repair",
         "thirdPerson": "repairs",
         "past": "repaired",
-        "ing": "repairing"
+        "ing": "repairing",
+        "pastParticiple": "repaired"
       },
       "difficulty": 2
     },
@@ -18891,7 +22687,8 @@ const VOCAB_BANK = {
         "base": "polish",
         "thirdPerson": "polishes",
         "past": "polished",
-        "ing": "polishing"
+        "ing": "polishing",
+        "pastParticiple": "polished"
       },
       "difficulty": 2
     },
@@ -18902,7 +22699,8 @@ const VOCAB_BANK = {
         "base": "unlock",
         "thirdPerson": "unlocks",
         "past": "unlocked",
-        "ing": "unlocking"
+        "ing": "unlocking",
+        "pastParticiple": "unlocked"
       },
       "difficulty": 1
     },
@@ -18913,7 +22711,8 @@ const VOCAB_BANK = {
         "base": "lock",
         "thirdPerson": "locks",
         "past": "locked",
-        "ing": "locking"
+        "ing": "locking",
+        "pastParticiple": "locked"
       },
       "difficulty": 1
     },
@@ -18924,7 +22723,8 @@ const VOCAB_BANK = {
         "base": "pack",
         "thirdPerson": "packs",
         "past": "packed",
-        "ing": "packing"
+        "ing": "packing",
+        "pastParticiple": "packed"
       },
       "difficulty": 1
     },
@@ -18935,7 +22735,8 @@ const VOCAB_BANK = {
         "base": "unpack",
         "thirdPerson": "unpacks",
         "past": "unpacked",
-        "ing": "unpacking"
+        "ing": "unpacking",
+        "pastParticiple": "unpacked"
       },
       "difficulty": 2
     },
@@ -18946,7 +22747,8 @@ const VOCAB_BANK = {
         "base": "recommend",
         "thirdPerson": "recommends",
         "past": "recommended",
-        "ing": "recommending"
+        "ing": "recommending",
+        "pastParticiple": "recommended"
       },
       "difficulty": 2
     },
@@ -18957,7 +22759,8 @@ const VOCAB_BANK = {
         "base": "describe",
         "thirdPerson": "describes",
         "past": "described",
-        "ing": "describing"
+        "ing": "describing",
+        "pastParticiple": "described"
       },
       "difficulty": 2
     },
@@ -18968,7 +22771,8 @@ const VOCAB_BANK = {
         "base": "compare",
         "thirdPerson": "compares",
         "past": "compared",
-        "ing": "comparing"
+        "ing": "comparing",
+        "pastParticiple": "compared"
       },
       "difficulty": 2
     },
@@ -18979,7 +22783,8 @@ const VOCAB_BANK = {
         "base": "select",
         "thirdPerson": "selects",
         "past": "selected",
-        "ing": "selecting"
+        "ing": "selecting",
+        "pastParticiple": "selected"
       },
       "difficulty": 2
     },
@@ -18990,7 +22795,8 @@ const VOCAB_BANK = {
         "base": "prepare",
         "thirdPerson": "prepares",
         "past": "prepared",
-        "ing": "preparing"
+        "ing": "preparing",
+        "pastParticiple": "prepared"
       },
       "difficulty": 1
     },
@@ -19001,7 +22807,8 @@ const VOCAB_BANK = {
         "base": "avoid",
         "thirdPerson": "avoids",
         "past": "avoided",
-        "ing": "avoiding"
+        "ing": "avoiding",
+        "pastParticiple": "avoided"
       },
       "difficulty": 2
     },
@@ -19012,7 +22819,8 @@ const VOCAB_BANK = {
         "base": "protect",
         "thirdPerson": "protects",
         "past": "protected",
-        "ing": "protecting"
+        "ing": "protecting",
+        "pastParticiple": "protected"
       },
       "difficulty": 2
     },
@@ -19023,7 +22831,8 @@ const VOCAB_BANK = {
         "base": "collect",
         "thirdPerson": "collects",
         "past": "collected",
-        "ing": "collecting"
+        "ing": "collecting",
+        "pastParticiple": "collected"
       },
       "difficulty": 1
     },
@@ -19034,7 +22843,8 @@ const VOCAB_BANK = {
         "base": "jog",
         "thirdPerson": "jogs",
         "past": "jogged",
-        "ing": "jogging"
+        "ing": "jogging",
+        "pastParticiple": "jogged"
       },
       "difficulty": 1,
       "takesObject": false
@@ -19046,7 +22856,8 @@ const VOCAB_BANK = {
         "base": "hike",
         "thirdPerson": "hikes",
         "past": "hiked",
-        "ing": "hiking"
+        "ing": "hiking",
+        "pastParticiple": "hiked"
       },
       "difficulty": 2,
       "takesObject": false
@@ -19058,7 +22869,8 @@ const VOCAB_BANK = {
         "base": "chat",
         "thirdPerson": "chats",
         "past": "chatted",
-        "ing": "chatting"
+        "ing": "chatting",
+        "pastParticiple": "chatted"
       },
       "difficulty": 1,
       "takesObject": false
@@ -19070,7 +22882,8 @@ const VOCAB_BANK = {
         "base": "argue",
         "thirdPerson": "argues",
         "past": "argued",
-        "ing": "arguing"
+        "ing": "arguing",
+        "pastParticiple": "argued"
       },
       "difficulty": 2,
       "takesObject": false
@@ -19082,7 +22895,8 @@ const VOCAB_BANK = {
         "base": "complain",
         "thirdPerson": "complains",
         "past": "complained",
-        "ing": "complaining"
+        "ing": "complaining",
+        "pastParticiple": "complained"
       },
       "difficulty": 2,
       "takesObject": false
@@ -19094,7 +22908,8 @@ const VOCAB_BANK = {
         "base": "hesitate",
         "thirdPerson": "hesitates",
         "past": "hesitated",
-        "ing": "hesitating"
+        "ing": "hesitating",
+        "pastParticiple": "hesitated"
       },
       "difficulty": 2,
       "takesObject": false
@@ -19106,7 +22921,8 @@ const VOCAB_BANK = {
         "base": "panic",
         "thirdPerson": "panics",
         "past": "panicked",
-        "ing": "panicking"
+        "ing": "panicking",
+        "pastParticiple": "panicked"
       },
       "difficulty": 2,
       "takesObject": false
@@ -19118,7 +22934,8 @@ const VOCAB_BANK = {
         "base": "relax",
         "thirdPerson": "relaxes",
         "past": "relaxed",
-        "ing": "relaxing"
+        "ing": "relaxing",
+        "pastParticiple": "relaxed"
       },
       "difficulty": 1,
       "takesObject": false
@@ -19130,7 +22947,8 @@ const VOCAB_BANK = {
         "base": "recover",
         "thirdPerson": "recovers",
         "past": "recovered",
-        "ing": "recovering"
+        "ing": "recovering",
+        "pastParticiple": "recovered"
       },
       "difficulty": 2,
       "takesObject": false
@@ -19142,7 +22960,8 @@ const VOCAB_BANK = {
         "base": "struggle",
         "thirdPerson": "struggles",
         "past": "struggled",
-        "ing": "struggling"
+        "ing": "struggling",
+        "pastParticiple": "struggled"
       },
       "difficulty": 2,
       "takesObject": false
@@ -19154,7 +22973,8 @@ const VOCAB_BANK = {
         "base": "cope",
         "thirdPerson": "copes",
         "past": "coped",
-        "ing": "coping"
+        "ing": "coping",
+        "pastParticiple": "coped"
       },
       "difficulty": 3,
       "takesObject": false
@@ -19166,7 +22986,8 @@ const VOCAB_BANK = {
         "base": "adapt",
         "thirdPerson": "adapts",
         "past": "adapted",
-        "ing": "adapting"
+        "ing": "adapting",
+        "pastParticiple": "adapted"
       },
       "difficulty": 2,
       "takesObject": false
@@ -19178,7 +22999,8 @@ const VOCAB_BANK = {
         "base": "wander",
         "thirdPerson": "wanders",
         "past": "wandered",
-        "ing": "wandering"
+        "ing": "wandering",
+        "pastParticiple": "wandered"
       },
       "difficulty": 2,
       "takesObject": false
@@ -19190,7 +23012,8 @@ const VOCAB_BANK = {
         "base": "stroll",
         "thirdPerson": "strolls",
         "past": "strolled",
-        "ing": "strolling"
+        "ing": "strolling",
+        "pastParticiple": "strolled"
       },
       "difficulty": 2,
       "takesObject": false
@@ -19202,7 +23025,8 @@ const VOCAB_BANK = {
         "base": "sprint",
         "thirdPerson": "sprints",
         "past": "sprinted",
-        "ing": "sprinting"
+        "ing": "sprinting",
+        "pastParticiple": "sprinted"
       },
       "difficulty": 2,
       "takesObject": false
@@ -19214,7 +23038,8 @@ const VOCAB_BANK = {
         "base": "stumble",
         "thirdPerson": "stumbles",
         "past": "stumbled",
-        "ing": "stumbling"
+        "ing": "stumbling",
+        "pastParticiple": "stumbled"
       },
       "difficulty": 2,
       "takesObject": false
@@ -19226,7 +23051,8 @@ const VOCAB_BANK = {
         "base": "collapse",
         "thirdPerson": "collapses",
         "past": "collapsed",
-        "ing": "collapsing"
+        "ing": "collapsing",
+        "pastParticiple": "collapsed"
       },
       "difficulty": 2,
       "takesObject": false
@@ -19238,7 +23064,8 @@ const VOCAB_BANK = {
         "base": "faint",
         "thirdPerson": "faints",
         "past": "fainted",
-        "ing": "fainting"
+        "ing": "fainting",
+        "pastParticiple": "fainted"
       },
       "difficulty": 2,
       "takesObject": false
@@ -19250,7 +23077,8 @@ const VOCAB_BANK = {
         "base": "yawn",
         "thirdPerson": "yawns",
         "past": "yawned",
-        "ing": "yawning"
+        "ing": "yawning",
+        "pastParticiple": "yawned"
       },
       "difficulty": 2,
       "takesObject": false
@@ -19262,7 +23090,8 @@ const VOCAB_BANK = {
         "base": "sneeze",
         "thirdPerson": "sneezes",
         "past": "sneezed",
-        "ing": "sneezing"
+        "ing": "sneezing",
+        "pastParticiple": "sneezed"
       },
       "difficulty": 2,
       "takesObject": false
@@ -19274,7 +23103,8 @@ const VOCAB_BANK = {
         "base": "snore",
         "thirdPerson": "snores",
         "past": "snored",
-        "ing": "snoring"
+        "ing": "snoring",
+        "pastParticiple": "snored"
       },
       "difficulty": 2,
       "takesObject": false
@@ -19286,7 +23116,8 @@ const VOCAB_BANK = {
         "base": "whisper",
         "thirdPerson": "whispers",
         "past": "whispered",
-        "ing": "whispering"
+        "ing": "whispering",
+        "pastParticiple": "whispered"
       },
       "difficulty": 2,
       "takesObject": false
@@ -19298,7 +23129,8 @@ const VOCAB_BANK = {
         "base": "shout",
         "thirdPerson": "shouts",
         "past": "shouted",
-        "ing": "shouting"
+        "ing": "shouting",
+        "pastParticiple": "shouted"
       },
       "difficulty": 1,
       "takesObject": false
@@ -19310,7 +23142,8 @@ const VOCAB_BANK = {
         "base": "scream",
         "thirdPerson": "screams",
         "past": "screamed",
-        "ing": "screaming"
+        "ing": "screaming",
+        "pastParticiple": "screamed"
       },
       "difficulty": 2,
       "takesObject": false
@@ -19322,7 +23155,8 @@ const VOCAB_BANK = {
         "base": "giggle",
         "thirdPerson": "giggles",
         "past": "giggled",
-        "ing": "giggling"
+        "ing": "giggling",
+        "pastParticiple": "giggled"
       },
       "difficulty": 2,
       "takesObject": false
@@ -19334,7 +23168,8 @@ const VOCAB_BANK = {
         "base": "sob",
         "thirdPerson": "sobs",
         "past": "sobbed",
-        "ing": "sobbing"
+        "ing": "sobbing",
+        "pastParticiple": "sobbed"
       },
       "difficulty": 2,
       "takesObject": false
@@ -19346,7 +23181,8 @@ const VOCAB_BANK = {
         "base": "tremble",
         "thirdPerson": "trembles",
         "past": "trembled",
-        "ing": "trembling"
+        "ing": "trembling",
+        "pastParticiple": "trembled"
       },
       "difficulty": 3,
       "takesObject": false
@@ -19358,7 +23194,8 @@ const VOCAB_BANK = {
         "base": "shiver",
         "thirdPerson": "shivers",
         "past": "shivered",
-        "ing": "shivering"
+        "ing": "shivering",
+        "pastParticiple": "shivered"
       },
       "difficulty": 2,
       "takesObject": false
@@ -19370,7 +23207,8 @@ const VOCAB_BANK = {
         "base": "blush",
         "thirdPerson": "blushes",
         "past": "blushed",
-        "ing": "blushing"
+        "ing": "blushing",
+        "pastParticiple": "blushed"
       },
       "difficulty": 2,
       "takesObject": false
@@ -19382,7 +23220,8 @@ const VOCAB_BANK = {
         "base": "sigh",
         "thirdPerson": "sighs",
         "past": "sighed",
-        "ing": "sighing"
+        "ing": "sighing",
+        "pastParticiple": "sighed"
       },
       "difficulty": 2,
       "takesObject": false
@@ -19394,7 +23233,8 @@ const VOCAB_BANK = {
         "base": "apologize",
         "thirdPerson": "apologizes",
         "past": "apologized",
-        "ing": "apologizing"
+        "ing": "apologizing",
+        "pastParticiple": "apologized"
       },
       "difficulty": 2,
       "takesObject": false
@@ -19406,7 +23246,8 @@ const VOCAB_BANK = {
         "base": "participate",
         "thirdPerson": "participates",
         "past": "participated",
-        "ing": "participating"
+        "ing": "participating",
+        "pastParticiple": "participated"
       },
       "difficulty": 2,
       "takesObject": false
@@ -19418,7 +23259,8 @@ const VOCAB_BANK = {
         "base": "resign",
         "thirdPerson": "resigns",
         "past": "resigned",
-        "ing": "resigning"
+        "ing": "resigning",
+        "pastParticiple": "resigned"
       },
       "difficulty": 3,
       "takesObject": false
@@ -19430,7 +23272,8 @@ const VOCAB_BANK = {
         "base": "volunteer",
         "thirdPerson": "volunteers",
         "past": "volunteered",
-        "ing": "volunteering"
+        "ing": "volunteering",
+        "pastParticiple": "volunteered"
       },
       "difficulty": 2,
       "takesObject": false
@@ -19442,7 +23285,8 @@ const VOCAB_BANK = {
         "base": "commute",
         "thirdPerson": "commutes",
         "past": "commuted",
-        "ing": "commuting"
+        "ing": "commuting",
+        "pastParticiple": "commuted"
       },
       "difficulty": 3,
       "takesObject": false
@@ -19454,7 +23298,8 @@ const VOCAB_BANK = {
         "base": "emigrate",
         "thirdPerson": "emigrates",
         "past": "emigrated",
-        "ing": "emigrating"
+        "ing": "emigrating",
+        "pastParticiple": "emigrated"
       },
       "difficulty": 3,
       "takesObject": false
@@ -19466,7 +23311,8 @@ const VOCAB_BANK = {
         "base": "immigrate",
         "thirdPerson": "immigrates",
         "past": "immigrated",
-        "ing": "immigrating"
+        "ing": "immigrating",
+        "pastParticiple": "immigrated"
       },
       "difficulty": 3,
       "takesObject": false
@@ -19478,7 +23324,8 @@ const VOCAB_BANK = {
         "base": "specialize",
         "thirdPerson": "specializes",
         "past": "specialized",
-        "ing": "specializing"
+        "ing": "specializing",
+        "pastParticiple": "specialized"
       },
       "difficulty": 3,
       "takesObject": false
@@ -19490,7 +23337,8 @@ const VOCAB_BANK = {
         "base": "qualify",
         "thirdPerson": "qualifies",
         "past": "qualified",
-        "ing": "qualifying"
+        "ing": "qualifying",
+        "pastParticiple": "qualified"
       },
       "difficulty": 3,
       "takesObject": false
@@ -19502,10 +23350,11550 @@ const VOCAB_BANK = {
         "base": "retire",
         "thirdPerson": "retires",
         "past": "retired",
-        "ing": "retiring"
+        "ing": "retiring",
+        "pastParticiple": "retired"
       },
       "difficulty": 2,
       "takesObject": false
+    },
+    {
+      "en": "arise",
+      "vi": "nảy sinh",
+      "forms": {
+        "base": "arise",
+        "thirdPerson": "arises",
+        "past": "arose",
+        "pastParticiple": "arisen",
+        "ing": "arising"
+      },
+      "difficulty": 2,
+      "takesObject": false
+    },
+    {
+      "en": "awake",
+      "vi": "thức dậy",
+      "forms": {
+        "base": "awake",
+        "thirdPerson": "awakes",
+        "past": "awoke",
+        "pastParticiple": "awoken",
+        "ing": "awaking"
+      },
+      "difficulty": 2,
+      "takesObject": false
+    },
+    {
+      "en": "become",
+      "vi": "trở thành",
+      "forms": {
+        "base": "become",
+        "thirdPerson": "becomes",
+        "past": "became",
+        "pastParticiple": "become",
+        "ing": "becoming"
+      },
+      "difficulty": 2,
+      "takesObject": false
+    },
+    {
+      "en": "begin",
+      "vi": "bắt đầu",
+      "forms": {
+        "base": "begin",
+        "thirdPerson": "begins",
+        "past": "began",
+        "pastParticiple": "begun",
+        "ing": "begining"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "bend",
+      "vi": "uốn cong",
+      "forms": {
+        "base": "bend",
+        "thirdPerson": "bends",
+        "past": "bent",
+        "pastParticiple": "bent",
+        "ing": "bending"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "bet",
+      "vi": "cá cược",
+      "forms": {
+        "base": "bet",
+        "thirdPerson": "bets",
+        "past": "bet",
+        "pastParticiple": "bet",
+        "ing": "betting"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "bid",
+      "vi": "ra giá",
+      "forms": {
+        "base": "bid",
+        "thirdPerson": "bids",
+        "past": "bid",
+        "pastParticiple": "bid",
+        "ing": "bidding"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "bind",
+      "vi": "buộc",
+      "forms": {
+        "base": "bind",
+        "thirdPerson": "binds",
+        "past": "bound",
+        "pastParticiple": "bound",
+        "ing": "binding"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "bite",
+      "vi": "cắn",
+      "forms": {
+        "base": "bite",
+        "thirdPerson": "bites",
+        "past": "bit",
+        "pastParticiple": "bitten",
+        "ing": "biting"
+      },
+      "difficulty": 1
+    },
+    {
+      "en": "bleed",
+      "vi": "chảy máu",
+      "forms": {
+        "base": "bleed",
+        "thirdPerson": "bleeds",
+        "past": "bled",
+        "pastParticiple": "bled",
+        "ing": "bleeding"
+      },
+      "difficulty": 2,
+      "takesObject": false
+    },
+    {
+      "en": "blow",
+      "vi": "thổi",
+      "forms": {
+        "base": "blow",
+        "thirdPerson": "blows",
+        "past": "blew",
+        "pastParticiple": "blown",
+        "ing": "blowing"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "breed",
+      "vi": "nhân giống",
+      "forms": {
+        "base": "breed",
+        "thirdPerson": "breeds",
+        "past": "bred",
+        "pastParticiple": "bred",
+        "ing": "breeding"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "bring",
+      "vi": "mang đến",
+      "forms": {
+        "base": "bring",
+        "thirdPerson": "brings",
+        "past": "brought",
+        "pastParticiple": "brought",
+        "ing": "bringing"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "burst",
+      "vi": "nổ tung",
+      "forms": {
+        "base": "burst",
+        "thirdPerson": "bursts",
+        "past": "burst",
+        "pastParticiple": "burst",
+        "ing": "bursting"
+      },
+      "difficulty": 2,
+      "takesObject": false
+    },
+    {
+      "en": "cast",
+      "vi": "ném/đúc",
+      "forms": {
+        "base": "cast",
+        "thirdPerson": "casts",
+        "past": "cast",
+        "pastParticiple": "cast",
+        "ing": "casting"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "choose",
+      "vi": "chọn",
+      "forms": {
+        "base": "choose",
+        "thirdPerson": "chooses",
+        "past": "chose",
+        "pastParticiple": "chosen",
+        "ing": "choosing"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "cling",
+      "vi": "bám vào",
+      "forms": {
+        "base": "cling",
+        "thirdPerson": "clings",
+        "past": "clung",
+        "pastParticiple": "clung",
+        "ing": "clinging"
+      },
+      "difficulty": 2,
+      "takesObject": false
+    },
+    {
+      "en": "creep",
+      "vi": "bò/trườn",
+      "forms": {
+        "base": "creep",
+        "thirdPerson": "creeps",
+        "past": "crept",
+        "pastParticiple": "crept",
+        "ing": "creeping"
+      },
+      "difficulty": 2,
+      "takesObject": false
+    },
+    {
+      "en": "cut",
+      "vi": "cắt",
+      "forms": {
+        "base": "cut",
+        "thirdPerson": "cuts",
+        "past": "cut",
+        "pastParticiple": "cut",
+        "ing": "cutting"
+      },
+      "difficulty": 1
+    },
+    {
+      "en": "deal",
+      "vi": "giải quyết",
+      "forms": {
+        "base": "deal",
+        "thirdPerson": "deals",
+        "past": "dealt",
+        "pastParticiple": "dealt",
+        "ing": "dealing"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "dig",
+      "vi": "đào",
+      "forms": {
+        "base": "dig",
+        "thirdPerson": "digs",
+        "past": "dug",
+        "pastParticiple": "dug",
+        "ing": "digging"
+      },
+      "difficulty": 1
+    },
+    {
+      "en": "dive",
+      "vi": "lặn",
+      "forms": {
+        "base": "dive",
+        "thirdPerson": "dives",
+        "past": "dove",
+        "pastParticiple": "dived",
+        "ing": "diving"
+      },
+      "difficulty": 2,
+      "takesObject": false
+    },
+    {
+      "en": "draw",
+      "vi": "vẽ/kéo",
+      "forms": {
+        "base": "draw",
+        "thirdPerson": "draws",
+        "past": "drew",
+        "pastParticiple": "drawn",
+        "ing": "drawing"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "dream",
+      "vi": "mơ",
+      "forms": {
+        "base": "dream",
+        "thirdPerson": "dreams",
+        "past": "dreamt",
+        "pastParticiple": "dreamt",
+        "ing": "dreaming"
+      },
+      "difficulty": 2,
+      "takesObject": false
+    },
+    {
+      "en": "dwell",
+      "vi": "cư trú",
+      "forms": {
+        "base": "dwell",
+        "thirdPerson": "dwells",
+        "past": "dwelt",
+        "pastParticiple": "dwelt",
+        "ing": "dwelling"
+      },
+      "difficulty": 2,
+      "takesObject": false
+    },
+    {
+      "en": "fall",
+      "vi": "ngã/rơi",
+      "forms": {
+        "base": "fall",
+        "thirdPerson": "falls",
+        "past": "fell",
+        "pastParticiple": "fallen",
+        "ing": "falling"
+      },
+      "difficulty": 1,
+      "takesObject": false
+    },
+    {
+      "en": "fight",
+      "vi": "chiến đấu",
+      "forms": {
+        "base": "fight",
+        "thirdPerson": "fights",
+        "past": "fought",
+        "pastParticiple": "fought",
+        "ing": "fighting"
+      },
+      "difficulty": 2,
+      "takesObject": false
+    },
+    {
+      "en": "flee",
+      "vi": "chạy trốn",
+      "forms": {
+        "base": "flee",
+        "thirdPerson": "flees",
+        "past": "fled",
+        "pastParticiple": "fled",
+        "ing": "fleeing"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "fling",
+      "vi": "ném mạnh",
+      "forms": {
+        "base": "fling",
+        "thirdPerson": "flings",
+        "past": "flung",
+        "pastParticiple": "flung",
+        "ing": "flinging"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "forbid",
+      "vi": "cấm",
+      "forms": {
+        "base": "forbid",
+        "thirdPerson": "forbids",
+        "past": "forbade",
+        "pastParticiple": "forbidden",
+        "ing": "forbiding"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "foresee",
+      "vi": "dự đoán trước",
+      "forms": {
+        "base": "foresee",
+        "thirdPerson": "foresees",
+        "past": "foresaw",
+        "pastParticiple": "foreseen",
+        "ing": "foreseeing"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "freeze",
+      "vi": "đóng băng",
+      "forms": {
+        "base": "freeze",
+        "thirdPerson": "freezes",
+        "past": "froze",
+        "pastParticiple": "frozen",
+        "ing": "freezing"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "get",
+      "vi": "nhận/trở nên",
+      "forms": {
+        "base": "get",
+        "thirdPerson": "gets",
+        "past": "got",
+        "pastParticiple": "gotten",
+        "ing": "getting"
+      },
+      "difficulty": 1
+    },
+    {
+      "en": "grind",
+      "vi": "nghiền/mài",
+      "forms": {
+        "base": "grind",
+        "thirdPerson": "grinds",
+        "past": "ground",
+        "pastParticiple": "ground",
+        "ing": "grinding"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "hang",
+      "vi": "treo",
+      "forms": {
+        "base": "hang",
+        "thirdPerson": "hangs",
+        "past": "hung",
+        "pastParticiple": "hung",
+        "ing": "hanging"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "hear",
+      "vi": "nghe",
+      "forms": {
+        "base": "hear",
+        "thirdPerson": "hears",
+        "past": "heard",
+        "pastParticiple": "heard",
+        "ing": "hearing"
+      },
+      "difficulty": 1
+    },
+    {
+      "en": "hide",
+      "vi": "ẩn nấp",
+      "forms": {
+        "base": "hide",
+        "thirdPerson": "hides",
+        "past": "hid",
+        "pastParticiple": "hidden",
+        "ing": "hiding"
+      },
+      "difficulty": 1,
+      "takesObject": false
+    },
+    {
+      "en": "keep",
+      "vi": "giữ",
+      "forms": {
+        "base": "keep",
+        "thirdPerson": "keeps",
+        "past": "kept",
+        "pastParticiple": "kept",
+        "ing": "keeping"
+      },
+      "difficulty": 1
+    },
+    {
+      "en": "kneel",
+      "vi": "quỳ",
+      "forms": {
+        "base": "kneel",
+        "thirdPerson": "kneels",
+        "past": "knelt",
+        "pastParticiple": "knelt",
+        "ing": "kneeling"
+      },
+      "difficulty": 2,
+      "takesObject": false
+    },
+    {
+      "en": "lay",
+      "vi": "đặt xuống",
+      "forms": {
+        "base": "lay",
+        "thirdPerson": "lays",
+        "past": "laid",
+        "pastParticiple": "laid",
+        "ing": "laying"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "lead",
+      "vi": "dẫn dắt",
+      "forms": {
+        "base": "lead",
+        "thirdPerson": "leads",
+        "past": "led",
+        "pastParticiple": "led",
+        "ing": "leading"
+      },
+      "difficulty": 2,
+      "takesObject": false
+    },
+    {
+      "en": "leap",
+      "vi": "nhảy vọt",
+      "forms": {
+        "base": "leap",
+        "thirdPerson": "leaps",
+        "past": "leapt",
+        "pastParticiple": "leapt",
+        "ing": "leaping"
+      },
+      "difficulty": 2,
+      "takesObject": false
+    },
+    {
+      "en": "lean",
+      "vi": "nghiêng/tựa",
+      "forms": {
+        "base": "lean",
+        "thirdPerson": "leans",
+        "past": "leant",
+        "pastParticiple": "leant",
+        "ing": "leaning"
+      },
+      "difficulty": 2,
+      "takesObject": false
+    },
+    {
+      "en": "let",
+      "vi": "để cho",
+      "forms": {
+        "base": "let",
+        "thirdPerson": "lets",
+        "past": "let",
+        "pastParticiple": "let",
+        "ing": "letting"
+      },
+      "difficulty": 1
+    },
+    {
+      "en": "light",
+      "vi": "thắp sáng",
+      "forms": {
+        "base": "light",
+        "thirdPerson": "lights",
+        "past": "lit",
+        "pastParticiple": "lit",
+        "ing": "lighting"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "mean",
+      "vi": "có nghĩa là",
+      "forms": {
+        "base": "mean",
+        "thirdPerson": "means",
+        "past": "meant",
+        "pastParticiple": "meant",
+        "ing": "meaning"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "mistake",
+      "vi": "nhầm lẫn",
+      "forms": {
+        "base": "mistake",
+        "thirdPerson": "mistakes",
+        "past": "mistook",
+        "pastParticiple": "mistaken",
+        "ing": "mistaking"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "overcome",
+      "vi": "vượt qua",
+      "forms": {
+        "base": "overcome",
+        "thirdPerson": "overcomes",
+        "past": "overcame",
+        "pastParticiple": "overcome",
+        "ing": "overcoming"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "overtake",
+      "vi": "vượt mặt",
+      "forms": {
+        "base": "overtake",
+        "thirdPerson": "overtakes",
+        "past": "overtook",
+        "pastParticiple": "overtaken",
+        "ing": "overtaking"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "prove",
+      "vi": "chứng minh",
+      "forms": {
+        "base": "prove",
+        "thirdPerson": "proves",
+        "past": "proved",
+        "pastParticiple": "proven",
+        "ing": "proving"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "quit",
+      "vi": "từ bỏ",
+      "forms": {
+        "base": "quit",
+        "thirdPerson": "quits",
+        "past": "quit",
+        "pastParticiple": "quit",
+        "ing": "quiting"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "rid",
+      "vi": "loại bỏ",
+      "forms": {
+        "base": "rid",
+        "thirdPerson": "rids",
+        "past": "rid",
+        "pastParticiple": "rid",
+        "ing": "ridding"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "ride",
+      "vi": "cưỡi/đi xe",
+      "forms": {
+        "base": "ride",
+        "thirdPerson": "rides",
+        "past": "rode",
+        "pastParticiple": "ridden",
+        "ing": "riding"
+      },
+      "difficulty": 1
+    },
+    {
+      "en": "ring",
+      "vi": "reo chuông",
+      "forms": {
+        "base": "ring",
+        "thirdPerson": "rings",
+        "past": "rang",
+        "pastParticiple": "rung",
+        "ing": "ringing"
+      },
+      "difficulty": 2,
+      "takesObject": false
+    },
+    {
+      "en": "rise",
+      "vi": "tăng lên/mọc",
+      "forms": {
+        "base": "rise",
+        "thirdPerson": "rises",
+        "past": "rose",
+        "pastParticiple": "risen",
+        "ing": "rising"
+      },
+      "difficulty": 2,
+      "takesObject": false
+    },
+    {
+      "en": "saw",
+      "vi": "cưa",
+      "forms": {
+        "base": "saw",
+        "thirdPerson": "saws",
+        "past": "sawed",
+        "pastParticiple": "sawn",
+        "ing": "sawing"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "seek",
+      "vi": "tìm kiếm",
+      "forms": {
+        "base": "seek",
+        "thirdPerson": "seeks",
+        "past": "sought",
+        "pastParticiple": "sought",
+        "ing": "seeking"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "set",
+      "vi": "đặt/thiết lập",
+      "forms": {
+        "base": "set",
+        "thirdPerson": "sets",
+        "past": "set",
+        "pastParticiple": "set",
+        "ing": "setting"
+      },
+      "difficulty": 1
+    },
+    {
+      "en": "sew",
+      "vi": "may vá",
+      "forms": {
+        "base": "sew",
+        "thirdPerson": "sews",
+        "past": "sewed",
+        "pastParticiple": "sewn",
+        "ing": "sewing"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "shake",
+      "vi": "lắc",
+      "forms": {
+        "base": "shake",
+        "thirdPerson": "shakes",
+        "past": "shook",
+        "pastParticiple": "shaken",
+        "ing": "shaking"
+      },
+      "difficulty": 2,
+      "takesObject": false
+    },
+    {
+      "en": "shed",
+      "vi": "rụng/rơi",
+      "forms": {
+        "base": "shed",
+        "thirdPerson": "sheds",
+        "past": "shed",
+        "pastParticiple": "shed",
+        "ing": "shedding"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "shine",
+      "vi": "tỏa sáng",
+      "forms": {
+        "base": "shine",
+        "thirdPerson": "shines",
+        "past": "shone",
+        "pastParticiple": "shone",
+        "ing": "shining"
+      },
+      "difficulty": 2,
+      "takesObject": false
+    },
+    {
+      "en": "shoot",
+      "vi": "bắn/quay phim",
+      "forms": {
+        "base": "shoot",
+        "thirdPerson": "shoots",
+        "past": "shot",
+        "pastParticiple": "shot",
+        "ing": "shooting"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "shrink",
+      "vi": "co lại",
+      "forms": {
+        "base": "shrink",
+        "thirdPerson": "shrinks",
+        "past": "shrank",
+        "pastParticiple": "shrunk",
+        "ing": "shrinking"
+      },
+      "difficulty": 2,
+      "takesObject": false
+    },
+    {
+      "en": "shut",
+      "vi": "đóng lại",
+      "forms": {
+        "base": "shut",
+        "thirdPerson": "shuts",
+        "past": "shut",
+        "pastParticiple": "shut",
+        "ing": "shutting"
+      },
+      "difficulty": 2,
+      "takesObject": false
+    },
+    {
+      "en": "sink",
+      "vi": "chìm",
+      "forms": {
+        "base": "sink",
+        "thirdPerson": "sinks",
+        "past": "sank",
+        "pastParticiple": "sunk",
+        "ing": "sinking"
+      },
+      "difficulty": 2,
+      "takesObject": false
+    },
+    {
+      "en": "slide",
+      "vi": "trượt",
+      "forms": {
+        "base": "slide",
+        "thirdPerson": "slides",
+        "past": "slid",
+        "pastParticiple": "slid",
+        "ing": "sliding"
+      },
+      "difficulty": 2,
+      "takesObject": false
+    },
+    {
+      "en": "sow",
+      "vi": "gieo hạt",
+      "forms": {
+        "base": "sow",
+        "thirdPerson": "sows",
+        "past": "sowed",
+        "pastParticiple": "sown",
+        "ing": "sowing"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "speed",
+      "vi": "tăng tốc",
+      "forms": {
+        "base": "speed",
+        "thirdPerson": "speeds",
+        "past": "sped",
+        "pastParticiple": "sped",
+        "ing": "speeding"
+      },
+      "difficulty": 2,
+      "takesObject": false
+    },
+    {
+      "en": "spell",
+      "vi": "đánh vần",
+      "forms": {
+        "base": "spell",
+        "thirdPerson": "spells",
+        "past": "spelt",
+        "pastParticiple": "spelt",
+        "ing": "spelling"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "spill",
+      "vi": "làm đổ",
+      "forms": {
+        "base": "spill",
+        "thirdPerson": "spills",
+        "past": "spilt",
+        "pastParticiple": "spilt",
+        "ing": "spilling"
+      },
+      "difficulty": 2,
+      "takesObject": false
+    },
+    {
+      "en": "spin",
+      "vi": "quay tròn",
+      "forms": {
+        "base": "spin",
+        "thirdPerson": "spins",
+        "past": "spun",
+        "pastParticiple": "spun",
+        "ing": "spinning"
+      },
+      "difficulty": 2,
+      "takesObject": false
+    },
+    {
+      "en": "spit",
+      "vi": "nhổ (nước bọt)",
+      "forms": {
+        "base": "spit",
+        "thirdPerson": "spits",
+        "past": "spat",
+        "pastParticiple": "spat",
+        "ing": "spitting"
+      },
+      "difficulty": 2,
+      "takesObject": false
+    },
+    {
+      "en": "split",
+      "vi": "chia tách",
+      "forms": {
+        "base": "split",
+        "thirdPerson": "splits",
+        "past": "split",
+        "pastParticiple": "split",
+        "ing": "spliting"
+      },
+      "difficulty": 2,
+      "takesObject": false
+    },
+    {
+      "en": "spread",
+      "vi": "lan rộng",
+      "forms": {
+        "base": "spread",
+        "thirdPerson": "spreads",
+        "past": "spread",
+        "pastParticiple": "spread",
+        "ing": "spreading"
+      },
+      "difficulty": 2,
+      "takesObject": false
+    },
+    {
+      "en": "spring",
+      "vi": "bật lên/nảy",
+      "forms": {
+        "base": "spring",
+        "thirdPerson": "springs",
+        "past": "sprang",
+        "pastParticiple": "sprung",
+        "ing": "springing"
+      },
+      "difficulty": 2,
+      "takesObject": false
+    },
+    {
+      "en": "steal",
+      "vi": "ăn cắp",
+      "forms": {
+        "base": "steal",
+        "thirdPerson": "steals",
+        "past": "stole",
+        "pastParticiple": "stolen",
+        "ing": "stealing"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "stick",
+      "vi": "dán/dính",
+      "forms": {
+        "base": "stick",
+        "thirdPerson": "sticks",
+        "past": "stuck",
+        "pastParticiple": "stuck",
+        "ing": "sticking"
+      },
+      "difficulty": 2,
+      "takesObject": false
+    },
+    {
+      "en": "sting",
+      "vi": "chích/đốt",
+      "forms": {
+        "base": "sting",
+        "thirdPerson": "stings",
+        "past": "stung",
+        "pastParticiple": "stung",
+        "ing": "stinging"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "stink",
+      "vi": "bốc mùi",
+      "forms": {
+        "base": "stink",
+        "thirdPerson": "stinks",
+        "past": "stank",
+        "pastParticiple": "stunk",
+        "ing": "stinking"
+      },
+      "difficulty": 2,
+      "takesObject": false
+    },
+    {
+      "en": "stride",
+      "vi": "sải bước",
+      "forms": {
+        "base": "stride",
+        "thirdPerson": "strides",
+        "past": "strode",
+        "pastParticiple": "stridden",
+        "ing": "striding"
+      },
+      "difficulty": 2,
+      "takesObject": false
+    },
+    {
+      "en": "strike",
+      "vi": "đánh/tấn công",
+      "forms": {
+        "base": "strike",
+        "thirdPerson": "strikes",
+        "past": "struck",
+        "pastParticiple": "struck",
+        "ing": "striking"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "string",
+      "vi": "xâu chuỗi",
+      "forms": {
+        "base": "string",
+        "thirdPerson": "strings",
+        "past": "strung",
+        "pastParticiple": "strung",
+        "ing": "stringing"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "strive",
+      "vi": "nỗ lực",
+      "forms": {
+        "base": "strive",
+        "thirdPerson": "strives",
+        "past": "strove",
+        "pastParticiple": "striven",
+        "ing": "striving"
+      },
+      "difficulty": 2,
+      "takesObject": false
+    },
+    {
+      "en": "swear",
+      "vi": "thề/chửi thề",
+      "forms": {
+        "base": "swear",
+        "thirdPerson": "swears",
+        "past": "swore",
+        "pastParticiple": "sworn",
+        "ing": "swearing"
+      },
+      "difficulty": 2,
+      "takesObject": false
+    },
+    {
+      "en": "sweep",
+      "vi": "quét dọn",
+      "forms": {
+        "base": "sweep",
+        "thirdPerson": "sweeps",
+        "past": "swept",
+        "pastParticiple": "swept",
+        "ing": "sweeping"
+      },
+      "difficulty": 2,
+      "takesObject": false
+    },
+    {
+      "en": "swell",
+      "vi": "sưng lên",
+      "forms": {
+        "base": "swell",
+        "thirdPerson": "swells",
+        "past": "swelled",
+        "pastParticiple": "swollen",
+        "ing": "swelling"
+      },
+      "difficulty": 2,
+      "takesObject": false
+    },
+    {
+      "en": "swing",
+      "vi": "đu đưa",
+      "forms": {
+        "base": "swing",
+        "thirdPerson": "swings",
+        "past": "swung",
+        "pastParticiple": "swung",
+        "ing": "swinging"
+      },
+      "difficulty": 2,
+      "takesObject": false
+    },
+    {
+      "en": "tear",
+      "vi": "xé rách",
+      "forms": {
+        "base": "tear",
+        "thirdPerson": "tears",
+        "past": "tore",
+        "pastParticiple": "torn",
+        "ing": "tearing"
+      },
+      "difficulty": 2,
+      "takesObject": false
+    },
+    {
+      "en": "thrust",
+      "vi": "đẩy mạnh",
+      "forms": {
+        "base": "thrust",
+        "thirdPerson": "thrusts",
+        "past": "thrust",
+        "pastParticiple": "thrust",
+        "ing": "thrusting"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "tread",
+      "vi": "giẫm lên",
+      "forms": {
+        "base": "tread",
+        "thirdPerson": "treads",
+        "past": "trod",
+        "pastParticiple": "trodden",
+        "ing": "treading"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "upset",
+      "vi": "làm buồn/khó chịu",
+      "forms": {
+        "base": "upset",
+        "thirdPerson": "upsets",
+        "past": "upset",
+        "pastParticiple": "upset",
+        "ing": "upseting"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "wake",
+      "vi": "thức dậy",
+      "forms": {
+        "base": "wake",
+        "thirdPerson": "wakes",
+        "past": "woke",
+        "pastParticiple": "woken",
+        "ing": "waking"
+      },
+      "difficulty": 1
+    },
+    {
+      "en": "weave",
+      "vi": "dệt",
+      "forms": {
+        "base": "weave",
+        "thirdPerson": "weaves",
+        "past": "wove",
+        "pastParticiple": "woven",
+        "ing": "weaving"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "weep",
+      "vi": "khóc",
+      "forms": {
+        "base": "weep",
+        "thirdPerson": "weeps",
+        "past": "wept",
+        "pastParticiple": "wept",
+        "ing": "weeping"
+      },
+      "difficulty": 2,
+      "takesObject": false
+    },
+    {
+      "en": "wet",
+      "vi": "làm ướt",
+      "forms": {
+        "base": "wet",
+        "thirdPerson": "wets",
+        "past": "wet",
+        "pastParticiple": "wet",
+        "ing": "wetting"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "wind",
+      "vi": "quấn/lên dây cót",
+      "forms": {
+        "base": "wind",
+        "thirdPerson": "winds",
+        "past": "wound",
+        "pastParticiple": "wound",
+        "ing": "winding"
+      },
+      "difficulty": 2,
+      "takesObject": false
+    },
+    {
+      "en": "withdraw",
+      "vi": "rút lui/rút tiền",
+      "forms": {
+        "base": "withdraw",
+        "thirdPerson": "withdraws",
+        "past": "withdrew",
+        "pastParticiple": "withdrawn",
+        "ing": "withdrawing"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "wring",
+      "vi": "vắt (khô)",
+      "forms": {
+        "base": "wring",
+        "thirdPerson": "wrings",
+        "past": "wrung",
+        "pastParticiple": "wrung",
+        "ing": "wringing"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "accept",
+      "vi": "chấp nhận",
+      "forms": {
+        "base": "accept",
+        "thirdPerson": "accepts",
+        "past": "accepted",
+        "pastParticiple": "accepted",
+        "ing": "accepting"
+      },
+      "difficulty": 1
+    },
+    {
+      "en": "achieve",
+      "vi": "đạt được",
+      "forms": {
+        "base": "achieve",
+        "thirdPerson": "achieves",
+        "past": "achieved",
+        "pastParticiple": "achieved",
+        "ing": "achieving"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "act",
+      "vi": "hành động",
+      "forms": {
+        "base": "act",
+        "thirdPerson": "acts",
+        "past": "acted",
+        "pastParticiple": "acted",
+        "ing": "acting"
+      },
+      "difficulty": 1,
+      "takesObject": false
+    },
+    {
+      "en": "advise",
+      "vi": "khuyên bảo",
+      "forms": {
+        "base": "advise",
+        "thirdPerson": "advises",
+        "past": "advised",
+        "pastParticiple": "advised",
+        "ing": "advising"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "afford",
+      "vi": "đủ khả năng (mua/làm)",
+      "forms": {
+        "base": "afford",
+        "thirdPerson": "affords",
+        "past": "afforded",
+        "pastParticiple": "afforded",
+        "ing": "affording"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "agree",
+      "vi": "đồng ý",
+      "forms": {
+        "base": "agree",
+        "thirdPerson": "agrees",
+        "past": "agreed",
+        "pastParticiple": "agreed",
+        "ing": "agreeing"
+      },
+      "difficulty": 1,
+      "takesObject": false
+    },
+    {
+      "en": "aim",
+      "vi": "nhắm tới",
+      "forms": {
+        "base": "aim",
+        "thirdPerson": "aims",
+        "past": "aimed",
+        "pastParticiple": "aimed",
+        "ing": "aiming"
+      },
+      "difficulty": 2,
+      "takesObject": false
+    },
+    {
+      "en": "allow",
+      "vi": "cho phép",
+      "forms": {
+        "base": "allow",
+        "thirdPerson": "allows",
+        "past": "allowed",
+        "pastParticiple": "allowed",
+        "ing": "allowing"
+      },
+      "difficulty": 1
+    },
+    {
+      "en": "amaze",
+      "vi": "làm kinh ngạc",
+      "forms": {
+        "base": "amaze",
+        "thirdPerson": "amazes",
+        "past": "amazed",
+        "pastParticiple": "amazed",
+        "ing": "amazing"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "analyze",
+      "vi": "phân tích",
+      "forms": {
+        "base": "analyze",
+        "thirdPerson": "analyzes",
+        "past": "analyzed",
+        "pastParticiple": "analyzed",
+        "ing": "analyzing"
+      },
+      "difficulty": 3
+    },
+    {
+      "en": "appear",
+      "vi": "xuất hiện",
+      "forms": {
+        "base": "appear",
+        "thirdPerson": "appears",
+        "past": "appeared",
+        "pastParticiple": "appeared",
+        "ing": "appearing"
+      },
+      "difficulty": 1,
+      "takesObject": false
+    },
+    {
+      "en": "applaud",
+      "vi": "vỗ tay tán thưởng",
+      "forms": {
+        "base": "applaud",
+        "thirdPerson": "applauds",
+        "past": "applauded",
+        "pastParticiple": "applauded",
+        "ing": "applauding"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "appreciate",
+      "vi": "trân trọng",
+      "forms": {
+        "base": "appreciate",
+        "thirdPerson": "appreciates",
+        "past": "appreciated",
+        "pastParticiple": "appreciated",
+        "ing": "appreciating"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "arrange",
+      "vi": "sắp xếp",
+      "forms": {
+        "base": "arrange",
+        "thirdPerson": "arranges",
+        "past": "arranged",
+        "pastParticiple": "arranged",
+        "ing": "arranging"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "assist",
+      "vi": "hỗ trợ",
+      "forms": {
+        "base": "assist",
+        "thirdPerson": "assists",
+        "past": "assisted",
+        "pastParticiple": "assisted",
+        "ing": "assisting"
+      },
+      "difficulty": 2,
+      "takesObject": false
+    },
+    {
+      "en": "assume",
+      "vi": "giả định",
+      "forms": {
+        "base": "assume",
+        "thirdPerson": "assumes",
+        "past": "assumed",
+        "pastParticiple": "assumed",
+        "ing": "assuming"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "assure",
+      "vi": "đảm bảo",
+      "forms": {
+        "base": "assure",
+        "thirdPerson": "assures",
+        "past": "assured",
+        "pastParticiple": "assured",
+        "ing": "assuring"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "attach",
+      "vi": "đính kèm",
+      "forms": {
+        "base": "attach",
+        "thirdPerson": "attaches",
+        "past": "attached",
+        "pastParticiple": "attached",
+        "ing": "attaching"
+      },
+      "difficulty": 2,
+      "takesObject": false
+    },
+    {
+      "en": "attack",
+      "vi": "tấn công",
+      "forms": {
+        "base": "attack",
+        "thirdPerson": "attacks",
+        "past": "attacked",
+        "pastParticiple": "attacked",
+        "ing": "attacking"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "attract",
+      "vi": "thu hút",
+      "forms": {
+        "base": "attract",
+        "thirdPerson": "attracts",
+        "past": "attracted",
+        "pastParticiple": "attracted",
+        "ing": "attracting"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "base",
+      "vi": "dựa trên",
+      "forms": {
+        "base": "base",
+        "thirdPerson": "bases",
+        "past": "based",
+        "pastParticiple": "based",
+        "ing": "basing"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "behave",
+      "vi": "cư xử",
+      "forms": {
+        "base": "behave",
+        "thirdPerson": "behaves",
+        "past": "behaved",
+        "pastParticiple": "behaved",
+        "ing": "behaving"
+      },
+      "difficulty": 2,
+      "takesObject": false
+    },
+    {
+      "en": "belong",
+      "vi": "thuộc về",
+      "forms": {
+        "base": "belong",
+        "thirdPerson": "belongs",
+        "past": "belonged",
+        "pastParticiple": "belonged",
+        "ing": "belonging"
+      },
+      "difficulty": 1,
+      "takesObject": false
+    },
+    {
+      "en": "blame",
+      "vi": "đổ lỗi",
+      "forms": {
+        "base": "blame",
+        "thirdPerson": "blames",
+        "past": "blamed",
+        "pastParticiple": "blamed",
+        "ing": "blaming"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "bless",
+      "vi": "ban phước",
+      "forms": {
+        "base": "bless",
+        "thirdPerson": "blesses",
+        "past": "blessed",
+        "pastParticiple": "blessed",
+        "ing": "blessing"
+      },
+      "difficulty": 3
+    },
+    {
+      "en": "boast",
+      "vi": "khoe khoang",
+      "forms": {
+        "base": "boast",
+        "thirdPerson": "boasts",
+        "past": "boasted",
+        "pastParticiple": "boasted",
+        "ing": "boasting"
+      },
+      "difficulty": 3,
+      "takesObject": false
+    },
+    {
+      "en": "boost",
+      "vi": "thúc đẩy",
+      "forms": {
+        "base": "boost",
+        "thirdPerson": "boosts",
+        "past": "boosted",
+        "pastParticiple": "boosted",
+        "ing": "boosting"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "bother",
+      "vi": "làm phiền",
+      "forms": {
+        "base": "bother",
+        "thirdPerson": "bothers",
+        "past": "bothered",
+        "pastParticiple": "bothered",
+        "ing": "bothering"
+      },
+      "difficulty": 2,
+      "takesObject": false
+    },
+    {
+      "en": "bounce",
+      "vi": "nảy lên",
+      "forms": {
+        "base": "bounce",
+        "thirdPerson": "bounces",
+        "past": "bounced",
+        "pastParticiple": "bounced",
+        "ing": "bouncing"
+      },
+      "difficulty": 2,
+      "takesObject": false
+    },
+    {
+      "en": "brake",
+      "vi": "phanh xe",
+      "forms": {
+        "base": "brake",
+        "thirdPerson": "brakes",
+        "past": "braked",
+        "pastParticiple": "braked",
+        "ing": "braking"
+      },
+      "difficulty": 2,
+      "takesObject": false
+    },
+    {
+      "en": "breathe",
+      "vi": "thở",
+      "forms": {
+        "base": "breathe",
+        "thirdPerson": "breathes",
+        "past": "breathed",
+        "pastParticiple": "breathed",
+        "ing": "breathing"
+      },
+      "difficulty": 1
+    },
+    {
+      "en": "bury",
+      "vi": "chôn cất",
+      "forms": {
+        "base": "bury",
+        "thirdPerson": "buries",
+        "past": "buried",
+        "pastParticiple": "buried",
+        "ing": "burying"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "calm",
+      "vi": "làm dịu",
+      "forms": {
+        "base": "calm",
+        "thirdPerson": "calms",
+        "past": "calmed",
+        "pastParticiple": "calmed",
+        "ing": "calming"
+      },
+      "difficulty": 1,
+      "takesObject": false
+    },
+    {
+      "en": "care",
+      "vi": "quan tâm",
+      "forms": {
+        "base": "care",
+        "thirdPerson": "cares",
+        "past": "cared",
+        "pastParticiple": "cared",
+        "ing": "caring"
+      },
+      "difficulty": 1,
+      "takesObject": false
+    },
+    {
+      "en": "celebrate",
+      "vi": "ăn mừng",
+      "forms": {
+        "base": "celebrate",
+        "thirdPerson": "celebrates",
+        "past": "celebrated",
+        "pastParticiple": "celebrated",
+        "ing": "celebrating"
+      },
+      "difficulty": 1
+    },
+    {
+      "en": "challenge",
+      "vi": "thách thức",
+      "forms": {
+        "base": "challenge",
+        "thirdPerson": "challenges",
+        "past": "challenged",
+        "pastParticiple": "challenged",
+        "ing": "challenging"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "chase",
+      "vi": "đuổi theo",
+      "forms": {
+        "base": "chase",
+        "thirdPerson": "chases",
+        "past": "chased",
+        "pastParticiple": "chased",
+        "ing": "chasing"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "cheat",
+      "vi": "lừa dối/gian lận",
+      "forms": {
+        "base": "cheat",
+        "thirdPerson": "cheats",
+        "past": "cheated",
+        "pastParticiple": "cheated",
+        "ing": "cheating"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "cheer",
+      "vi": "cổ vũ",
+      "forms": {
+        "base": "cheer",
+        "thirdPerson": "cheers",
+        "past": "cheered",
+        "pastParticiple": "cheered",
+        "ing": "cheering"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "chew",
+      "vi": "nhai",
+      "forms": {
+        "base": "chew",
+        "thirdPerson": "chews",
+        "past": "chewed",
+        "pastParticiple": "chewed",
+        "ing": "chewing"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "claim",
+      "vi": "tuyên bố/yêu cầu",
+      "forms": {
+        "base": "claim",
+        "thirdPerson": "claims",
+        "past": "claimed",
+        "pastParticiple": "claimed",
+        "ing": "claiming"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "clap",
+      "vi": "vỗ tay",
+      "forms": {
+        "base": "clap",
+        "thirdPerson": "claps",
+        "past": "clapped",
+        "pastParticiple": "clapped",
+        "ing": "clapping"
+      },
+      "difficulty": 1
+    },
+    {
+      "en": "classify",
+      "vi": "phân loại",
+      "forms": {
+        "base": "classify",
+        "thirdPerson": "classifies",
+        "past": "classified",
+        "pastParticiple": "classified",
+        "ing": "classifying"
+      },
+      "difficulty": 3
+    },
+    {
+      "en": "clear",
+      "vi": "dọn dẹp/làm rõ",
+      "forms": {
+        "base": "clear",
+        "thirdPerson": "clears",
+        "past": "cleared",
+        "pastParticiple": "cleared",
+        "ing": "clearing"
+      },
+      "difficulty": 1
+    },
+    {
+      "en": "climb",
+      "vi": "leo trèo",
+      "forms": {
+        "base": "climb",
+        "thirdPerson": "climbs",
+        "past": "climbed",
+        "pastParticiple": "climbed",
+        "ing": "climbing"
+      },
+      "difficulty": 1
+    },
+    {
+      "en": "coach",
+      "vi": "huấn luyện",
+      "forms": {
+        "base": "coach",
+        "thirdPerson": "coaches",
+        "past": "coached",
+        "pastParticiple": "coached",
+        "ing": "coaching"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "coincide",
+      "vi": "trùng hợp",
+      "forms": {
+        "base": "coincide",
+        "thirdPerson": "coincides",
+        "past": "coincided",
+        "pastParticiple": "coincided",
+        "ing": "coinciding"
+      },
+      "difficulty": 3,
+      "takesObject": false
+    },
+    {
+      "en": "color",
+      "vi": "tô màu",
+      "forms": {
+        "base": "color",
+        "thirdPerson": "colors",
+        "past": "colored",
+        "pastParticiple": "colored",
+        "ing": "coloring"
+      },
+      "difficulty": 1
+    },
+    {
+      "en": "comb",
+      "vi": "chải (tóc)",
+      "forms": {
+        "base": "comb",
+        "thirdPerson": "combs",
+        "past": "combed",
+        "pastParticiple": "combed",
+        "ing": "combing"
+      },
+      "difficulty": 1
+    },
+    {
+      "en": "combine",
+      "vi": "kết hợp",
+      "forms": {
+        "base": "combine",
+        "thirdPerson": "combines",
+        "past": "combined",
+        "pastParticiple": "combined",
+        "ing": "combining"
+      },
+      "difficulty": 2,
+      "takesObject": false
+    },
+    {
+      "en": "comfort",
+      "vi": "an ủi",
+      "forms": {
+        "base": "comfort",
+        "thirdPerson": "comforts",
+        "past": "comforted",
+        "pastParticiple": "comforted",
+        "ing": "comforting"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "command",
+      "vi": "ra lệnh",
+      "forms": {
+        "base": "command",
+        "thirdPerson": "commands",
+        "past": "commanded",
+        "pastParticiple": "commanded",
+        "ing": "commanding"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "comment",
+      "vi": "bình luận",
+      "forms": {
+        "base": "comment",
+        "thirdPerson": "comments",
+        "past": "commented",
+        "pastParticiple": "commented",
+        "ing": "commenting"
+      },
+      "difficulty": 2,
+      "takesObject": false
+    },
+    {
+      "en": "communicate",
+      "vi": "giao tiếp",
+      "forms": {
+        "base": "communicate",
+        "thirdPerson": "communicates",
+        "past": "communicated",
+        "pastParticiple": "communicated",
+        "ing": "communicating"
+      },
+      "difficulty": 2,
+      "takesObject": false
+    },
+    {
+      "en": "compete",
+      "vi": "cạnh tranh",
+      "forms": {
+        "base": "compete",
+        "thirdPerson": "competes",
+        "past": "competed",
+        "pastParticiple": "competed",
+        "ing": "competing"
+      },
+      "difficulty": 2,
+      "takesObject": false
+    },
+    {
+      "en": "complete",
+      "vi": "hoàn thành",
+      "forms": {
+        "base": "complete",
+        "thirdPerson": "completes",
+        "past": "completed",
+        "pastParticiple": "completed",
+        "ing": "completing"
+      },
+      "difficulty": 1
+    },
+    {
+      "en": "concentrate",
+      "vi": "tập trung",
+      "forms": {
+        "base": "concentrate",
+        "thirdPerson": "concentrates",
+        "past": "concentrated",
+        "pastParticiple": "concentrated",
+        "ing": "concentrating"
+      },
+      "difficulty": 2,
+      "takesObject": false
+    },
+    {
+      "en": "concern",
+      "vi": "liên quan/lo lắng",
+      "forms": {
+        "base": "concern",
+        "thirdPerson": "concerns",
+        "past": "concerned",
+        "pastParticiple": "concerned",
+        "ing": "concerning"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "conclude",
+      "vi": "kết luận",
+      "forms": {
+        "base": "conclude",
+        "thirdPerson": "concludes",
+        "past": "concluded",
+        "pastParticiple": "concluded",
+        "ing": "concluding"
+      },
+      "difficulty": 3
+    },
+    {
+      "en": "confuse",
+      "vi": "gây bối rối",
+      "forms": {
+        "base": "confuse",
+        "thirdPerson": "confuses",
+        "past": "confused",
+        "pastParticiple": "confused",
+        "ing": "confusing"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "connect",
+      "vi": "kết nối",
+      "forms": {
+        "base": "connect",
+        "thirdPerson": "connects",
+        "past": "connected",
+        "pastParticiple": "connected",
+        "ing": "connecting"
+      },
+      "difficulty": 1,
+      "takesObject": false
+    },
+    {
+      "en": "consist",
+      "vi": "bao gồm",
+      "forms": {
+        "base": "consist",
+        "thirdPerson": "consists",
+        "past": "consisted",
+        "pastParticiple": "consisted",
+        "ing": "consisting"
+      },
+      "difficulty": 2,
+      "takesObject": false
+    },
+    {
+      "en": "consult",
+      "vi": "tham khảo ý kiến",
+      "forms": {
+        "base": "consult",
+        "thirdPerson": "consults",
+        "past": "consulted",
+        "pastParticiple": "consulted",
+        "ing": "consulting"
+      },
+      "difficulty": 3
+    },
+    {
+      "en": "contain",
+      "vi": "chứa đựng",
+      "forms": {
+        "base": "contain",
+        "thirdPerson": "contains",
+        "past": "contained",
+        "pastParticiple": "contained",
+        "ing": "containing"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "continue",
+      "vi": "tiếp tục",
+      "forms": {
+        "base": "continue",
+        "thirdPerson": "continues",
+        "past": "continued",
+        "pastParticiple": "continued",
+        "ing": "continueing"
+      },
+      "difficulty": 1
+    },
+    {
+      "en": "convince",
+      "vi": "thuyết phục",
+      "forms": {
+        "base": "convince",
+        "thirdPerson": "convinces",
+        "past": "convinced",
+        "pastParticiple": "convinced",
+        "ing": "convincing"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "cool",
+      "vi": "làm mát",
+      "forms": {
+        "base": "cool",
+        "thirdPerson": "cools",
+        "past": "cooled",
+        "pastParticiple": "cooled",
+        "ing": "cooling"
+      },
+      "difficulty": 1,
+      "takesObject": false
+    },
+    {
+      "en": "copy",
+      "vi": "sao chép",
+      "forms": {
+        "base": "copy",
+        "thirdPerson": "copies",
+        "past": "copied",
+        "pastParticiple": "copied",
+        "ing": "copying"
+      },
+      "difficulty": 1
+    },
+    {
+      "en": "correct",
+      "vi": "sửa lỗi",
+      "forms": {
+        "base": "correct",
+        "thirdPerson": "corrects",
+        "past": "corrected",
+        "pastParticiple": "corrected",
+        "ing": "correcting"
+      },
+      "difficulty": 1
+    },
+    {
+      "en": "crash",
+      "vi": "va chạm/sập",
+      "forms": {
+        "base": "crash",
+        "thirdPerson": "crashes",
+        "past": "crashed",
+        "pastParticiple": "crashed",
+        "ing": "crashing"
+      },
+      "difficulty": 2,
+      "takesObject": false
+    },
+    {
+      "en": "create",
+      "vi": "tạo ra",
+      "forms": {
+        "base": "create",
+        "thirdPerson": "creates",
+        "past": "created",
+        "pastParticiple": "created",
+        "ing": "creating"
+      },
+      "difficulty": 1
+    },
+    {
+      "en": "crush",
+      "vi": "nghiền nát",
+      "forms": {
+        "base": "crush",
+        "thirdPerson": "crushes",
+        "past": "crushed",
+        "pastParticiple": "crushed",
+        "ing": "crushing"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "cure",
+      "vi": "chữa khỏi",
+      "forms": {
+        "base": "cure",
+        "thirdPerson": "cures",
+        "past": "cured",
+        "pastParticiple": "cured",
+        "ing": "curing"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "curl",
+      "vi": "uốn cong",
+      "forms": {
+        "base": "curl",
+        "thirdPerson": "curls",
+        "past": "curled",
+        "pastParticiple": "curled",
+        "ing": "curling"
+      },
+      "difficulty": 2,
+      "takesObject": false
+    },
+    {
+      "en": "damage",
+      "vi": "làm hư hại",
+      "forms": {
+        "base": "damage",
+        "thirdPerson": "damages",
+        "past": "damaged",
+        "pastParticiple": "damaged",
+        "ing": "damaging"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "dare",
+      "vi": "dám làm",
+      "forms": {
+        "base": "dare",
+        "thirdPerson": "dares",
+        "past": "dared",
+        "pastParticiple": "dared",
+        "ing": "daring"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "debate",
+      "vi": "tranh luận",
+      "forms": {
+        "base": "debate",
+        "thirdPerson": "debates",
+        "past": "debated",
+        "pastParticiple": "debated",
+        "ing": "debating"
+      },
+      "difficulty": 3
+    },
+    {
+      "en": "decide",
+      "vi": "quyết định",
+      "forms": {
+        "base": "decide",
+        "thirdPerson": "decides",
+        "past": "decided",
+        "pastParticiple": "decided",
+        "ing": "deciding"
+      },
+      "difficulty": 1
+    },
+    {
+      "en": "declare",
+      "vi": "tuyên bố",
+      "forms": {
+        "base": "declare",
+        "thirdPerson": "declares",
+        "past": "declared",
+        "pastParticiple": "declared",
+        "ing": "declaring"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "defend",
+      "vi": "bảo vệ",
+      "forms": {
+        "base": "defend",
+        "thirdPerson": "defends",
+        "past": "defended",
+        "pastParticiple": "defended",
+        "ing": "defending"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "define",
+      "vi": "định nghĩa",
+      "forms": {
+        "base": "define",
+        "thirdPerson": "defines",
+        "past": "defined",
+        "pastParticiple": "defined",
+        "ing": "defining"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "demand",
+      "vi": "yêu cầu",
+      "forms": {
+        "base": "demand",
+        "thirdPerson": "demands",
+        "past": "demanded",
+        "pastParticiple": "demanded",
+        "ing": "demanding"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "demonstrate",
+      "vi": "chứng minh",
+      "forms": {
+        "base": "demonstrate",
+        "thirdPerson": "demonstrates",
+        "past": "demonstrated",
+        "pastParticiple": "demonstrated",
+        "ing": "demonstrating"
+      },
+      "difficulty": 3
+    },
+    {
+      "en": "depend",
+      "vi": "phụ thuộc",
+      "forms": {
+        "base": "depend",
+        "thirdPerson": "depends",
+        "past": "depended",
+        "pastParticiple": "depended",
+        "ing": "depending"
+      },
+      "difficulty": 1,
+      "takesObject": false
+    },
+    {
+      "en": "deserve",
+      "vi": "xứng đáng",
+      "forms": {
+        "base": "deserve",
+        "thirdPerson": "deserves",
+        "past": "deserved",
+        "pastParticiple": "deserved",
+        "ing": "deserving"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "design",
+      "vi": "thiết kế",
+      "forms": {
+        "base": "design",
+        "thirdPerson": "designs",
+        "past": "designed",
+        "pastParticiple": "designed",
+        "ing": "designing"
+      },
+      "difficulty": 1
+    },
+    {
+      "en": "destroy",
+      "vi": "phá hủy",
+      "forms": {
+        "base": "destroy",
+        "thirdPerson": "destroys",
+        "past": "destroyed",
+        "pastParticiple": "destroyed",
+        "ing": "destroying"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "determine",
+      "vi": "xác định",
+      "forms": {
+        "base": "determine",
+        "thirdPerson": "determines",
+        "past": "determined",
+        "pastParticiple": "determined",
+        "ing": "determining"
+      },
+      "difficulty": 3
+    },
+    {
+      "en": "develop",
+      "vi": "phát triển",
+      "forms": {
+        "base": "develop",
+        "thirdPerson": "develops",
+        "past": "developed",
+        "pastParticiple": "developed",
+        "ing": "developing"
+      },
+      "difficulty": 1,
+      "takesObject": false
+    },
+    {
+      "en": "differ",
+      "vi": "khác biệt",
+      "forms": {
+        "base": "differ",
+        "thirdPerson": "differs",
+        "past": "differed",
+        "pastParticiple": "differed",
+        "ing": "differing"
+      },
+      "difficulty": 2,
+      "takesObject": false
+    },
+    {
+      "en": "disagree",
+      "vi": "không đồng ý",
+      "forms": {
+        "base": "disagree",
+        "thirdPerson": "disagrees",
+        "past": "disagreed",
+        "pastParticiple": "disagreed",
+        "ing": "disagreeing"
+      },
+      "difficulty": 1,
+      "takesObject": false
+    },
+    {
+      "en": "disappear",
+      "vi": "biến mất",
+      "forms": {
+        "base": "disappear",
+        "thirdPerson": "disappears",
+        "past": "disappeared",
+        "pastParticiple": "disappeared",
+        "ing": "disappearing"
+      },
+      "difficulty": 1,
+      "takesObject": false
+    },
+    {
+      "en": "disappoint",
+      "vi": "làm thất vọng",
+      "forms": {
+        "base": "disappoint",
+        "thirdPerson": "disappoints",
+        "past": "disappointed",
+        "pastParticiple": "disappointed",
+        "ing": "disappointing"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "discover",
+      "vi": "khám phá",
+      "forms": {
+        "base": "discover",
+        "thirdPerson": "discovers",
+        "past": "discovered",
+        "pastParticiple": "discovered",
+        "ing": "discovering"
+      },
+      "difficulty": 1
+    },
+    {
+      "en": "discuss",
+      "vi": "thảo luận",
+      "forms": {
+        "base": "discuss",
+        "thirdPerson": "discusses",
+        "past": "discussed",
+        "pastParticiple": "discussed",
+        "ing": "discussing"
+      },
+      "difficulty": 1
+    },
+    {
+      "en": "dislike",
+      "vi": "không thích",
+      "forms": {
+        "base": "dislike",
+        "thirdPerson": "dislikes",
+        "past": "disliked",
+        "pastParticiple": "disliked",
+        "ing": "disliking"
+      },
+      "difficulty": 1
+    },
+    {
+      "en": "dismiss",
+      "vi": "bác bỏ/sa thải",
+      "forms": {
+        "base": "dismiss",
+        "thirdPerson": "dismisses",
+        "past": "dismissed",
+        "pastParticiple": "dismissed",
+        "ing": "dismissing"
+      },
+      "difficulty": 3
+    },
+    {
+      "en": "disturb",
+      "vi": "làm phiền",
+      "forms": {
+        "base": "disturb",
+        "thirdPerson": "disturbs",
+        "past": "disturbed",
+        "pastParticiple": "disturbed",
+        "ing": "disturbing"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "drown",
+      "vi": "chết đuối",
+      "forms": {
+        "base": "drown",
+        "thirdPerson": "drowns",
+        "past": "drowned",
+        "pastParticiple": "drowned",
+        "ing": "drowning"
+      },
+      "difficulty": 2,
+      "takesObject": false
+    },
+    {
+      "en": "dry",
+      "vi": "làm khô",
+      "forms": {
+        "base": "dry",
+        "thirdPerson": "dries",
+        "past": "dried",
+        "pastParticiple": "dried",
+        "ing": "drying"
+      },
+      "difficulty": 1
+    },
+    {
+      "en": "dust",
+      "vi": "phủi bụi",
+      "forms": {
+        "base": "dust",
+        "thirdPerson": "dusts",
+        "past": "dusted",
+        "pastParticiple": "dusted",
+        "ing": "dusting"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "earn",
+      "vi": "kiếm được",
+      "forms": {
+        "base": "earn",
+        "thirdPerson": "earns",
+        "past": "earned",
+        "pastParticiple": "earned",
+        "ing": "earning"
+      },
+      "difficulty": 1
+    },
+    {
+      "en": "embarrass",
+      "vi": "làm bối rối",
+      "forms": {
+        "base": "embarrass",
+        "thirdPerson": "embarrasses",
+        "past": "embarrassed",
+        "pastParticiple": "embarrassed",
+        "ing": "embarrassing"
+      },
+      "difficulty": 3
+    },
+    {
+      "en": "employ",
+      "vi": "thuê mướn",
+      "forms": {
+        "base": "employ",
+        "thirdPerson": "employs",
+        "past": "employed",
+        "pastParticiple": "employed",
+        "ing": "employing"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "empty",
+      "vi": "làm rỗng",
+      "forms": {
+        "base": "empty",
+        "thirdPerson": "empties",
+        "past": "emptied",
+        "pastParticiple": "emptied",
+        "ing": "emptying"
+      },
+      "difficulty": 2,
+      "takesObject": false
+    },
+    {
+      "en": "encourage",
+      "vi": "khuyến khích",
+      "forms": {
+        "base": "encourage",
+        "thirdPerson": "encourages",
+        "past": "encouraged",
+        "pastParticiple": "encouraged",
+        "ing": "encouraging"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "end",
+      "vi": "kết thúc",
+      "forms": {
+        "base": "end",
+        "thirdPerson": "ends",
+        "past": "ended",
+        "pastParticiple": "ended",
+        "ing": "ending"
+      },
+      "difficulty": 1,
+      "takesObject": false
+    },
+    {
+      "en": "engage",
+      "vi": "tham gia/thu hút",
+      "forms": {
+        "base": "engage",
+        "thirdPerson": "engages",
+        "past": "engaged",
+        "pastParticiple": "engaged",
+        "ing": "engaging"
+      },
+      "difficulty": 2,
+      "takesObject": false
+    },
+    {
+      "en": "enjoy",
+      "vi": "tận hưởng",
+      "forms": {
+        "base": "enjoy",
+        "thirdPerson": "enjoys",
+        "past": "enjoyed",
+        "pastParticiple": "enjoyed",
+        "ing": "enjoying"
+      },
+      "difficulty": 1
+    },
+    {
+      "en": "ensure",
+      "vi": "đảm bảo",
+      "forms": {
+        "base": "ensure",
+        "thirdPerson": "ensures",
+        "past": "ensured",
+        "pastParticiple": "ensured",
+        "ing": "ensuring"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "enter",
+      "vi": "bước vào",
+      "forms": {
+        "base": "enter",
+        "thirdPerson": "enters",
+        "past": "entered",
+        "pastParticiple": "entered",
+        "ing": "entering"
+      },
+      "difficulty": 1
+    },
+    {
+      "en": "entertain",
+      "vi": "giải trí",
+      "forms": {
+        "base": "entertain",
+        "thirdPerson": "entertains",
+        "past": "entertained",
+        "pastParticiple": "entertained",
+        "ing": "entertaining"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "escape",
+      "vi": "trốn thoát",
+      "forms": {
+        "base": "escape",
+        "thirdPerson": "escapes",
+        "past": "escaped",
+        "pastParticiple": "escaped",
+        "ing": "escaping"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "establish",
+      "vi": "thành lập",
+      "forms": {
+        "base": "establish",
+        "thirdPerson": "establishes",
+        "past": "established",
+        "pastParticiple": "established",
+        "ing": "establishing"
+      },
+      "difficulty": 3
+    },
+    {
+      "en": "estimate",
+      "vi": "ước tính",
+      "forms": {
+        "base": "estimate",
+        "thirdPerson": "estimates",
+        "past": "estimated",
+        "pastParticiple": "estimated",
+        "ing": "estimating"
+      },
+      "difficulty": 3
+    },
+    {
+      "en": "evaluate",
+      "vi": "đánh giá",
+      "forms": {
+        "base": "evaluate",
+        "thirdPerson": "evaluates",
+        "past": "evaluated",
+        "pastParticiple": "evaluated",
+        "ing": "evaluating"
+      },
+      "difficulty": 3
+    },
+    {
+      "en": "exaggerate",
+      "vi": "phóng đại",
+      "forms": {
+        "base": "exaggerate",
+        "thirdPerson": "exaggerates",
+        "past": "exaggerated",
+        "pastParticiple": "exaggerated",
+        "ing": "exaggerating"
+      },
+      "difficulty": 3
+    },
+    {
+      "en": "exceed",
+      "vi": "vượt quá",
+      "forms": {
+        "base": "exceed",
+        "thirdPerson": "exceeds",
+        "past": "exceeded",
+        "pastParticiple": "exceeded",
+        "ing": "exceeding"
+      },
+      "difficulty": 3
+    },
+    {
+      "en": "excite",
+      "vi": "làm hào hứng",
+      "forms": {
+        "base": "excite",
+        "thirdPerson": "excites",
+        "past": "excited",
+        "pastParticiple": "excited",
+        "ing": "exciting"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "exercise",
+      "vi": "tập thể dục",
+      "forms": {
+        "base": "exercise",
+        "thirdPerson": "exercises",
+        "past": "exercised",
+        "pastParticiple": "exercised",
+        "ing": "exercising"
+      },
+      "difficulty": 1,
+      "takesObject": false
+    },
+    {
+      "en": "exist",
+      "vi": "tồn tại",
+      "forms": {
+        "base": "exist",
+        "thirdPerson": "exists",
+        "past": "existed",
+        "pastParticiple": "existed",
+        "ing": "existing"
+      },
+      "difficulty": 2,
+      "takesObject": false
+    },
+    {
+      "en": "expand",
+      "vi": "mở rộng",
+      "forms": {
+        "base": "expand",
+        "thirdPerson": "expands",
+        "past": "expanded",
+        "pastParticiple": "expanded",
+        "ing": "expanding"
+      },
+      "difficulty": 2,
+      "takesObject": false
+    },
+    {
+      "en": "expect",
+      "vi": "mong đợi",
+      "forms": {
+        "base": "expect",
+        "thirdPerson": "expects",
+        "past": "expected",
+        "pastParticiple": "expected",
+        "ing": "expecting"
+      },
+      "difficulty": 1
+    },
+    {
+      "en": "experience",
+      "vi": "trải nghiệm",
+      "forms": {
+        "base": "experience",
+        "thirdPerson": "experiences",
+        "past": "experienced",
+        "pastParticiple": "experienced",
+        "ing": "experiencing"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "experiment",
+      "vi": "thí nghiệm",
+      "forms": {
+        "base": "experiment",
+        "thirdPerson": "experiments",
+        "past": "experimented",
+        "pastParticiple": "experimented",
+        "ing": "experimenting"
+      },
+      "difficulty": 3,
+      "takesObject": false
+    },
+    {
+      "en": "expire",
+      "vi": "hết hạn",
+      "forms": {
+        "base": "expire",
+        "thirdPerson": "expires",
+        "past": "expired",
+        "pastParticiple": "expired",
+        "ing": "expiring"
+      },
+      "difficulty": 3,
+      "takesObject": false
+    },
+    {
+      "en": "expose",
+      "vi": "phơi bày",
+      "forms": {
+        "base": "expose",
+        "thirdPerson": "exposes",
+        "past": "exposed",
+        "pastParticiple": "exposed",
+        "ing": "exposing"
+      },
+      "difficulty": 3
+    },
+    {
+      "en": "express",
+      "vi": "bày tỏ",
+      "forms": {
+        "base": "express",
+        "thirdPerson": "expresses",
+        "past": "expressed",
+        "pastParticiple": "expressed",
+        "ing": "expressing"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "extend",
+      "vi": "kéo dài/mở rộng",
+      "forms": {
+        "base": "extend",
+        "thirdPerson": "extends",
+        "past": "extended",
+        "pastParticiple": "extended",
+        "ing": "extending"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "face",
+      "vi": "đối mặt",
+      "forms": {
+        "base": "face",
+        "thirdPerson": "faces",
+        "past": "faced",
+        "pastParticiple": "faced",
+        "ing": "facing"
+      },
+      "difficulty": 1
+    },
+    {
+      "en": "fade",
+      "vi": "phai mờ",
+      "forms": {
+        "base": "fade",
+        "thirdPerson": "fades",
+        "past": "faded",
+        "pastParticiple": "faded",
+        "ing": "fading"
+      },
+      "difficulty": 2,
+      "takesObject": false
+    },
+    {
+      "en": "fascinate",
+      "vi": "làm say mê",
+      "forms": {
+        "base": "fascinate",
+        "thirdPerson": "fascinates",
+        "past": "fascinated",
+        "pastParticiple": "fascinated",
+        "ing": "fascinating"
+      },
+      "difficulty": 3
+    },
+    {
+      "en": "fasten",
+      "vi": "thắt chặt",
+      "forms": {
+        "base": "fasten",
+        "thirdPerson": "fastens",
+        "past": "fastened",
+        "pastParticiple": "fastened",
+        "ing": "fastening"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "fetch",
+      "vi": "lấy về",
+      "forms": {
+        "base": "fetch",
+        "thirdPerson": "fetches",
+        "past": "fetched",
+        "pastParticiple": "fetched",
+        "ing": "fetching"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "fill",
+      "vi": "lấp đầy",
+      "forms": {
+        "base": "fill",
+        "thirdPerson": "fills",
+        "past": "filled",
+        "pastParticiple": "filled",
+        "ing": "filling"
+      },
+      "difficulty": 1,
+      "takesObject": false
+    },
+    {
+      "en": "film",
+      "vi": "quay phim",
+      "forms": {
+        "base": "film",
+        "thirdPerson": "films",
+        "past": "filmed",
+        "pastParticiple": "filmed",
+        "ing": "filming"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "flash",
+      "vi": "lóe sáng",
+      "forms": {
+        "base": "flash",
+        "thirdPerson": "flashes",
+        "past": "flashed",
+        "pastParticiple": "flashed",
+        "ing": "flashing"
+      },
+      "difficulty": 2,
+      "takesObject": false
+    },
+    {
+      "en": "flavor",
+      "vi": "nêm gia vị",
+      "forms": {
+        "base": "flavor",
+        "thirdPerson": "flavors",
+        "past": "flavored",
+        "pastParticiple": "flavored",
+        "ing": "flavoring"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "float",
+      "vi": "nổi",
+      "forms": {
+        "base": "float",
+        "thirdPerson": "floats",
+        "past": "floated",
+        "pastParticiple": "floated",
+        "ing": "floating"
+      },
+      "difficulty": 2,
+      "takesObject": false
+    },
+    {
+      "en": "flood",
+      "vi": "ngập lụt",
+      "forms": {
+        "base": "flood",
+        "thirdPerson": "floods",
+        "past": "flooded",
+        "pastParticiple": "flooded",
+        "ing": "flooding"
+      },
+      "difficulty": 2,
+      "takesObject": false
+    },
+    {
+      "en": "flow",
+      "vi": "chảy",
+      "forms": {
+        "base": "flow",
+        "thirdPerson": "flows",
+        "past": "flowed",
+        "pastParticiple": "flowed",
+        "ing": "flowing"
+      },
+      "difficulty": 2,
+      "takesObject": false
+    },
+    {
+      "en": "focus",
+      "vi": "tập trung",
+      "forms": {
+        "base": "focus",
+        "thirdPerson": "focuses",
+        "past": "focused",
+        "pastParticiple": "focused",
+        "ing": "focusing"
+      },
+      "difficulty": 1,
+      "takesObject": false
+    },
+    {
+      "en": "follow",
+      "vi": "theo sau",
+      "forms": {
+        "base": "follow",
+        "thirdPerson": "follows",
+        "past": "followed",
+        "pastParticiple": "followed",
+        "ing": "following"
+      },
+      "difficulty": 1
+    },
+    {
+      "en": "form",
+      "vi": "hình thành",
+      "forms": {
+        "base": "form",
+        "thirdPerson": "forms",
+        "past": "formed",
+        "pastParticiple": "formed",
+        "ing": "forming"
+      },
+      "difficulty": 2,
+      "takesObject": false
+    },
+    {
+      "en": "function",
+      "vi": "hoạt động",
+      "forms": {
+        "base": "function",
+        "thirdPerson": "functions",
+        "past": "functioned",
+        "pastParticiple": "functioned",
+        "ing": "functioning"
+      },
+      "difficulty": 2,
+      "takesObject": false
+    },
+    {
+      "en": "gather",
+      "vi": "tập hợp",
+      "forms": {
+        "base": "gather",
+        "thirdPerson": "gathers",
+        "past": "gathered",
+        "pastParticiple": "gathered",
+        "ing": "gathering"
+      },
+      "difficulty": 2,
+      "takesObject": false
+    },
+    {
+      "en": "glow",
+      "vi": "phát sáng",
+      "forms": {
+        "base": "glow",
+        "thirdPerson": "glows",
+        "past": "glowed",
+        "pastParticiple": "glowed",
+        "ing": "glowing"
+      },
+      "difficulty": 2,
+      "takesObject": false
+    },
+    {
+      "en": "grab",
+      "vi": "nắm lấy",
+      "forms": {
+        "base": "grab",
+        "thirdPerson": "grabs",
+        "past": "grabbed",
+        "pastParticiple": "grabbed",
+        "ing": "grabbing"
+      },
+      "difficulty": 1
+    },
+    {
+      "en": "guarantee",
+      "vi": "đảm bảo",
+      "forms": {
+        "base": "guarantee",
+        "thirdPerson": "guarantees",
+        "past": "guaranteed",
+        "pastParticiple": "guaranteed",
+        "ing": "guaranteeing"
+      },
+      "difficulty": 3
+    },
+    {
+      "en": "guard",
+      "vi": "canh gác",
+      "forms": {
+        "base": "guard",
+        "thirdPerson": "guards",
+        "past": "guarded",
+        "pastParticiple": "guarded",
+        "ing": "guarding"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "guide",
+      "vi": "hướng dẫn",
+      "forms": {
+        "base": "guide",
+        "thirdPerson": "guides",
+        "past": "guided",
+        "pastParticiple": "guided",
+        "ing": "guiding"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "handle",
+      "vi": "xử lý",
+      "forms": {
+        "base": "handle",
+        "thirdPerson": "handles",
+        "past": "handled",
+        "pastParticiple": "handled",
+        "ing": "handling"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "happen",
+      "vi": "xảy ra",
+      "forms": {
+        "base": "happen",
+        "thirdPerson": "happens",
+        "past": "happened",
+        "pastParticiple": "happened",
+        "ing": "happening"
+      },
+      "difficulty": 1,
+      "takesObject": false
+    },
+    {
+      "en": "harm",
+      "vi": "gây hại",
+      "forms": {
+        "base": "harm",
+        "thirdPerson": "harms",
+        "past": "harmed",
+        "pastParticiple": "harmed",
+        "ing": "harming"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "heal",
+      "vi": "chữa lành",
+      "forms": {
+        "base": "heal",
+        "thirdPerson": "heals",
+        "past": "healed",
+        "pastParticiple": "healed",
+        "ing": "healing"
+      },
+      "difficulty": 2,
+      "takesObject": false
+    },
+    {
+      "en": "heat",
+      "vi": "làm nóng",
+      "forms": {
+        "base": "heat",
+        "thirdPerson": "heats",
+        "past": "heated",
+        "pastParticiple": "heated",
+        "ing": "heating"
+      },
+      "difficulty": 1
+    },
+    {
+      "en": "hire",
+      "vi": "thuê (người)",
+      "forms": {
+        "base": "hire",
+        "thirdPerson": "hires",
+        "past": "hired",
+        "pastParticiple": "hired",
+        "ing": "hiring"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "honor",
+      "vi": "tôn vinh",
+      "forms": {
+        "base": "honor",
+        "thirdPerson": "honors",
+        "past": "honored",
+        "pastParticiple": "honored",
+        "ing": "honoring"
+      },
+      "difficulty": 3
+    },
+    {
+      "en": "hop",
+      "vi": "nhảy lò cò",
+      "forms": {
+        "base": "hop",
+        "thirdPerson": "hops",
+        "past": "hopped",
+        "pastParticiple": "hopped",
+        "ing": "hopping"
+      },
+      "difficulty": 1,
+      "takesObject": false
+    },
+    {
+      "en": "hug",
+      "vi": "ôm",
+      "forms": {
+        "base": "hug",
+        "thirdPerson": "hugs",
+        "past": "hugged",
+        "pastParticiple": "hugged",
+        "ing": "hugging"
+      },
+      "difficulty": 1
+    },
+    {
+      "en": "hunt",
+      "vi": "săn bắt",
+      "forms": {
+        "base": "hunt",
+        "thirdPerson": "hunts",
+        "past": "hunted",
+        "pastParticiple": "hunted",
+        "ing": "hunting"
+      },
+      "difficulty": 2,
+      "takesObject": false
+    },
+    {
+      "en": "hurry",
+      "vi": "vội vàng",
+      "forms": {
+        "base": "hurry",
+        "thirdPerson": "hurries",
+        "past": "hurried",
+        "pastParticiple": "hurried",
+        "ing": "hurrying"
+      },
+      "difficulty": 1,
+      "takesObject": false
+    },
+    {
+      "en": "identify",
+      "vi": "nhận diện",
+      "forms": {
+        "base": "identify",
+        "thirdPerson": "identifies",
+        "past": "identified",
+        "pastParticiple": "identified",
+        "ing": "identifying"
+      },
+      "difficulty": 3
+    },
+    {
+      "en": "ignore",
+      "vi": "phớt lờ",
+      "forms": {
+        "base": "ignore",
+        "thirdPerson": "ignores",
+        "past": "ignored",
+        "pastParticiple": "ignored",
+        "ing": "ignoring"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "imagine",
+      "vi": "tưởng tượng",
+      "forms": {
+        "base": "imagine",
+        "thirdPerson": "imagines",
+        "past": "imagined",
+        "pastParticiple": "imagined",
+        "ing": "imagining"
+      },
+      "difficulty": 1
+    },
+    {
+      "en": "impress",
+      "vi": "gây ấn tượng",
+      "forms": {
+        "base": "impress",
+        "thirdPerson": "impresses",
+        "past": "impressed",
+        "pastParticiple": "impressed",
+        "ing": "impressing"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "improve",
+      "vi": "cải thiện",
+      "forms": {
+        "base": "improve",
+        "thirdPerson": "improves",
+        "past": "improved",
+        "pastParticiple": "improved",
+        "ing": "improving"
+      },
+      "difficulty": 1,
+      "takesObject": false
+    },
+    {
+      "en": "include",
+      "vi": "bao gồm",
+      "forms": {
+        "base": "include",
+        "thirdPerson": "includes",
+        "past": "included",
+        "pastParticiple": "included",
+        "ing": "including"
+      },
+      "difficulty": 1
+    },
+    {
+      "en": "indicate",
+      "vi": "chỉ ra",
+      "forms": {
+        "base": "indicate",
+        "thirdPerson": "indicates",
+        "past": "indicated",
+        "pastParticiple": "indicated",
+        "ing": "indicating"
+      },
+      "difficulty": 3
+    },
+    {
+      "en": "influence",
+      "vi": "ảnh hưởng",
+      "forms": {
+        "base": "influence",
+        "thirdPerson": "influences",
+        "past": "influenced",
+        "pastParticiple": "influenced",
+        "ing": "influencing"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "injure",
+      "vi": "làm bị thương",
+      "forms": {
+        "base": "injure",
+        "thirdPerson": "injures",
+        "past": "injured",
+        "pastParticiple": "injured",
+        "ing": "injuring"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "insist",
+      "vi": "khăng khăng",
+      "forms": {
+        "base": "insist",
+        "thirdPerson": "insists",
+        "past": "insisted",
+        "pastParticiple": "insisted",
+        "ing": "insisting"
+      },
+      "difficulty": 3,
+      "takesObject": false
+    },
+    {
+      "en": "inspire",
+      "vi": "truyền cảm hứng",
+      "forms": {
+        "base": "inspire",
+        "thirdPerson": "inspires",
+        "past": "inspired",
+        "pastParticiple": "inspired",
+        "ing": "inspiring"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "insult",
+      "vi": "sỉ nhục",
+      "forms": {
+        "base": "insult",
+        "thirdPerson": "insults",
+        "past": "insulted",
+        "pastParticiple": "insulted",
+        "ing": "insulting"
+      },
+      "difficulty": 3
+    },
+    {
+      "en": "intend",
+      "vi": "dự định",
+      "forms": {
+        "base": "intend",
+        "thirdPerson": "intends",
+        "past": "intended",
+        "pastParticiple": "intended",
+        "ing": "intending"
+      },
+      "difficulty": 3
+    },
+    {
+      "en": "interest",
+      "vi": "gây hứng thú",
+      "forms": {
+        "base": "interest",
+        "thirdPerson": "interests",
+        "past": "interested",
+        "pastParticiple": "interested",
+        "ing": "interesting"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "interrupt",
+      "vi": "ngắt lời",
+      "forms": {
+        "base": "interrupt",
+        "thirdPerson": "interrupts",
+        "past": "interrupted",
+        "pastParticiple": "interrupted",
+        "ing": "interrupting"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "interview",
+      "vi": "phỏng vấn",
+      "forms": {
+        "base": "interview",
+        "thirdPerson": "interviews",
+        "past": "interviewed",
+        "pastParticiple": "interviewed",
+        "ing": "interviewing"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "involve",
+      "vi": "liên quan đến",
+      "forms": {
+        "base": "involve",
+        "thirdPerson": "involves",
+        "past": "involved",
+        "pastParticiple": "involved",
+        "ing": "involving"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "join",
+      "vi": "tham gia",
+      "forms": {
+        "base": "join",
+        "thirdPerson": "joins",
+        "past": "joined",
+        "pastParticiple": "joined",
+        "ing": "joining"
+      },
+      "difficulty": 1
+    },
+    {
+      "en": "joke",
+      "vi": "nói đùa",
+      "forms": {
+        "base": "joke",
+        "thirdPerson": "jokes",
+        "past": "joked",
+        "pastParticiple": "joked",
+        "ing": "joking"
+      },
+      "difficulty": 2,
+      "takesObject": false
+    },
+    {
+      "en": "judge",
+      "vi": "phán xét",
+      "forms": {
+        "base": "judge",
+        "thirdPerson": "judges",
+        "past": "judged",
+        "pastParticiple": "judged",
+        "ing": "judging"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "jump",
+      "vi": "nhảy",
+      "forms": {
+        "base": "jump",
+        "thirdPerson": "jumps",
+        "past": "jumped",
+        "pastParticiple": "jumped",
+        "ing": "jumping"
+      },
+      "difficulty": 1,
+      "takesObject": false
+    },
+    {
+      "en": "justify",
+      "vi": "biện minh",
+      "forms": {
+        "base": "justify",
+        "thirdPerson": "justifies",
+        "past": "justified",
+        "pastParticiple": "justified",
+        "ing": "justifying"
+      },
+      "difficulty": 3
+    },
+    {
+      "en": "knock",
+      "vi": "gõ cửa",
+      "forms": {
+        "base": "knock",
+        "thirdPerson": "knocks",
+        "past": "knocked",
+        "pastParticiple": "knocked",
+        "ing": "knocking"
+      },
+      "difficulty": 1,
+      "takesObject": false
+    },
+    {
+      "en": "land",
+      "vi": "hạ cánh",
+      "forms": {
+        "base": "land",
+        "thirdPerson": "lands",
+        "past": "landed",
+        "pastParticiple": "landed",
+        "ing": "landing"
+      },
+      "difficulty": 1
+    },
+    {
+      "en": "last",
+      "vi": "kéo dài",
+      "forms": {
+        "base": "last",
+        "thirdPerson": "lasts",
+        "past": "lasted",
+        "pastParticiple": "lasted",
+        "ing": "lasting"
+      },
+      "difficulty": 1,
+      "takesObject": false
+    },
+    {
+      "en": "launch",
+      "vi": "ra mắt/phóng",
+      "forms": {
+        "base": "launch",
+        "thirdPerson": "launches",
+        "past": "launched",
+        "pastParticiple": "launched",
+        "ing": "launching"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "level",
+      "vi": "làm phẳng/san bằng",
+      "forms": {
+        "base": "level",
+        "thirdPerson": "levels",
+        "past": "leveled",
+        "pastParticiple": "leveled",
+        "ing": "leveling"
+      },
+      "difficulty": 2,
+      "takesObject": false
+    },
+    {
+      "en": "limit",
+      "vi": "giới hạn",
+      "forms": {
+        "base": "limit",
+        "thirdPerson": "limits",
+        "past": "limited",
+        "pastParticiple": "limited",
+        "ing": "limiting"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "link",
+      "vi": "liên kết",
+      "forms": {
+        "base": "link",
+        "thirdPerson": "links",
+        "past": "linked",
+        "pastParticiple": "linked",
+        "ing": "linking"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "list",
+      "vi": "liệt kê",
+      "forms": {
+        "base": "list",
+        "thirdPerson": "lists",
+        "past": "listed",
+        "pastParticiple": "listed",
+        "ing": "listing"
+      },
+      "difficulty": 1
+    },
+    {
+      "en": "litter",
+      "vi": "xả rác",
+      "forms": {
+        "base": "litter",
+        "thirdPerson": "litters",
+        "past": "littered",
+        "pastParticiple": "littered",
+        "ing": "littering"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "load",
+      "vi": "tải/chất hàng",
+      "forms": {
+        "base": "load",
+        "thirdPerson": "loads",
+        "past": "loaded",
+        "pastParticiple": "loaded",
+        "ing": "loading"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "locate",
+      "vi": "định vị",
+      "forms": {
+        "base": "locate",
+        "thirdPerson": "locates",
+        "past": "located",
+        "pastParticiple": "located",
+        "ing": "locating"
+      },
+      "difficulty": 3
+    },
+    {
+      "en": "loosen",
+      "vi": "nới lỏng",
+      "forms": {
+        "base": "loosen",
+        "thirdPerson": "loosens",
+        "past": "loosened",
+        "pastParticiple": "loosened",
+        "ing": "loosening"
+      },
+      "difficulty": 2,
+      "takesObject": false
+    },
+    {
+      "en": "maintain",
+      "vi": "duy trì",
+      "forms": {
+        "base": "maintain",
+        "thirdPerson": "maintains",
+        "past": "maintained",
+        "pastParticiple": "maintained",
+        "ing": "maintaining"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "march",
+      "vi": "diễu hành",
+      "forms": {
+        "base": "march",
+        "thirdPerson": "marches",
+        "past": "marched",
+        "pastParticiple": "marched",
+        "ing": "marching"
+      },
+      "difficulty": 2,
+      "takesObject": false
+    },
+    {
+      "en": "mark",
+      "vi": "đánh dấu",
+      "forms": {
+        "base": "mark",
+        "thirdPerson": "marks",
+        "past": "marked",
+        "pastParticiple": "marked",
+        "ing": "marking"
+      },
+      "difficulty": 1
+    },
+    {
+      "en": "match",
+      "vi": "phù hợp/kết hợp",
+      "forms": {
+        "base": "match",
+        "thirdPerson": "matches",
+        "past": "matched",
+        "pastParticiple": "matched",
+        "ing": "matching"
+      },
+      "difficulty": 1,
+      "takesObject": false
+    },
+    {
+      "en": "matter",
+      "vi": "quan trọng",
+      "forms": {
+        "base": "matter",
+        "thirdPerson": "matters",
+        "past": "mattered",
+        "pastParticiple": "mattered",
+        "ing": "mattering"
+      },
+      "difficulty": 2,
+      "takesObject": false
+    },
+    {
+      "en": "maximize",
+      "vi": "tối đa hóa",
+      "forms": {
+        "base": "maximize",
+        "thirdPerson": "maximizes",
+        "past": "maximized",
+        "pastParticiple": "maximized",
+        "ing": "maximizing"
+      },
+      "difficulty": 3
+    },
+    {
+      "en": "melt",
+      "vi": "tan chảy",
+      "forms": {
+        "base": "melt",
+        "thirdPerson": "melts",
+        "past": "melted",
+        "pastParticiple": "melted",
+        "ing": "melting"
+      },
+      "difficulty": 2,
+      "takesObject": false
+    },
+    {
+      "en": "mention",
+      "vi": "đề cập",
+      "forms": {
+        "base": "mention",
+        "thirdPerson": "mentions",
+        "past": "mentioned",
+        "pastParticiple": "mentioned",
+        "ing": "mentioning"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "mess",
+      "vi": "làm bừa bộn",
+      "forms": {
+        "base": "mess",
+        "thirdPerson": "messes",
+        "past": "messed",
+        "pastParticiple": "messed",
+        "ing": "messing"
+      },
+      "difficulty": 2,
+      "takesObject": false
+    },
+    {
+      "en": "mind",
+      "vi": "phiền lòng",
+      "forms": {
+        "base": "mind",
+        "thirdPerson": "minds",
+        "past": "minded",
+        "pastParticiple": "minded",
+        "ing": "minding"
+      },
+      "difficulty": 1
+    },
+    {
+      "en": "minimize",
+      "vi": "giảm thiểu",
+      "forms": {
+        "base": "minimize",
+        "thirdPerson": "minimizes",
+        "past": "minimized",
+        "pastParticiple": "minimized",
+        "ing": "minimizing"
+      },
+      "difficulty": 3
+    },
+    {
+      "en": "miss",
+      "vi": "bỏ lỡ/nhớ",
+      "forms": {
+        "base": "miss",
+        "thirdPerson": "misses",
+        "past": "missed",
+        "pastParticiple": "missed",
+        "ing": "missing"
+      },
+      "difficulty": 1
+    },
+    {
+      "en": "mix",
+      "vi": "trộn lẫn",
+      "forms": {
+        "base": "mix",
+        "thirdPerson": "mixes",
+        "past": "mixed",
+        "pastParticiple": "mixed",
+        "ing": "mixing"
+      },
+      "difficulty": 1,
+      "takesObject": false
+    },
+    {
+      "en": "moan",
+      "vi": "rên rỉ",
+      "forms": {
+        "base": "moan",
+        "thirdPerson": "moans",
+        "past": "moaned",
+        "pastParticiple": "moaned",
+        "ing": "moaning"
+      },
+      "difficulty": 2,
+      "takesObject": false
+    },
+    {
+      "en": "mock",
+      "vi": "chế giễu",
+      "forms": {
+        "base": "mock",
+        "thirdPerson": "mocks",
+        "past": "mocked",
+        "pastParticiple": "mocked",
+        "ing": "mocking"
+      },
+      "difficulty": 3
+    },
+    {
+      "en": "mold",
+      "vi": "nặn/đúc khuôn",
+      "forms": {
+        "base": "mold",
+        "thirdPerson": "molds",
+        "past": "molded",
+        "pastParticiple": "molded",
+        "ing": "molding"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "motivate",
+      "vi": "thúc đẩy",
+      "forms": {
+        "base": "motivate",
+        "thirdPerson": "motivates",
+        "past": "motivated",
+        "pastParticiple": "motivated",
+        "ing": "motivating"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "mourn",
+      "vi": "than khóc",
+      "forms": {
+        "base": "mourn",
+        "thirdPerson": "mourns",
+        "past": "mourned",
+        "pastParticiple": "mourned",
+        "ing": "mourning"
+      },
+      "difficulty": 3
+    },
+    {
+      "en": "name",
+      "vi": "đặt tên",
+      "forms": {
+        "base": "name",
+        "thirdPerson": "names",
+        "past": "named",
+        "pastParticiple": "named",
+        "ing": "naming"
+      },
+      "difficulty": 1
+    },
+    {
+      "en": "narrate",
+      "vi": "kể chuyện",
+      "forms": {
+        "base": "narrate",
+        "thirdPerson": "narrates",
+        "past": "narrated",
+        "pastParticiple": "narrated",
+        "ing": "narrating"
+      },
+      "difficulty": 3
+    },
+    {
+      "en": "navigate",
+      "vi": "điều hướng",
+      "forms": {
+        "base": "navigate",
+        "thirdPerson": "navigates",
+        "past": "navigated",
+        "pastParticiple": "navigated",
+        "ing": "navigating"
+      },
+      "difficulty": 3
+    },
+    {
+      "en": "neglect",
+      "vi": "bỏ bê",
+      "forms": {
+        "base": "neglect",
+        "thirdPerson": "neglects",
+        "past": "neglected",
+        "pastParticiple": "neglected",
+        "ing": "neglecting"
+      },
+      "difficulty": 3
+    },
+    {
+      "en": "nod",
+      "vi": "gật đầu",
+      "forms": {
+        "base": "nod",
+        "thirdPerson": "nods",
+        "past": "nodded",
+        "pastParticiple": "nodded",
+        "ing": "nodding"
+      },
+      "difficulty": 2,
+      "takesObject": false
+    },
+    {
+      "en": "nominate",
+      "vi": "đề cử",
+      "forms": {
+        "base": "nominate",
+        "thirdPerson": "nominates",
+        "past": "nominated",
+        "pastParticiple": "nominated",
+        "ing": "nominating"
+      },
+      "difficulty": 3
+    },
+    {
+      "en": "note",
+      "vi": "ghi chú",
+      "forms": {
+        "base": "note",
+        "thirdPerson": "notes",
+        "past": "noted",
+        "pastParticiple": "noted",
+        "ing": "noting"
+      },
+      "difficulty": 1
+    },
+    {
+      "en": "notice",
+      "vi": "chú ý",
+      "forms": {
+        "base": "notice",
+        "thirdPerson": "notices",
+        "past": "noticed",
+        "pastParticiple": "noticed",
+        "ing": "noticing"
+      },
+      "difficulty": 1
+    },
+    {
+      "en": "nourish",
+      "vi": "nuôi dưỡng",
+      "forms": {
+        "base": "nourish",
+        "thirdPerson": "nourishes",
+        "past": "nourished",
+        "pastParticiple": "nourished",
+        "ing": "nourishing"
+      },
+      "difficulty": 3
+    },
+    {
+      "en": "object",
+      "vi": "phản đối",
+      "forms": {
+        "base": "object",
+        "thirdPerson": "objects",
+        "past": "objected",
+        "pastParticiple": "objected",
+        "ing": "objecting"
+      },
+      "difficulty": 3,
+      "takesObject": false
+    },
+    {
+      "en": "observe",
+      "vi": "quan sát",
+      "forms": {
+        "base": "observe",
+        "thirdPerson": "observes",
+        "past": "observed",
+        "pastParticiple": "observed",
+        "ing": "observing"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "obtain",
+      "vi": "đạt được",
+      "forms": {
+        "base": "obtain",
+        "thirdPerson": "obtains",
+        "past": "obtained",
+        "pastParticiple": "obtained",
+        "ing": "obtaining"
+      },
+      "difficulty": 3
+    },
+    {
+      "en": "occupy",
+      "vi": "chiếm giữ",
+      "forms": {
+        "base": "occupy",
+        "thirdPerson": "occupies",
+        "past": "occupied",
+        "pastParticiple": "occupied",
+        "ing": "occupying"
+      },
+      "difficulty": 3
+    },
+    {
+      "en": "occur",
+      "vi": "xảy ra",
+      "forms": {
+        "base": "occur",
+        "thirdPerson": "occurs",
+        "past": "occurred",
+        "pastParticiple": "occurred",
+        "ing": "occurring"
+      },
+      "difficulty": 2,
+      "takesObject": false
+    },
+    {
+      "en": "offend",
+      "vi": "xúc phạm",
+      "forms": {
+        "base": "offend",
+        "thirdPerson": "offends",
+        "past": "offended",
+        "pastParticiple": "offended",
+        "ing": "offending"
+      },
+      "difficulty": 3
+    },
+    {
+      "en": "offer",
+      "vi": "đề nghị",
+      "forms": {
+        "base": "offer",
+        "thirdPerson": "offers",
+        "past": "offered",
+        "pastParticiple": "offered",
+        "ing": "offering"
+      },
+      "difficulty": 1
+    },
+    {
+      "en": "omit",
+      "vi": "bỏ sót",
+      "forms": {
+        "base": "omit",
+        "thirdPerson": "omits",
+        "past": "omitted",
+        "pastParticiple": "omitted",
+        "ing": "omitting"
+      },
+      "difficulty": 3
+    },
+    {
+      "en": "operate",
+      "vi": "vận hành",
+      "forms": {
+        "base": "operate",
+        "thirdPerson": "operates",
+        "past": "operated",
+        "pastParticiple": "operated",
+        "ing": "operating"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "oppose",
+      "vi": "phản đối",
+      "forms": {
+        "base": "oppose",
+        "thirdPerson": "opposes",
+        "past": "opposed",
+        "pastParticiple": "opposed",
+        "ing": "opposing"
+      },
+      "difficulty": 3
+    },
+    {
+      "en": "order",
+      "vi": "ra lệnh/đặt hàng",
+      "forms": {
+        "base": "order",
+        "thirdPerson": "orders",
+        "past": "ordered",
+        "pastParticiple": "ordered",
+        "ing": "ordering"
+      },
+      "difficulty": 1
+    },
+    {
+      "en": "overflow",
+      "vi": "tràn ra",
+      "forms": {
+        "base": "overflow",
+        "thirdPerson": "overflows",
+        "past": "overflowed",
+        "pastParticiple": "overflowed",
+        "ing": "overflowing"
+      },
+      "difficulty": 2,
+      "takesObject": false
+    },
+    {
+      "en": "overlap",
+      "vi": "chồng chéo",
+      "forms": {
+        "base": "overlap",
+        "thirdPerson": "overlaps",
+        "past": "overlaped",
+        "pastParticiple": "overlaped",
+        "ing": "overlaping"
+      },
+      "difficulty": 3,
+      "takesObject": false
+    },
+    {
+      "en": "overlook",
+      "vi": "bỏ qua/nhìn ra",
+      "forms": {
+        "base": "overlook",
+        "thirdPerson": "overlooks",
+        "past": "overlooked",
+        "pastParticiple": "overlooked",
+        "ing": "overlooking"
+      },
+      "difficulty": 3
+    },
+    {
+      "en": "owe",
+      "vi": "nợ",
+      "forms": {
+        "base": "owe",
+        "thirdPerson": "owes",
+        "past": "owed",
+        "pastParticiple": "owed",
+        "ing": "owing"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "own",
+      "vi": "sở hữu",
+      "forms": {
+        "base": "own",
+        "thirdPerson": "owns",
+        "past": "owned",
+        "pastParticiple": "owned",
+        "ing": "owning"
+      },
+      "difficulty": 1
+    },
+    {
+      "en": "pass",
+      "vi": "vượt qua/đi qua",
+      "forms": {
+        "base": "pass",
+        "thirdPerson": "passes",
+        "past": "passed",
+        "pastParticiple": "passed",
+        "ing": "passing"
+      },
+      "difficulty": 1
+    },
+    {
+      "en": "pause",
+      "vi": "tạm dừng",
+      "forms": {
+        "base": "pause",
+        "thirdPerson": "pauses",
+        "past": "paused",
+        "pastParticiple": "paused",
+        "ing": "pausing"
+      },
+      "difficulty": 2,
+      "takesObject": false
+    },
+    {
+      "en": "permit",
+      "vi": "cho phép",
+      "forms": {
+        "base": "permit",
+        "thirdPerson": "permits",
+        "past": "permitted",
+        "pastParticiple": "permitted",
+        "ing": "permitting"
+      },
+      "difficulty": 3
+    },
+    {
+      "en": "persuade",
+      "vi": "thuyết phục",
+      "forms": {
+        "base": "persuade",
+        "thirdPerson": "persuades",
+        "past": "persuaded",
+        "pastParticiple": "persuaded",
+        "ing": "persuading"
+      },
+      "difficulty": 3
+    },
+    {
+      "en": "pick",
+      "vi": "chọn/nhặt lên",
+      "forms": {
+        "base": "pick",
+        "thirdPerson": "picks",
+        "past": "picked",
+        "pastParticiple": "picked",
+        "ing": "picking"
+      },
+      "difficulty": 1
+    },
+    {
+      "en": "pinch",
+      "vi": "véo/chèn ép",
+      "forms": {
+        "base": "pinch",
+        "thirdPerson": "pinches",
+        "past": "pinched",
+        "pastParticiple": "pinched",
+        "ing": "pinching"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "pin",
+      "vi": "ghim lại",
+      "forms": {
+        "base": "pin",
+        "thirdPerson": "pins",
+        "past": "pinned",
+        "pastParticiple": "pinned",
+        "ing": "pinning"
+      },
+      "difficulty": 1
+    },
+    {
+      "en": "place",
+      "vi": "đặt để",
+      "forms": {
+        "base": "place",
+        "thirdPerson": "places",
+        "past": "placed",
+        "pastParticiple": "placed",
+        "ing": "placing"
+      },
+      "difficulty": 1
+    },
+    {
+      "en": "plead",
+      "vi": "van xin",
+      "forms": {
+        "base": "plead",
+        "thirdPerson": "pleads",
+        "past": "pleaded",
+        "pastParticiple": "pleaded",
+        "ing": "pleading"
+      },
+      "difficulty": 3
+    },
+    {
+      "en": "please",
+      "vi": "làm hài lòng",
+      "forms": {
+        "base": "please",
+        "thirdPerson": "pleases",
+        "past": "pleased",
+        "pastParticiple": "pleased",
+        "ing": "pleasing"
+      },
+      "difficulty": 1
+    },
+    {
+      "en": "plug",
+      "vi": "cắm điện",
+      "forms": {
+        "base": "plug",
+        "thirdPerson": "plugs",
+        "past": "plugged",
+        "pastParticiple": "plugged",
+        "ing": "plugging"
+      },
+      "difficulty": 1
+    },
+    {
+      "en": "point",
+      "vi": "chỉ tay",
+      "forms": {
+        "base": "point",
+        "thirdPerson": "points",
+        "past": "pointed",
+        "pastParticiple": "pointed",
+        "ing": "pointing"
+      },
+      "difficulty": 1,
+      "takesObject": false
+    },
+    {
+      "en": "poke",
+      "vi": "chọc",
+      "forms": {
+        "base": "poke",
+        "thirdPerson": "pokes",
+        "past": "poked",
+        "pastParticiple": "poked",
+        "ing": "poking"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "pop",
+      "vi": "bật nổ",
+      "forms": {
+        "base": "pop",
+        "thirdPerson": "pops",
+        "past": "popped",
+        "pastParticiple": "popped",
+        "ing": "popping"
+      },
+      "difficulty": 1,
+      "takesObject": false
+    },
+    {
+      "en": "possess",
+      "vi": "sở hữu",
+      "forms": {
+        "base": "possess",
+        "thirdPerson": "possesses",
+        "past": "possessed",
+        "pastParticiple": "possessed",
+        "ing": "possessing"
+      },
+      "difficulty": 3
+    },
+    {
+      "en": "postpone",
+      "vi": "hoãn lại",
+      "forms": {
+        "base": "postpone",
+        "thirdPerson": "postpones",
+        "past": "postponed",
+        "pastParticiple": "postponed",
+        "ing": "postponing"
+      },
+      "difficulty": 3
+    },
+    {
+      "en": "praise",
+      "vi": "khen ngợi",
+      "forms": {
+        "base": "praise",
+        "thirdPerson": "praises",
+        "past": "praised",
+        "pastParticiple": "praised",
+        "ing": "praising"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "pray",
+      "vi": "cầu nguyện",
+      "forms": {
+        "base": "pray",
+        "thirdPerson": "prays",
+        "past": "prayed",
+        "pastParticiple": "prayed",
+        "ing": "praying"
+      },
+      "difficulty": 2,
+      "takesObject": false
+    },
+    {
+      "en": "preach",
+      "vi": "thuyết giảng",
+      "forms": {
+        "base": "preach",
+        "thirdPerson": "preaches",
+        "past": "preached",
+        "pastParticiple": "preached",
+        "ing": "preaching"
+      },
+      "difficulty": 3,
+      "takesObject": false
+    },
+    {
+      "en": "predict",
+      "vi": "dự đoán",
+      "forms": {
+        "base": "predict",
+        "thirdPerson": "predicts",
+        "past": "predicted",
+        "pastParticiple": "predicted",
+        "ing": "predicting"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "prefer",
+      "vi": "ưa thích hơn",
+      "forms": {
+        "base": "prefer",
+        "thirdPerson": "prefers",
+        "past": "preferred",
+        "pastParticiple": "preferred",
+        "ing": "preferring"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "press",
+      "vi": "nhấn/ấn",
+      "forms": {
+        "base": "press",
+        "thirdPerson": "presses",
+        "past": "pressed",
+        "pastParticiple": "pressed",
+        "ing": "pressing"
+      },
+      "difficulty": 1
+    },
+    {
+      "en": "pretend",
+      "vi": "giả vờ",
+      "forms": {
+        "base": "pretend",
+        "thirdPerson": "pretends",
+        "past": "pretended",
+        "pastParticiple": "pretended",
+        "ing": "pretending"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "prevent",
+      "vi": "ngăn chặn",
+      "forms": {
+        "base": "prevent",
+        "thirdPerson": "prevents",
+        "past": "prevented",
+        "pastParticiple": "prevented",
+        "ing": "preventing"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "proceed",
+      "vi": "tiến hành",
+      "forms": {
+        "base": "proceed",
+        "thirdPerson": "proceeds",
+        "past": "proceeded",
+        "pastParticiple": "proceeded",
+        "ing": "proceeding"
+      },
+      "difficulty": 3,
+      "takesObject": false
+    },
+    {
+      "en": "produce",
+      "vi": "sản xuất",
+      "forms": {
+        "base": "produce",
+        "thirdPerson": "produces",
+        "past": "produced",
+        "pastParticiple": "produced",
+        "ing": "producing"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "progress",
+      "vi": "tiến bộ",
+      "forms": {
+        "base": "progress",
+        "thirdPerson": "progresses",
+        "past": "progressed",
+        "pastParticiple": "progressed",
+        "ing": "progressing"
+      },
+      "difficulty": 2,
+      "takesObject": false
+    },
+    {
+      "en": "prohibit",
+      "vi": "nghiêm cấm",
+      "forms": {
+        "base": "prohibit",
+        "thirdPerson": "prohibits",
+        "past": "prohibited",
+        "pastParticiple": "prohibited",
+        "ing": "prohibiting"
+      },
+      "difficulty": 3
+    },
+    {
+      "en": "project",
+      "vi": "dự đoán/chiếu",
+      "forms": {
+        "base": "project",
+        "thirdPerson": "projects",
+        "past": "projected",
+        "pastParticiple": "projected",
+        "ing": "projecting"
+      },
+      "difficulty": 3
+    },
+    {
+      "en": "promise",
+      "vi": "hứa hẹn",
+      "forms": {
+        "base": "promise",
+        "thirdPerson": "promises",
+        "past": "promised",
+        "pastParticiple": "promised",
+        "ing": "promising"
+      },
+      "difficulty": 1
+    },
+    {
+      "en": "propose",
+      "vi": "đề xuất",
+      "forms": {
+        "base": "propose",
+        "thirdPerson": "proposes",
+        "past": "proposed",
+        "pastParticiple": "proposed",
+        "ing": "proposing"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "punish",
+      "vi": "trừng phạt",
+      "forms": {
+        "base": "punish",
+        "thirdPerson": "punishes",
+        "past": "punished",
+        "pastParticiple": "punished",
+        "ing": "punishing"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "purchase",
+      "vi": "mua sắm",
+      "forms": {
+        "base": "purchase",
+        "thirdPerson": "purchases",
+        "past": "purchased",
+        "pastParticiple": "purchased",
+        "ing": "purchasing"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "pursue",
+      "vi": "theo đuổi",
+      "forms": {
+        "base": "pursue",
+        "thirdPerson": "pursues",
+        "past": "pursued",
+        "pastParticiple": "pursued",
+        "ing": "pursueing"
+      },
+      "difficulty": 3
+    },
+    {
+      "en": "puzzle",
+      "vi": "làm bối rối",
+      "forms": {
+        "base": "puzzle",
+        "thirdPerson": "puzzles",
+        "past": "puzzled",
+        "pastParticiple": "puzzled",
+        "ing": "puzzling"
+      },
+      "difficulty": 3
+    },
+    {
+      "en": "question",
+      "vi": "chất vấn",
+      "forms": {
+        "base": "question",
+        "thirdPerson": "questions",
+        "past": "questioned",
+        "pastParticiple": "questioned",
+        "ing": "questioning"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "queue",
+      "vi": "xếp hàng",
+      "forms": {
+        "base": "queue",
+        "thirdPerson": "queues",
+        "past": "queued",
+        "pastParticiple": "queued",
+        "ing": "queueing"
+      },
+      "difficulty": 2,
+      "takesObject": false
+    },
+    {
+      "en": "race",
+      "vi": "đua tài",
+      "forms": {
+        "base": "race",
+        "thirdPerson": "races",
+        "past": "raced",
+        "pastParticiple": "raced",
+        "ing": "racing"
+      },
+      "difficulty": 1,
+      "takesObject": false
+    },
+    {
+      "en": "rank",
+      "vi": "xếp hạng",
+      "forms": {
+        "base": "rank",
+        "thirdPerson": "ranks",
+        "past": "ranked",
+        "pastParticiple": "ranked",
+        "ing": "ranking"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "reach",
+      "vi": "đạt tới",
+      "forms": {
+        "base": "reach",
+        "thirdPerson": "reaches",
+        "past": "reached",
+        "pastParticiple": "reached",
+        "ing": "reaching"
+      },
+      "difficulty": 1
+    },
+    {
+      "en": "react",
+      "vi": "phản ứng",
+      "forms": {
+        "base": "react",
+        "thirdPerson": "reacts",
+        "past": "reacted",
+        "pastParticiple": "reacted",
+        "ing": "reacting"
+      },
+      "difficulty": 2,
+      "takesObject": false
+    },
+    {
+      "en": "realize",
+      "vi": "nhận ra",
+      "forms": {
+        "base": "realize",
+        "thirdPerson": "realizes",
+        "past": "realized",
+        "pastParticiple": "realized",
+        "ing": "realizing"
+      },
+      "difficulty": 1
+    },
+    {
+      "en": "reason",
+      "vi": "lý giải",
+      "forms": {
+        "base": "reason",
+        "thirdPerson": "reasons",
+        "past": "reasoned",
+        "pastParticiple": "reasoned",
+        "ing": "reasoning"
+      },
+      "difficulty": 3,
+      "takesObject": false
+    },
+    {
+      "en": "reassure",
+      "vi": "trấn an",
+      "forms": {
+        "base": "reassure",
+        "thirdPerson": "reassures",
+        "past": "reassured",
+        "pastParticiple": "reassured",
+        "ing": "reassuring"
+      },
+      "difficulty": 3
+    },
+    {
+      "en": "rebel",
+      "vi": "nổi loạn",
+      "forms": {
+        "base": "rebel",
+        "thirdPerson": "rebels",
+        "past": "rebelled",
+        "pastParticiple": "rebelled",
+        "ing": "rebelling"
+      },
+      "difficulty": 3,
+      "takesObject": false
+    },
+    {
+      "en": "recall",
+      "vi": "nhớ lại",
+      "forms": {
+        "base": "recall",
+        "thirdPerson": "recalls",
+        "past": "recalled",
+        "pastParticiple": "recalled",
+        "ing": "recalling"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "recognize",
+      "vi": "nhận ra",
+      "forms": {
+        "base": "recognize",
+        "thirdPerson": "recognizes",
+        "past": "recognized",
+        "pastParticiple": "recognized",
+        "ing": "recognizing"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "reduce",
+      "vi": "giảm bớt",
+      "forms": {
+        "base": "reduce",
+        "thirdPerson": "reduces",
+        "past": "reduced",
+        "pastParticiple": "reduced",
+        "ing": "reducing"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "reflect",
+      "vi": "phản ánh/suy ngẫm",
+      "forms": {
+        "base": "reflect",
+        "thirdPerson": "reflects",
+        "past": "reflected",
+        "pastParticiple": "reflected",
+        "ing": "reflecting"
+      },
+      "difficulty": 2,
+      "takesObject": false
+    },
+    {
+      "en": "refresh",
+      "vi": "làm mới",
+      "forms": {
+        "base": "refresh",
+        "thirdPerson": "refreshes",
+        "past": "refreshed",
+        "pastParticiple": "refreshed",
+        "ing": "refreshing"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "refuse",
+      "vi": "từ chối",
+      "forms": {
+        "base": "refuse",
+        "thirdPerson": "refuses",
+        "past": "refused",
+        "pastParticiple": "refused",
+        "ing": "refusing"
+      },
+      "difficulty": 1
+    },
+    {
+      "en": "regard",
+      "vi": "coi là",
+      "forms": {
+        "base": "regard",
+        "thirdPerson": "regards",
+        "past": "regarded",
+        "pastParticiple": "regarded",
+        "ing": "regarding"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "reject",
+      "vi": "từ chối",
+      "forms": {
+        "base": "reject",
+        "thirdPerson": "rejects",
+        "past": "rejected",
+        "pastParticiple": "rejected",
+        "ing": "rejecting"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "rely",
+      "vi": "dựa vào",
+      "forms": {
+        "base": "rely",
+        "thirdPerson": "relies",
+        "past": "relied",
+        "pastParticiple": "relied",
+        "ing": "relying"
+      },
+      "difficulty": 2,
+      "takesObject": false
+    },
+    {
+      "en": "remain",
+      "vi": "vẫn còn",
+      "forms": {
+        "base": "remain",
+        "thirdPerson": "remains",
+        "past": "remained",
+        "pastParticiple": "remained",
+        "ing": "remaining"
+      },
+      "difficulty": 2,
+      "takesObject": false
+    },
+    {
+      "en": "remind",
+      "vi": "nhắc nhở",
+      "forms": {
+        "base": "remind",
+        "thirdPerson": "reminds",
+        "past": "reminded",
+        "pastParticiple": "reminded",
+        "ing": "reminding"
+      },
+      "difficulty": 1
+    },
+    {
+      "en": "remove",
+      "vi": "loại bỏ",
+      "forms": {
+        "base": "remove",
+        "thirdPerson": "removes",
+        "past": "removed",
+        "pastParticiple": "removed",
+        "ing": "removing"
+      },
+      "difficulty": 1
+    },
+    {
+      "en": "repeat",
+      "vi": "lặp lại",
+      "forms": {
+        "base": "repeat",
+        "thirdPerson": "repeats",
+        "past": "repeated",
+        "pastParticiple": "repeated",
+        "ing": "repeating"
+      },
+      "difficulty": 1,
+      "takesObject": false
+    },
+    {
+      "en": "replace",
+      "vi": "thay thế",
+      "forms": {
+        "base": "replace",
+        "thirdPerson": "replaces",
+        "past": "replaced",
+        "pastParticiple": "replaced",
+        "ing": "replacing"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "reply",
+      "vi": "trả lời",
+      "forms": {
+        "base": "reply",
+        "thirdPerson": "replies",
+        "past": "replied",
+        "pastParticiple": "replied",
+        "ing": "replying"
+      },
+      "difficulty": 1,
+      "takesObject": false
+    },
+    {
+      "en": "represent",
+      "vi": "đại diện",
+      "forms": {
+        "base": "represent",
+        "thirdPerson": "represents",
+        "past": "represented",
+        "pastParticiple": "represented",
+        "ing": "representing"
+      },
+      "difficulty": 3
+    },
+    {
+      "en": "reproduce",
+      "vi": "sinh sản/sao chép",
+      "forms": {
+        "base": "reproduce",
+        "thirdPerson": "reproduces",
+        "past": "reproduced",
+        "pastParticiple": "reproduced",
+        "ing": "reproducing"
+      },
+      "difficulty": 3,
+      "takesObject": false
+    },
+    {
+      "en": "resemble",
+      "vi": "giống với",
+      "forms": {
+        "base": "resemble",
+        "thirdPerson": "resembles",
+        "past": "resembled",
+        "pastParticiple": "resembled",
+        "ing": "resembling"
+      },
+      "difficulty": 3
+    },
+    {
+      "en": "resist",
+      "vi": "chống lại",
+      "forms": {
+        "base": "resist",
+        "thirdPerson": "resists",
+        "past": "resisted",
+        "pastParticiple": "resisted",
+        "ing": "resisting"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "respect",
+      "vi": "tôn trọng",
+      "forms": {
+        "base": "respect",
+        "thirdPerson": "respects",
+        "past": "respected",
+        "pastParticiple": "respected",
+        "ing": "respecting"
+      },
+      "difficulty": 1
+    },
+    {
+      "en": "respond",
+      "vi": "phản hồi",
+      "forms": {
+        "base": "respond",
+        "thirdPerson": "responds",
+        "past": "responded",
+        "pastParticiple": "responded",
+        "ing": "responding"
+      },
+      "difficulty": 2,
+      "takesObject": false
+    },
+    {
+      "en": "rest",
+      "vi": "nghỉ ngơi",
+      "forms": {
+        "base": "rest",
+        "thirdPerson": "rests",
+        "past": "rested",
+        "pastParticiple": "rested",
+        "ing": "resting"
+      },
+      "difficulty": 1,
+      "takesObject": false
+    },
+    {
+      "en": "restore",
+      "vi": "khôi phục",
+      "forms": {
+        "base": "restore",
+        "thirdPerson": "restores",
+        "past": "restored",
+        "pastParticiple": "restored",
+        "ing": "restoring"
+      },
+      "difficulty": 3
+    },
+    {
+      "en": "restrict",
+      "vi": "hạn chế",
+      "forms": {
+        "base": "restrict",
+        "thirdPerson": "restricts",
+        "past": "restricted",
+        "pastParticiple": "restricted",
+        "ing": "restricting"
+      },
+      "difficulty": 3
+    },
+    {
+      "en": "result",
+      "vi": "dẫn đến kết quả",
+      "forms": {
+        "base": "result",
+        "thirdPerson": "results",
+        "past": "resulted",
+        "pastParticiple": "resulted",
+        "ing": "resulting"
+      },
+      "difficulty": 2,
+      "takesObject": false
+    },
+    {
+      "en": "resume",
+      "vi": "tiếp tục lại",
+      "forms": {
+        "base": "resume",
+        "thirdPerson": "resumes",
+        "past": "resumed",
+        "pastParticiple": "resumed",
+        "ing": "resuming"
+      },
+      "difficulty": 3
+    },
+    {
+      "en": "reveal",
+      "vi": "tiết lộ",
+      "forms": {
+        "base": "reveal",
+        "thirdPerson": "reveals",
+        "past": "revealed",
+        "pastParticiple": "revealed",
+        "ing": "revealing"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "reward",
+      "vi": "thưởng",
+      "forms": {
+        "base": "reward",
+        "thirdPerson": "rewards",
+        "past": "rewarded",
+        "pastParticiple": "rewarded",
+        "ing": "rewarding"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "roar",
+      "vi": "gầm rú",
+      "forms": {
+        "base": "roar",
+        "thirdPerson": "roars",
+        "past": "roared",
+        "pastParticiple": "roared",
+        "ing": "roaring"
+      },
+      "difficulty": 2,
+      "takesObject": false
+    },
+    {
+      "en": "rob",
+      "vi": "cướp",
+      "forms": {
+        "base": "rob",
+        "thirdPerson": "robs",
+        "past": "robbed",
+        "pastParticiple": "robbed",
+        "ing": "robbing"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "roll",
+      "vi": "lăn",
+      "forms": {
+        "base": "roll",
+        "thirdPerson": "rolls",
+        "past": "rolled",
+        "pastParticiple": "rolled",
+        "ing": "rolling"
+      },
+      "difficulty": 1,
+      "takesObject": false
+    },
+    {
+      "en": "rot",
+      "vi": "thối rữa",
+      "forms": {
+        "base": "rot",
+        "thirdPerson": "rots",
+        "past": "rotted",
+        "pastParticiple": "rotted",
+        "ing": "rotting"
+      },
+      "difficulty": 2,
+      "takesObject": false
+    },
+    {
+      "en": "rub",
+      "vi": "chà xát",
+      "forms": {
+        "base": "rub",
+        "thirdPerson": "rubs",
+        "past": "rubbed",
+        "pastParticiple": "rubbed",
+        "ing": "rubbing"
+      },
+      "difficulty": 1
+    },
+    {
+      "en": "rush",
+      "vi": "vội vã",
+      "forms": {
+        "base": "rush",
+        "thirdPerson": "rushes",
+        "past": "rushed",
+        "pastParticiple": "rushed",
+        "ing": "rushing"
+      },
+      "difficulty": 1,
+      "takesObject": false
+    },
+    {
+      "en": "rust",
+      "vi": "gỉ sét",
+      "forms": {
+        "base": "rust",
+        "thirdPerson": "rusts",
+        "past": "rusted",
+        "pastParticiple": "rusted",
+        "ing": "rusting"
+      },
+      "difficulty": 2,
+      "takesObject": false
+    },
+    {
+      "en": "satisfy",
+      "vi": "làm hài lòng",
+      "forms": {
+        "base": "satisfy",
+        "thirdPerson": "satisfies",
+        "past": "satisfied",
+        "pastParticiple": "satisfied",
+        "ing": "satisfying"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "scare",
+      "vi": "làm sợ hãi",
+      "forms": {
+        "base": "scare",
+        "thirdPerson": "scares",
+        "past": "scared",
+        "pastParticiple": "scared",
+        "ing": "scaring"
+      },
+      "difficulty": 1
+    },
+    {
+      "en": "scatter",
+      "vi": "rải rác",
+      "forms": {
+        "base": "scatter",
+        "thirdPerson": "scatters",
+        "past": "scattered",
+        "pastParticiple": "scattered",
+        "ing": "scattering"
+      },
+      "difficulty": 3,
+      "takesObject": false
+    },
+    {
+      "en": "scold",
+      "vi": "la mắng",
+      "forms": {
+        "base": "scold",
+        "thirdPerson": "scolds",
+        "past": "scolded",
+        "pastParticiple": "scolded",
+        "ing": "scolding"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "scratch",
+      "vi": "gãi/cào",
+      "forms": {
+        "base": "scratch",
+        "thirdPerson": "scratches",
+        "past": "scratched",
+        "pastParticiple": "scratched",
+        "ing": "scratching"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "seal",
+      "vi": "niêm phong",
+      "forms": {
+        "base": "seal",
+        "thirdPerson": "seals",
+        "past": "sealed",
+        "pastParticiple": "sealed",
+        "ing": "sealing"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "search",
+      "vi": "tìm kiếm",
+      "forms": {
+        "base": "search",
+        "thirdPerson": "searches",
+        "past": "searched",
+        "pastParticiple": "searched",
+        "ing": "searching"
+      },
+      "difficulty": 1,
+      "takesObject": false
+    },
+    {
+      "en": "separate",
+      "vi": "tách rời",
+      "forms": {
+        "base": "separate",
+        "thirdPerson": "separates",
+        "past": "separated",
+        "pastParticiple": "separated",
+        "ing": "separating"
+      },
+      "difficulty": 2,
+      "takesObject": false
+    },
+    {
+      "en": "settle",
+      "vi": "định cư/giải quyết",
+      "forms": {
+        "base": "settle",
+        "thirdPerson": "settles",
+        "past": "settled",
+        "pastParticiple": "settled",
+        "ing": "settling"
+      },
+      "difficulty": 2,
+      "takesObject": false
+    },
+    {
+      "en": "shape",
+      "vi": "định hình",
+      "forms": {
+        "base": "shape",
+        "thirdPerson": "shapes",
+        "past": "shaped",
+        "pastParticiple": "shaped",
+        "ing": "shaping"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "share",
+      "vi": "chia sẻ",
+      "forms": {
+        "base": "share",
+        "thirdPerson": "shares",
+        "past": "shared",
+        "pastParticiple": "shared",
+        "ing": "sharing"
+      },
+      "difficulty": 1
+    },
+    {
+      "en": "shift",
+      "vi": "chuyển dịch",
+      "forms": {
+        "base": "shift",
+        "thirdPerson": "shifts",
+        "past": "shifted",
+        "pastParticiple": "shifted",
+        "ing": "shifting"
+      },
+      "difficulty": 2,
+      "takesObject": false
+    },
+    {
+      "en": "shrug",
+      "vi": "nhún vai",
+      "forms": {
+        "base": "shrug",
+        "thirdPerson": "shrugs",
+        "past": "shruged",
+        "pastParticiple": "shruged",
+        "ing": "shruging"
+      },
+      "difficulty": 2,
+      "takesObject": false
+    },
+    {
+      "en": "signal",
+      "vi": "ra hiệu",
+      "forms": {
+        "base": "signal",
+        "thirdPerson": "signals",
+        "past": "signaled",
+        "pastParticiple": "signaled",
+        "ing": "signaling"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "simplify",
+      "vi": "đơn giản hóa",
+      "forms": {
+        "base": "simplify",
+        "thirdPerson": "simplifies",
+        "past": "simplified",
+        "pastParticiple": "simplified",
+        "ing": "simplifying"
+      },
+      "difficulty": 3
+    },
+    {
+      "en": "skip",
+      "vi": "nhảy dây/bỏ qua",
+      "forms": {
+        "base": "skip",
+        "thirdPerson": "skips",
+        "past": "skipped",
+        "pastParticiple": "skipped",
+        "ing": "skipping"
+      },
+      "difficulty": 1
+    },
+    {
+      "en": "smash",
+      "vi": "đập vỡ",
+      "forms": {
+        "base": "smash",
+        "thirdPerson": "smashes",
+        "past": "smashed",
+        "pastParticiple": "smashed",
+        "ing": "smashing"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "smell",
+      "vi": "ngửi",
+      "forms": {
+        "base": "smell",
+        "thirdPerson": "smells",
+        "past": "smelled",
+        "pastParticiple": "smelled",
+        "ing": "smelling"
+      },
+      "difficulty": 1
+    },
+    {
+      "en": "smooth",
+      "vi": "làm mịn",
+      "forms": {
+        "base": "smooth",
+        "thirdPerson": "smooths",
+        "past": "smoothed",
+        "pastParticiple": "smoothed",
+        "ing": "smoothing"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "soak",
+      "vi": "ngâm nước",
+      "forms": {
+        "base": "soak",
+        "thirdPerson": "soaks",
+        "past": "soaked",
+        "pastParticiple": "soaked",
+        "ing": "soaking"
+      },
+      "difficulty": 2,
+      "takesObject": false
+    },
+    {
+      "en": "soothe",
+      "vi": "xoa dịu",
+      "forms": {
+        "base": "soothe",
+        "thirdPerson": "soothes",
+        "past": "soothed",
+        "pastParticiple": "soothed",
+        "ing": "soothing"
+      },
+      "difficulty": 3
+    },
+    {
+      "en": "sort",
+      "vi": "phân loại",
+      "forms": {
+        "base": "sort",
+        "thirdPerson": "sorts",
+        "past": "sorted",
+        "pastParticiple": "sorted",
+        "ing": "sorting"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "sound",
+      "vi": "nghe có vẻ",
+      "forms": {
+        "base": "sound",
+        "thirdPerson": "sounds",
+        "past": "sounded",
+        "pastParticiple": "sounded",
+        "ing": "sounding"
+      },
+      "difficulty": 1,
+      "takesObject": false
+    },
+    {
+      "en": "spare",
+      "vi": "dành ra",
+      "forms": {
+        "base": "spare",
+        "thirdPerson": "spares",
+        "past": "spared",
+        "pastParticiple": "spared",
+        "ing": "sparing"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "sparkle",
+      "vi": "lấp lánh",
+      "forms": {
+        "base": "sparkle",
+        "thirdPerson": "sparkles",
+        "past": "sparkled",
+        "pastParticiple": "sparkled",
+        "ing": "sparkling"
+      },
+      "difficulty": 2,
+      "takesObject": false
+    },
+    {
+      "en": "spark",
+      "vi": "khơi mào",
+      "forms": {
+        "base": "spark",
+        "thirdPerson": "sparks",
+        "past": "sparked",
+        "pastParticiple": "sparked",
+        "ing": "sparking"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "spoil",
+      "vi": "làm hỏng/nuông chiều",
+      "forms": {
+        "base": "spoil",
+        "thirdPerson": "spoils",
+        "past": "spoiled",
+        "pastParticiple": "spoiled",
+        "ing": "spoiling"
+      },
+      "difficulty": 2,
+      "takesObject": false
+    },
+    {
+      "en": "spot",
+      "vi": "phát hiện ra",
+      "forms": {
+        "base": "spot",
+        "thirdPerson": "spots",
+        "past": "spotted",
+        "pastParticiple": "spotted",
+        "ing": "spotting"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "squeeze",
+      "vi": "ép/vắt",
+      "forms": {
+        "base": "squeeze",
+        "thirdPerson": "squeezes",
+        "past": "squeezed",
+        "pastParticiple": "squeezed",
+        "ing": "squeezing"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "stain",
+      "vi": "làm ố bẩn",
+      "forms": {
+        "base": "stain",
+        "thirdPerson": "stains",
+        "past": "stained",
+        "pastParticiple": "stained",
+        "ing": "staining"
+      },
+      "difficulty": 2,
+      "takesObject": false
+    },
+    {
+      "en": "stare",
+      "vi": "nhìn chằm chằm",
+      "forms": {
+        "base": "stare",
+        "thirdPerson": "stares",
+        "past": "stared",
+        "pastParticiple": "stared",
+        "ing": "staring"
+      },
+      "difficulty": 2,
+      "takesObject": false
+    },
+    {
+      "en": "startle",
+      "vi": "làm giật mình",
+      "forms": {
+        "base": "startle",
+        "thirdPerson": "startles",
+        "past": "startled",
+        "pastParticiple": "startled",
+        "ing": "startling"
+      },
+      "difficulty": 3
+    },
+    {
+      "en": "starve",
+      "vi": "chết đói",
+      "forms": {
+        "base": "starve",
+        "thirdPerson": "starves",
+        "past": "starved",
+        "pastParticiple": "starved",
+        "ing": "starving"
+      },
+      "difficulty": 2,
+      "takesObject": false
+    },
+    {
+      "en": "state",
+      "vi": "phát biểu",
+      "forms": {
+        "base": "state",
+        "thirdPerson": "states",
+        "past": "stated",
+        "pastParticiple": "stated",
+        "ing": "stating"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "steer",
+      "vi": "lái/điều khiển",
+      "forms": {
+        "base": "steer",
+        "thirdPerson": "steers",
+        "past": "steered",
+        "pastParticiple": "steered",
+        "ing": "steering"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "stimulate",
+      "vi": "kích thích",
+      "forms": {
+        "base": "stimulate",
+        "thirdPerson": "stimulates",
+        "past": "stimulated",
+        "pastParticiple": "stimulated",
+        "ing": "stimulating"
+      },
+      "difficulty": 3
+    },
+    {
+      "en": "stitch",
+      "vi": "khâu vá",
+      "forms": {
+        "base": "stitch",
+        "thirdPerson": "stitches",
+        "past": "stitched",
+        "pastParticiple": "stitched",
+        "ing": "stitching"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "store",
+      "vi": "lưu trữ",
+      "forms": {
+        "base": "store",
+        "thirdPerson": "stores",
+        "past": "stored",
+        "pastParticiple": "stored",
+        "ing": "storing"
+      },
+      "difficulty": 1
+    },
+    {
+      "en": "strengthen",
+      "vi": "củng cố",
+      "forms": {
+        "base": "strengthen",
+        "thirdPerson": "strengthens",
+        "past": "strengthened",
+        "pastParticiple": "strengthened",
+        "ing": "strengthening"
+      },
+      "difficulty": 3,
+      "takesObject": false
+    },
+    {
+      "en": "stretch",
+      "vi": "kéo giãn",
+      "forms": {
+        "base": "stretch",
+        "thirdPerson": "stretches",
+        "past": "stretched",
+        "pastParticiple": "stretched",
+        "ing": "stretching"
+      },
+      "difficulty": 1,
+      "takesObject": false
+    },
+    {
+      "en": "succeed",
+      "vi": "thành công",
+      "forms": {
+        "base": "succeed",
+        "thirdPerson": "succeeds",
+        "past": "succeeded",
+        "pastParticiple": "succeeded",
+        "ing": "succeeding"
+      },
+      "difficulty": 2,
+      "takesObject": false
+    },
+    {
+      "en": "suffer",
+      "vi": "chịu đựng",
+      "forms": {
+        "base": "suffer",
+        "thirdPerson": "suffers",
+        "past": "suffered",
+        "pastParticiple": "suffered",
+        "ing": "suffering"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "suggest",
+      "vi": "gợi ý",
+      "forms": {
+        "base": "suggest",
+        "thirdPerson": "suggests",
+        "past": "suggested",
+        "pastParticiple": "suggested",
+        "ing": "suggesting"
+      },
+      "difficulty": 1
+    },
+    {
+      "en": "suit",
+      "vi": "phù hợp",
+      "forms": {
+        "base": "suit",
+        "thirdPerson": "suits",
+        "past": "suited",
+        "pastParticiple": "suited",
+        "ing": "suiting"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "support",
+      "vi": "ủng hộ",
+      "forms": {
+        "base": "support",
+        "thirdPerson": "supports",
+        "past": "supported",
+        "pastParticiple": "supported",
+        "ing": "supporting"
+      },
+      "difficulty": 1
+    },
+    {
+      "en": "suppose",
+      "vi": "cho rằng",
+      "forms": {
+        "base": "suppose",
+        "thirdPerson": "supposes",
+        "past": "supposed",
+        "pastParticiple": "supposed",
+        "ing": "supposing"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "surprise",
+      "vi": "làm ngạc nhiên",
+      "forms": {
+        "base": "surprise",
+        "thirdPerson": "surprises",
+        "past": "surprised",
+        "pastParticiple": "surprised",
+        "ing": "surprising"
+      },
+      "difficulty": 1
+    },
+    {
+      "en": "surrender",
+      "vi": "đầu hàng",
+      "forms": {
+        "base": "surrender",
+        "thirdPerson": "surrenders",
+        "past": "surrendered",
+        "pastParticiple": "surrendered",
+        "ing": "surrendering"
+      },
+      "difficulty": 3,
+      "takesObject": false
+    },
+    {
+      "en": "surround",
+      "vi": "bao quanh",
+      "forms": {
+        "base": "surround",
+        "thirdPerson": "surrounds",
+        "past": "surrounded",
+        "pastParticiple": "surrounded",
+        "ing": "surrounding"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "survive",
+      "vi": "sống sót",
+      "forms": {
+        "base": "survive",
+        "thirdPerson": "survives",
+        "past": "survived",
+        "pastParticiple": "survived",
+        "ing": "surviving"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "suspect",
+      "vi": "nghi ngờ",
+      "forms": {
+        "base": "suspect",
+        "thirdPerson": "suspects",
+        "past": "suspected",
+        "pastParticiple": "suspected",
+        "ing": "suspecting"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "sustain",
+      "vi": "duy trì",
+      "forms": {
+        "base": "sustain",
+        "thirdPerson": "sustains",
+        "past": "sustained",
+        "pastParticiple": "sustained",
+        "ing": "sustaining"
+      },
+      "difficulty": 3
+    },
+    {
+      "en": "swap",
+      "vi": "trao đổi",
+      "forms": {
+        "base": "swap",
+        "thirdPerson": "swaps",
+        "past": "swapped",
+        "pastParticiple": "swapped",
+        "ing": "swapping"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "tackle",
+      "vi": "giải quyết/xử lý",
+      "forms": {
+        "base": "tackle",
+        "thirdPerson": "tackles",
+        "past": "tackled",
+        "pastParticiple": "tackled",
+        "ing": "tackling"
+      },
+      "difficulty": 3
+    },
+    {
+      "en": "tap",
+      "vi": "gõ nhẹ",
+      "forms": {
+        "base": "tap",
+        "thirdPerson": "taps",
+        "past": "tapped",
+        "pastParticiple": "tapped",
+        "ing": "tapping"
+      },
+      "difficulty": 1
+    },
+    {
+      "en": "target",
+      "vi": "nhắm mục tiêu",
+      "forms": {
+        "base": "target",
+        "thirdPerson": "targets",
+        "past": "targeted",
+        "pastParticiple": "targeted",
+        "ing": "targeting"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "tease",
+      "vi": "trêu chọc",
+      "forms": {
+        "base": "tease",
+        "thirdPerson": "teases",
+        "past": "teased",
+        "pastParticiple": "teased",
+        "ing": "teasing"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "tempt",
+      "vi": "cám dỗ",
+      "forms": {
+        "base": "tempt",
+        "thirdPerson": "tempts",
+        "past": "tempted",
+        "pastParticiple": "tempted",
+        "ing": "tempting"
+      },
+      "difficulty": 3
+    },
+    {
+      "en": "terrify",
+      "vi": "làm khiếp sợ",
+      "forms": {
+        "base": "terrify",
+        "thirdPerson": "terrifies",
+        "past": "terrified",
+        "pastParticiple": "terrified",
+        "ing": "terrifying"
+      },
+      "difficulty": 3
+    },
+    {
+      "en": "test",
+      "vi": "kiểm tra",
+      "forms": {
+        "base": "test",
+        "thirdPerson": "tests",
+        "past": "tested",
+        "pastParticiple": "tested",
+        "ing": "testing"
+      },
+      "difficulty": 1
+    },
+    {
+      "en": "tickle",
+      "vi": "cù lét",
+      "forms": {
+        "base": "tickle",
+        "thirdPerson": "tickles",
+        "past": "tickled",
+        "pastParticiple": "tickled",
+        "ing": "tickling"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "tie",
+      "vi": "buộc/thắt",
+      "forms": {
+        "base": "tie",
+        "thirdPerson": "ties",
+        "past": "tied",
+        "pastParticiple": "tied",
+        "ing": "tieing"
+      },
+      "difficulty": 1
+    },
+    {
+      "en": "tip",
+      "vi": "nghiêng/boa tiền",
+      "forms": {
+        "base": "tip",
+        "thirdPerson": "tips",
+        "past": "tipped",
+        "pastParticiple": "tipped",
+        "ing": "tipping"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "tolerate",
+      "vi": "chịu đựng",
+      "forms": {
+        "base": "tolerate",
+        "thirdPerson": "tolerates",
+        "past": "tolerated",
+        "pastParticiple": "tolerated",
+        "ing": "tolerating"
+      },
+      "difficulty": 3
+    },
+    {
+      "en": "torture",
+      "vi": "tra tấn",
+      "forms": {
+        "base": "torture",
+        "thirdPerson": "tortures",
+        "past": "tortured",
+        "pastParticiple": "tortured",
+        "ing": "torturing"
+      },
+      "difficulty": 3
+    },
+    {
+      "en": "touch",
+      "vi": "chạm vào",
+      "forms": {
+        "base": "touch",
+        "thirdPerson": "touches",
+        "past": "touched",
+        "pastParticiple": "touched",
+        "ing": "touching"
+      },
+      "difficulty": 1
+    },
+    {
+      "en": "tour",
+      "vi": "du lịch tham quan",
+      "forms": {
+        "base": "tour",
+        "thirdPerson": "tours",
+        "past": "toured",
+        "pastParticiple": "toured",
+        "ing": "touring"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "trace",
+      "vi": "lần theo dấu vết",
+      "forms": {
+        "base": "trace",
+        "thirdPerson": "traces",
+        "past": "traced",
+        "pastParticiple": "traced",
+        "ing": "tracing"
+      },
+      "difficulty": 3
+    },
+    {
+      "en": "trade",
+      "vi": "buôn bán",
+      "forms": {
+        "base": "trade",
+        "thirdPerson": "trades",
+        "past": "traded",
+        "pastParticiple": "traded",
+        "ing": "trading"
+      },
+      "difficulty": 2,
+      "takesObject": false
+    },
+    {
+      "en": "trap",
+      "vi": "bẫy",
+      "forms": {
+        "base": "trap",
+        "thirdPerson": "traps",
+        "past": "trapped",
+        "pastParticiple": "trapped",
+        "ing": "trapping"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "treat",
+      "vi": "đối xử/điều trị",
+      "forms": {
+        "base": "treat",
+        "thirdPerson": "treats",
+        "past": "treated",
+        "pastParticiple": "treated",
+        "ing": "treating"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "trick",
+      "vi": "lừa gạt",
+      "forms": {
+        "base": "trick",
+        "thirdPerson": "tricks",
+        "past": "tricked",
+        "pastParticiple": "tricked",
+        "ing": "tricking"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "trip",
+      "vi": "vấp ngã",
+      "forms": {
+        "base": "trip",
+        "thirdPerson": "trips",
+        "past": "tripped",
+        "pastParticiple": "tripped",
+        "ing": "tripping"
+      },
+      "difficulty": 2,
+      "takesObject": false
+    },
+    {
+      "en": "trust",
+      "vi": "tin tưởng",
+      "forms": {
+        "base": "trust",
+        "thirdPerson": "trusts",
+        "past": "trusted",
+        "pastParticiple": "trusted",
+        "ing": "trusting"
+      },
+      "difficulty": 1
+    },
+    {
+      "en": "tuck",
+      "vi": "nhét/giắt vào",
+      "forms": {
+        "base": "tuck",
+        "thirdPerson": "tucks",
+        "past": "tucked",
+        "pastParticiple": "tucked",
+        "ing": "tucking"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "tune",
+      "vi": "chỉnh âm",
+      "forms": {
+        "base": "tune",
+        "thirdPerson": "tunes",
+        "past": "tuned",
+        "pastParticiple": "tuned",
+        "ing": "tuning"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "twist",
+      "vi": "vặn xoắn",
+      "forms": {
+        "base": "twist",
+        "thirdPerson": "twists",
+        "past": "twisted",
+        "pastParticiple": "twisted",
+        "ing": "twisting"
+      },
+      "difficulty": 2,
+      "takesObject": false
+    },
+    {
+      "en": "undergo",
+      "vi": "trải qua",
+      "forms": {
+        "base": "undergo",
+        "thirdPerson": "undergoes",
+        "past": "undergoed",
+        "pastParticiple": "undergoed",
+        "ing": "undergoing"
+      },
+      "difficulty": 3
+    },
+    {
+      "en": "undermine",
+      "vi": "làm suy yếu",
+      "forms": {
+        "base": "undermine",
+        "thirdPerson": "undermines",
+        "past": "undermined",
+        "pastParticiple": "undermined",
+        "ing": "undermining"
+      },
+      "difficulty": 3
+    },
+    {
+      "en": "unite",
+      "vi": "đoàn kết",
+      "forms": {
+        "base": "unite",
+        "thirdPerson": "unites",
+        "past": "united",
+        "pastParticiple": "united",
+        "ing": "uniting"
+      },
+      "difficulty": 2,
+      "takesObject": false
+    },
+    {
+      "en": "urge",
+      "vi": "thúc giục",
+      "forms": {
+        "base": "urge",
+        "thirdPerson": "urges",
+        "past": "urged",
+        "pastParticiple": "urged",
+        "ing": "urging"
+      },
+      "difficulty": 3
+    },
+    {
+      "en": "vanish",
+      "vi": "biến mất",
+      "forms": {
+        "base": "vanish",
+        "thirdPerson": "vanishes",
+        "past": "vanished",
+        "pastParticiple": "vanished",
+        "ing": "vanishing"
+      },
+      "difficulty": 3,
+      "takesObject": false
+    },
+    {
+      "en": "vary",
+      "vi": "thay đổi/khác nhau",
+      "forms": {
+        "base": "vary",
+        "thirdPerson": "varies",
+        "past": "varied",
+        "pastParticiple": "varied",
+        "ing": "varying"
+      },
+      "difficulty": 2,
+      "takesObject": false
+    },
+    {
+      "en": "verify",
+      "vi": "xác minh",
+      "forms": {
+        "base": "verify",
+        "thirdPerson": "verifies",
+        "past": "verified",
+        "pastParticiple": "verified",
+        "ing": "verifying"
+      },
+      "difficulty": 3
+    },
+    {
+      "en": "vibrate",
+      "vi": "rung động",
+      "forms": {
+        "base": "vibrate",
+        "thirdPerson": "vibrates",
+        "past": "vibrated",
+        "pastParticiple": "vibrated",
+        "ing": "vibrating"
+      },
+      "difficulty": 3,
+      "takesObject": false
+    },
+    {
+      "en": "view",
+      "vi": "xem xét",
+      "forms": {
+        "base": "view",
+        "thirdPerson": "views",
+        "past": "viewed",
+        "pastParticiple": "viewed",
+        "ing": "viewing"
+      },
+      "difficulty": 1
+    },
+    {
+      "en": "vote",
+      "vi": "bỏ phiếu",
+      "forms": {
+        "base": "vote",
+        "thirdPerson": "votes",
+        "past": "voted",
+        "pastParticiple": "voted",
+        "ing": "voting"
+      },
+      "difficulty": 2,
+      "takesObject": false
+    },
+    {
+      "en": "warm",
+      "vi": "làm ấm",
+      "forms": {
+        "base": "warm",
+        "thirdPerson": "warms",
+        "past": "warmed",
+        "pastParticiple": "warmed",
+        "ing": "warming"
+      },
+      "difficulty": 1,
+      "takesObject": false
+    },
+    {
+      "en": "waste",
+      "vi": "lãng phí",
+      "forms": {
+        "base": "waste",
+        "thirdPerson": "wastes",
+        "past": "wasted",
+        "pastParticiple": "wasted",
+        "ing": "wasting"
+      },
+      "difficulty": 1
+    },
+    {
+      "en": "whistle",
+      "vi": "huýt sáo",
+      "forms": {
+        "base": "whistle",
+        "thirdPerson": "whistles",
+        "past": "whistled",
+        "pastParticiple": "whistled",
+        "ing": "whistling"
+      },
+      "difficulty": 2,
+      "takesObject": false
+    },
+    {
+      "en": "widen",
+      "vi": "mở rộng ra",
+      "forms": {
+        "base": "widen",
+        "thirdPerson": "widens",
+        "past": "widened",
+        "pastParticiple": "widened",
+        "ing": "widening"
+      },
+      "difficulty": 2,
+      "takesObject": false
+    },
+    {
+      "en": "wipe",
+      "vi": "lau chùi",
+      "forms": {
+        "base": "wipe",
+        "thirdPerson": "wipes",
+        "past": "wiped",
+        "pastParticiple": "wiped",
+        "ing": "wiping"
+      },
+      "difficulty": 1
+    },
+    {
+      "en": "wish",
+      "vi": "ước muốn",
+      "forms": {
+        "base": "wish",
+        "thirdPerson": "wishes",
+        "past": "wished",
+        "pastParticiple": "wished",
+        "ing": "wishing"
+      },
+      "difficulty": 1
+    },
+    {
+      "en": "witness",
+      "vi": "chứng kiến",
+      "forms": {
+        "base": "witness",
+        "thirdPerson": "witnesses",
+        "past": "witnessed",
+        "pastParticiple": "witnessed",
+        "ing": "witnessing"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "wonder",
+      "vi": "tự hỏi",
+      "forms": {
+        "base": "wonder",
+        "thirdPerson": "wonders",
+        "past": "wondered",
+        "pastParticiple": "wondered",
+        "ing": "wondering"
+      },
+      "difficulty": 1,
+      "takesObject": false
+    },
+    {
+      "en": "worry",
+      "vi": "lo lắng",
+      "forms": {
+        "base": "worry",
+        "thirdPerson": "worries",
+        "past": "worried",
+        "pastParticiple": "worried",
+        "ing": "worrying"
+      },
+      "difficulty": 1,
+      "takesObject": false
+    },
+    {
+      "en": "wrestle",
+      "vi": "vật lộn",
+      "forms": {
+        "base": "wrestle",
+        "thirdPerson": "wrestles",
+        "past": "wrestled",
+        "pastParticiple": "wrestled",
+        "ing": "wrestling"
+      },
+      "difficulty": 3,
+      "takesObject": false
+    },
+    {
+      "en": "yell",
+      "vi": "la hét",
+      "forms": {
+        "base": "yell",
+        "thirdPerson": "yells",
+        "past": "yelled",
+        "pastParticiple": "yelled",
+        "ing": "yelling"
+      },
+      "difficulty": 1,
+      "takesObject": false
+    },
+    {
+      "en": "zip",
+      "vi": "kéo khóa",
+      "forms": {
+        "base": "zip",
+        "thirdPerson": "zips",
+        "past": "zipped",
+        "pastParticiple": "zipped",
+        "ing": "zipping"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "abandon",
+      "vi": "từ bỏ/bỏ rơi",
+      "forms": {
+        "base": "abandon",
+        "thirdPerson": "abandons",
+        "past": "abandoned",
+        "pastParticiple": "abandoned",
+        "ing": "abandoning"
+      },
+      "difficulty": 3
+    },
+    {
+      "en": "abolish",
+      "vi": "bãi bỏ",
+      "forms": {
+        "base": "abolish",
+        "thirdPerson": "abolishes",
+        "past": "abolished",
+        "pastParticiple": "abolished",
+        "ing": "abolishing"
+      },
+      "difficulty": 3
+    },
+    {
+      "en": "absorb",
+      "vi": "hấp thụ",
+      "forms": {
+        "base": "absorb",
+        "thirdPerson": "absorbs",
+        "past": "absorbed",
+        "pastParticiple": "absorbed",
+        "ing": "absorbing"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "accelerate",
+      "vi": "tăng tốc",
+      "forms": {
+        "base": "accelerate",
+        "thirdPerson": "accelerates",
+        "past": "accelerated",
+        "pastParticiple": "accelerated",
+        "ing": "accelerating"
+      },
+      "difficulty": 3
+    },
+    {
+      "en": "accompany",
+      "vi": "đi cùng",
+      "forms": {
+        "base": "accompany",
+        "thirdPerson": "accompanies",
+        "past": "accompanied",
+        "pastParticiple": "accompanied",
+        "ing": "accompanying"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "accomplish",
+      "vi": "hoàn thành",
+      "forms": {
+        "base": "accomplish",
+        "thirdPerson": "accomplishes",
+        "past": "accomplished",
+        "pastParticiple": "accomplished",
+        "ing": "accomplishing"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "accumulate",
+      "vi": "tích lũy",
+      "forms": {
+        "base": "accumulate",
+        "thirdPerson": "accumulates",
+        "past": "accumulated",
+        "pastParticiple": "accumulated",
+        "ing": "accumulating"
+      },
+      "difficulty": 3,
+      "takesObject": false
+    },
+    {
+      "en": "accuse",
+      "vi": "buộc tội",
+      "forms": {
+        "base": "accuse",
+        "thirdPerson": "accuses",
+        "past": "accused",
+        "pastParticiple": "accused",
+        "ing": "accusing"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "acknowledge",
+      "vi": "thừa nhận",
+      "forms": {
+        "base": "acknowledge",
+        "thirdPerson": "acknowledges",
+        "past": "acknowledged",
+        "pastParticiple": "acknowledged",
+        "ing": "acknowledging"
+      },
+      "difficulty": 3
+    },
+    {
+      "en": "activate",
+      "vi": "kích hoạt",
+      "forms": {
+        "base": "activate",
+        "thirdPerson": "activates",
+        "past": "activated",
+        "pastParticiple": "activated",
+        "ing": "activating"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "administer",
+      "vi": "quản lý/thi hành",
+      "forms": {
+        "base": "administer",
+        "thirdPerson": "administers",
+        "past": "administered",
+        "pastParticiple": "administered",
+        "ing": "administering"
+      },
+      "difficulty": 3
+    },
+    {
+      "en": "adore",
+      "vi": "yêu quý",
+      "forms": {
+        "base": "adore",
+        "thirdPerson": "adores",
+        "past": "adored",
+        "pastParticiple": "adored",
+        "ing": "adoring"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "advertise",
+      "vi": "quảng cáo",
+      "forms": {
+        "base": "advertise",
+        "thirdPerson": "advertises",
+        "past": "advertised",
+        "pastParticiple": "advertised",
+        "ing": "advertising"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "advocate",
+      "vi": "ủng hộ",
+      "forms": {
+        "base": "advocate",
+        "thirdPerson": "advocates",
+        "past": "advocated",
+        "pastParticiple": "advocated",
+        "ing": "advocating"
+      },
+      "difficulty": 3,
+      "takesObject": false
+    },
+    {
+      "en": "alarm",
+      "vi": "báo động",
+      "forms": {
+        "base": "alarm",
+        "thirdPerson": "alarms",
+        "past": "alarmed",
+        "pastParticiple": "alarmed",
+        "ing": "alarming"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "alert",
+      "vi": "cảnh báo",
+      "forms": {
+        "base": "alert",
+        "thirdPerson": "alerts",
+        "past": "alerted",
+        "pastParticiple": "alerted",
+        "ing": "alerting"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "align",
+      "vi": "căn chỉnh",
+      "forms": {
+        "base": "align",
+        "thirdPerson": "aligns",
+        "past": "aligned",
+        "pastParticiple": "aligned",
+        "ing": "aligning"
+      },
+      "difficulty": 3,
+      "takesObject": false
+    },
+    {
+      "en": "allocate",
+      "vi": "phân bổ",
+      "forms": {
+        "base": "allocate",
+        "thirdPerson": "allocates",
+        "past": "allocated",
+        "pastParticiple": "allocated",
+        "ing": "allocating"
+      },
+      "difficulty": 3
+    },
+    {
+      "en": "alter",
+      "vi": "thay đổi",
+      "forms": {
+        "base": "alter",
+        "thirdPerson": "alters",
+        "past": "altered",
+        "pastParticiple": "altered",
+        "ing": "altering"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "amend",
+      "vi": "sửa đổi",
+      "forms": {
+        "base": "amend",
+        "thirdPerson": "amends",
+        "past": "amended",
+        "pastParticiple": "amended",
+        "ing": "amending"
+      },
+      "difficulty": 3
+    },
+    {
+      "en": "amuse",
+      "vi": "làm vui thích",
+      "forms": {
+        "base": "amuse",
+        "thirdPerson": "amuses",
+        "past": "amused",
+        "pastParticiple": "amused",
+        "ing": "amusing"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "anchor",
+      "vi": "neo giữ",
+      "forms": {
+        "base": "anchor",
+        "thirdPerson": "anchors",
+        "past": "anchored",
+        "pastParticiple": "anchored",
+        "ing": "anchoring"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "animate",
+      "vi": "làm sinh động",
+      "forms": {
+        "base": "animate",
+        "thirdPerson": "animates",
+        "past": "animated",
+        "pastParticiple": "animated",
+        "ing": "animating"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "annoy",
+      "vi": "làm phiền",
+      "forms": {
+        "base": "annoy",
+        "thirdPerson": "annoys",
+        "past": "annoyed",
+        "pastParticiple": "annoyed",
+        "ing": "annoying"
+      },
+      "difficulty": 1
+    },
+    {
+      "en": "annul",
+      "vi": "hủy bỏ",
+      "forms": {
+        "base": "annul",
+        "thirdPerson": "annuls",
+        "past": "annuled",
+        "pastParticiple": "annuled",
+        "ing": "annuling"
+      },
+      "difficulty": 3
+    },
+    {
+      "en": "anticipate",
+      "vi": "dự đoán trước",
+      "forms": {
+        "base": "anticipate",
+        "thirdPerson": "anticipates",
+        "past": "anticipated",
+        "pastParticiple": "anticipated",
+        "ing": "anticipating"
+      },
+      "difficulty": 3
+    },
+    {
+      "en": "appoint",
+      "vi": "bổ nhiệm",
+      "forms": {
+        "base": "appoint",
+        "thirdPerson": "appoints",
+        "past": "appointed",
+        "pastParticiple": "appointed",
+        "ing": "appointing"
+      },
+      "difficulty": 3
+    },
+    {
+      "en": "appraise",
+      "vi": "thẩm định",
+      "forms": {
+        "base": "appraise",
+        "thirdPerson": "appraises",
+        "past": "appraised",
+        "pastParticiple": "appraised",
+        "ing": "appraising"
+      },
+      "difficulty": 3
+    },
+    {
+      "en": "approach",
+      "vi": "tiếp cận",
+      "forms": {
+        "base": "approach",
+        "thirdPerson": "approaches",
+        "past": "approached",
+        "pastParticiple": "approached",
+        "ing": "approaching"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "arm",
+      "vi": "trang bị vũ khí",
+      "forms": {
+        "base": "arm",
+        "thirdPerson": "arms",
+        "past": "armed",
+        "pastParticiple": "armed",
+        "ing": "arming"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "arouse",
+      "vi": "khơi dậy",
+      "forms": {
+        "base": "arouse",
+        "thirdPerson": "arouses",
+        "past": "aroused",
+        "pastParticiple": "aroused",
+        "ing": "arousing"
+      },
+      "difficulty": 3
+    },
+    {
+      "en": "articulate",
+      "vi": "diễn đạt rõ ràng",
+      "forms": {
+        "base": "articulate",
+        "thirdPerson": "articulates",
+        "past": "articulated",
+        "pastParticiple": "articulated",
+        "ing": "articulating"
+      },
+      "difficulty": 3
+    },
+    {
+      "en": "ascend",
+      "vi": "đi lên",
+      "forms": {
+        "base": "ascend",
+        "thirdPerson": "ascends",
+        "past": "ascended",
+        "pastParticiple": "ascended",
+        "ing": "ascending"
+      },
+      "difficulty": 3
+    },
+    {
+      "en": "aspire",
+      "vi": "khao khát",
+      "forms": {
+        "base": "aspire",
+        "thirdPerson": "aspires",
+        "past": "aspired",
+        "pastParticiple": "aspired",
+        "ing": "aspiring"
+      },
+      "difficulty": 3,
+      "takesObject": false
+    },
+    {
+      "en": "assert",
+      "vi": "khẳng định",
+      "forms": {
+        "base": "assert",
+        "thirdPerson": "asserts",
+        "past": "asserted",
+        "pastParticiple": "asserted",
+        "ing": "asserting"
+      },
+      "difficulty": 3
+    },
+    {
+      "en": "assess",
+      "vi": "đánh giá",
+      "forms": {
+        "base": "assess",
+        "thirdPerson": "assesses",
+        "past": "assessed",
+        "pastParticiple": "assessed",
+        "ing": "assessing"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "assign",
+      "vi": "giao nhiệm vụ",
+      "forms": {
+        "base": "assign",
+        "thirdPerson": "assigns",
+        "past": "assigned",
+        "pastParticiple": "assigned",
+        "ing": "assigning"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "associate",
+      "vi": "liên kết",
+      "forms": {
+        "base": "associate",
+        "thirdPerson": "associates",
+        "past": "associated",
+        "pastParticiple": "associated",
+        "ing": "associating"
+      },
+      "difficulty": 2,
+      "takesObject": false
+    },
+    {
+      "en": "astonish",
+      "vi": "làm kinh ngạc",
+      "forms": {
+        "base": "astonish",
+        "thirdPerson": "astonishes",
+        "past": "astonished",
+        "pastParticiple": "astonished",
+        "ing": "astonishing"
+      },
+      "difficulty": 3
+    },
+    {
+      "en": "attain",
+      "vi": "đạt được",
+      "forms": {
+        "base": "attain",
+        "thirdPerson": "attains",
+        "past": "attained",
+        "pastParticiple": "attained",
+        "ing": "attaining"
+      },
+      "difficulty": 3
+    },
+    {
+      "en": "attribute",
+      "vi": "quy cho",
+      "forms": {
+        "base": "attribute",
+        "thirdPerson": "attributes",
+        "past": "attributed",
+        "pastParticiple": "attributed",
+        "ing": "attributing"
+      },
+      "difficulty": 3
+    },
+    {
+      "en": "audit",
+      "vi": "kiểm toán",
+      "forms": {
+        "base": "audit",
+        "thirdPerson": "audits",
+        "past": "audited",
+        "pastParticiple": "audited",
+        "ing": "auditing"
+      },
+      "difficulty": 3
+    },
+    {
+      "en": "authorize",
+      "vi": "cho phép/ủy quyền",
+      "forms": {
+        "base": "authorize",
+        "thirdPerson": "authorizes",
+        "past": "authorized",
+        "pastParticiple": "authorized",
+        "ing": "authorizing"
+      },
+      "difficulty": 3
+    },
+    {
+      "en": "await",
+      "vi": "chờ đợi",
+      "forms": {
+        "base": "await",
+        "thirdPerson": "awaits",
+        "past": "awaited",
+        "pastParticiple": "awaited",
+        "ing": "awaiting"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "awaken",
+      "vi": "đánh thức",
+      "forms": {
+        "base": "awaken",
+        "thirdPerson": "awakens",
+        "past": "awakened",
+        "pastParticiple": "awakened",
+        "ing": "awakening"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "ban",
+      "vi": "cấm đoán",
+      "forms": {
+        "base": "ban",
+        "thirdPerson": "bans",
+        "past": "banned",
+        "pastParticiple": "banned",
+        "ing": "banning"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "banish",
+      "vi": "trục xuất",
+      "forms": {
+        "base": "banish",
+        "thirdPerson": "banishes",
+        "past": "banished",
+        "pastParticiple": "banished",
+        "ing": "banishing"
+      },
+      "difficulty": 3
+    },
+    {
+      "en": "bargain",
+      "vi": "mặc cả",
+      "forms": {
+        "base": "bargain",
+        "thirdPerson": "bargains",
+        "past": "bargained",
+        "pastParticiple": "bargained",
+        "ing": "bargaining"
+      },
+      "difficulty": 2,
+      "takesObject": false
+    },
+    {
+      "en": "barter",
+      "vi": "trao đổi hàng hóa",
+      "forms": {
+        "base": "barter",
+        "thirdPerson": "barters",
+        "past": "bartered",
+        "pastParticiple": "bartered",
+        "ing": "bartering"
+      },
+      "difficulty": 3,
+      "takesObject": false
+    },
+    {
+      "en": "beam",
+      "vi": "tỏa sáng rạng rỡ",
+      "forms": {
+        "base": "beam",
+        "thirdPerson": "beams",
+        "past": "beamed",
+        "pastParticiple": "beamed",
+        "ing": "beaming"
+      },
+      "difficulty": 2,
+      "takesObject": false
+    },
+    {
+      "en": "betray",
+      "vi": "phản bội",
+      "forms": {
+        "base": "betray",
+        "thirdPerson": "betrays",
+        "past": "betrayed",
+        "pastParticiple": "betrayed",
+        "ing": "betraying"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "bewilder",
+      "vi": "làm hoang mang",
+      "forms": {
+        "base": "bewilder",
+        "thirdPerson": "bewilders",
+        "past": "bewildered",
+        "pastParticiple": "bewildered",
+        "ing": "bewildering"
+      },
+      "difficulty": 3
+    },
+    {
+      "en": "blast",
+      "vi": "nổ tung",
+      "forms": {
+        "base": "blast",
+        "thirdPerson": "blasts",
+        "past": "blasted",
+        "pastParticiple": "blasted",
+        "ing": "blasting"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "bleach",
+      "vi": "tẩy trắng",
+      "forms": {
+        "base": "bleach",
+        "thirdPerson": "bleaches",
+        "past": "bleached",
+        "pastParticiple": "bleached",
+        "ing": "bleaching"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "blend",
+      "vi": "hòa trộn",
+      "forms": {
+        "base": "blend",
+        "thirdPerson": "blends",
+        "past": "blended",
+        "pastParticiple": "blended",
+        "ing": "blending"
+      },
+      "difficulty": 2,
+      "takesObject": false
+    },
+    {
+      "en": "bloom",
+      "vi": "nở hoa",
+      "forms": {
+        "base": "bloom",
+        "thirdPerson": "blooms",
+        "past": "bloomed",
+        "pastParticiple": "bloomed",
+        "ing": "blooming"
+      },
+      "difficulty": 2,
+      "takesObject": false
+    },
+    {
+      "en": "blur",
+      "vi": "làm mờ",
+      "forms": {
+        "base": "blur",
+        "thirdPerson": "blurs",
+        "past": "blurred",
+        "pastParticiple": "blurred",
+        "ing": "blurring"
+      },
+      "difficulty": 2,
+      "takesObject": false
+    },
+    {
+      "en": "bolster",
+      "vi": "củng cố",
+      "forms": {
+        "base": "bolster",
+        "thirdPerson": "bolsters",
+        "past": "bolstered",
+        "pastParticiple": "bolstered",
+        "ing": "bolstering"
+      },
+      "difficulty": 3
+    },
+    {
+      "en": "bombard",
+      "vi": "ném bom/dồn dập",
+      "forms": {
+        "base": "bombard",
+        "thirdPerson": "bombards",
+        "past": "bombarded",
+        "pastParticiple": "bombarded",
+        "ing": "bombarding"
+      },
+      "difficulty": 3
+    },
+    {
+      "en": "bore",
+      "vi": "làm chán",
+      "forms": {
+        "base": "bore",
+        "thirdPerson": "bores",
+        "past": "bored",
+        "pastParticiple": "bored",
+        "ing": "boring"
+      },
+      "difficulty": 1
+    },
+    {
+      "en": "bound",
+      "vi": "nhảy vọt/giáp ranh",
+      "forms": {
+        "base": "bound",
+        "thirdPerson": "bounds",
+        "past": "bounded",
+        "pastParticiple": "bounded",
+        "ing": "bounding"
+      },
+      "difficulty": 2,
+      "takesObject": false
+    },
+    {
+      "en": "brainstorm",
+      "vi": "động não",
+      "forms": {
+        "base": "brainstorm",
+        "thirdPerson": "brainstorms",
+        "past": "brainstormed",
+        "pastParticiple": "brainstormed",
+        "ing": "brainstorming"
+      },
+      "difficulty": 2,
+      "takesObject": false
+    },
+    {
+      "en": "brand",
+      "vi": "đóng nhãn hiệu",
+      "forms": {
+        "base": "brand",
+        "thirdPerson": "brands",
+        "past": "branded",
+        "pastParticiple": "branded",
+        "ing": "branding"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "bribe",
+      "vi": "hối lộ",
+      "forms": {
+        "base": "bribe",
+        "thirdPerson": "bribes",
+        "past": "bribed",
+        "pastParticiple": "bribed",
+        "ing": "bribing"
+      },
+      "difficulty": 3
+    },
+    {
+      "en": "brief",
+      "vi": "tóm tắt thông tin",
+      "forms": {
+        "base": "brief",
+        "thirdPerson": "briefs",
+        "past": "briefed",
+        "pastParticiple": "briefed",
+        "ing": "briefing"
+      },
+      "difficulty": 3
+    },
+    {
+      "en": "brighten",
+      "vi": "làm sáng lên",
+      "forms": {
+        "base": "brighten",
+        "thirdPerson": "brightens",
+        "past": "brightened",
+        "pastParticiple": "brightened",
+        "ing": "brightening"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "broaden",
+      "vi": "mở rộng",
+      "forms": {
+        "base": "broaden",
+        "thirdPerson": "broadens",
+        "past": "broadened",
+        "pastParticiple": "broadened",
+        "ing": "broadening"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "browse",
+      "vi": "lướt xem",
+      "forms": {
+        "base": "browse",
+        "thirdPerson": "browses",
+        "past": "browsed",
+        "pastParticiple": "browsed",
+        "ing": "browsing"
+      },
+      "difficulty": 1
+    },
+    {
+      "en": "bruise",
+      "vi": "làm bầm tím",
+      "forms": {
+        "base": "bruise",
+        "thirdPerson": "bruises",
+        "past": "bruised",
+        "pastParticiple": "bruised",
+        "ing": "bruising"
+      },
+      "difficulty": 2,
+      "takesObject": false
+    },
+    {
+      "en": "bulge",
+      "vi": "phồng lên",
+      "forms": {
+        "base": "bulge",
+        "thirdPerson": "bulges",
+        "past": "bulged",
+        "pastParticiple": "bulged",
+        "ing": "bulging"
+      },
+      "difficulty": 3,
+      "takesObject": false
+    },
+    {
+      "en": "bully",
+      "vi": "bắt nạt",
+      "forms": {
+        "base": "bully",
+        "thirdPerson": "bullies",
+        "past": "bullied",
+        "pastParticiple": "bullied",
+        "ing": "bullying"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "bundle",
+      "vi": "đóng gói thành bó",
+      "forms": {
+        "base": "bundle",
+        "thirdPerson": "bundles",
+        "past": "bundled",
+        "pastParticiple": "bundled",
+        "ing": "bundling"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "burden",
+      "vi": "gánh nặng cho",
+      "forms": {
+        "base": "burden",
+        "thirdPerson": "burdens",
+        "past": "burdened",
+        "pastParticiple": "burdened",
+        "ing": "burdening"
+      },
+      "difficulty": 3
+    },
+    {
+      "en": "calibrate",
+      "vi": "hiệu chỉnh",
+      "forms": {
+        "base": "calibrate",
+        "thirdPerson": "calibrates",
+        "past": "calibrated",
+        "pastParticiple": "calibrated",
+        "ing": "calibrating"
+      },
+      "difficulty": 3
+    },
+    {
+      "en": "camouflage",
+      "vi": "ngụy trang",
+      "forms": {
+        "base": "camouflage",
+        "thirdPerson": "camouflages",
+        "past": "camouflaged",
+        "pastParticiple": "camouflaged",
+        "ing": "camouflaging"
+      },
+      "difficulty": 3,
+      "takesObject": false
+    },
+    {
+      "en": "campaign",
+      "vi": "vận động tranh cử",
+      "forms": {
+        "base": "campaign",
+        "thirdPerson": "campaigns",
+        "past": "campaigned",
+        "pastParticiple": "campaigned",
+        "ing": "campaigning"
+      },
+      "difficulty": 2,
+      "takesObject": false
+    },
+    {
+      "en": "capsize",
+      "vi": "bị lật úp",
+      "forms": {
+        "base": "capsize",
+        "thirdPerson": "capsizes",
+        "past": "capsized",
+        "pastParticiple": "capsized",
+        "ing": "capsizing"
+      },
+      "difficulty": 3,
+      "takesObject": false
+    },
+    {
+      "en": "captivate",
+      "vi": "quyến rũ",
+      "forms": {
+        "base": "captivate",
+        "thirdPerson": "captivates",
+        "past": "captivated",
+        "pastParticiple": "captivated",
+        "ing": "captivating"
+      },
+      "difficulty": 3
+    },
+    {
+      "en": "capture",
+      "vi": "bắt giữ",
+      "forms": {
+        "base": "capture",
+        "thirdPerson": "captures",
+        "past": "captured",
+        "pastParticiple": "captured",
+        "ing": "capturing"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "caption",
+      "vi": "chú thích",
+      "forms": {
+        "base": "caption",
+        "thirdPerson": "captions",
+        "past": "captioned",
+        "pastParticiple": "captioned",
+        "ing": "captioning"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "cater",
+      "vi": "phục vụ ăn uống",
+      "forms": {
+        "base": "cater",
+        "thirdPerson": "caters",
+        "past": "catered",
+        "pastParticiple": "catered",
+        "ing": "catering"
+      },
+      "difficulty": 2,
+      "takesObject": false
+    },
+    {
+      "en": "caution",
+      "vi": "cảnh báo thận trọng",
+      "forms": {
+        "base": "caution",
+        "thirdPerson": "cautions",
+        "past": "cautioned",
+        "pastParticiple": "cautioned",
+        "ing": "cautioning"
+      },
+      "difficulty": 3
+    },
+    {
+      "en": "cease",
+      "vi": "ngừng lại",
+      "forms": {
+        "base": "cease",
+        "thirdPerson": "ceases",
+        "past": "ceased",
+        "pastParticiple": "ceased",
+        "ing": "ceasing"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "certify",
+      "vi": "chứng nhận",
+      "forms": {
+        "base": "certify",
+        "thirdPerson": "certifies",
+        "past": "certified",
+        "pastParticiple": "certified",
+        "ing": "certifying"
+      },
+      "difficulty": 3
+    },
+    {
+      "en": "champion",
+      "vi": "ủng hộ nhiệt tình",
+      "forms": {
+        "base": "champion",
+        "thirdPerson": "champions",
+        "past": "championed",
+        "pastParticiple": "championed",
+        "ing": "championing"
+      },
+      "difficulty": 3
+    },
+    {
+      "en": "characterize",
+      "vi": "mô tả đặc điểm",
+      "forms": {
+        "base": "characterize",
+        "thirdPerson": "characterizes",
+        "past": "characterized",
+        "pastParticiple": "characterized",
+        "ing": "characterizing"
+      },
+      "difficulty": 3
+    },
+    {
+      "en": "charm",
+      "vi": "quyến rũ",
+      "forms": {
+        "base": "charm",
+        "thirdPerson": "charms",
+        "past": "charmed",
+        "pastParticiple": "charmed",
+        "ing": "charming"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "cherish",
+      "vi": "trân trọng",
+      "forms": {
+        "base": "cherish",
+        "thirdPerson": "cherishes",
+        "past": "cherished",
+        "pastParticiple": "cherished",
+        "ing": "cherishing"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "chisel",
+      "vi": "đục đẽo",
+      "forms": {
+        "base": "chisel",
+        "thirdPerson": "chisels",
+        "past": "chiseled",
+        "pastParticiple": "chiseled",
+        "ing": "chiseling"
+      },
+      "difficulty": 3
+    },
+    {
+      "en": "choke",
+      "vi": "nghẹt thở",
+      "forms": {
+        "base": "choke",
+        "thirdPerson": "chokes",
+        "past": "choked",
+        "pastParticiple": "choked",
+        "ing": "choking"
+      },
+      "difficulty": 2,
+      "takesObject": false
+    },
+    {
+      "en": "churn",
+      "vi": "khuấy đảo",
+      "forms": {
+        "base": "churn",
+        "thirdPerson": "churns",
+        "past": "churned",
+        "pastParticiple": "churned",
+        "ing": "churning"
+      },
+      "difficulty": 2,
+      "takesObject": false
+    },
+    {
+      "en": "circulate",
+      "vi": "lưu thông",
+      "forms": {
+        "base": "circulate",
+        "thirdPerson": "circulates",
+        "past": "circulated",
+        "pastParticiple": "circulated",
+        "ing": "circulating"
+      },
+      "difficulty": 3,
+      "takesObject": false
+    },
+    {
+      "en": "clarify",
+      "vi": "làm rõ",
+      "forms": {
+        "base": "clarify",
+        "thirdPerson": "clarifies",
+        "past": "clarified",
+        "pastParticiple": "clarified",
+        "ing": "clarifying"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "clash",
+      "vi": "xung đột",
+      "forms": {
+        "base": "clash",
+        "thirdPerson": "clashes",
+        "past": "clashed",
+        "pastParticiple": "clashed",
+        "ing": "clashing"
+      },
+      "difficulty": 2,
+      "takesObject": false
+    },
+    {
+      "en": "clasp",
+      "vi": "nắm chặt",
+      "forms": {
+        "base": "clasp",
+        "thirdPerson": "clasps",
+        "past": "clasped",
+        "pastParticiple": "clasped",
+        "ing": "clasping"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "clatter",
+      "vi": "gây tiếng lách cách",
+      "forms": {
+        "base": "clatter",
+        "thirdPerson": "clatters",
+        "past": "clattered",
+        "pastParticiple": "clattered",
+        "ing": "clattering"
+      },
+      "difficulty": 2,
+      "takesObject": false
+    },
+    {
+      "en": "cleanse",
+      "vi": "làm sạch",
+      "forms": {
+        "base": "cleanse",
+        "thirdPerson": "cleanses",
+        "past": "cleansed",
+        "pastParticiple": "cleansed",
+        "ing": "cleansing"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "clench",
+      "vi": "nghiến chặt",
+      "forms": {
+        "base": "clench",
+        "thirdPerson": "clenches",
+        "past": "clenched",
+        "pastParticiple": "clenched",
+        "ing": "clenching"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "clog",
+      "vi": "làm tắc nghẽn",
+      "forms": {
+        "base": "clog",
+        "thirdPerson": "clogs",
+        "past": "clogged",
+        "pastParticiple": "clogged",
+        "ing": "clogging"
+      },
+      "difficulty": 2,
+      "takesObject": false
+    },
+    {
+      "en": "clone",
+      "vi": "nhân bản",
+      "forms": {
+        "base": "clone",
+        "thirdPerson": "clones",
+        "past": "cloned",
+        "pastParticiple": "cloned",
+        "ing": "cloning"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "clutch",
+      "vi": "nắm chặt lấy",
+      "forms": {
+        "base": "clutch",
+        "thirdPerson": "clutches",
+        "past": "clutched",
+        "pastParticiple": "clutched",
+        "ing": "clutching"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "coax",
+      "vi": "dỗ dành",
+      "forms": {
+        "base": "coax",
+        "thirdPerson": "coaxes",
+        "past": "coaxed",
+        "pastParticiple": "coaxed",
+        "ing": "coaxing"
+      },
+      "difficulty": 3
+    },
+    {
+      "en": "coexist",
+      "vi": "cùng tồn tại",
+      "forms": {
+        "base": "coexist",
+        "thirdPerson": "coexists",
+        "past": "coexisted",
+        "pastParticiple": "coexisted",
+        "ing": "coexisting"
+      },
+      "difficulty": 3,
+      "takesObject": false
+    },
+    {
+      "en": "collaborate",
+      "vi": "hợp tác",
+      "forms": {
+        "base": "collaborate",
+        "thirdPerson": "collaborates",
+        "past": "collaborated",
+        "pastParticiple": "collaborated",
+        "ing": "collaborating"
+      },
+      "difficulty": 2,
+      "takesObject": false
+    },
+    {
+      "en": "collide",
+      "vi": "va chạm",
+      "forms": {
+        "base": "collide",
+        "thirdPerson": "collides",
+        "past": "collided",
+        "pastParticiple": "collided",
+        "ing": "colliding"
+      },
+      "difficulty": 2,
+      "takesObject": false
+    },
+    {
+      "en": "colonize",
+      "vi": "thực dân hóa",
+      "forms": {
+        "base": "colonize",
+        "thirdPerson": "colonizes",
+        "past": "colonized",
+        "pastParticiple": "colonized",
+        "ing": "colonizing"
+      },
+      "difficulty": 3
+    },
+    {
+      "en": "combat",
+      "vi": "chiến đấu chống lại",
+      "forms": {
+        "base": "combat",
+        "thirdPerson": "combats",
+        "past": "combated",
+        "pastParticiple": "combated",
+        "ing": "combating"
+      },
+      "difficulty": 3
+    },
+    {
+      "en": "commemorate",
+      "vi": "tưởng niệm",
+      "forms": {
+        "base": "commemorate",
+        "thirdPerson": "commemorates",
+        "past": "commemorated",
+        "pastParticiple": "commemorated",
+        "ing": "commemorating"
+      },
+      "difficulty": 3
+    },
+    {
+      "en": "commend",
+      "vi": "khen ngợi",
+      "forms": {
+        "base": "commend",
+        "thirdPerson": "commends",
+        "past": "commended",
+        "pastParticiple": "commended",
+        "ing": "commending"
+      },
+      "difficulty": 3
+    },
+    {
+      "en": "commercialize",
+      "vi": "thương mại hóa",
+      "forms": {
+        "base": "commercialize",
+        "thirdPerson": "commercializes",
+        "past": "commercialized",
+        "pastParticiple": "commercialized",
+        "ing": "commercializing"
+      },
+      "difficulty": 3
+    },
+    {
+      "en": "commission",
+      "vi": "ủy nhiệm",
+      "forms": {
+        "base": "commission",
+        "thirdPerson": "commissions",
+        "past": "commissioned",
+        "pastParticiple": "commissioned",
+        "ing": "commissioning"
+      },
+      "difficulty": 3
+    },
+    {
+      "en": "compensate",
+      "vi": "bồi thường",
+      "forms": {
+        "base": "compensate",
+        "thirdPerson": "compensates",
+        "past": "compensated",
+        "pastParticiple": "compensated",
+        "ing": "compensating"
+      },
+      "difficulty": 3
+    },
+    {
+      "en": "compile",
+      "vi": "biên soạn",
+      "forms": {
+        "base": "compile",
+        "thirdPerson": "compiles",
+        "past": "compiled",
+        "pastParticiple": "compiled",
+        "ing": "compiling"
+      },
+      "difficulty": 3
+    },
+    {
+      "en": "comply",
+      "vi": "tuân thủ",
+      "forms": {
+        "base": "comply",
+        "thirdPerson": "complies",
+        "past": "complied",
+        "pastParticiple": "complied",
+        "ing": "complying"
+      },
+      "difficulty": 3,
+      "takesObject": false
+    },
+    {
+      "en": "compress",
+      "vi": "nén lại",
+      "forms": {
+        "base": "compress",
+        "thirdPerson": "compresses",
+        "past": "compressed",
+        "pastParticiple": "compressed",
+        "ing": "compressing"
+      },
+      "difficulty": 3,
+      "takesObject": false
+    },
+    {
+      "en": "comprise",
+      "vi": "bao gồm",
+      "forms": {
+        "base": "comprise",
+        "thirdPerson": "comprises",
+        "past": "comprised",
+        "pastParticiple": "comprised",
+        "ing": "comprising"
+      },
+      "difficulty": 3
+    },
+    {
+      "en": "conceal",
+      "vi": "che giấu",
+      "forms": {
+        "base": "conceal",
+        "thirdPerson": "conceals",
+        "past": "concealed",
+        "pastParticiple": "concealed",
+        "ing": "concealing"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "concede",
+      "vi": "thừa nhận thua",
+      "forms": {
+        "base": "concede",
+        "thirdPerson": "concedes",
+        "past": "conceded",
+        "pastParticiple": "conceded",
+        "ing": "conceding"
+      },
+      "difficulty": 3
+    },
+    {
+      "en": "conceive",
+      "vi": "nghĩ ra/hình dung",
+      "forms": {
+        "base": "conceive",
+        "thirdPerson": "conceives",
+        "past": "conceived",
+        "pastParticiple": "conceived",
+        "ing": "conceiving"
+      },
+      "difficulty": 3
+    },
+    {
+      "en": "condemn",
+      "vi": "lên án",
+      "forms": {
+        "base": "condemn",
+        "thirdPerson": "condemns",
+        "past": "condemned",
+        "pastParticiple": "condemned",
+        "ing": "condemning"
+      },
+      "difficulty": 3
+    },
+    {
+      "en": "condense",
+      "vi": "cô đọng lại",
+      "forms": {
+        "base": "condense",
+        "thirdPerson": "condenses",
+        "past": "condensed",
+        "pastParticiple": "condensed",
+        "ing": "condensing"
+      },
+      "difficulty": 3,
+      "takesObject": false
+    },
+    {
+      "en": "confess",
+      "vi": "thú nhận",
+      "forms": {
+        "base": "confess",
+        "thirdPerson": "confesses",
+        "past": "confessed",
+        "pastParticiple": "confessed",
+        "ing": "confessing"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "confide",
+      "vi": "tâm sự",
+      "forms": {
+        "base": "confide",
+        "thirdPerson": "confides",
+        "past": "confided",
+        "pastParticiple": "confided",
+        "ing": "confiding"
+      },
+      "difficulty": 3,
+      "takesObject": false
+    },
+    {
+      "en": "confiscate",
+      "vi": "tịch thu",
+      "forms": {
+        "base": "confiscate",
+        "thirdPerson": "confiscates",
+        "past": "confiscated",
+        "pastParticiple": "confiscated",
+        "ing": "confiscating"
+      },
+      "difficulty": 3
+    },
+    {
+      "en": "conform",
+      "vi": "tuân theo",
+      "forms": {
+        "base": "conform",
+        "thirdPerson": "conforms",
+        "past": "conformed",
+        "pastParticiple": "conformed",
+        "ing": "conforming"
+      },
+      "difficulty": 3,
+      "takesObject": false
+    },
+    {
+      "en": "confront",
+      "vi": "đối đầu",
+      "forms": {
+        "base": "confront",
+        "thirdPerson": "confronts",
+        "past": "confronted",
+        "pastParticiple": "confronted",
+        "ing": "confronting"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "congratulate",
+      "vi": "chúc mừng",
+      "forms": {
+        "base": "congratulate",
+        "thirdPerson": "congratulates",
+        "past": "congratulated",
+        "pastParticiple": "congratulated",
+        "ing": "congratulating"
+      },
+      "difficulty": 1
+    },
+    {
+      "en": "conquer",
+      "vi": "chinh phục",
+      "forms": {
+        "base": "conquer",
+        "thirdPerson": "conquers",
+        "past": "conquered",
+        "pastParticiple": "conquered",
+        "ing": "conquering"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "consolidate",
+      "vi": "củng cố vững chắc",
+      "forms": {
+        "base": "consolidate",
+        "thirdPerson": "consolidates",
+        "past": "consolidated",
+        "pastParticiple": "consolidated",
+        "ing": "consolidating"
+      },
+      "difficulty": 3
+    },
+    {
+      "en": "conspire",
+      "vi": "âm mưu",
+      "forms": {
+        "base": "conspire",
+        "thirdPerson": "conspires",
+        "past": "conspired",
+        "pastParticiple": "conspired",
+        "ing": "conspiring"
+      },
+      "difficulty": 3,
+      "takesObject": false
+    },
+    {
+      "en": "constitute",
+      "vi": "cấu thành",
+      "forms": {
+        "base": "constitute",
+        "thirdPerson": "constitutes",
+        "past": "constituted",
+        "pastParticiple": "constituted",
+        "ing": "constituting"
+      },
+      "difficulty": 3
+    },
+    {
+      "en": "constrain",
+      "vi": "ràng buộc",
+      "forms": {
+        "base": "constrain",
+        "thirdPerson": "constrains",
+        "past": "constrained",
+        "pastParticiple": "constrained",
+        "ing": "constraining"
+      },
+      "difficulty": 3
+    },
+    {
+      "en": "construct",
+      "vi": "xây dựng",
+      "forms": {
+        "base": "construct",
+        "thirdPerson": "constructs",
+        "past": "constructed",
+        "pastParticiple": "constructed",
+        "ing": "constructing"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "contemplate",
+      "vi": "suy ngẫm",
+      "forms": {
+        "base": "contemplate",
+        "thirdPerson": "contemplates",
+        "past": "contemplated",
+        "pastParticiple": "contemplated",
+        "ing": "contemplating"
+      },
+      "difficulty": 3
+    },
+    {
+      "en": "contest",
+      "vi": "tranh chấp",
+      "forms": {
+        "base": "contest",
+        "thirdPerson": "contests",
+        "past": "contested",
+        "pastParticiple": "contested",
+        "ing": "contesting"
+      },
+      "difficulty": 3
+    },
+    {
+      "en": "convert",
+      "vi": "chuyển đổi",
+      "forms": {
+        "base": "convert",
+        "thirdPerson": "converts",
+        "past": "converted",
+        "pastParticiple": "converted",
+        "ing": "converting"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "convey",
+      "vi": "truyền đạt",
+      "forms": {
+        "base": "convey",
+        "thirdPerson": "conveys",
+        "past": "conveyed",
+        "pastParticiple": "conveyed",
+        "ing": "conveying"
+      },
+      "difficulty": 3
+    },
+    {
+      "en": "convict",
+      "vi": "kết tội",
+      "forms": {
+        "base": "convict",
+        "thirdPerson": "convicts",
+        "past": "convicted",
+        "pastParticiple": "convicted",
+        "ing": "convicting"
+      },
+      "difficulty": 3
+    },
+    {
+      "en": "coordinate",
+      "vi": "điều phối",
+      "forms": {
+        "base": "coordinate",
+        "thirdPerson": "coordinates",
+        "past": "coordinated",
+        "pastParticiple": "coordinated",
+        "ing": "coordinating"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "deceive",
+      "vi": "lừa dối",
+      "forms": {
+        "base": "deceive",
+        "thirdPerson": "deceives",
+        "past": "deceived",
+        "pastParticiple": "deceived",
+        "ing": "deceiving"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "decipher",
+      "vi": "giải mã",
+      "forms": {
+        "base": "decipher",
+        "thirdPerson": "deciphers",
+        "past": "deciphered",
+        "pastParticiple": "deciphered",
+        "ing": "deciphering"
+      },
+      "difficulty": 3
+    },
+    {
+      "en": "decline",
+      "vi": "suy giảm/từ chối",
+      "forms": {
+        "base": "decline",
+        "thirdPerson": "declines",
+        "past": "declined",
+        "pastParticiple": "declined",
+        "ing": "declining"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "dedicate",
+      "vi": "cống hiến",
+      "forms": {
+        "base": "dedicate",
+        "thirdPerson": "dedicates",
+        "past": "dedicated",
+        "pastParticiple": "dedicated",
+        "ing": "dedicating"
+      },
+      "difficulty": 3
+    },
+    {
+      "en": "deduce",
+      "vi": "suy luận ra",
+      "forms": {
+        "base": "deduce",
+        "thirdPerson": "deduces",
+        "past": "deduced",
+        "pastParticiple": "deduced",
+        "ing": "deducing"
+      },
+      "difficulty": 3
+    },
+    {
+      "en": "defeat",
+      "vi": "đánh bại",
+      "forms": {
+        "base": "defeat",
+        "thirdPerson": "defeats",
+        "past": "defeated",
+        "pastParticiple": "defeated",
+        "ing": "defeating"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "defer",
+      "vi": "trì hoãn",
+      "forms": {
+        "base": "defer",
+        "thirdPerson": "defers",
+        "past": "defered",
+        "pastParticiple": "defered",
+        "ing": "defering"
+      },
+      "difficulty": 3,
+      "takesObject": false
+    },
+    {
+      "en": "deform",
+      "vi": "làm biến dạng",
+      "forms": {
+        "base": "deform",
+        "thirdPerson": "deforms",
+        "past": "deformed",
+        "pastParticiple": "deformed",
+        "ing": "deforming"
+      },
+      "difficulty": 3,
+      "takesObject": false
+    },
+    {
+      "en": "delegate",
+      "vi": "ủy thác",
+      "forms": {
+        "base": "delegate",
+        "thirdPerson": "delegates",
+        "past": "delegated",
+        "pastParticiple": "delegated",
+        "ing": "delegating"
+      },
+      "difficulty": 3
+    },
+    {
+      "en": "deliberate",
+      "vi": "cân nhắc kỹ",
+      "forms": {
+        "base": "deliberate",
+        "thirdPerson": "deliberates",
+        "past": "deliberated",
+        "pastParticiple": "deliberated",
+        "ing": "deliberating"
+      },
+      "difficulty": 3,
+      "takesObject": false
+    },
+    {
+      "en": "delight",
+      "vi": "làm vui sướng",
+      "forms": {
+        "base": "delight",
+        "thirdPerson": "delights",
+        "past": "delighted",
+        "pastParticiple": "delighted",
+        "ing": "delighting"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "delude",
+      "vi": "lừa gạt bản thân",
+      "forms": {
+        "base": "delude",
+        "thirdPerson": "deludes",
+        "past": "deluded",
+        "pastParticiple": "deluded",
+        "ing": "deluding"
+      },
+      "difficulty": 3
+    },
+    {
+      "en": "demolish",
+      "vi": "phá hủy hoàn toàn",
+      "forms": {
+        "base": "demolish",
+        "thirdPerson": "demolishes",
+        "past": "demolished",
+        "pastParticiple": "demolished",
+        "ing": "demolishing"
+      },
+      "difficulty": 3
+    },
+    {
+      "en": "denounce",
+      "vi": "tố cáo",
+      "forms": {
+        "base": "denounce",
+        "thirdPerson": "denounces",
+        "past": "denounced",
+        "pastParticiple": "denounced",
+        "ing": "denouncing"
+      },
+      "difficulty": 3
+    },
+    {
+      "en": "depict",
+      "vi": "miêu tả",
+      "forms": {
+        "base": "depict",
+        "thirdPerson": "depicts",
+        "past": "depicted",
+        "pastParticiple": "depicted",
+        "ing": "depicting"
+      },
+      "difficulty": 3
+    },
+    {
+      "en": "deploy",
+      "vi": "triển khai",
+      "forms": {
+        "base": "deploy",
+        "thirdPerson": "deploys",
+        "past": "deployed",
+        "pastParticiple": "deployed",
+        "ing": "deploying"
+      },
+      "difficulty": 3
+    },
+    {
+      "en": "deport",
+      "vi": "trục xuất khỏi nước",
+      "forms": {
+        "base": "deport",
+        "thirdPerson": "deports",
+        "past": "deported",
+        "pastParticiple": "deported",
+        "ing": "deporting"
+      },
+      "difficulty": 3
+    },
+    {
+      "en": "depress",
+      "vi": "làm chán nản",
+      "forms": {
+        "base": "depress",
+        "thirdPerson": "depresses",
+        "past": "depressed",
+        "pastParticiple": "depressed",
+        "ing": "depressing"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "deprive",
+      "vi": "tước đoạt",
+      "forms": {
+        "base": "deprive",
+        "thirdPerson": "deprives",
+        "past": "deprived",
+        "pastParticiple": "deprived",
+        "ing": "depriving"
+      },
+      "difficulty": 3
+    },
+    {
+      "en": "derive",
+      "vi": "bắt nguồn từ",
+      "forms": {
+        "base": "derive",
+        "thirdPerson": "derives",
+        "past": "derived",
+        "pastParticiple": "derived",
+        "ing": "deriving"
+      },
+      "difficulty": 3
+    },
+    {
+      "en": "descend",
+      "vi": "đi xuống",
+      "forms": {
+        "base": "descend",
+        "thirdPerson": "descends",
+        "past": "descended",
+        "pastParticiple": "descended",
+        "ing": "descending"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "designate",
+      "vi": "chỉ định",
+      "forms": {
+        "base": "designate",
+        "thirdPerson": "designates",
+        "past": "designated",
+        "pastParticiple": "designated",
+        "ing": "designating"
+      },
+      "difficulty": 3
+    },
+    {
+      "en": "despise",
+      "vi": "khinh miệt",
+      "forms": {
+        "base": "despise",
+        "thirdPerson": "despises",
+        "past": "despised",
+        "pastParticiple": "despised",
+        "ing": "despising"
+      },
+      "difficulty": 3
+    },
+    {
+      "en": "detach",
+      "vi": "tháo rời",
+      "forms": {
+        "base": "detach",
+        "thirdPerson": "detaches",
+        "past": "detached",
+        "pastParticiple": "detached",
+        "ing": "detaching"
+      },
+      "difficulty": 2,
+      "takesObject": false
+    },
+    {
+      "en": "detain",
+      "vi": "giam giữ",
+      "forms": {
+        "base": "detain",
+        "thirdPerson": "detains",
+        "past": "detained",
+        "pastParticiple": "detained",
+        "ing": "detaining"
+      },
+      "difficulty": 3
+    },
+    {
+      "en": "deteriorate",
+      "vi": "trở nên tồi tệ hơn",
+      "forms": {
+        "base": "deteriorate",
+        "thirdPerson": "deteriorates",
+        "past": "deteriorated",
+        "pastParticiple": "deteriorated",
+        "ing": "deteriorating"
+      },
+      "difficulty": 3,
+      "takesObject": false
+    },
+    {
+      "en": "detest",
+      "vi": "ghét cay ghét đắng",
+      "forms": {
+        "base": "detest",
+        "thirdPerson": "detests",
+        "past": "detested",
+        "pastParticiple": "detested",
+        "ing": "detesting"
+      },
+      "difficulty": 3
+    },
+    {
+      "en": "dictate",
+      "vi": "ra lệnh/đọc chính tả",
+      "forms": {
+        "base": "dictate",
+        "thirdPerson": "dictates",
+        "past": "dictated",
+        "pastParticiple": "dictated",
+        "ing": "dictating"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "differentiate",
+      "vi": "phân biệt",
+      "forms": {
+        "base": "differentiate",
+        "thirdPerson": "differentiates",
+        "past": "differentiated",
+        "pastParticiple": "differentiated",
+        "ing": "differentiating"
+      },
+      "difficulty": 3
+    },
+    {
+      "en": "diminish",
+      "vi": "giảm bớt",
+      "forms": {
+        "base": "diminish",
+        "thirdPerson": "diminishes",
+        "past": "diminished",
+        "pastParticiple": "diminished",
+        "ing": "diminishing"
+      },
+      "difficulty": 3,
+      "takesObject": false
+    },
+    {
+      "en": "disable",
+      "vi": "vô hiệu hóa",
+      "forms": {
+        "base": "disable",
+        "thirdPerson": "disables",
+        "past": "disabled",
+        "pastParticiple": "disabled",
+        "ing": "disabling"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "disclose",
+      "vi": "tiết lộ thông tin",
+      "forms": {
+        "base": "disclose",
+        "thirdPerson": "discloses",
+        "past": "disclosed",
+        "pastParticiple": "disclosed",
+        "ing": "disclosing"
+      },
+      "difficulty": 3
+    },
+    {
+      "en": "discourage",
+      "vi": "làm nản lòng",
+      "forms": {
+        "base": "discourage",
+        "thirdPerson": "discourages",
+        "past": "discouraged",
+        "pastParticiple": "discouraged",
+        "ing": "discouraging"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "dishearten",
+      "vi": "làm nản chí",
+      "forms": {
+        "base": "dishearten",
+        "thirdPerson": "disheartens",
+        "past": "disheartened",
+        "pastParticiple": "disheartened",
+        "ing": "disheartening"
+      },
+      "difficulty": 3
+    },
+    {
+      "en": "dismantle",
+      "vi": "tháo dỡ",
+      "forms": {
+        "base": "dismantle",
+        "thirdPerson": "dismantles",
+        "past": "dismantled",
+        "pastParticiple": "dismantled",
+        "ing": "dismantling"
+      },
+      "difficulty": 3
+    },
+    {
+      "en": "dispatch",
+      "vi": "gửi đi",
+      "forms": {
+        "base": "dispatch",
+        "thirdPerson": "dispatches",
+        "past": "dispatched",
+        "pastParticiple": "dispatched",
+        "ing": "dispatching"
+      },
+      "difficulty": 3
+    },
+    {
+      "en": "dispel",
+      "vi": "xua tan",
+      "forms": {
+        "base": "dispel",
+        "thirdPerson": "dispels",
+        "past": "dispeled",
+        "pastParticiple": "dispeled",
+        "ing": "dispeling"
+      },
+      "difficulty": 3
+    },
+    {
+      "en": "dispense",
+      "vi": "phân phát",
+      "forms": {
+        "base": "dispense",
+        "thirdPerson": "dispenses",
+        "past": "dispensed",
+        "pastParticiple": "dispensed",
+        "ing": "dispensing"
+      },
+      "difficulty": 3,
+      "takesObject": false
+    },
+    {
+      "en": "displace",
+      "vi": "thay thế/di dời",
+      "forms": {
+        "base": "displace",
+        "thirdPerson": "displaces",
+        "past": "displaced",
+        "pastParticiple": "displaced",
+        "ing": "displacing"
+      },
+      "difficulty": 3
+    },
+    {
+      "en": "dispose",
+      "vi": "vứt bỏ",
+      "forms": {
+        "base": "dispose",
+        "thirdPerson": "disposes",
+        "past": "disposed",
+        "pastParticiple": "disposed",
+        "ing": "disposing"
+      },
+      "difficulty": 2,
+      "takesObject": false
+    },
+    {
+      "en": "disrupt",
+      "vi": "làm gián đoạn",
+      "forms": {
+        "base": "disrupt",
+        "thirdPerson": "disrupts",
+        "past": "disrupted",
+        "pastParticiple": "disrupted",
+        "ing": "disrupting"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "dissolve",
+      "vi": "hòa tan",
+      "forms": {
+        "base": "dissolve",
+        "thirdPerson": "dissolves",
+        "past": "dissolved",
+        "pastParticiple": "dissolved",
+        "ing": "dissolving"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "distort",
+      "vi": "bóp méo",
+      "forms": {
+        "base": "distort",
+        "thirdPerson": "distorts",
+        "past": "distorted",
+        "pastParticiple": "distorted",
+        "ing": "distorting"
+      },
+      "difficulty": 3,
+      "takesObject": false
+    },
+    {
+      "en": "distract",
+      "vi": "làm phân tâm",
+      "forms": {
+        "base": "distract",
+        "thirdPerson": "distracts",
+        "past": "distracted",
+        "pastParticiple": "distracted",
+        "ing": "distracting"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "distribute",
+      "vi": "phân phối",
+      "forms": {
+        "base": "distribute",
+        "thirdPerson": "distributes",
+        "past": "distributed",
+        "pastParticiple": "distributed",
+        "ing": "distributing"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "diverge",
+      "vi": "phân kỳ/khác hướng",
+      "forms": {
+        "base": "diverge",
+        "thirdPerson": "diverges",
+        "past": "diverged",
+        "pastParticiple": "diverged",
+        "ing": "diverging"
+      },
+      "difficulty": 3,
+      "takesObject": false
+    },
+    {
+      "en": "diversify",
+      "vi": "đa dạng hóa",
+      "forms": {
+        "base": "diversify",
+        "thirdPerson": "diversifies",
+        "past": "diversified",
+        "pastParticiple": "diversified",
+        "ing": "diversifying"
+      },
+      "difficulty": 3
+    },
+    {
+      "en": "divert",
+      "vi": "chuyển hướng",
+      "forms": {
+        "base": "divert",
+        "thirdPerson": "diverts",
+        "past": "diverted",
+        "pastParticiple": "diverted",
+        "ing": "diverting"
+      },
+      "difficulty": 3
+    },
+    {
+      "en": "divulge",
+      "vi": "tiết lộ bí mật",
+      "forms": {
+        "base": "divulge",
+        "thirdPerson": "divulges",
+        "past": "divulged",
+        "pastParticiple": "divulged",
+        "ing": "divulging"
+      },
+      "difficulty": 3
+    },
+    {
+      "en": "document",
+      "vi": "ghi chép lại",
+      "forms": {
+        "base": "document",
+        "thirdPerson": "documents",
+        "past": "documented",
+        "pastParticiple": "documented",
+        "ing": "documenting"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "dodge",
+      "vi": "né tránh",
+      "forms": {
+        "base": "dodge",
+        "thirdPerson": "dodges",
+        "past": "dodged",
+        "pastParticiple": "dodged",
+        "ing": "dodging"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "dominate",
+      "vi": "thống trị",
+      "forms": {
+        "base": "dominate",
+        "thirdPerson": "dominates",
+        "past": "dominated",
+        "pastParticiple": "dominated",
+        "ing": "dominating"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "doodle",
+      "vi": "vẽ nguệch ngoạc",
+      "forms": {
+        "base": "doodle",
+        "thirdPerson": "doodles",
+        "past": "doodled",
+        "pastParticiple": "doodled",
+        "ing": "doodling"
+      },
+      "difficulty": 2,
+      "takesObject": false
+    },
+    {
+      "en": "dose",
+      "vi": "kê liều lượng",
+      "forms": {
+        "base": "dose",
+        "thirdPerson": "doses",
+        "past": "dosed",
+        "pastParticiple": "dosed",
+        "ing": "dosing"
+      },
+      "difficulty": 3
+    },
+    {
+      "en": "dot",
+      "vi": "chấm điểm nhỏ",
+      "forms": {
+        "base": "dot",
+        "thirdPerson": "dots",
+        "past": "dotted",
+        "pastParticiple": "dotted",
+        "ing": "dotting"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "double-check",
+      "vi": "kiểm tra lại lần nữa",
+      "forms": {
+        "base": "double-check",
+        "thirdPerson": "double-checks",
+        "past": "double-checked",
+        "pastParticiple": "double-checked",
+        "ing": "double-checking"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "drain",
+      "vi": "làm cạn nước",
+      "forms": {
+        "base": "drain",
+        "thirdPerson": "drains",
+        "past": "drained",
+        "pastParticiple": "drained",
+        "ing": "draining"
+      },
+      "difficulty": 2,
+      "takesObject": false
+    },
+    {
+      "en": "dramatize",
+      "vi": "kịch tính hóa",
+      "forms": {
+        "base": "dramatize",
+        "thirdPerson": "dramatizes",
+        "past": "dramatized",
+        "pastParticiple": "dramatized",
+        "ing": "dramatizing"
+      },
+      "difficulty": 3
+    },
+    {
+      "en": "drape",
+      "vi": "phủ vải lên",
+      "forms": {
+        "base": "drape",
+        "thirdPerson": "drapes",
+        "past": "draped",
+        "pastParticiple": "draped",
+        "ing": "draping"
+      },
+      "difficulty": 3,
+      "takesObject": false
+    },
+    {
+      "en": "drift",
+      "vi": "trôi dạt",
+      "forms": {
+        "base": "drift",
+        "thirdPerson": "drifts",
+        "past": "drifted",
+        "pastParticiple": "drifted",
+        "ing": "drifting"
+      },
+      "difficulty": 2,
+      "takesObject": false
+    },
+    {
+      "en": "drip",
+      "vi": "nhỏ giọt",
+      "forms": {
+        "base": "drip",
+        "thirdPerson": "drips",
+        "past": "dripped",
+        "pastParticiple": "dripped",
+        "ing": "dripping"
+      },
+      "difficulty": 2,
+      "takesObject": false
+    },
+    {
+      "en": "dub",
+      "vi": "lồng tiếng",
+      "forms": {
+        "base": "dub",
+        "thirdPerson": "dubs",
+        "past": "dubbed",
+        "pastParticiple": "dubbed",
+        "ing": "dubbing"
+      },
+      "difficulty": 3
+    },
+    {
+      "en": "duplicate",
+      "vi": "sao chép trùng",
+      "forms": {
+        "base": "duplicate",
+        "thirdPerson": "duplicates",
+        "past": "duplicated",
+        "pastParticiple": "duplicated",
+        "ing": "duplicating"
+      },
+      "difficulty": 3,
+      "takesObject": false
+    },
+    {
+      "en": "dwindle",
+      "vi": "giảm dần",
+      "forms": {
+        "base": "dwindle",
+        "thirdPerson": "dwindles",
+        "past": "dwindled",
+        "pastParticiple": "dwindled",
+        "ing": "dwindling"
+      },
+      "difficulty": 3,
+      "takesObject": false
+    },
+    {
+      "en": "echo",
+      "vi": "vang vọng lại",
+      "forms": {
+        "base": "echo",
+        "thirdPerson": "echoes",
+        "past": "echoed",
+        "pastParticiple": "echoed",
+        "ing": "echoing"
+      },
+      "difficulty": 2,
+      "takesObject": false
+    },
+    {
+      "en": "eclipse",
+      "vi": "che khuất",
+      "forms": {
+        "base": "eclipse",
+        "thirdPerson": "eclipses",
+        "past": "eclipsed",
+        "pastParticiple": "eclipsed",
+        "ing": "eclipsing"
+      },
+      "difficulty": 3
+    },
+    {
+      "en": "elaborate",
+      "vi": "trình bày chi tiết",
+      "forms": {
+        "base": "elaborate",
+        "thirdPerson": "elaborates",
+        "past": "elaborated",
+        "pastParticiple": "elaborated",
+        "ing": "elaborating"
+      },
+      "difficulty": 3,
+      "takesObject": false
+    },
+    {
+      "en": "elect",
+      "vi": "bầu chọn",
+      "forms": {
+        "base": "elect",
+        "thirdPerson": "elects",
+        "past": "elected",
+        "pastParticiple": "elected",
+        "ing": "electing"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "elevate",
+      "vi": "nâng cao",
+      "forms": {
+        "base": "elevate",
+        "thirdPerson": "elevates",
+        "past": "elevated",
+        "pastParticiple": "elevated",
+        "ing": "elevating"
+      },
+      "difficulty": 3
+    },
+    {
+      "en": "elicit",
+      "vi": "gợi ra",
+      "forms": {
+        "base": "elicit",
+        "thirdPerson": "elicits",
+        "past": "elicited",
+        "pastParticiple": "elicited",
+        "ing": "eliciting"
+      },
+      "difficulty": 3
+    },
+    {
+      "en": "eliminate",
+      "vi": "loại bỏ",
+      "forms": {
+        "base": "eliminate",
+        "thirdPerson": "eliminates",
+        "past": "eliminated",
+        "pastParticiple": "eliminated",
+        "ing": "eliminating"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "elongate",
+      "vi": "kéo dài ra",
+      "forms": {
+        "base": "elongate",
+        "thirdPerson": "elongates",
+        "past": "elongated",
+        "pastParticiple": "elongated",
+        "ing": "elongating"
+      },
+      "difficulty": 3
+    },
+    {
+      "en": "elude",
+      "vi": "lẩn tránh",
+      "forms": {
+        "base": "elude",
+        "thirdPerson": "eludes",
+        "past": "eluded",
+        "pastParticiple": "eluded",
+        "ing": "eluding"
+      },
+      "difficulty": 3
+    },
+    {
+      "en": "emanate",
+      "vi": "tỏa ra",
+      "forms": {
+        "base": "emanate",
+        "thirdPerson": "emanates",
+        "past": "emanated",
+        "pastParticiple": "emanated",
+        "ing": "emanating"
+      },
+      "difficulty": 3,
+      "takesObject": false
+    },
+    {
+      "en": "embark",
+      "vi": "bắt đầu (hành trình)",
+      "forms": {
+        "base": "embark",
+        "thirdPerson": "embarks",
+        "past": "embarked",
+        "pastParticiple": "embarked",
+        "ing": "embarking"
+      },
+      "difficulty": 3,
+      "takesObject": false
+    },
+    {
+      "en": "embed",
+      "vi": "nhúng/gắn vào",
+      "forms": {
+        "base": "embed",
+        "thirdPerson": "embeds",
+        "past": "embeded",
+        "pastParticiple": "embeded",
+        "ing": "embeding"
+      },
+      "difficulty": 3
+    },
+    {
+      "en": "embezzle",
+      "vi": "biển thủ",
+      "forms": {
+        "base": "embezzle",
+        "thirdPerson": "embezzles",
+        "past": "embezzled",
+        "pastParticiple": "embezzled",
+        "ing": "embezzling"
+      },
+      "difficulty": 3
+    },
+    {
+      "en": "embody",
+      "vi": "thể hiện/hiện thân",
+      "forms": {
+        "base": "embody",
+        "thirdPerson": "embodies",
+        "past": "embodied",
+        "pastParticiple": "embodied",
+        "ing": "embodying"
+      },
+      "difficulty": 3
+    },
+    {
+      "en": "embrace",
+      "vi": "ôm lấy/chấp nhận",
+      "forms": {
+        "base": "embrace",
+        "thirdPerson": "embraces",
+        "past": "embraced",
+        "pastParticiple": "embraced",
+        "ing": "embracing"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "emerge",
+      "vi": "nổi lên/xuất hiện",
+      "forms": {
+        "base": "emerge",
+        "thirdPerson": "emerges",
+        "past": "emerged",
+        "pastParticiple": "emerged",
+        "ing": "emerging"
+      },
+      "difficulty": 2,
+      "takesObject": false
+    },
+    {
+      "en": "emit",
+      "vi": "phát ra",
+      "forms": {
+        "base": "emit",
+        "thirdPerson": "emits",
+        "past": "emitted",
+        "pastParticiple": "emitted",
+        "ing": "emitting"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "emphasize",
+      "vi": "nhấn mạnh",
+      "forms": {
+        "base": "emphasize",
+        "thirdPerson": "emphasizes",
+        "past": "emphasized",
+        "pastParticiple": "emphasized",
+        "ing": "emphasizing"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "empower",
+      "vi": "trao quyền",
+      "forms": {
+        "base": "empower",
+        "thirdPerson": "empowers",
+        "past": "empowered",
+        "pastParticiple": "empowered",
+        "ing": "empowering"
+      },
+      "difficulty": 3
+    },
+    {
+      "en": "emulate",
+      "vi": "noi theo/mô phỏng",
+      "forms": {
+        "base": "emulate",
+        "thirdPerson": "emulates",
+        "past": "emulated",
+        "pastParticiple": "emulated",
+        "ing": "emulating"
+      },
+      "difficulty": 3
+    },
+    {
+      "en": "enact",
+      "vi": "ban hành",
+      "forms": {
+        "base": "enact",
+        "thirdPerson": "enacts",
+        "past": "enacted",
+        "pastParticiple": "enacted",
+        "ing": "enacting"
+      },
+      "difficulty": 3
+    },
+    {
+      "en": "enchant",
+      "vi": "mê hoặc",
+      "forms": {
+        "base": "enchant",
+        "thirdPerson": "enchants",
+        "past": "enchanted",
+        "pastParticiple": "enchanted",
+        "ing": "enchanting"
+      },
+      "difficulty": 3
+    },
+    {
+      "en": "encompass",
+      "vi": "bao trùm",
+      "forms": {
+        "base": "encompass",
+        "thirdPerson": "encompasses",
+        "past": "encompassed",
+        "pastParticiple": "encompassed",
+        "ing": "encompassing"
+      },
+      "difficulty": 3
+    },
+    {
+      "en": "encounter",
+      "vi": "gặp phải/chạm trán",
+      "forms": {
+        "base": "encounter",
+        "thirdPerson": "encounters",
+        "past": "encountered",
+        "pastParticiple": "encountered",
+        "ing": "encountering"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "endanger",
+      "vi": "gây nguy hiểm",
+      "forms": {
+        "base": "endanger",
+        "thirdPerson": "endangers",
+        "past": "endangered",
+        "pastParticiple": "endangered",
+        "ing": "endangering"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "endorse",
+      "vi": "tán thành/ủng hộ",
+      "forms": {
+        "base": "endorse",
+        "thirdPerson": "endorses",
+        "past": "endorsed",
+        "pastParticiple": "endorsed",
+        "ing": "endorsing"
+      },
+      "difficulty": 3
+    },
+    {
+      "en": "endure",
+      "vi": "chịu đựng bền bỉ",
+      "forms": {
+        "base": "endure",
+        "thirdPerson": "endures",
+        "past": "endured",
+        "pastParticiple": "endured",
+        "ing": "enduring"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "energize",
+      "vi": "tiếp thêm năng lượng",
+      "forms": {
+        "base": "energize",
+        "thirdPerson": "energizes",
+        "past": "energized",
+        "pastParticiple": "energized",
+        "ing": "energizing"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "enforce",
+      "vi": "thực thi (luật)",
+      "forms": {
+        "base": "enforce",
+        "thirdPerson": "enforces",
+        "past": "enforced",
+        "pastParticiple": "enforced",
+        "ing": "enforcing"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "engrave",
+      "vi": "khắc chữ",
+      "forms": {
+        "base": "engrave",
+        "thirdPerson": "engraves",
+        "past": "engraved",
+        "pastParticiple": "engraved",
+        "ing": "engraving"
+      },
+      "difficulty": 3
+    },
+    {
+      "en": "engulf",
+      "vi": "nhấn chìm",
+      "forms": {
+        "base": "engulf",
+        "thirdPerson": "engulfs",
+        "past": "engulfed",
+        "pastParticiple": "engulfed",
+        "ing": "engulfing"
+      },
+      "difficulty": 3
+    },
+    {
+      "en": "enhance",
+      "vi": "nâng cao chất lượng",
+      "forms": {
+        "base": "enhance",
+        "thirdPerson": "enhances",
+        "past": "enhanced",
+        "pastParticiple": "enhanced",
+        "ing": "enhancing"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "enlarge",
+      "vi": "phóng to",
+      "forms": {
+        "base": "enlarge",
+        "thirdPerson": "enlarges",
+        "past": "enlarged",
+        "pastParticiple": "enlarged",
+        "ing": "enlarging"
+      },
+      "difficulty": 2,
+      "takesObject": false
+    },
+    {
+      "en": "enlighten",
+      "vi": "khai sáng",
+      "forms": {
+        "base": "enlighten",
+        "thirdPerson": "enlightens",
+        "past": "enlightened",
+        "pastParticiple": "enlightened",
+        "ing": "enlightening"
+      },
+      "difficulty": 3
+    },
+    {
+      "en": "enlist",
+      "vi": "nhập ngũ/tuyển mộ",
+      "forms": {
+        "base": "enlist",
+        "thirdPerson": "enlists",
+        "past": "enlisted",
+        "pastParticiple": "enlisted",
+        "ing": "enlisting"
+      },
+      "difficulty": 3,
+      "takesObject": false
+    },
+    {
+      "en": "enrage",
+      "vi": "làm giận dữ",
+      "forms": {
+        "base": "enrage",
+        "thirdPerson": "enrages",
+        "past": "enraged",
+        "pastParticiple": "enraged",
+        "ing": "enraging"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "ensnare",
+      "vi": "gài bẫy",
+      "forms": {
+        "base": "ensnare",
+        "thirdPerson": "ensnares",
+        "past": "ensnared",
+        "pastParticiple": "ensnared",
+        "ing": "ensnaring"
+      },
+      "difficulty": 3
+    },
+    {
+      "en": "entangle",
+      "vi": "làm rối rắm",
+      "forms": {
+        "base": "entangle",
+        "thirdPerson": "entangles",
+        "past": "entangled",
+        "pastParticiple": "entangled",
+        "ing": "entangling"
+      },
+      "difficulty": 3,
+      "takesObject": false
+    },
+    {
+      "en": "enthrall",
+      "vi": "mê hoặc hoàn toàn",
+      "forms": {
+        "base": "enthrall",
+        "thirdPerson": "enthralls",
+        "past": "enthralled",
+        "pastParticiple": "enthralled",
+        "ing": "enthralling"
+      },
+      "difficulty": 3
+    },
+    {
+      "en": "entice",
+      "vi": "lôi cuốn/dụ dỗ",
+      "forms": {
+        "base": "entice",
+        "thirdPerson": "entices",
+        "past": "enticed",
+        "pastParticiple": "enticed",
+        "ing": "enticing"
+      },
+      "difficulty": 3
+    },
+    {
+      "en": "entitle",
+      "vi": "cho quyền/đặt tên",
+      "forms": {
+        "base": "entitle",
+        "thirdPerson": "entitles",
+        "past": "entitled",
+        "pastParticiple": "entitled",
+        "ing": "entitling"
+      },
+      "difficulty": 3
+    },
+    {
+      "en": "entrust",
+      "vi": "giao phó",
+      "forms": {
+        "base": "entrust",
+        "thirdPerson": "entrusts",
+        "past": "entrusted",
+        "pastParticiple": "entrusted",
+        "ing": "entrusting"
+      },
+      "difficulty": 3
+    },
+    {
+      "en": "enumerate",
+      "vi": "liệt kê ra",
+      "forms": {
+        "base": "enumerate",
+        "thirdPerson": "enumerates",
+        "past": "enumerated",
+        "pastParticiple": "enumerated",
+        "ing": "enumerating"
+      },
+      "difficulty": 3
+    },
+    {
+      "en": "envelop",
+      "vi": "bao bọc kín",
+      "forms": {
+        "base": "envelop",
+        "thirdPerson": "envelops",
+        "past": "enveloped",
+        "pastParticiple": "enveloped",
+        "ing": "enveloping"
+      },
+      "difficulty": 3
+    },
+    {
+      "en": "envision",
+      "vi": "hình dung tương lai",
+      "forms": {
+        "base": "envision",
+        "thirdPerson": "envisions",
+        "past": "envisioned",
+        "pastParticiple": "envisioned",
+        "ing": "envisioning"
+      },
+      "difficulty": 3
+    },
+    {
+      "en": "equate",
+      "vi": "đánh đồng",
+      "forms": {
+        "base": "equate",
+        "thirdPerson": "equates",
+        "past": "equated",
+        "pastParticiple": "equated",
+        "ing": "equating"
+      },
+      "difficulty": 3
+    },
+    {
+      "en": "eradicate",
+      "vi": "xóa bỏ tận gốc",
+      "forms": {
+        "base": "eradicate",
+        "thirdPerson": "eradicates",
+        "past": "eradicated",
+        "pastParticiple": "eradicated",
+        "ing": "eradicating"
+      },
+      "difficulty": 3
+    },
+    {
+      "en": "erect",
+      "vi": "dựng lên",
+      "forms": {
+        "base": "erect",
+        "thirdPerson": "erects",
+        "past": "erected",
+        "pastParticiple": "erected",
+        "ing": "erecting"
+      },
+      "difficulty": 3
+    },
+    {
+      "en": "erode",
+      "vi": "xói mòn",
+      "forms": {
+        "base": "erode",
+        "thirdPerson": "erodes",
+        "past": "eroded",
+        "pastParticiple": "eroded",
+        "ing": "eroding"
+      },
+      "difficulty": 3
+    },
+    {
+      "en": "erupt",
+      "vi": "phun trào",
+      "forms": {
+        "base": "erupt",
+        "thirdPerson": "erupts",
+        "past": "erupted",
+        "pastParticiple": "erupted",
+        "ing": "erupting"
+      },
+      "difficulty": 2,
+      "takesObject": false
+    },
+    {
+      "en": "escalate",
+      "vi": "leo thang",
+      "forms": {
+        "base": "escalate",
+        "thirdPerson": "escalates",
+        "past": "escalated",
+        "pastParticiple": "escalated",
+        "ing": "escalating"
+      },
+      "difficulty": 3,
+      "takesObject": false
+    },
+    {
+      "en": "evacuate",
+      "vi": "sơ tán",
+      "forms": {
+        "base": "evacuate",
+        "thirdPerson": "evacuates",
+        "past": "evacuated",
+        "pastParticiple": "evacuated",
+        "ing": "evacuating"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "evade",
+      "vi": "né tránh (trách nhiệm)",
+      "forms": {
+        "base": "evade",
+        "thirdPerson": "evades",
+        "past": "evaded",
+        "pastParticiple": "evaded",
+        "ing": "evading"
+      },
+      "difficulty": 3
+    },
+    {
+      "en": "evaporate",
+      "vi": "bốc hơi",
+      "forms": {
+        "base": "evaporate",
+        "thirdPerson": "evaporates",
+        "past": "evaporated",
+        "pastParticiple": "evaporated",
+        "ing": "evaporating"
+      },
+      "difficulty": 2,
+      "takesObject": false
+    },
+    {
+      "en": "evict",
+      "vi": "trục xuất khỏi nhà",
+      "forms": {
+        "base": "evict",
+        "thirdPerson": "evicts",
+        "past": "evicted",
+        "pastParticiple": "evicted",
+        "ing": "evicting"
+      },
+      "difficulty": 3
+    },
+    {
+      "en": "evoke",
+      "vi": "gợi lên (cảm xúc)",
+      "forms": {
+        "base": "evoke",
+        "thirdPerson": "evokes",
+        "past": "evoked",
+        "pastParticiple": "evoked",
+        "ing": "evoking"
+      },
+      "difficulty": 3
+    },
+    {
+      "en": "evolve",
+      "vi": "tiến hóa/phát triển",
+      "forms": {
+        "base": "evolve",
+        "thirdPerson": "evolves",
+        "past": "evolved",
+        "pastParticiple": "evolved",
+        "ing": "evolving"
+      },
+      "difficulty": 2,
+      "takesObject": false
+    },
+    {
+      "en": "exclude",
+      "vi": "loại trừ",
+      "forms": {
+        "base": "exclude",
+        "thirdPerson": "excludes",
+        "past": "excluded",
+        "pastParticiple": "excluded",
+        "ing": "excluding"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "excuse",
+      "vi": "xin lỗi/tha thứ",
+      "forms": {
+        "base": "excuse",
+        "thirdPerson": "excuses",
+        "past": "excused",
+        "pastParticiple": "excused",
+        "ing": "excusing"
+      },
+      "difficulty": 1
+    },
+    {
+      "en": "exempt",
+      "vi": "miễn trừ",
+      "forms": {
+        "base": "exempt",
+        "thirdPerson": "exempts",
+        "past": "exempted",
+        "pastParticiple": "exempted",
+        "ing": "exempting"
+      },
+      "difficulty": 3
+    },
+    {
+      "en": "exert",
+      "vi": "sử dụng (nỗ lực)",
+      "forms": {
+        "base": "exert",
+        "thirdPerson": "exerts",
+        "past": "exerted",
+        "pastParticiple": "exerted",
+        "ing": "exerting"
+      },
+      "difficulty": 3
+    },
+    {
+      "en": "exhale",
+      "vi": "thở ra",
+      "forms": {
+        "base": "exhale",
+        "thirdPerson": "exhales",
+        "past": "exhaled",
+        "pastParticiple": "exhaled",
+        "ing": "exhaling"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "exhaust",
+      "vi": "làm kiệt sức",
+      "forms": {
+        "base": "exhaust",
+        "thirdPerson": "exhausts",
+        "past": "exhausted",
+        "pastParticiple": "exhausted",
+        "ing": "exhausting"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "exile",
+      "vi": "đày ải",
+      "forms": {
+        "base": "exile",
+        "thirdPerson": "exiles",
+        "past": "exiled",
+        "pastParticiple": "exiled",
+        "ing": "exiling"
+      },
+      "difficulty": 3
+    },
+    {
+      "en": "exit",
+      "vi": "rời khỏi",
+      "forms": {
+        "base": "exit",
+        "thirdPerson": "exits",
+        "past": "exited",
+        "pastParticiple": "exited",
+        "ing": "exiting"
+      },
+      "difficulty": 1
+    },
+    {
+      "en": "expel",
+      "vi": "trục xuất/đuổi học",
+      "forms": {
+        "base": "expel",
+        "thirdPerson": "expels",
+        "past": "expelled",
+        "pastParticiple": "expelled",
+        "ing": "expelling"
+      },
+      "difficulty": 3
+    },
+    {
+      "en": "exploit",
+      "vi": "khai thác/lợi dụng",
+      "forms": {
+        "base": "exploit",
+        "thirdPerson": "exploits",
+        "past": "exploited",
+        "pastParticiple": "exploited",
+        "ing": "exploiting"
+      },
+      "difficulty": 3
+    },
+    {
+      "en": "extract",
+      "vi": "chiết xuất/trích xuất",
+      "forms": {
+        "base": "extract",
+        "thirdPerson": "extracts",
+        "past": "extracted",
+        "pastParticiple": "extracted",
+        "ing": "extracting"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "extradite",
+      "vi": "dẫn độ",
+      "forms": {
+        "base": "extradite",
+        "thirdPerson": "extradites",
+        "past": "extradited",
+        "pastParticiple": "extradited",
+        "ing": "extraditing"
+      },
+      "difficulty": 3
+    },
+    {
+      "en": "extrapolate",
+      "vi": "ngoại suy",
+      "forms": {
+        "base": "extrapolate",
+        "thirdPerson": "extrapolates",
+        "past": "extrapolated",
+        "pastParticiple": "extrapolated",
+        "ing": "extrapolating"
+      },
+      "difficulty": 3
+    },
+    {
+      "en": "facilitate",
+      "vi": "tạo điều kiện thuận lợi",
+      "forms": {
+        "base": "facilitate",
+        "thirdPerson": "facilitates",
+        "past": "facilitated",
+        "pastParticiple": "facilitated",
+        "ing": "facilitating"
+      },
+      "difficulty": 3
+    },
+    {
+      "en": "falsify",
+      "vi": "làm giả",
+      "forms": {
+        "base": "falsify",
+        "thirdPerson": "falsifies",
+        "past": "falsified",
+        "pastParticiple": "falsified",
+        "ing": "falsifying"
+      },
+      "difficulty": 3
+    },
+    {
+      "en": "fathom",
+      "vi": "hiểu thấu",
+      "forms": {
+        "base": "fathom",
+        "thirdPerson": "fathoms",
+        "past": "fathomed",
+        "pastParticiple": "fathomed",
+        "ing": "fathoming"
+      },
+      "difficulty": 3
+    },
+    {
+      "en": "fatigue",
+      "vi": "gây mệt mỏi",
+      "forms": {
+        "base": "fatigue",
+        "thirdPerson": "fatigues",
+        "past": "fatigued",
+        "pastParticiple": "fatigued",
+        "ing": "fatigueing"
+      },
+      "difficulty": 3
+    },
+    {
+      "en": "favor",
+      "vi": "thiên vị/ưa thích",
+      "forms": {
+        "base": "favor",
+        "thirdPerson": "favors",
+        "past": "favored",
+        "pastParticiple": "favored",
+        "ing": "favoring"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "feast",
+      "vi": "tiệc tùng linh đình",
+      "forms": {
+        "base": "feast",
+        "thirdPerson": "feasts",
+        "past": "feasted",
+        "pastParticiple": "feasted",
+        "ing": "feasting"
+      },
+      "difficulty": 2,
+      "takesObject": false
+    },
+    {
+      "en": "ferment",
+      "vi": "lên men",
+      "forms": {
+        "base": "ferment",
+        "thirdPerson": "ferments",
+        "past": "fermented",
+        "pastParticiple": "fermented",
+        "ing": "fermenting"
+      },
+      "difficulty": 3,
+      "takesObject": false
+    },
+    {
+      "en": "fidget",
+      "vi": "cựa quậy không yên",
+      "forms": {
+        "base": "fidget",
+        "thirdPerson": "fidgets",
+        "past": "fidgeted",
+        "pastParticiple": "fidgeted",
+        "ing": "fidgeting"
+      },
+      "difficulty": 2,
+      "takesObject": false
+    },
+    {
+      "en": "finalize",
+      "vi": "hoàn tất",
+      "forms": {
+        "base": "finalize",
+        "thirdPerson": "finalizes",
+        "past": "finalized",
+        "pastParticiple": "finalized",
+        "ing": "finalizing"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "fine-tune",
+      "vi": "tinh chỉnh",
+      "forms": {
+        "base": "fine-tune",
+        "thirdPerson": "fine-tunes",
+        "past": "fine-tuned",
+        "pastParticiple": "fine-tuned",
+        "ing": "fine-tuning"
+      },
+      "difficulty": 3
+    },
+    {
+      "en": "flatten",
+      "vi": "làm phẳng",
+      "forms": {
+        "base": "flatten",
+        "thirdPerson": "flattens",
+        "past": "flattened",
+        "pastParticiple": "flattened",
+        "ing": "flattening"
+      },
+      "difficulty": 2,
+      "takesObject": false
+    },
+    {
+      "en": "flatter",
+      "vi": "nịnh hót",
+      "forms": {
+        "base": "flatter",
+        "thirdPerson": "flatters",
+        "past": "flattered",
+        "pastParticiple": "flattered",
+        "ing": "flattering"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "flicker",
+      "vi": "nhấp nháy",
+      "forms": {
+        "base": "flicker",
+        "thirdPerson": "flickers",
+        "past": "flickered",
+        "pastParticiple": "flickered",
+        "ing": "flickering"
+      },
+      "difficulty": 2,
+      "takesObject": false
+    },
+    {
+      "en": "flip",
+      "vi": "lật ngược",
+      "forms": {
+        "base": "flip",
+        "thirdPerson": "flips",
+        "past": "flipped",
+        "pastParticiple": "flipped",
+        "ing": "flipping"
+      },
+      "difficulty": 1
+    },
+    {
+      "en": "flourish",
+      "vi": "phát triển mạnh",
+      "forms": {
+        "base": "flourish",
+        "thirdPerson": "flourishes",
+        "past": "flourished",
+        "pastParticiple": "flourished",
+        "ing": "flourishing"
+      },
+      "difficulty": 3,
+      "takesObject": false
+    },
+    {
+      "en": "flush",
+      "vi": "xả nước",
+      "forms": {
+        "base": "flush",
+        "thirdPerson": "flushes",
+        "past": "flushed",
+        "pastParticiple": "flushed",
+        "ing": "flushing"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "flutter",
+      "vi": "vỗ cánh phần phật",
+      "forms": {
+        "base": "flutter",
+        "thirdPerson": "flutters",
+        "past": "fluttered",
+        "pastParticiple": "fluttered",
+        "ing": "fluttering"
+      },
+      "difficulty": 2,
+      "takesObject": false
+    },
+    {
+      "en": "forge",
+      "vi": "giả mạo/rèn",
+      "forms": {
+        "base": "forge",
+        "thirdPerson": "forges",
+        "past": "forged",
+        "pastParticiple": "forged",
+        "ing": "forging"
+      },
+      "difficulty": 3
+    },
+    {
+      "en": "formalize",
+      "vi": "chính thức hóa",
+      "forms": {
+        "base": "formalize",
+        "thirdPerson": "formalizes",
+        "past": "formalized",
+        "pastParticiple": "formalized",
+        "ing": "formalizing"
+      },
+      "difficulty": 3
+    },
+    {
+      "en": "formulate",
+      "vi": "xây dựng công thức",
+      "forms": {
+        "base": "formulate",
+        "thirdPerson": "formulates",
+        "past": "formulated",
+        "pastParticiple": "formulated",
+        "ing": "formulating"
+      },
+      "difficulty": 3
+    },
+    {
+      "en": "fortify",
+      "vi": "củng cố phòng thủ",
+      "forms": {
+        "base": "fortify",
+        "thirdPerson": "fortifies",
+        "past": "fortified",
+        "pastParticiple": "fortified",
+        "ing": "fortifying"
+      },
+      "difficulty": 3
+    },
+    {
+      "en": "foster",
+      "vi": "nuôi dưỡng (mối quan hệ)",
+      "forms": {
+        "base": "foster",
+        "thirdPerson": "fosters",
+        "past": "fostered",
+        "pastParticiple": "fostered",
+        "ing": "fostering"
+      },
+      "difficulty": 3
+    },
+    {
+      "en": "foul",
+      "vi": "phạm lỗi (thể thao)",
+      "forms": {
+        "base": "foul",
+        "thirdPerson": "fouls",
+        "past": "fouled",
+        "pastParticiple": "fouled",
+        "ing": "fouling"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "fracture",
+      "vi": "gãy xương",
+      "forms": {
+        "base": "fracture",
+        "thirdPerson": "fractures",
+        "past": "fractured",
+        "pastParticiple": "fractured",
+        "ing": "fracturing"
+      },
+      "difficulty": 3,
+      "takesObject": false
+    },
+    {
+      "en": "fragment",
+      "vi": "chia thành mảnh vụn",
+      "forms": {
+        "base": "fragment",
+        "thirdPerson": "fragments",
+        "past": "fragmented",
+        "pastParticiple": "fragmented",
+        "ing": "fragmenting"
+      },
+      "difficulty": 3,
+      "takesObject": false
+    },
+    {
+      "en": "franchise",
+      "vi": "nhượng quyền",
+      "forms": {
+        "base": "franchise",
+        "thirdPerson": "franchises",
+        "past": "franchised",
+        "pastParticiple": "franchised",
+        "ing": "franchising"
+      },
+      "difficulty": 3
+    },
+    {
+      "en": "freckle",
+      "vi": "nổi tàn nhang",
+      "forms": {
+        "base": "freckle",
+        "thirdPerson": "freckles",
+        "past": "freckled",
+        "pastParticiple": "freckled",
+        "ing": "freckling"
+      },
+      "difficulty": 3,
+      "takesObject": false
+    },
+    {
+      "en": "frighten",
+      "vi": "làm sợ hãi",
+      "forms": {
+        "base": "frighten",
+        "thirdPerson": "frightens",
+        "past": "frightened",
+        "pastParticiple": "frightened",
+        "ing": "frightening"
+      },
+      "difficulty": 1
+    },
+    {
+      "en": "frown",
+      "vi": "cau mày",
+      "forms": {
+        "base": "frown",
+        "thirdPerson": "frowns",
+        "past": "frowned",
+        "pastParticiple": "frowned",
+        "ing": "frowning"
+      },
+      "difficulty": 2,
+      "takesObject": false
+    },
+    {
+      "en": "fuel",
+      "vi": "tiếp nhiên liệu",
+      "forms": {
+        "base": "fuel",
+        "thirdPerson": "fuels",
+        "past": "fueled",
+        "pastParticiple": "fueled",
+        "ing": "fueling"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "fumble",
+      "vi": "lóng ngóng",
+      "forms": {
+        "base": "fumble",
+        "thirdPerson": "fumbles",
+        "past": "fumbled",
+        "pastParticiple": "fumbled",
+        "ing": "fumbling"
+      },
+      "difficulty": 3,
+      "takesObject": false
+    },
+    {
+      "en": "fumigate",
+      "vi": "xông khói khử trùng",
+      "forms": {
+        "base": "fumigate",
+        "thirdPerson": "fumigates",
+        "past": "fumigated",
+        "pastParticiple": "fumigated",
+        "ing": "fumigating"
+      },
+      "difficulty": 3
+    },
+    {
+      "en": "fuse",
+      "vi": "hợp nhất",
+      "forms": {
+        "base": "fuse",
+        "thirdPerson": "fuses",
+        "past": "fused",
+        "pastParticiple": "fused",
+        "ing": "fusing"
+      },
+      "difficulty": 3,
+      "takesObject": false
+    },
+    {
+      "en": "gaze",
+      "vi": "nhìn chăm chú",
+      "forms": {
+        "base": "gaze",
+        "thirdPerson": "gazes",
+        "past": "gazed",
+        "pastParticiple": "gazed",
+        "ing": "gazing"
+      },
+      "difficulty": 2,
+      "takesObject": false
+    },
+    {
+      "en": "generalize",
+      "vi": "khái quát hóa",
+      "forms": {
+        "base": "generalize",
+        "thirdPerson": "generalizes",
+        "past": "generalized",
+        "pastParticiple": "generalized",
+        "ing": "generalizing"
+      },
+      "difficulty": 3,
+      "takesObject": false
+    },
+    {
+      "en": "generate",
+      "vi": "tạo ra",
+      "forms": {
+        "base": "generate",
+        "thirdPerson": "generates",
+        "past": "generated",
+        "pastParticiple": "generated",
+        "ing": "generating"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "germinate",
+      "vi": "nảy mầm",
+      "forms": {
+        "base": "germinate",
+        "thirdPerson": "germinates",
+        "past": "germinated",
+        "pastParticiple": "germinated",
+        "ing": "germinating"
+      },
+      "difficulty": 3,
+      "takesObject": false
+    },
+    {
+      "en": "gesture",
+      "vi": "ra hiệu bằng cử chỉ",
+      "forms": {
+        "base": "gesture",
+        "thirdPerson": "gestures",
+        "past": "gestured",
+        "pastParticiple": "gestured",
+        "ing": "gesturing"
+      },
+      "difficulty": 2,
+      "takesObject": false
+    },
+    {
+      "en": "glance",
+      "vi": "liếc nhìn",
+      "forms": {
+        "base": "glance",
+        "thirdPerson": "glances",
+        "past": "glanced",
+        "pastParticiple": "glanced",
+        "ing": "glancing"
+      },
+      "difficulty": 2,
+      "takesObject": false
+    },
+    {
+      "en": "glide",
+      "vi": "lướt nhẹ nhàng",
+      "forms": {
+        "base": "glide",
+        "thirdPerson": "glides",
+        "past": "glided",
+        "pastParticiple": "glided",
+        "ing": "gliding"
+      },
+      "difficulty": 2,
+      "takesObject": false
+    },
+    {
+      "en": "glimpse",
+      "vi": "thoáng thấy",
+      "forms": {
+        "base": "glimpse",
+        "thirdPerson": "glimpses",
+        "past": "glimpsed",
+        "pastParticiple": "glimpsed",
+        "ing": "glimpsing"
+      },
+      "difficulty": 3
+    },
+    {
+      "en": "glorify",
+      "vi": "tôn vinh",
+      "forms": {
+        "base": "glorify",
+        "thirdPerson": "glorifies",
+        "past": "glorified",
+        "pastParticiple": "glorified",
+        "ing": "glorifying"
+      },
+      "difficulty": 3
+    },
+    {
+      "en": "govern",
+      "vi": "cai trị/quản lý",
+      "forms": {
+        "base": "govern",
+        "thirdPerson": "governs",
+        "past": "governed",
+        "pastParticiple": "governed",
+        "ing": "governing"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "gratify",
+      "vi": "làm hài lòng",
+      "forms": {
+        "base": "gratify",
+        "thirdPerson": "gratifies",
+        "past": "gratified",
+        "pastParticiple": "gratified",
+        "ing": "gratifying"
+      },
+      "difficulty": 3
+    },
+    {
+      "en": "graze",
+      "vi": "gặm cỏ",
+      "forms": {
+        "base": "graze",
+        "thirdPerson": "grazes",
+        "past": "grazed",
+        "pastParticiple": "grazed",
+        "ing": "grazing"
+      },
+      "difficulty": 3,
+      "takesObject": false
+    },
+    {
+      "en": "grieve",
+      "vi": "đau buồn",
+      "forms": {
+        "base": "grieve",
+        "thirdPerson": "grieves",
+        "past": "grieved",
+        "pastParticiple": "grieved",
+        "ing": "grieving"
+      },
+      "difficulty": 3,
+      "takesObject": false
+    },
+    {
+      "en": "groom",
+      "vi": "chải chuốt",
+      "forms": {
+        "base": "groom",
+        "thirdPerson": "grooms",
+        "past": "groomed",
+        "pastParticiple": "groomed",
+        "ing": "grooming"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "grumble",
+      "vi": "làu bàu",
+      "forms": {
+        "base": "grumble",
+        "thirdPerson": "grumbles",
+        "past": "grumbled",
+        "pastParticiple": "grumbled",
+        "ing": "grumbling"
+      },
+      "difficulty": 2,
+      "takesObject": false
+    },
+    {
+      "en": "halt",
+      "vi": "dừng lại đột ngột",
+      "forms": {
+        "base": "halt",
+        "thirdPerson": "halts",
+        "past": "halted",
+        "pastParticiple": "halted",
+        "ing": "halting"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "hamper",
+      "vi": "cản trở",
+      "forms": {
+        "base": "hamper",
+        "thirdPerson": "hampers",
+        "past": "hampered",
+        "pastParticiple": "hampered",
+        "ing": "hampering"
+      },
+      "difficulty": 3
+    },
+    {
+      "en": "harass",
+      "vi": "quấy rối",
+      "forms": {
+        "base": "harass",
+        "thirdPerson": "harasses",
+        "past": "harassed",
+        "pastParticiple": "harassed",
+        "ing": "harassing"
+      },
+      "difficulty": 3
+    },
+    {
+      "en": "harden",
+      "vi": "làm cứng lại",
+      "forms": {
+        "base": "harden",
+        "thirdPerson": "hardens",
+        "past": "hardened",
+        "pastParticiple": "hardened",
+        "ing": "hardening"
+      },
+      "difficulty": 2,
+      "takesObject": false
+    },
+    {
+      "en": "harmonize",
+      "vi": "hài hòa hóa",
+      "forms": {
+        "base": "harmonize",
+        "thirdPerson": "harmonizes",
+        "past": "harmonized",
+        "pastParticiple": "harmonized",
+        "ing": "harmonizing"
+      },
+      "difficulty": 3,
+      "takesObject": false
+    },
+    {
+      "en": "haunt",
+      "vi": "ám ảnh",
+      "forms": {
+        "base": "haunt",
+        "thirdPerson": "haunts",
+        "past": "haunted",
+        "pastParticiple": "haunted",
+        "ing": "haunting"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "heave",
+      "vi": "nâng vật nặng lên",
+      "forms": {
+        "base": "heave",
+        "thirdPerson": "heaves",
+        "past": "heaved",
+        "pastParticiple": "heaved",
+        "ing": "heaving"
+      },
+      "difficulty": 3
+    },
+    {
+      "en": "hinder",
+      "vi": "cản trở tiến độ",
+      "forms": {
+        "base": "hinder",
+        "thirdPerson": "hinders",
+        "past": "hindered",
+        "pastParticiple": "hindered",
+        "ing": "hindering"
+      },
+      "difficulty": 3
+    },
+    {
+      "en": "hoard",
+      "vi": "tích trữ",
+      "forms": {
+        "base": "hoard",
+        "thirdPerson": "hoards",
+        "past": "hoarded",
+        "pastParticiple": "hoarded",
+        "ing": "hoarding"
+      },
+      "difficulty": 3
+    },
+    {
+      "en": "hobble",
+      "vi": "đi khập khiễng",
+      "forms": {
+        "base": "hobble",
+        "thirdPerson": "hobbles",
+        "past": "hobbled",
+        "pastParticiple": "hobbled",
+        "ing": "hobbling"
+      },
+      "difficulty": 3,
+      "takesObject": false
+    },
+    {
+      "en": "hoist",
+      "vi": "kéo lên cao",
+      "forms": {
+        "base": "hoist",
+        "thirdPerson": "hoists",
+        "past": "hoisted",
+        "pastParticiple": "hoisted",
+        "ing": "hoisting"
+      },
+      "difficulty": 3
+    },
+    {
+      "en": "hover",
+      "vi": "lơ lửng",
+      "forms": {
+        "base": "hover",
+        "thirdPerson": "hovers",
+        "past": "hovered",
+        "pastParticiple": "hovered",
+        "ing": "hovering"
+      },
+      "difficulty": 3,
+      "takesObject": false
+    },
+    {
+      "en": "humiliate",
+      "vi": "làm nhục",
+      "forms": {
+        "base": "humiliate",
+        "thirdPerson": "humiliates",
+        "past": "humiliated",
+        "pastParticiple": "humiliated",
+        "ing": "humiliating"
+      },
+      "difficulty": 3
+    },
+    {
+      "en": "hush",
+      "vi": "im lặng đi",
+      "forms": {
+        "base": "hush",
+        "thirdPerson": "hushes",
+        "past": "hushed",
+        "pastParticiple": "hushed",
+        "ing": "hushing"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "hypnotize",
+      "vi": "thôi miên",
+      "forms": {
+        "base": "hypnotize",
+        "thirdPerson": "hypnotizes",
+        "past": "hypnotized",
+        "pastParticiple": "hypnotized",
+        "ing": "hypnotizing"
+      },
+      "difficulty": 3
+    },
+    {
+      "en": "idealize",
+      "vi": "lý tưởng hóa",
+      "forms": {
+        "base": "idealize",
+        "thirdPerson": "idealizes",
+        "past": "idealized",
+        "pastParticiple": "idealized",
+        "ing": "idealizing"
+      },
+      "difficulty": 3
+    },
+    {
+      "en": "idle",
+      "vi": "chạy không tải",
+      "forms": {
+        "base": "idle",
+        "thirdPerson": "idles",
+        "past": "idled",
+        "pastParticiple": "idled",
+        "ing": "idling"
+      },
+      "difficulty": 3,
+      "takesObject": false
+    },
+    {
+      "en": "ignite",
+      "vi": "châm ngòi/đốt cháy",
+      "forms": {
+        "base": "ignite",
+        "thirdPerson": "ignites",
+        "past": "ignited",
+        "pastParticiple": "ignited",
+        "ing": "igniting"
+      },
+      "difficulty": 2,
+      "takesObject": false
+    },
+    {
+      "en": "illuminate",
+      "vi": "chiếu sáng",
+      "forms": {
+        "base": "illuminate",
+        "thirdPerson": "illuminates",
+        "past": "illuminated",
+        "pastParticiple": "illuminated",
+        "ing": "illuminating"
+      },
+      "difficulty": 3
+    },
+    {
+      "en": "imitate",
+      "vi": "bắt chước",
+      "forms": {
+        "base": "imitate",
+        "thirdPerson": "imitates",
+        "past": "imitated",
+        "pastParticiple": "imitated",
+        "ing": "imitating"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "immerse",
+      "vi": "đắm chìm vào",
+      "forms": {
+        "base": "immerse",
+        "thirdPerson": "immerses",
+        "past": "immersed",
+        "pastParticiple": "immersed",
+        "ing": "immersing"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "immobilize",
+      "vi": "bất động hóa",
+      "forms": {
+        "base": "immobilize",
+        "thirdPerson": "immobilizes",
+        "past": "immobilized",
+        "pastParticiple": "immobilized",
+        "ing": "immobilizing"
+      },
+      "difficulty": 3
+    },
+    {
+      "en": "immunize",
+      "vi": "tiêm chủng miễn dịch",
+      "forms": {
+        "base": "immunize",
+        "thirdPerson": "immunizes",
+        "past": "immunized",
+        "pastParticiple": "immunized",
+        "ing": "immunizing"
+      },
+      "difficulty": 3
+    },
+    {
+      "en": "impair",
+      "vi": "làm suy giảm",
+      "forms": {
+        "base": "impair",
+        "thirdPerson": "impairs",
+        "past": "impaired",
+        "pastParticiple": "impaired",
+        "ing": "impairing"
+      },
+      "difficulty": 3
+    },
+    {
+      "en": "impede",
+      "vi": "cản trở",
+      "forms": {
+        "base": "impede",
+        "thirdPerson": "impedes",
+        "past": "impeded",
+        "pastParticiple": "impeded",
+        "ing": "impeding"
+      },
+      "difficulty": 3
+    },
+    {
+      "en": "implicate",
+      "vi": "liên lụy đến",
+      "forms": {
+        "base": "implicate",
+        "thirdPerson": "implicates",
+        "past": "implicated",
+        "pastParticiple": "implicated",
+        "ing": "implicating"
+      },
+      "difficulty": 3
+    },
+    {
+      "en": "implore",
+      "vi": "khẩn cầu",
+      "forms": {
+        "base": "implore",
+        "thirdPerson": "implores",
+        "past": "implored",
+        "pastParticiple": "implored",
+        "ing": "imploring"
+      },
+      "difficulty": 3
+    },
+    {
+      "en": "imply",
+      "vi": "ngụ ý",
+      "forms": {
+        "base": "imply",
+        "thirdPerson": "implies",
+        "past": "implied",
+        "pastParticiple": "implied",
+        "ing": "implying"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "imprison",
+      "vi": "bỏ tù",
+      "forms": {
+        "base": "imprison",
+        "thirdPerson": "imprisons",
+        "past": "imprisoned",
+        "pastParticiple": "imprisoned",
+        "ing": "imprisoning"
+      },
+      "difficulty": 3
+    },
+    {
+      "en": "improvise",
+      "vi": "ứng biến",
+      "forms": {
+        "base": "improvise",
+        "thirdPerson": "improvises",
+        "past": "improvised",
+        "pastParticiple": "improvised",
+        "ing": "improvising"
+      },
+      "difficulty": 3,
+      "takesObject": false
+    },
+    {
+      "en": "inaugurate",
+      "vi": "khánh thành",
+      "forms": {
+        "base": "inaugurate",
+        "thirdPerson": "inaugurates",
+        "past": "inaugurated",
+        "pastParticiple": "inaugurated",
+        "ing": "inaugurating"
+      },
+      "difficulty": 3
+    },
+    {
+      "en": "incapacitate",
+      "vi": "làm mất khả năng",
+      "forms": {
+        "base": "incapacitate",
+        "thirdPerson": "incapacitates",
+        "past": "incapacitated",
+        "pastParticiple": "incapacitated",
+        "ing": "incapacitating"
+      },
+      "difficulty": 3
+    },
+    {
+      "en": "incite",
+      "vi": "kích động",
+      "forms": {
+        "base": "incite",
+        "thirdPerson": "incites",
+        "past": "incited",
+        "pastParticiple": "incited",
+        "ing": "inciting"
+      },
+      "difficulty": 3
+    },
+    {
+      "en": "incorporate",
+      "vi": "kết hợp/hợp nhất",
+      "forms": {
+        "base": "incorporate",
+        "thirdPerson": "incorporates",
+        "past": "incorporated",
+        "pastParticiple": "incorporated",
+        "ing": "incorporating"
+      },
+      "difficulty": 3
+    },
+    {
+      "en": "incriminate",
+      "vi": "buộc tội",
+      "forms": {
+        "base": "incriminate",
+        "thirdPerson": "incriminates",
+        "past": "incriminated",
+        "pastParticiple": "incriminated",
+        "ing": "incriminating"
+      },
+      "difficulty": 3
+    },
+    {
+      "en": "incubate",
+      "vi": "ấp trứng/ủ bệnh",
+      "forms": {
+        "base": "incubate",
+        "thirdPerson": "incubates",
+        "past": "incubated",
+        "pastParticiple": "incubated",
+        "ing": "incubating"
+      },
+      "difficulty": 3,
+      "takesObject": false
+    },
+    {
+      "en": "indoctrinate",
+      "vi": "nhồi sọ tư tưởng",
+      "forms": {
+        "base": "indoctrinate",
+        "thirdPerson": "indoctrinates",
+        "past": "indoctrinated",
+        "pastParticiple": "indoctrinated",
+        "ing": "indoctrinating"
+      },
+      "difficulty": 3
+    },
+    {
+      "en": "induce",
+      "vi": "gây ra/dẫn dụ",
+      "forms": {
+        "base": "induce",
+        "thirdPerson": "induces",
+        "past": "induced",
+        "pastParticiple": "induced",
+        "ing": "inducing"
+      },
+      "difficulty": 3
+    },
+    {
+      "en": "indulge",
+      "vi": "nuông chiều bản thân",
+      "forms": {
+        "base": "indulge",
+        "thirdPerson": "indulges",
+        "past": "indulged",
+        "pastParticiple": "indulged",
+        "ing": "indulging"
+      },
+      "difficulty": 3,
+      "takesObject": false
+    },
+    {
+      "en": "infect",
+      "vi": "lây nhiễm",
+      "forms": {
+        "base": "infect",
+        "thirdPerson": "infects",
+        "past": "infected",
+        "pastParticiple": "infected",
+        "ing": "infecting"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "infer",
+      "vi": "suy luận ra",
+      "forms": {
+        "base": "infer",
+        "thirdPerson": "infers",
+        "past": "infered",
+        "pastParticiple": "infered",
+        "ing": "infering"
+      },
+      "difficulty": 3
+    },
+    {
+      "en": "infiltrate",
+      "vi": "xâm nhập",
+      "forms": {
+        "base": "infiltrate",
+        "thirdPerson": "infiltrates",
+        "past": "infiltrated",
+        "pastParticiple": "infiltrated",
+        "ing": "infiltrating"
+      },
+      "difficulty": 3
+    },
+    {
+      "en": "inflate",
+      "vi": "bơm phồng",
+      "forms": {
+        "base": "inflate",
+        "thirdPerson": "inflates",
+        "past": "inflated",
+        "pastParticiple": "inflated",
+        "ing": "inflating"
+      },
+      "difficulty": 2,
+      "takesObject": false
+    },
+    {
+      "en": "inflict",
+      "vi": "gây ra (đau đớn)",
+      "forms": {
+        "base": "inflict",
+        "thirdPerson": "inflicts",
+        "past": "inflicted",
+        "pastParticiple": "inflicted",
+        "ing": "inflicting"
+      },
+      "difficulty": 3
+    },
+    {
+      "en": "infuriate",
+      "vi": "làm nổi giận",
+      "forms": {
+        "base": "infuriate",
+        "thirdPerson": "infuriates",
+        "past": "infuriated",
+        "pastParticiple": "infuriated",
+        "ing": "infuriating"
+      },
+      "difficulty": 3
+    },
+    {
+      "en": "infuse",
+      "vi": "truyền vào/ngâm",
+      "forms": {
+        "base": "infuse",
+        "thirdPerson": "infuses",
+        "past": "infused",
+        "pastParticiple": "infused",
+        "ing": "infusing"
+      },
+      "difficulty": 3
+    },
+    {
+      "en": "ingest",
+      "vi": "nạp vào cơ thể",
+      "forms": {
+        "base": "ingest",
+        "thirdPerson": "ingests",
+        "past": "ingested",
+        "pastParticiple": "ingested",
+        "ing": "ingesting"
+      },
+      "difficulty": 3
+    },
+    {
+      "en": "inhabit",
+      "vi": "cư trú tại",
+      "forms": {
+        "base": "inhabit",
+        "thirdPerson": "inhabits",
+        "past": "inhabited",
+        "pastParticiple": "inhabited",
+        "ing": "inhabiting"
+      },
+      "difficulty": 3
+    },
+    {
+      "en": "inhale",
+      "vi": "hít vào",
+      "forms": {
+        "base": "inhale",
+        "thirdPerson": "inhales",
+        "past": "inhaled",
+        "pastParticiple": "inhaled",
+        "ing": "inhaling"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "inherit",
+      "vi": "thừa kế",
+      "forms": {
+        "base": "inherit",
+        "thirdPerson": "inherits",
+        "past": "inherited",
+        "pastParticiple": "inherited",
+        "ing": "inheriting"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "inhibit",
+      "vi": "ức chế/kìm hãm",
+      "forms": {
+        "base": "inhibit",
+        "thirdPerson": "inhibits",
+        "past": "inhibited",
+        "pastParticiple": "inhibited",
+        "ing": "inhibiting"
+      },
+      "difficulty": 3
+    },
+    {
+      "en": "initiate",
+      "vi": "khởi xướng",
+      "forms": {
+        "base": "initiate",
+        "thirdPerson": "initiates",
+        "past": "initiated",
+        "pastParticiple": "initiated",
+        "ing": "initiating"
+      },
+      "difficulty": 3
+    },
+    {
+      "en": "inject",
+      "vi": "tiêm vào",
+      "forms": {
+        "base": "inject",
+        "thirdPerson": "injects",
+        "past": "injected",
+        "pastParticiple": "injected",
+        "ing": "injecting"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "innovate",
+      "vi": "đổi mới sáng tạo",
+      "forms": {
+        "base": "innovate",
+        "thirdPerson": "innovates",
+        "past": "innovated",
+        "pastParticiple": "innovated",
+        "ing": "innovating"
+      },
+      "difficulty": 2,
+      "takesObject": false
+    },
+    {
+      "en": "inscribe",
+      "vi": "khắc ghi",
+      "forms": {
+        "base": "inscribe",
+        "thirdPerson": "inscribes",
+        "past": "inscribed",
+        "pastParticiple": "inscribed",
+        "ing": "inscribing"
+      },
+      "difficulty": 3
+    },
+    {
+      "en": "insert",
+      "vi": "chèn vào",
+      "forms": {
+        "base": "insert",
+        "thirdPerson": "inserts",
+        "past": "inserted",
+        "pastParticiple": "inserted",
+        "ing": "inserting"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "instigate",
+      "vi": "xúi giục",
+      "forms": {
+        "base": "instigate",
+        "thirdPerson": "instigates",
+        "past": "instigated",
+        "pastParticiple": "instigated",
+        "ing": "instigating"
+      },
+      "difficulty": 3
+    },
+    {
+      "en": "instill",
+      "vi": "thấm nhuần",
+      "forms": {
+        "base": "instill",
+        "thirdPerson": "instills",
+        "past": "instilled",
+        "pastParticiple": "instilled",
+        "ing": "instilling"
+      },
+      "difficulty": 3
+    },
+    {
+      "en": "instruct",
+      "vi": "chỉ dẫn",
+      "forms": {
+        "base": "instruct",
+        "thirdPerson": "instructs",
+        "past": "instructed",
+        "pastParticiple": "instructed",
+        "ing": "instructing"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "insulate",
+      "vi": "cách nhiệt/cách điện",
+      "forms": {
+        "base": "insulate",
+        "thirdPerson": "insulates",
+        "past": "insulated",
+        "pastParticiple": "insulated",
+        "ing": "insulating"
+      },
+      "difficulty": 3
+    },
+    {
+      "en": "insure",
+      "vi": "bảo hiểm",
+      "forms": {
+        "base": "insure",
+        "thirdPerson": "insures",
+        "past": "insured",
+        "pastParticiple": "insured",
+        "ing": "insuring"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "integrate",
+      "vi": "tích hợp/hòa nhập",
+      "forms": {
+        "base": "integrate",
+        "thirdPerson": "integrates",
+        "past": "integrated",
+        "pastParticiple": "integrated",
+        "ing": "integrating"
+      },
+      "difficulty": 2,
+      "takesObject": false
+    },
+    {
+      "en": "intensify",
+      "vi": "tăng cường",
+      "forms": {
+        "base": "intensify",
+        "thirdPerson": "intensifies",
+        "past": "intensified",
+        "pastParticiple": "intensified",
+        "ing": "intensifying"
+      },
+      "difficulty": 3,
+      "takesObject": false
+    },
+    {
+      "en": "intercept",
+      "vi": "chặn bắt",
+      "forms": {
+        "base": "intercept",
+        "thirdPerson": "intercepts",
+        "past": "intercepted",
+        "pastParticiple": "intercepted",
+        "ing": "intercepting"
+      },
+      "difficulty": 3
+    },
+    {
+      "en": "interfere",
+      "vi": "can thiệp",
+      "forms": {
+        "base": "interfere",
+        "thirdPerson": "interferes",
+        "past": "interfered",
+        "pastParticiple": "interfered",
+        "ing": "interfering"
+      },
+      "difficulty": 2,
+      "takesObject": false
+    },
+    {
+      "en": "intermingle",
+      "vi": "hòa lẫn vào nhau",
+      "forms": {
+        "base": "intermingle",
+        "thirdPerson": "intermingles",
+        "past": "intermingled",
+        "pastParticiple": "intermingled",
+        "ing": "intermingling"
+      },
+      "difficulty": 3,
+      "takesObject": false
+    },
+    {
+      "en": "internalize",
+      "vi": "nội tâm hóa",
+      "forms": {
+        "base": "internalize",
+        "thirdPerson": "internalizes",
+        "past": "internalized",
+        "pastParticiple": "internalized",
+        "ing": "internalizing"
+      },
+      "difficulty": 3
+    },
+    {
+      "en": "interrogate",
+      "vi": "thẩm vấn",
+      "forms": {
+        "base": "interrogate",
+        "thirdPerson": "interrogates",
+        "past": "interrogated",
+        "pastParticiple": "interrogated",
+        "ing": "interrogating"
+      },
+      "difficulty": 3
+    },
+    {
+      "en": "intertwine",
+      "vi": "đan xen vào nhau",
+      "forms": {
+        "base": "intertwine",
+        "thirdPerson": "intertwines",
+        "past": "intertwined",
+        "pastParticiple": "intertwined",
+        "ing": "intertwining"
+      },
+      "difficulty": 3,
+      "takesObject": false
+    },
+    {
+      "en": "intervene",
+      "vi": "can thiệp vào",
+      "forms": {
+        "base": "intervene",
+        "thirdPerson": "intervenes",
+        "past": "intervened",
+        "pastParticiple": "intervened",
+        "ing": "intervening"
+      },
+      "difficulty": 3,
+      "takesObject": false
+    },
+    {
+      "en": "intimidate",
+      "vi": "đe dọa/uy hiếp",
+      "forms": {
+        "base": "intimidate",
+        "thirdPerson": "intimidates",
+        "past": "intimidated",
+        "pastParticiple": "intimidated",
+        "ing": "intimidating"
+      },
+      "difficulty": 3
+    },
+    {
+      "en": "intoxicate",
+      "vi": "gây say/nhiễm độc",
+      "forms": {
+        "base": "intoxicate",
+        "thirdPerson": "intoxicates",
+        "past": "intoxicated",
+        "pastParticiple": "intoxicated",
+        "ing": "intoxicating"
+      },
+      "difficulty": 3
+    },
+    {
+      "en": "intrigue",
+      "vi": "gây tò mò",
+      "forms": {
+        "base": "intrigue",
+        "thirdPerson": "intrigues",
+        "past": "intrigued",
+        "pastParticiple": "intrigued",
+        "ing": "intrigueing"
+      },
+      "difficulty": 3
+    },
+    {
+      "en": "introspect",
+      "vi": "tự suy xét bản thân",
+      "forms": {
+        "base": "introspect",
+        "thirdPerson": "introspects",
+        "past": "introspected",
+        "pastParticiple": "introspected",
+        "ing": "introspecting"
+      },
+      "difficulty": 3,
+      "takesObject": false
+    },
+    {
+      "en": "invade",
+      "vi": "xâm lược",
+      "forms": {
+        "base": "invade",
+        "thirdPerson": "invades",
+        "past": "invaded",
+        "pastParticiple": "invaded",
+        "ing": "invading"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "invalidate",
+      "vi": "làm mất hiệu lực",
+      "forms": {
+        "base": "invalidate",
+        "thirdPerson": "invalidates",
+        "past": "invalidated",
+        "pastParticiple": "invalidated",
+        "ing": "invalidating"
+      },
+      "difficulty": 3
+    },
+    {
+      "en": "inventory",
+      "vi": "kiểm kê hàng hóa",
+      "forms": {
+        "base": "inventory",
+        "thirdPerson": "inventories",
+        "past": "inventoried",
+        "pastParticiple": "inventoried",
+        "ing": "inventorying"
+      },
+      "difficulty": 3
+    },
+    {
+      "en": "invert",
+      "vi": "đảo ngược lại",
+      "forms": {
+        "base": "invert",
+        "thirdPerson": "inverts",
+        "past": "inverted",
+        "pastParticiple": "inverted",
+        "ing": "inverting"
+      },
+      "difficulty": 3
+    },
+    {
+      "en": "invoke",
+      "vi": "viện dẫn/cầu khẩn",
+      "forms": {
+        "base": "invoke",
+        "thirdPerson": "invokes",
+        "past": "invoked",
+        "pastParticiple": "invoked",
+        "ing": "invoking"
+      },
+      "difficulty": 3
+    },
+    {
+      "en": "irrigate",
+      "vi": "tưới tiêu",
+      "forms": {
+        "base": "irrigate",
+        "thirdPerson": "irrigates",
+        "past": "irrigated",
+        "pastParticiple": "irrigated",
+        "ing": "irrigating"
+      },
+      "difficulty": 3
+    },
+    {
+      "en": "isolate",
+      "vi": "cô lập",
+      "forms": {
+        "base": "isolate",
+        "thirdPerson": "isolates",
+        "past": "isolated",
+        "pastParticiple": "isolated",
+        "ing": "isolating"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "itch",
+      "vi": "ngứa ngáy",
+      "forms": {
+        "base": "itch",
+        "thirdPerson": "itches",
+        "past": "itched",
+        "pastParticiple": "itched",
+        "ing": "itching"
+      },
+      "difficulty": 2,
+      "takesObject": false
+    },
+    {
+      "en": "jeopardize",
+      "vi": "gây nguy hại cho",
+      "forms": {
+        "base": "jeopardize",
+        "thirdPerson": "jeopardizes",
+        "past": "jeopardized",
+        "pastParticiple": "jeopardized",
+        "ing": "jeopardizing"
+      },
+      "difficulty": 3
+    },
+    {
+      "en": "jolt",
+      "vi": "làm giật mình/xóc mạnh",
+      "forms": {
+        "base": "jolt",
+        "thirdPerson": "jolts",
+        "past": "jolted",
+        "pastParticiple": "jolted",
+        "ing": "jolting"
+      },
+      "difficulty": 3
+    },
+    {
+      "en": "jumble",
+      "vi": "xáo trộn lộn xộn",
+      "forms": {
+        "base": "jumble",
+        "thirdPerson": "jumbles",
+        "past": "jumbled",
+        "pastParticiple": "jumbled",
+        "ing": "jumbling"
+      },
+      "difficulty": 3
+    },
+    {
+      "en": "kindle",
+      "vi": "nhóm lửa/khơi dậy",
+      "forms": {
+        "base": "kindle",
+        "thirdPerson": "kindles",
+        "past": "kindled",
+        "pastParticiple": "kindled",
+        "ing": "kindling"
+      },
+      "difficulty": 3
+    },
+    {
+      "en": "knot",
+      "vi": "thắt nút",
+      "forms": {
+        "base": "knot",
+        "thirdPerson": "knots",
+        "past": "knotted",
+        "pastParticiple": "knotted",
+        "ing": "knotting"
+      },
+      "difficulty": 2
+    },
+    {
+      "en": "lament",
+      "vi": "than vãn tiếc nuối",
+      "forms": {
+        "base": "lament",
+        "thirdPerson": "laments",
+        "past": "lamented",
+        "pastParticiple": "lamented",
+        "ing": "lamenting"
+      },
+      "difficulty": 3
+    },
+    {
+      "en": "lease",
+      "vi": "cho thuê dài hạn",
+      "forms": {
+        "base": "lease",
+        "thirdPerson": "leases",
+        "past": "leased",
+        "pastParticiple": "leased",
+        "ing": "leasing"
+      },
+      "difficulty": 3
+    },
+    {
+      "en": "legislate",
+      "vi": "lập pháp",
+      "forms": {
+        "base": "legislate",
+        "thirdPerson": "legislates",
+        "past": "legislated",
+        "pastParticiple": "legislated",
+        "ing": "legislating"
+      },
+      "difficulty": 3,
+      "takesObject": false
+    },
+    {
+      "en": "legitimize",
+      "vi": "hợp pháp hóa",
+      "forms": {
+        "base": "legitimize",
+        "thirdPerson": "legitimizes",
+        "past": "legitimized",
+        "pastParticiple": "legitimized",
+        "ing": "legitimizing"
+      },
+      "difficulty": 3
+    },
+    {
+      "en": "lessen",
+      "vi": "làm giảm bớt",
+      "forms": {
+        "base": "lessen",
+        "thirdPerson": "lessens",
+        "past": "lessened",
+        "pastParticiple": "lessened",
+        "ing": "lessening"
+      },
+      "difficulty": 2,
+      "takesObject": false
+    },
+    {
+      "en": "leverage",
+      "vi": "tận dụng lợi thế",
+      "forms": {
+        "base": "leverage",
+        "thirdPerson": "leverages",
+        "past": "leveraged",
+        "pastParticiple": "leveraged",
+        "ing": "leveraging"
+      },
+      "difficulty": 3
+    },
+    {
+      "en": "liberate",
+      "vi": "giải phóng",
+      "forms": {
+        "base": "liberate",
+        "thirdPerson": "liberates",
+        "past": "liberated",
+        "pastParticiple": "liberated",
+        "ing": "liberating"
+      },
+      "difficulty": 3
+    },
+    {
+      "en": "license",
+      "vi": "cấp giấy phép",
+      "forms": {
+        "base": "license",
+        "thirdPerson": "licenses",
+        "past": "licensed",
+        "pastParticiple": "licensed",
+        "ing": "licensing"
+      },
+      "difficulty": 3
+    },
+    {
+      "en": "limp",
+      "vi": "đi khập khiễng",
+      "forms": {
+        "base": "limp",
+        "thirdPerson": "limps",
+        "past": "limped",
+        "pastParticiple": "limped",
+        "ing": "limping"
+      },
+      "difficulty": 2,
+      "takesObject": false
+    },
+    {
+      "en": "liquidate",
+      "vi": "thanh lý tài sản",
+      "forms": {
+        "base": "liquidate",
+        "thirdPerson": "liquidates",
+        "past": "liquidated",
+        "pastParticiple": "liquidated",
+        "ing": "liquidating"
+      },
+      "difficulty": 3
+    },
+    {
+      "en": "litigate",
+      "vi": "kiện tụng",
+      "forms": {
+        "base": "litigate",
+        "thirdPerson": "litigates",
+        "past": "litigated",
+        "pastParticiple": "litigated",
+        "ing": "litigating"
+      },
+      "difficulty": 3
+    },
+    {
+      "en": "loathe",
+      "vi": "ghê tởm/căm ghét",
+      "forms": {
+        "base": "loathe",
+        "thirdPerson": "loathes",
+        "past": "loathed",
+        "pastParticiple": "loathed",
+        "ing": "loathing"
+      },
+      "difficulty": 3
+    },
+    {
+      "en": "localize",
+      "vi": "địa phương hóa",
+      "forms": {
+        "base": "localize",
+        "thirdPerson": "localizes",
+        "past": "localized",
+        "pastParticiple": "localized",
+        "ing": "localizing"
+      },
+      "difficulty": 3
     }
   ],
   "adjectives": [
@@ -27307,6 +42695,252 @@ const VOCAB_BANK = {
     {
       "en": "ample",
       "vi": "dồi dào",
+      "difficulty": 2
+    },
+    {
+      "en": "jealous",
+      "vi": "ghen tị",
+      "topic": "Personality Traits",
+      "difficulty": 2
+    },
+    {
+      "en": "grumpy",
+      "vi": "cáu kỉnh",
+      "topic": "Personality Traits",
+      "difficulty": 2
+    },
+    {
+      "en": "cowardly",
+      "vi": "nhát gan",
+      "topic": "Personality Traits",
+      "difficulty": 2
+    },
+    {
+      "en": "curly",
+      "vi": "xoăn",
+      "topic": "Physical Appearance",
+      "difficulty": 2
+    },
+    {
+      "en": "straight (hair)",
+      "vi": "thẳng (tóc)",
+      "topic": "Physical Appearance",
+      "difficulty": 2
+    },
+    {
+      "en": "bald",
+      "vi": "hói đầu",
+      "topic": "Physical Appearance",
+      "difficulty": 2
+    },
+    {
+      "en": "scruffy",
+      "vi": "lôi thôi",
+      "topic": "Physical Appearance",
+      "difficulty": 2
+    },
+    {
+      "en": "chewy",
+      "vi": "dai",
+      "topic": "Texture, Size & Quantity",
+      "difficulty": 2
+    },
+    {
+      "en": "plenty",
+      "vi": "nhiều/dồi dào",
+      "topic": "Texture, Size & Quantity",
+      "difficulty": 2
+    },
+    {
+      "en": "savory",
+      "vi": "đậm đà/mặn mà",
+      "topic": "Taste, Smell & Sound",
+      "difficulty": 2
+    },
+    {
+      "en": "melodic",
+      "vi": "du dương",
+      "topic": "Taste, Smell & Sound",
+      "difficulty": 2
+    },
+    {
+      "en": "harsh",
+      "vi": "chói tai/gay gắt",
+      "topic": "Taste, Smell & Sound",
+      "difficulty": 2
+    },
+    {
+      "en": "aromatic",
+      "vi": "thơm",
+      "topic": "Taste, Smell & Sound",
+      "difficulty": 2
+    },
+    {
+      "en": "tasteless",
+      "vi": "vô vị",
+      "topic": "Taste, Smell & Sound",
+      "difficulty": 2
+    },
+    {
+      "en": "frosty",
+      "vi": "giá lạnh",
+      "topic": "Weather & Environment (More)",
+      "difficulty": 2
+    },
+    {
+      "en": "icy",
+      "vi": "băng giá",
+      "topic": "Weather & Environment (More)",
+      "difficulty": 2
+    },
+    {
+      "en": "tropical",
+      "vi": "nhiệt đới",
+      "topic": "Weather & Environment (More)",
+      "difficulty": 2
+    },
+    {
+      "en": "arid",
+      "vi": "khô cằn",
+      "topic": "Weather & Environment (More)",
+      "difficulty": 2
+    },
+    {
+      "en": "sustainable",
+      "vi": "bền vững",
+      "topic": "Weather & Environment (More)",
+      "difficulty": 2
+    },
+    {
+      "en": "comprehensive",
+      "vi": "toàn diện",
+      "topic": "Academic & Business Descriptors",
+      "difficulty": 2
+    },
+    {
+      "en": "concise",
+      "vi": "súc tích",
+      "topic": "Academic & Business Descriptors",
+      "difficulty": 2
+    },
+    {
+      "en": "coherent",
+      "vi": "mạch lạc",
+      "topic": "Academic & Business Descriptors",
+      "difficulty": 2
+    },
+    {
+      "en": "redundant",
+      "vi": "dư thừa",
+      "topic": "Academic & Business Descriptors",
+      "difficulty": 2
+    },
+    {
+      "en": "feasible",
+      "vi": "khả thi",
+      "topic": "Academic & Business Descriptors",
+      "difficulty": 2
+    },
+    {
+      "en": "viable",
+      "vi": "có thể thực hiện được",
+      "topic": "Academic & Business Descriptors",
+      "difficulty": 2
+    },
+    {
+      "en": "strategic",
+      "vi": "mang tính chiến lược",
+      "topic": "Academic & Business Descriptors",
+      "difficulty": 2
+    },
+    {
+      "en": "profitable",
+      "vi": "sinh lời",
+      "topic": "Academic & Business Descriptors",
+      "difficulty": 2
+    },
+    {
+      "en": "sustainable growth",
+      "vi": "tăng trưởng bền vững",
+      "topic": "Academic & Business Descriptors",
+      "difficulty": 2
+    },
+    {
+      "en": "accountable",
+      "vi": "có trách nhiệm giải trình",
+      "topic": "Academic & Business Descriptors",
+      "difficulty": 2
+    },
+    {
+      "en": "confidential",
+      "vi": "bảo mật",
+      "topic": "Legal, Medical & Technical Descriptors",
+      "difficulty": 2
+    },
+    {
+      "en": "unauthorized",
+      "vi": "không được phép",
+      "topic": "Legal, Medical & Technical Descriptors",
+      "difficulty": 2
+    },
+    {
+      "en": "terminal (illness)",
+      "vi": "giai đoạn cuối (bệnh)",
+      "topic": "Legal, Medical & Technical Descriptors",
+      "difficulty": 2
+    },
+    {
+      "en": "automated",
+      "vi": "tự động hóa",
+      "topic": "Legal, Medical & Technical Descriptors",
+      "difficulty": 2
+    },
+    {
+      "en": "transparent surface",
+      "vi": "trong suốt (bề mặt)",
+      "topic": "Sensory & Descriptive (More)",
+      "difficulty": 2
+    },
+    {
+      "en": "translucent",
+      "vi": "bán trong suốt",
+      "topic": "Sensory & Descriptive (More)",
+      "difficulty": 2
+    },
+    {
+      "en": "brittle",
+      "vi": "giòn dễ vỡ",
+      "topic": "Sensory & Descriptive (More)",
+      "difficulty": 2
+    },
+    {
+      "en": "dense material",
+      "vi": "đặc chắc",
+      "topic": "Sensory & Descriptive (More)",
+      "difficulty": 2
+    },
+    {
+      "en": "porous",
+      "vi": "xốp có lỗ",
+      "topic": "Sensory & Descriptive (More)",
+      "difficulty": 2
+    },
+    {
+      "en": "impulsive",
+      "vi": "bốc đồng",
+      "topic": "Character & Behavior Descriptors",
+      "difficulty": 2
+    },
+    {
+      "en": "methodical",
+      "vi": "có phương pháp",
+      "topic": "Character & Behavior Descriptors",
+      "difficulty": 2
+    },
+    {
+      "en": "erratic",
+      "vi": "thất thường",
+      "topic": "Character & Behavior Descriptors",
       "difficulty": 2
     }
   ],

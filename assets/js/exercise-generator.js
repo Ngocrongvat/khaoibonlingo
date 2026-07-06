@@ -122,7 +122,19 @@ const ExerciseGenerator = (() => {
 
     // Topics too abstract to work as the direct object of a verb (e.g. "eat the hour",
     // "carry the storm") - excluded only when a slot specifically needs a concrete object.
-    const ABSTRACT_NOUN_TOPICS = ['Numbers & Time', 'Weather & Seasons'];
+    // Originally just 2 topics; expanded after an audit found many more all-abstract
+    // topics (emotions, finance, law, time) had been added since without ever being
+    // added here, letting sentences like "wash the honesty" or "hold the inflation"
+    // through.
+    const ABSTRACT_NOUN_TOPICS = [
+        'Numbers & Time', 'Weather & Seasons', 'Abstract Concepts', 'More Abstract Ideas',
+        'Banking & Finance (More)', 'Banking, Investment & Insurance Terms', 'Money & Finance (Extended)',
+        'Insurance & Risk', 'Emotions Expressions', 'Emotions & Feelings (Nouns)',
+        'Emotions & Personality (More Nouns)', 'More Emotions Combos', 'More Emotions & Mind',
+        'More Emotions & Social', 'Legal & Government', 'More Legal Terms',
+        'Numbers (Extended)', 'Time & Calendar (Extended)', 'Time Concepts (More)',
+        'Religion & Belief'
+    ];
 
     // Explicit, hand-checked list of which nouns make real semantic sense as the direct
     // object of each verb (e.g. "drive" only the vehicles, not "drive the tree";
@@ -327,7 +339,489 @@ const ExerciseGenerator = (() => {
         eat: ['Rice', 'Bread', 'Noodles', 'Soup', 'Egg', 'Meat', 'Chicken', 'Fish', 'Apple', 'Banana', 'Cake', 'Candy', 'Cookie', 'Ice cream'],
         drink: ['Water', 'Tea', 'Coffee', 'Juice', 'Milk', 'Soda', 'Wine', 'Beer'],
         cook: ['Rice', 'Soup', 'Meat', 'Chicken', 'Egg', 'Noodles', 'Dinner', 'Breakfast'],
-        wear: ['Shirt', 'Pants', 'Dress', 'Jacket', 'Shoes', 'Hat', 'Glasses', 'Ring', 'Watch', 'Uniform']
+        wear: ['Shirt', 'Pants', 'Dress', 'Jacket', 'Shoes', 'Hat', 'Glasses', 'Ring', 'Watch', 'Uniform'],
+
+        // Specialized/technical verbs added in a later audit pass - these commonly
+        // produced nonsensical combinations when left to the general concrete-noun
+        // pool (e.g. "estimate the stethoscope", "authorize the underwear") since they
+        // need a specific semantic category of object, not just any concrete noun.
+        estimate: ['Budget', 'Price', 'Distance', 'Weight', 'Risk assessment'],
+        define: ['Vocabulary', 'Concept'],
+        bewilder: ['Student', 'Customer', 'Audience', 'Child', 'Tourist'],
+        conceive: ['Idea', 'Plan', 'Child'],
+        condemn: ['Crime', 'Decision'],
+        satisfy: ['Customer'],
+        ensure: ['Safety'],
+        emulate: ['Role model', 'Mentor'],
+        extend: ['Deadline', 'Contract'],
+        eclipse: ['Achievement'],
+        concede: ['Point'],
+        ascend: ['Mountain', 'Stairs'],
+        comprise: ['Team'],
+        confess: ['Crime'],
+        appraise: ['Property', 'House', 'Painting', 'Jewelry'],
+        omit: ['Fact'],
+        govern: ['Nation'],
+        deploy: ['Soldier', 'Software', 'Team'],
+        confiscate: ['Weapon', 'Property', 'Phone'],
+        prevent: ['Accident', 'Crime', 'Conflict'],
+        inscribe: ['Ring'],
+        classify: ['Document', 'Data', 'Species'],
+        leverage: ['Skill', 'Network'],
+        allocate: ['Budget', 'Fund', 'Task'],
+        neglect: ['Duty', 'Child'],
+        hypnotize: ['Audience', 'Volunteer'],
+        demand: ['Payment', 'Explanation', 'Refund'],
+        compensate: ['Employee', 'Customer'],
+        initiate: ['Project'],
+        scold: ['Child', 'Student', 'Dog'],
+        enchant: ['Audience', 'Guest', 'Child'],
+        intrigue: ['Audience', 'Journalist'],
+        honor: ['Agreement', 'Tradition'],
+        witness: ['Accident', 'Crime', 'Wedding'],
+        exploit: ['Opportunity', 'Factory worker'],
+        embezzle: ['Money', 'Fund', 'Budget'],
+        appoint: ['Manager', 'Judge'],
+        infer: ['Belief'],
+        irrigate: ['Field', 'Crop', 'Farm'],
+        demolish: ['House', 'Wall'],
+        amend: ['Law', 'Contract', 'Rule'],
+        constitute: ['Team'],
+        abandon: ['Plan', 'Project', 'House', 'Idea'],
+        assess: ['Risk', 'Danger'],
+        fatigue: ['Athlete', 'Muscle'],
+        designate: ['Area', 'Time zone'],
+        forbid: ['Rule of law'],
+        evade: ['Tax'],
+        attain: ['Goal', 'Level'],
+        inhabit: ['Island', 'Forest', 'Cave'],
+        deprive: ['Child'],
+        audit: ['Company', 'Budget'],
+        authorize: ['Payment', 'Plan'],
+        diversify: ['Business', 'Economy'],
+        gratify: ['Customer', 'Fan'],
+        fathom: ['Reason', 'Belief'],
+        abolish: ['Law', 'Tax', 'Rule'],
+        indoctrinate: ['Student', 'Soldier'],
+        elude: ['Danger'],
+        enact: ['Law'],
+        litigate: ['Case'],
+        liquidate: ['Company', 'Debt'],
+        legislate: ['Law'],
+        incriminate: ['Suspect', 'Witness'],
+        inflict: ['Pain', 'Danger'],
+        empower: ['Employee', 'Student', 'Community'],
+        embody: ['Belief', 'Value'],
+        incite: ['Conflict'],
+        invalidate: ['Contract', 'Claim'],
+        invoke: ['Rule of law', 'Right'],
+        jeopardize: ['Safety'],
+        exert: ['Pressure'],
+        extort: ['Money'],
+        exempt: ['Employee', 'Student'],
+        facilitate: ['Meeting', 'Deal'],
+        falsify: ['Document', 'Data'],
+        incorporate: ['Idea', 'Belief'],
+        intercept: ['Signal'],
+
+        // Third audit pass - more specialized verbs found producing nonsensical
+        // combinations against the general concrete-noun fallback (e.g. "fasten the
+        // terrain", "convict the leek").
+        fasten: ['Shirt', 'Seatbelt', 'Button', 'Zipper'],
+        upset: ['Customer', 'Parent', 'Student'],
+        challenge: ['Championship', 'Rule', 'Decision'],
+        'fine-tune': ['Instrument', 'Scale'],
+        tolerate: ['Pain'],
+        maintain: ['Weight', 'Balance', 'Contract'],
+        employ: ['Factory worker', 'Employee'],
+        exile: ['Defendant'],
+        instigate: ['Conflict'],
+        handle: ['Task'],
+        attribute: ['Success', 'Achievement'],
+        enumerate: ['Fact', 'Reason'],
+        restore: ['Order'],
+        link: ['Account', 'Website'],
+        characterize: ['Era', 'Character'],
+        knot: ['Ribbon'],
+        please: ['Customer', 'Audience'],
+        embarrass: ['Child', 'Student'],
+        injure: ['Leg'],
+        puzzle: ['Scientist', 'Detective'],
+        enforce: ['Law', 'Rule'],
+        confuse: ['Student', 'Customer'],
+        tease: ['Classmate', 'Child'],
+        startle: ['Cat', 'Child'],
+        haunt: ['House'],
+        follow: ['Rule', 'Trend'],
+        convey: ['Message'],
+        license: ['Driver', 'Business'],
+        deal: ['Card'],
+        descend: ['Stairs', 'Mountain'],
+        respect: ['Decision'],
+        deport: ['Defendant'],
+        prohibit: ['Weapon'],
+        involve: ['Risk', 'Employee'],
+        realize: ['Dream'],
+        accelerate: ['Car'],
+        invert: ['Order'],
+        interrogate: ['Suspect', 'Witness'],
+        maximize: ['Profit'],
+        express: ['Opinion'],
+        hang: ['Coat'],
+        bind: ['Contract'],
+        enlighten: ['Student', 'Audience'],
+        displace: ['Population'],
+        deduce: ['Answer key'],
+        fumigate: ['House', 'Room'],
+        envision: ['Plan'],
+        infuse: ['Tea', 'Flavor'],
+        formulate: ['Plan'],
+        calibrate: ['Instrument', 'Scale'],
+        bribe: ['Judge'],
+        evaluate: ['Performance review', 'Student'],
+        commercialize: ['Product', 'Invention'],
+        exceed: ['Speed limit'],
+        combat: ['Crime'],
+        convict: ['Defendant', 'Suspect'],
+        reduce: ['Weight'],
+        betray: ['Friend'],
+        dictate: ['Letter'],
+        depict: ['Scene'],
+        discourage: ['Student', 'Employee'],
+        dishearten: ['Employee'],
+        erect: ['Statue'],
+        instill: ['Value', 'Confidence'],
+        spare: ['Money'],
+        delegate: ['Task'],
+        administer: ['Medicine'],
+        recognize: ['Achievement'],
+        simplify: ['Task'],
+        immunize: ['Child'],
+        obtain: ['License', 'Permit'],
+        elect: ['President'],
+        bring: ['Umbrella', 'Gift'],
+
+        // Fourth audit pass.
+        mind: ['Task', 'Business'],
+        support: ['Family', 'Team'],
+        commend: ['Employee', 'Student'],
+        terrify: ['Child', 'Audience'],
+        conclude: ['Meeting', 'Speech'],
+        articulate: ['Idea', 'Opinion'],
+        cease: ['Meeting'],
+        narrate: ['History'],
+        overcome: ['Fear'],
+        glimpse: ['Scene'],
+        regard: ['Achievement'],
+        plug: ['Cable'],
+        intimidate: ['Witness', 'Student'],
+        distribute: ['Pet food'],
+        refresh: ['Memory'],
+        hinder: ['Progress'],
+        erode: ['Trust'],
+        pursue: ['Goal', 'Dream'],
+        entrust: ['Task'],
+        encounter: ['Problem'],
+        reach: ['Goal', 'Agreement'],
+        fuel: ['Car', 'Economy'],
+        dismiss: ['Employee', 'Claim'],
+        disappoint: ['Fan', 'Parent'],
+        miss: ['Opportunity'],
+        assure: ['Customer', 'Client'],
+        insult: ['Guest'],
+        impede: ['Progress'],
+        foster: ['Child'],
+        mourn: ['Friend'],
+        bombard: ['City'],
+        fortify: ['Wall', 'City'],
+        certify: ['Product', 'Document'],
+        oppose: ['Plan', 'Law'],
+        wipe: ['Screen', 'Table'],
+        amaze: ['Audience'],
+        clutch: ['Bag'],
+        constrain: ['Budget'],
+        bundle: ['Product'],
+        harass: ['Employee', 'Colleague'],
+        inherit: ['Money', 'Property'],
+        commemorate: ['Anniversary'],
+        astonish: ['Audience'],
+        shoot: ['horror film'],
+        infiltrate: ['Alarm system'],
+        isolate: ['Variable'],
+        lay: ['Egg'],
+        distract: ['Student', 'Driver'],
+        persuade: ['Customer'],
+        steer: ['Car'],
+        ignore: ['Warning', 'Advice'],
+        nourish: ['Houseplant'],
+
+        // Fifth audit pass.
+        evoke: ['Memory'],
+        justify: ['Decision'],
+        plead: ['Case'],
+        caution: ['Driver', 'Student'],
+        evacuate: ['City'],
+        bet: ['Money'],
+        cherish: ['Memory'],
+        disrupt: ['Meeting', 'Class'],
+        caption: ['Photographer'],
+        engulf: ['Pillar building'],
+        implicate: ['Suspect'],
+        champion: ['Right'],
+        verify: ['Account', 'Identity'],
+        burden: ['Employee', 'Student'],
+        establish: ['Business', 'Rule'],
+        bite: ['Apple'],
+        fascinate: ['Child', 'Audience'],
+        consult: ['Doctor', 'Lawyer'],
+        demonstrate: ['Skill', 'Product'],
+        colonize: ['Planet'],
+        brand: ['Product'],
+        bolster: ['Confidence', 'Economy'],
+        humiliate: ['Student', 'Employee'],
+        amuse: ['Child', 'Audience'],
+        withdraw: ['Money'],
+        resume: ['Job description'],
+        sort: ['Data'],
+        dissolve: ['Sugar', 'Salt'],
+        question: ['Suspect', 'Witness'],
+        analyze: ['Data'],
+        applaud: ['Performance review'],
+        brighten: ['Room'],
+        occupy: ['Pillar building'],
+        produce: ['Crop'],
+        load: ['Truck'],
+        offer: ['Discount', 'Job description'],
+        imprison: ['Defendant'],
+        enhance: ['Performance review'],
+        consolidate: ['Debt'],
+        commission: ['Report'],
+        dismantle: ['Washing machine'],
+        waste: ['Money'],
+        assert: ['Right'],
+        resemble: ['Parent'],
+        surprise: ['Guest'],
+        expel: ['Student'],
+        blast: ['Speaker'],
+        afford: ['Car', 'House'],
+        liberate: ['Defendant'],
+        brief: ['Employee'],
+        endure: ['Pain'],
+        foresee: ['Problem'],
+        cheat: ['Exam'],
+        seek: ['Advice'],
+        undergo: ['Surgery'],
+        divert: ['Traffic'],
+        dominate: ['Market'],
+
+        // Sixth audit pass.
+        captivate: ['Audience'],
+        nominate: ['Employee'],
+        detain: ['Suspect', 'Defendant'],
+        immobilize: ['Leg'],
+        congratulate: ['Student'],
+        signal: ['Driver'],
+        delight: ['Customer', 'Audience'],
+        elevate: ['Mood swing'],
+        coax: ['Child', 'Cat'],
+        arrange: ['Meeting', 'Patio furniture'],
+        alert: ['Driver'],
+        breed: ['Dog', 'Cattle'],
+        capture: ['Suspect'],
+        destroy: ['Pillar building'],
+        influence: ['Decision', 'Opinion'],
+        denounce: ['Decision'],
+        list: ['Ingredient'],
+        contest: ['Decision'],
+        construct: ['Pillar building'],
+        reassure: ['Customer'],
+        anticipate: ['Problem'],
+        contemplate: ['Decision'],
+        endanger: ['Wildlife'],
+        entertain: ['Guest', 'Audience'],
+        base: ['Decision'],
+        guarantee: ['Quality control'],
+        endorse: ['Product'],
+        compile: ['Report', 'Data'],
+        bless: ['Child'],
+        entice: ['Customer'],
+        'double-check': ['Answer key'],
+        alter: ['Document'],
+        locate: ['Suspect'],
+        target: ['Customer', 'Market'],
+        accomplish: ['Goal', 'Task'],
+        finalize: ['Plan', 'Deal'],
+        punish: ['Student', 'Defendant'],
+        insulate: ['House'],
+        offend: ['Guest'],
+        convince: ['Customer'],
+        advertise: ['Product'],
+        favor: ['Plan'],
+        assign: ['Task', 'Homework'],
+        instruct: ['Student', 'Employee'],
+        represent: ['Client'],
+        franchise: ['Business'],
+        blame: ['Employee'],
+
+        // Seventh audit pass.
+        interview: ['Employee', 'Witness'],
+        postpone: ['Meeting'],
+        rob: ['Bank account'],
+        lease: ['Car'],
+        tackle: ['Problem'],
+        dust: ['Patio furniture'],
+        annoy: ['Classmate'],
+        state: ['Opinion'],
+        seal: ['Deal'],
+        coach: ['Team'],
+        limit: ['Speed limit'],
+        possess: ['Skill'],
+        judge: ['Performance review'],
+        urge: ['Student'],
+        engrave: ['Ring'],
+        rank: ['Student'],
+        replace: ['Battery'],
+        join: ['Team'],
+        launch: ['Product'],
+        film: ['Scene'],
+        torture: ['Defendant'],
+        guide: ['Tourist'],
+        accompany: ['Child'],
+        inject: ['Vaccine'],
+        ingest: ['Medicine'],
+        survive: ['Accident'],
+        stimulate: ['Economy'],
+        owe: ['Money'],
+        flee: ['Country of origin'],
+        swap: ['Stadium seat'],
+        immerse: ['Student'],
+        permit: ['Student'],
+
+        // Eighth audit pass.
+        accuse: ['Suspect', 'Defendant'],
+        excuse: ['Student'],
+        document: ['Report'],
+        command: ['Team'],
+        comfort: ['Child'],
+        hire: ['Employee'],
+        conceal: ['Weapon'],
+        mark: ['Exam'],
+        defeat: ['Team'],
+        trap: ['Mouse'],
+        differentiate: ['Product'],
+        name: ['Child'],
+        pick: ['Team'],
+        interrupt: ['Meeting'],
+        illuminate: ['Room'],
+        minimize: ['Risk'],
+        tempt: ['Child'],
+        attack: ['Team'],
+        internalize: ['Value'],
+        convert: ['Currency'],
+        grab: ['Bag'],
+        spell: ['Vocabulary'],
+        bid: ['Deal'],
+        extradite: ['Suspect'],
+        mold: ['Clay'],
+        energize: ['Team'],
+        press: ['Button'],
+        order: ['Dinner'],
+        animate: ['Scene'],
+        soothe: ['Pain'],
+        clarify: ['Rule'],
+
+        // Ninth audit pass.
+        extract: ['Data'],
+        emphasize: ['Rule'],
+        motivate: ['Employee', 'Student'],
+        harm: ['Wildlife'],
+        excite: ['Guest'],
+        charm: ['Customer', 'Audience'],
+        halt: ['Meeting'],
+        land: ['Job description'],
+        draw: ['Blueprint plan'],
+        insure: ['Car', 'House'],
+        impress: ['Judge'],
+        sustain: ['Economy'],
+        zip: ['Bag'],
+        inaugurate: ['President'],
+        restrict: ['Speed limit'],
+        sow: ['Crop'],
+        deceive: ['Customer'],
+        navigate: ['Car'],
+        discuss: ['Plan'],
+        ban: ['Weapon'],
+        dose: ['Medicine'],
+        assume: ['Risk'],
+        predict: ['Weather station'],
+        contain: ['Virus'],
+        identify: ['Suspect', 'Problem'],
+        notice: ['Problem'],
+        reward: ['Employee', 'Student'],
+        own: ['House', 'Car'],
+        adore: ['Child'],
+        overtake: ['Car'],
+        overlook: ['Problem'],
+        discover: ['Planet'],
+        disable: ['Alarm system'],
+        inspire: ['Student', 'Team'],
+
+        // Tenth audit pass.
+        absorb: ['Data'],
+        observe: ['Wildlife'],
+        activate: ['Alarm system'],
+        forge: ['Document'],
+        correct: ['Data'],
+        defend: ['Client'],
+        reject: ['Plan'],
+        suspect: ['Employee'],
+        groom: ['Dog'],
+        damage: ['Property'],
+        pass: ['Exam'],
+        prefer: ['Product'],
+        guard: ['Border'],
+        fetch: ['Water'],
+        tickle: ['Child'],
+        chase: ['Dog'],
+        claim: ['Discount'],
+        enthrall: ['Audience'],
+        legitimize: ['Business'],
+        interest: ['Student'],
+        shape: ['Clay'],
+        strike: ['Match'],
+        bully: ['Classmate'],
+        trace: ['Ancestor'],
+        confront: ['Employee'],
+        exhaust: ['Athlete'],
+        hoard: ['Medicine'],
+        glorify: ['Achievement'],
+        enrage: ['Customer'],
+        clone: ['Cattle'],
+        annul: ['Contract'],
+
+        // Eleventh audit pass.
+        clear: ['Debt'],
+        exclude: ['Employee'],
+        cheer: ['Team'],
+        acknowledge: ['Achievement'],
+        tour: ['Museum'],
+        note: ['Meeting'],
+        decide: ['Case'],
+        treat: ['Employee'],
+        allow: ['Student'],
+        propose: ['Plan'],
+        undermine: ['Confidence'],
+        dig: ['Garden'],
+        cast: ['Ballot'],
+        design: ['Product'],
+        attract: ['Customer', 'Tourist'],
+        promise: ['Discount'],
+        complete: ['Task'],
+        view: ['Document'],
+        include: ['Employee'],
+        dispatch: ['Team'],
+        spot: ['Suspect'],
+        wake: ['Child']
     };
 
     // Curated {adjective, verb} pairs for "because" sentences that actually make causal
@@ -422,10 +916,18 @@ const ExerciseGenerator = (() => {
         // randomized within that triple's own list, so it varies across generations.
         if (template.id === 'because_reason') {
             const reason = pickRandom(CAUSAL_REASONS);
-            fillers.adjective = VOCAB_BANK.adjectives.find(a => a.en === reason.adjective);
-            fillers.verb = VOCAB_BANK.verbs.find(v => v.en === reason.verb);
-            const reasonNounPool = (VOCAB_BANK.nouns || []).filter(v => reason.nouns.includes(v.en));
-            if (reasonNounPool.length) fillers.noun = pickRandom(reasonNounPool);
+            const reasonVerb = VOCAB_BANK.verbs.find(v => v.en === reason.verb);
+            // Only commit adjective+verb+noun together as the matched triple the reason
+            // actually describes - if the verb can't be found (e.g. a restricted/custom
+            // vocab pool without it), leave ALL THREE unset rather than fixing the noun
+            // to this reason's list while the verb slot falls through to a random pick
+            // below, which would pair the reason's noun with an unrelated verb.
+            if (reasonVerb) {
+                fillers.adjective = VOCAB_BANK.adjectives.find(a => a.en === reason.adjective);
+                fillers.verb = reasonVerb;
+                const reasonNounPool = (VOCAB_BANK.nouns || []).filter(v => reason.nouns.includes(v.en));
+                if (reasonNounPool.length) fillers.noun = pickRandom(reasonNounPool);
+            }
         }
 
         template.slots.forEach(slotName => {
@@ -669,7 +1171,64 @@ const ExerciseGenerator = (() => {
         };
     }
 
+    // Fills every {slotName} placeholder in `text` from `filledSlots`, plus {name} from
+    // the separately-picked name - a single combined replace pass so a slot named
+    // "name" in a topic's own pool (there isn't one, but this keeps the two namespaces
+    // from ever silently colliding) can never shadow the person's name.
+    function fillSlots(text, name, filledSlots) {
+        return text.replace(/\{name\}/g, name).replace(/\{(\w+)\}/g, (match, key) => {
+            return Object.prototype.hasOwnProperty.call(filledSlots, key) ? filledSlots[key] : match;
+        });
+    }
+
+    // Builds a reading/dialogue exercise from a topic's combinatorial shape+slot-pool
+    // definition (see data/topic-passages.js) instead of a single fixed static text -
+    // a handful of shapes x several slot pools per topic yields thousands of distinct,
+    // grammatically-valid outputs, comfortably covering "hundreds per topic" without
+    // storing that many literal passages.
+    function buildFromTopicShape(shape, topicDef) {
+        const name = pickRandom(TOPIC_NAME_POOL);
+        // Some dialogue shapes speak a verb-phrase slot after "I"/"They" instead of the
+        // third-person subject the reading shapes use it with (e.g. Daily Life's
+        // "morningActivity" is "brushes their teeth" for reading but needs "brush my
+        // teeth" for "B: ... then I ___") - topicDef.baseForms holds the matching
+        // first-person/bare form for exactly those slots, listed per-shape in
+        // baseFormSlots, so only the shapes that actually need it look there.
+        const poolFor = (key) => {
+            if (shape.baseFormSlots && shape.baseFormSlots.includes(key) && topicDef.baseForms && topicDef.baseForms[key]) {
+                return topicDef.baseForms[key];
+            }
+            return topicDef.slots[key];
+        };
+        const filledSlots = {};
+        Object.keys(topicDef.slots).forEach(key => {
+            filledSlots[key] = pickRandom(poolFor(key));
+        });
+        const correctValue = filledSlots[shape.askSlot];
+        const distractorPool = poolFor(shape.askSlot).filter(v => v !== correctValue);
+        const distractors = shuffle(distractorPool).slice(0, 3);
+        const options = shuffle([correctValue, ...distractors]);
+        const fill = (s) => fillSlots(s, name, filledSlots);
+        return { fill, options, correct: options.indexOf(correctValue), name, filledSlots };
+    }
+
     function buildReading(difficulty) {
+        // Mix the small set of hand-written static passages with the much larger
+        // topic-based combinatorial pool - weighted toward the topic pool (5:1) since
+        // it's where the real variety comes from, while keeping the original
+        // hand-crafted passages in circulation too.
+        const useTopicPool = typeof TOPIC_PASSAGES !== 'undefined' && TOPIC_PASSAGES.length && Math.random() < 0.85;
+        if (useTopicPool) {
+            const topicDef = pickRandom(TOPIC_PASSAGES);
+            const shape = pickRandom(topicDef.readingShapes);
+            const built = buildFromTopicShape(shape, topicDef);
+            return {
+                id: genId(), type: 'reading',
+                passage: built.fill(shape.passage), question: built.fill(shape.question),
+                options: built.options, correct: built.correct,
+                meta: { topic: topicDef.topic, difficulty }
+            };
+        }
         const pool = READING_TEMPLATES.filter(r => r.difficulty <= difficulty);
         const tpl = pickWeightedByDifficulty(pool.length ? pool : READING_TEMPLATES, difficulty);
         const name = pickRandom(NAME_POOL);
@@ -683,6 +1242,18 @@ const ExerciseGenerator = (() => {
     }
 
     function buildDialogue(difficulty) {
+        const useTopicPool = typeof TOPIC_PASSAGES !== 'undefined' && TOPIC_PASSAGES.length && Math.random() < 0.85;
+        if (useTopicPool) {
+            const topicDef = pickRandom(TOPIC_PASSAGES);
+            const shape = pickRandom(topicDef.dialogueShapes);
+            const built = buildFromTopicShape(shape, topicDef);
+            return {
+                id: genId(), type: 'dialogue',
+                lines: shape.lines.map(built.fill), question: built.fill(shape.question),
+                options: built.options, correct: built.correct,
+                meta: { topic: topicDef.topic, difficulty }
+            };
+        }
         const pool = DIALOGUE_TEMPLATES.filter(d => d.difficulty <= difficulty);
         const tpl = pickWeightedByDifficulty(pool.length ? pool : DIALOGUE_TEMPLATES, difficulty);
         return {

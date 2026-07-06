@@ -1874,6 +1874,7 @@ class DuoClone {
                     <button class="btn-primary game-pick-btn" id="pick-memory">🧠 Lật Thẻ Nhớ Từ</button>
                     <button class="btn-primary game-pick-btn" id="pick-odd-one-out">🔎 Từ Lạc Loài</button>
                     <button class="btn-primary game-pick-btn" id="pick-reflex">⚡ Phản Xạ Từ Vựng</button>
+                    <button class="btn-primary game-pick-btn" id="pick-picture-word">🖼️ Nhìn Hình Chọn Từ</button>
                 </div>
                 <button class="btn-secondary" style="margin-top: 20px;" id="game-picker-close">QUAY LẠI</button>
             </div>
@@ -1885,6 +1886,7 @@ class DuoClone {
         document.getElementById('pick-memory').addEventListener('click', () => this.launchMemoryGame());
         document.getElementById('pick-odd-one-out').addEventListener('click', () => this.launchOddOneOutGame());
         document.getElementById('pick-reflex').addEventListener('click', () => this.launchReflexGame());
+        document.getElementById('pick-picture-word').addEventListener('click', () => this.launchPictureWordGame());
         document.getElementById('game-picker-close').addEventListener('click', () => this.returnToApp());
     }
 
@@ -1919,6 +1921,15 @@ class DuoClone {
     launchReflexGame() {
         if (window.Games) {
             Games.renderReflexGame(this.ui.container, {
+                onRoundEnd: (matched, total) => this.applyGameReward(matched, total),
+                onExit: () => this.renderGamePicker()
+            });
+        }
+    }
+
+    launchPictureWordGame() {
+        if (window.Games) {
+            Games.renderPictureWordGame(this.ui.container, {
                 onRoundEnd: (matched, total) => this.applyGameReward(matched, total),
                 onExit: () => this.renderGamePicker()
             });

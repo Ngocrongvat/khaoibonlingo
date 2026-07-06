@@ -23,6 +23,99 @@ const Games = (() => {
         return div.innerHTML;
     }
 
+    // Self-contained Web Audio tone player, mirroring the App class's own playTone() in
+    // app.js (same frequencies/envelopes, so the whole app has one consistent "sound
+    // language") - duplicated rather than reused because games.js is an independent IIFE
+    // module with no access to the App instance's `this`, matching how this file already
+    // duplicates pickRandom/shuffle instead of reaching into app.js's globals.
+    let gamesAudioCtx = null;
+    function playTone(type) {
+        const AudioCtx = window.AudioContext || window.webkitAudioContext;
+        if (!AudioCtx) return;
+        if (!gamesAudioCtx) gamesAudioCtx = new AudioCtx();
+        if (gamesAudioCtx.state === 'suspended') gamesAudioCtx.resume();
+
+        const ctx = gamesAudioCtx;
+        const now = ctx.currentTime;
+
+        if (type === 'correct') {
+            const osc = ctx.createOscillator();
+            const gain = ctx.createGain();
+            osc.connect(gain);
+            gain.connect(ctx.destination);
+            osc.type = 'sine';
+            osc.frequency.setValueAtTime(523.25, now);
+            osc.frequency.setValueAtTime(783.99, now + 0.1);
+            gain.gain.setValueAtTime(0.2, now);
+            gain.gain.exponentialRampToValueAtTime(0.001, now + 0.3);
+            osc.start(now);
+            osc.stop(now + 0.3);
+        } else if (type === 'cheer') {
+            const notes = [523.25, 659.25, 783.99, 1046.50];
+            notes.forEach((freq, i) => {
+                const start = now + i * 0.11;
+                const osc = ctx.createOscillator();
+                const gain = ctx.createGain();
+                osc.connect(gain);
+                gain.connect(ctx.destination);
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(freq, start);
+                gain.gain.setValueAtTime(0.001, start);
+                gain.gain.exponentialRampToValueAtTime(0.22, start + 0.02);
+                gain.gain.exponentialRampToValueAtTime(0.001, start + 0.18);
+                osc.start(start);
+                osc.stop(start + 0.2);
+            });
+        } else if (type === 'cry') {
+            const osc = ctx.createOscillator();
+            const gain = ctx.createGain();
+            const lfo = ctx.createOscillator();
+            const lfoGain = ctx.createGain();
+            osc.connect(gain);
+            gain.connect(ctx.destination);
+            lfo.connect(lfoGain);
+            lfoGain.connect(gain.gain);
+            osc.type = 'sine';
+            osc.frequency.setValueAtTime(330, now);
+            osc.frequency.linearRampToValueAtTime(220, now + 0.9);
+            lfo.type = 'sine';
+            lfo.frequency.setValueAtTime(7, now);
+            lfoGain.gain.setValueAtTime(0.05, now);
+            gain.gain.setValueAtTime(0.12, now);
+            gain.gain.exponentialRampToValueAtTime(0.001, now + 0.9);
+            osc.start(now);
+            lfo.start(now);
+            osc.stop(now + 0.9);
+            lfo.stop(now + 0.9);
+        } else if (type === 'flip') {
+            // Quiet, neutral click for card-flip feedback (Memory game) - deliberately
+            // not "correct" or "wrong" sounding, since flipping a card isn't a judgment.
+            const osc = ctx.createOscillator();
+            const gain = ctx.createGain();
+            osc.connect(gain);
+            gain.connect(ctx.destination);
+            osc.type = 'triangle';
+            osc.frequency.setValueAtTime(440, now);
+            gain.gain.setValueAtTime(0.08, now);
+            gain.gain.exponentialRampToValueAtTime(0.001, now + 0.08);
+            osc.start(now);
+            osc.stop(now + 0.08);
+        } else {
+            // 'wrong' / default: same short buzz as a plain wrong answer elsewhere in the app.
+            const osc = ctx.createOscillator();
+            const gain = ctx.createGain();
+            osc.connect(gain);
+            gain.connect(ctx.destination);
+            osc.type = 'square';
+            osc.frequency.setValueAtTime(200, now);
+            osc.frequency.linearRampToValueAtTime(120, now + 0.25);
+            gain.gain.setValueAtTime(0.15, now);
+            gain.gain.exponentialRampToValueAtTime(0.001, now + 0.25);
+            osc.start(now);
+            osc.stop(now + 0.25);
+        }
+    }
+
     // Some early vocab-bank batches used working-title topic names (e.g. "Padding Batch
     // Final") as placeholders that were never renamed - harmless for word lookups, but
     // would look broken if ever shown to the user as a category label.
@@ -141,6 +234,7 @@ const Games = (() => {
         function onRightClick(item, el) {
             if (finished || item.matched || !selectedLeft) return;
             if (selectedLeft.item.id === item.id) {
+                playTone('correct');
                 selectedLeft.item.matched = true;
                 item.matched = true;
                 selectedLeft.el.classList.add('matched');
@@ -155,6 +249,7 @@ const Games = (() => {
                     setTimeout(() => showResult(true), 350);
                 }
             } else {
+                playTone('wrong');
                 el.classList.add('wrong');
                 selectedLeft.el.classList.add('wrong');
                 setTimeout(() => {
@@ -165,6 +260,7 @@ const Games = (() => {
         }
 
         function showResult(won) {
+            playTone(won ? 'cheer' : 'cry');
             onRoundEnd(matchedCount, pairs.length);
             container.innerHTML = `
                 <div class="game-screen">
@@ -190,8 +286,15 @@ const Games = (() => {
     const MEMORY_CARD_BACK_ICON = '🦉';
 
     function getMemoryLevelConfig(level) {
-        const pairs = Math.min(4 + (level - 1), 8);
-        const maxMistakes = Math.max(8 - (level - 1), 3);
+        // Pairs now grow across 9 levels (4 -> 12) instead of capping at level 5/8 pairs -
+        // more difficulty tiers with genuinely bigger boards, not just the same 8-pair
+        // board repeated forever past level 5.
+        const pairs = Math.min(4 + (level - 1), 12);
+        // Mistakes allowed now INCREASES with level (reversed from before) - a bigger
+        // board with more pairs to keep track of deserves more room for slip-ups, not
+        // less. Even after pairs cap out at 12 (level 9+), the allowance keeps growing
+        // so later levels don't hit a hard difficulty wall.
+        const maxMistakes = 6 + (level - 1) * 2;
         return { pairs, maxMistakes };
     }
 
@@ -276,6 +379,7 @@ const Games = (() => {
             if (locked) return;
             const card = cards[idx];
             if (card.flipped || card.matched) return;
+            playTone('flip');
             card.flipped = true;
             flippedIndices.push(idx);
             syncCardVisuals();
@@ -288,6 +392,7 @@ const Games = (() => {
                 const [i1, i2] = flippedIndices;
 
                 if (cards[i1].pairId === cards[i2].pairId) {
+                    playTone('correct');
                     setTimeout(() => {
                         cards[i1].matched = true;
                         cards[i2].matched = true;
@@ -302,6 +407,7 @@ const Games = (() => {
                         }
                     }, 500);
                 } else {
+                    playTone('wrong');
                     mistakes++;
                     const mistakeEl = document.getElementById('mem-mistakes');
                     if (mistakeEl) mistakeEl.textContent = mistakes;
@@ -320,6 +426,7 @@ const Games = (() => {
         }
 
         function showLevelResult(won) {
+            playTone(won ? 'cheer' : 'cry');
             onRoundEnd(matchedPairs, config.pairs);
             if (won) {
                 level++;
@@ -423,10 +530,12 @@ const Games = (() => {
             const card = current.cards[idx];
             const allCards = container.querySelectorAll('.odd-one-out-card');
             if (card.isOdd) {
+                playTone('correct');
                 correctCount++;
                 el.classList.add('ooo-correct');
                 document.getElementById('ooo-score').textContent = correctCount;
             } else {
+                playTone('wrong');
                 el.classList.add('ooo-wrong');
                 allCards[current.cards.findIndex(c => c.isOdd)].classList.add('ooo-reveal');
             }
@@ -434,8 +543,9 @@ const Games = (() => {
         }
 
         function showResult() {
-            onRoundEnd(correctCount, ODD_ONE_OUT_ROUNDS);
             const won = correctCount >= ODD_ONE_OUT_ROUNDS * 0.5;
+            playTone(won ? 'cheer' : 'cry');
+            onRoundEnd(correctCount, ODD_ONE_OUT_ROUNDS);
             container.innerHTML = `
                 <div class="game-screen">
                     <div class="duo-character">${won ? '🧩' : '🤔'}</div>
@@ -543,11 +653,13 @@ const Games = (() => {
             const cardEl = document.getElementById('reflex-card');
             const gotItRight = userSaysCorrect !== null && userSaysCorrect === current.isCorrect;
             if (gotItRight) {
+                playTone('correct');
                 correctCount++;
                 combo++;
                 bestCombo = Math.max(bestCombo, combo);
                 if (cardEl) cardEl.classList.add('reflex-correct-flash');
             } else {
+                playTone('wrong');
                 combo = 0;
                 if (cardEl) cardEl.classList.add('reflex-wrong-flash');
             }
@@ -559,8 +671,9 @@ const Games = (() => {
         }
 
         function showResult() {
-            onRoundEnd(correctCount, REFLEX_ROUNDS);
             const won = correctCount >= REFLEX_ROUNDS * 0.5;
+            playTone(won ? 'cheer' : 'cry');
+            onRoundEnd(correctCount, REFLEX_ROUNDS);
             container.innerHTML = `
                 <div class="game-screen">
                     <div class="duo-character">${won ? '⚡' : '🐢'}</div>
@@ -579,7 +692,113 @@ const Games = (() => {
         startGame();
     }
 
-    return { renderWordMatchGame, renderMemoryGame, renderOddOneOutGame, renderReflexGame };
+    // ============================= Picture Word Game =============================
+    // "Nhìn hình chọn từ đúng" - show one hand-drawn icon (see data/picture-word-bank.js),
+    // the learner picks its matching English word from 4 options. Distractors are drawn
+    // from the SAME category as the correct answer (e.g. other animals, not a random mix
+    // of animals/vehicles/shapes) so the round stays a real vocabulary challenge instead
+    // of an easy process-of-elimination-by-picture-type guess.
+    const PICTURE_WORD_ROUNDS = 10;
+
+    function buildPictureWordRound(usedIds) {
+        const availablePool = PICTURE_WORD_BANK.filter(w => !usedIds.has(w.en));
+        const pool = availablePool.length ? availablePool : PICTURE_WORD_BANK;
+        const correct = pickRandomOne(pool);
+        usedIds.add(correct.en);
+        const sameCategory = PICTURE_WORD_BANK.filter(w => w.category === correct.category && w.en !== correct.en);
+        const distractorPool = sameCategory.length >= 3 ? sameCategory : PICTURE_WORD_BANK.filter(w => w.en !== correct.en);
+        const distractors = shuffle(distractorPool).slice(0, 3);
+        const options = shuffle([correct, ...distractors]);
+        return { correct, options };
+    }
+
+    function renderPictureWordGame(container, callbacks) {
+        const onRoundEnd = (callbacks && callbacks.onRoundEnd) || function () {};
+        const onExit = (callbacks && callbacks.onExit) || function () {};
+
+        let round, correctCount, current, locked, usedIds;
+
+        function startGame() {
+            round = 0;
+            correctCount = 0;
+            usedIds = new Set();
+            nextRound();
+        }
+
+        function nextRound() {
+            if (round >= PICTURE_WORD_ROUNDS) {
+                showResult();
+                return;
+            }
+            round++;
+            locked = false;
+            current = buildPictureWordRound(usedIds);
+            render();
+        }
+
+        function render() {
+            container.innerHTML = `
+                <div class="game-screen picture-word-screen">
+                    <h2 style="text-align: center;">🖼️ Nhìn Hình Chọn Từ Đúng</h2>
+                    <div class="game-stats">
+                        <span>🎯 <span id="pw-round">${round}</span>/${PICTURE_WORD_ROUNDS}</span>
+                        <span>✅ <span id="pw-score">${correctCount}</span></span>
+                    </div>
+                    <div class="picture-word-icon" id="pw-icon">${current.correct.svg}</div>
+                    <div class="picture-word-options">
+                        ${current.options.map(o => `<button class="picture-word-option-btn" data-en="${escapeHtml(o.en)}">${escapeHtml(o.en)}</button>`).join('')}
+                    </div>
+                    <button class="btn-secondary" style="margin-top: 16px;" id="pw-close">QUAY LẠI</button>
+                </div>
+            `;
+            container.querySelectorAll('.picture-word-option-btn').forEach(btn => {
+                btn.addEventListener('click', () => answer(btn));
+            });
+            document.getElementById('pw-close').addEventListener('click', () => onExit());
+        }
+
+        function answer(btn) {
+            if (locked) return;
+            locked = true;
+            const isCorrect = btn.dataset.en === current.correct.en;
+            if (isCorrect) {
+                playTone('correct');
+                correctCount++;
+                btn.classList.add('picture-word-correct');
+            } else {
+                playTone('wrong');
+                btn.classList.add('picture-word-wrong');
+                const correctBtn = [...container.querySelectorAll('.picture-word-option-btn')].find(b => b.dataset.en === current.correct.en);
+                if (correctBtn) correctBtn.classList.add('picture-word-correct');
+            }
+            const scoreEl = document.getElementById('pw-score');
+            if (scoreEl) scoreEl.textContent = correctCount;
+            setTimeout(nextRound, 700);
+        }
+
+        function showResult() {
+            const won = correctCount >= PICTURE_WORD_ROUNDS * 0.5;
+            playTone(won ? 'cheer' : 'cry');
+            onRoundEnd(correctCount, PICTURE_WORD_ROUNDS);
+            container.innerHTML = `
+                <div class="game-screen">
+                    <div class="duo-character">${won ? '🖼️' : '🤔'}</div>
+                    <h2 style="text-align: center;">${won ? 'Mắt tinh, từ giỏi!' : 'Nhìn kỹ hơn nhé!'}</h2>
+                    <p style="text-align: center; color: #777;">Bạn chọn đúng ${correctCount}/${PICTURE_WORD_ROUNDS} hình.</p>
+                    <div style="display: flex; gap: 15px; justify-content: center; margin-top: 15px;">
+                        <button class="btn-primary" id="pw-again">CHƠI TIẾP</button>
+                        <button class="btn-secondary" id="pw-exit">QUAY LẠI</button>
+                    </div>
+                </div>
+            `;
+            document.getElementById('pw-again').addEventListener('click', () => startGame());
+            document.getElementById('pw-exit').addEventListener('click', () => onExit());
+        }
+
+        startGame();
+    }
+
+    return { renderWordMatchGame, renderMemoryGame, renderOddOneOutGame, renderReflexGame, renderPictureWordGame };
 })();
 
 window.Games = Games;

@@ -1226,6 +1226,61 @@ body {
     transition: transform 0.2s ease;
 }
 
+/* ============================= Picture Word Game ============================= */
+
+.picture-word-icon {
+    max-width: 220px;
+    margin: 10px auto 24px;
+    padding: 20px;
+    border: 2px solid var(--duo-border);
+    border-radius: 20px;
+    background: white;
+    animation: fadeInUp 0.3s ease-out;
+}
+
+.picture-word-icon svg {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+.picture-word-options {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    max-width: 420px;
+    margin: 0 auto;
+}
+
+.picture-word-option-btn {
+    padding: 16px 10px;
+    border: 2px solid var(--duo-border);
+    border-radius: 14px;
+    background: white;
+    font-size: 16px;
+    font-weight: 700;
+    font-family: inherit;
+    color: var(--duo-text);
+    cursor: pointer;
+    transition: border-color 0.15s ease, background-color 0.15s ease, transform 0.1s ease;
+}
+
+.picture-word-option-btn:hover {
+    border-color: var(--duo-blue, #1cb0f6);
+}
+
+.picture-word-option-btn.picture-word-correct {
+    border-color: var(--duo-green);
+    background: #d7f7c2;
+    animation: oooPop 0.35s ease-out;
+}
+
+.picture-word-option-btn.picture-word-wrong {
+    border-color: var(--duo-red);
+    background: #ffe3e3;
+    animation: shakeCard 0.35s ease-in-out;
+}
+
 /* ============================= Home Dashboard ============================= */
 
 .home-dashboard {
