@@ -66,6 +66,34 @@ class ErrorTracker {
         return 1;
     }
 
+    // Mirrors BadgeTracker.hydrateFromRemote() (badges.js) - merges data synced from
+    // profiles.stats.errorHistory (see app.js's saveUserProgress()/completeLogin()) into
+    // this device's localStorage-only state, so spaced-repetition history survives a
+    // device/browser switch instead of silently resetting to empty.
+    hydrateFromRemote(remoteData) {
+        if (!remoteData) return;
+        let changed = false;
+        const remoteItems = remoteData.items || {};
+        Object.keys(remoteItems).forEach(key => {
+            const remoteItem = remoteItems[key];
+            const localItem = this.data.items[key];
+            // Newest activity wins per item - whichever device practiced this word/pattern
+            // more recently has the more accurate streak/interval/nextReview state.
+            if (!localItem || (remoteItem.lastSeen || 0) > (localItem.lastSeen || 0)) {
+                this.data.items[key] = remoteItem;
+                changed = true;
+            }
+        });
+        const remoteResults = remoteData.recentResults || [];
+        if (remoteResults.length) {
+            this.data.recentResults = [...this.data.recentResults, ...remoteResults]
+                .sort((a, b) => a.ts - b.ts)
+                .slice(-50);
+            changed = true;
+        }
+        if (changed) this.save();
+    }
+
     getStats() {
         const items = Object.values(this.data.items);
         const totalCorrect = items.reduce((sum, i) => sum + i.correct, 0);

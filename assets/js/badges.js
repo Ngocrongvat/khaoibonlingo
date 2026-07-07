@@ -12,7 +12,9 @@ const BADGE_DEFINITIONS = [
     { id: 'duelist_5', name: 'Chiến Binh Tập Sự', icon: '⚔️', description: 'Tham gia 5 trận thách đấu', check: (s) => s.duelsPlayed >= 5 },
     { id: 'duelist_20', name: 'Chiến Binh Dày Dạn', icon: '🗡️', description: 'Tham gia 20 trận thách đấu', check: (s) => s.duelsPlayed >= 20 },
     { id: 'duel_champion_5', name: 'Nhà Vô Địch Đấu Trường', icon: '🏆', description: 'Thắng 5 trận thách đấu', check: (s) => s.duelWins >= 5 },
-    { id: 'duel_champion_20', name: 'Huyền Thoại Đấu Trường', icon: '👑', description: 'Thắng 20 trận thách đấu', check: (s) => s.duelWins >= 20 }
+    { id: 'duel_champion_20', name: 'Huyền Thoại Đấu Trường', icon: '👑', description: 'Thắng 20 trận thách đấu', check: (s) => s.duelWins >= 20 },
+    { id: 'friend_5', name: 'Kết Nối Bạn Bè', icon: '🧑‍🤝‍🧑', description: 'Kết bạn với 5 người', check: (s) => s.friendCount >= 5 },
+    { id: 'friend_20', name: 'Ngôi Sao Cộng Đồng', icon: '👨‍👩‍👧‍👦', description: 'Kết bạn với 20 người', check: (s) => s.friendCount >= 20 }
 ];
 
 class BadgeTracker {

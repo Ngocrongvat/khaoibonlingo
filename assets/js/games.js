@@ -133,14 +133,22 @@ const Games = (() => {
 
     // ============================= Word Match Game =============================
 
-    function renderWordMatchGame(container, callbacks) {
+    // Pre-generates one round's worth of pairs, for duel mode - both players are handed
+    // this exact same array (via the shared `duels.questions` jsonb) instead of each
+    // calling pickPairs() themselves and getting different words.
+    function generateWordMatchRounds() {
+        return pickPairs(6);
+    }
+
+    function renderWordMatchGame(container, callbacks, duelRounds) {
         const onRoundEnd = (callbacks && callbacks.onRoundEnd) || function () {};
+        const onProgress = (callbacks && callbacks.onProgress) || function () {};
         const onExit = (callbacks && callbacks.onExit) || function () {};
 
         let pairs, leftItems, rightItems, timeLeft, matchedCount, selectedLeft, timerHandle, finished;
 
         function startRound() {
-            pairs = pickPairs(6);
+            pairs = duelRounds || pickPairs(6);
             leftItems = shuffle(pairs.map(p => ({ id: p.id, text: p.en })));
             rightItems = shuffle(pairs.map(p => ({ id: p.id, text: p.vi })));
             timeLeft = 45;
@@ -243,6 +251,7 @@ const Games = (() => {
                 matchedCount++;
                 document.getElementById('wm-score').textContent = matchedCount;
                 selectedLeft = null;
+                onProgress(matchedCount, pairs.length);
                 if (matchedCount === pairs.length) {
                     finished = true;
                     clearInterval(timerHandle);
@@ -267,14 +276,14 @@ const Games = (() => {
                     <div class="duo-character">${won ? '🏆' : '⏰'}</div>
                     <h2 style="text-align: center;">${won ? 'Xuất sắc!' : 'Hết giờ!'}</h2>
                     <p style="text-align: center; color: #777;">Bạn đã ghép đúng ${matchedCount}/${pairs.length} cặp từ${won ? ` với ${timeLeft} giây còn lại` : ''}.</p>
-                    <p style="text-align: center; font-weight: 700; color: var(--duo-text);">Bạn có muốn chơi tiếp không?</p>
+                    ${duelRounds ? '' : '<p style="text-align: center; font-weight: 700; color: var(--duo-text);">Bạn có muốn chơi tiếp không?</p>'}
                     <div style="display: flex; gap: 15px; justify-content: center; margin-top: 15px;">
-                        <button class="btn-primary" id="wm-again">CHƠI TIẾP</button>
-                        <button class="btn-secondary" id="wm-exit">QUAY LẠI</button>
+                        ${duelRounds ? '' : '<button class="btn-primary" id="wm-again">CHƠI TIẾP</button>'}
+                        <button class="btn-secondary" id="wm-exit">${duelRounds ? 'TIẾP TỤC' : 'QUAY LẠI'}</button>
                     </div>
                 </div>
             `;
-            document.getElementById('wm-again').addEventListener('click', () => startRound());
+            if (!duelRounds) document.getElementById('wm-again').addEventListener('click', () => startRound());
             document.getElementById('wm-exit').addEventListener('click', () => onExit());
         }
 
@@ -308,23 +317,47 @@ const Games = (() => {
         localStorage.setItem(`duo_memory_level_${userId}`, String(level));
     }
 
-    function renderMemoryGame(container, callbacks, userId) {
+    // Pre-generates one level's worth of cards (already shuffled into their final grid
+    // order) for duel mode - both players get the exact same layout, not just the same
+    // word pool, since the shuffle order IS part of a memory game's difficulty.
+    function generateMemoryRounds(level) {
+        const config = getMemoryLevelConfig(level);
+        const pairs = pickPairs(config.pairs);
+        let cards = [];
+        pairs.forEach(p => {
+            cards.push({ pairId: p.id, text: p.en, flipped: false, matched: false });
+            cards.push({ pairId: p.id, text: p.vi, flipped: false, matched: false });
+        });
+        cards = shuffle(cards);
+        return { level, config, cards };
+    }
+
+    function renderMemoryGame(container, callbacks, userId, duelData) {
         const onRoundEnd = (callbacks && callbacks.onRoundEnd) || function () {};
+        const onProgress = (callbacks && callbacks.onProgress) || function () {};
         const onExit = (callbacks && callbacks.onExit) || function () {};
         const uid = userId || 'guest';
 
-        let level = loadMemoryLevel(uid);
+        let level = duelData ? duelData.level : loadMemoryLevel(uid);
         let cards, flippedIndices, moves, mistakes, matchedPairs, locked, config;
 
         function startLevel() {
-            config = getMemoryLevelConfig(level);
-            const pairs = pickPairs(config.pairs);
-            cards = [];
-            pairs.forEach(p => {
-                cards.push({ pairId: p.id, text: p.en, flipped: false, matched: false });
-                cards.push({ pairId: p.id, text: p.vi, flipped: false, matched: false });
-            });
-            cards = shuffle(cards);
+            if (duelData) {
+                config = duelData.config;
+                // Clone each card object rather than reusing duelData.cards directly -
+                // this mutates flipped/matched flags in place, and duelData is a plain
+                // object handed in from app.js that shouldn't be mutated by reference.
+                cards = duelData.cards.map(c => ({ ...c }));
+            } else {
+                config = getMemoryLevelConfig(level);
+                const pairs = pickPairs(config.pairs);
+                cards = [];
+                pairs.forEach(p => {
+                    cards.push({ pairId: p.id, text: p.en, flipped: false, matched: false });
+                    cards.push({ pairId: p.id, text: p.vi, flipped: false, matched: false });
+                });
+                cards = shuffle(cards);
+            }
 
             flippedIndices = [];
             moves = 0;
@@ -402,6 +435,7 @@ const Games = (() => {
                         syncCardVisuals();
                         const scoreEl = document.getElementById('mem-score');
                         if (scoreEl) scoreEl.textContent = matchedPairs;
+                        onProgress(matchedPairs, config.pairs);
                         if (matchedPairs === config.pairs) {
                             setTimeout(() => showLevelResult(true), 400);
                         }
@@ -428,27 +462,29 @@ const Games = (() => {
         function showLevelResult(won) {
             playTone(won ? 'cheer' : 'cry');
             onRoundEnd(matchedPairs, config.pairs);
-            if (won) {
+            // Solo-mode-only progression - a duel's level is fixed by whoever sent the
+            // challenge, not tied to either player's own localStorage level.
+            if (won && !duelData) {
                 level++;
                 saveMemoryLevel(uid, level);
             }
             container.innerHTML = `
                 <div class="game-screen">
                     <div class="duo-character">${won ? '🎉' : '💔'}</div>
-                    <h2 style="text-align: center;">${won ? `Hoàn thành Cấp ${level - 1}!` : 'Hết lượt lật sai rồi!'}</h2>
+                    <h2 style="text-align: center;">${won ? (duelData ? 'Hoàn thành!' : `Hoàn thành Cấp ${level - 1}!`) : 'Hết lượt lật sai rồi!'}</h2>
                     <p style="text-align: center; color: #777;">
                         ${won
                             ? `Bạn đã ghép hết ${config.pairs} cặp từ trong ${moves} lượt lật.`
-                            : `Bạn đã sai ${mistakes} lần ở Cấp ${level}. Ghép được ${matchedPairs}/${config.pairs} cặp.`}
+                            : `Bạn đã sai ${mistakes} lần. Ghép được ${matchedPairs}/${config.pairs} cặp.`}
                     </p>
-                    ${won ? `<p style="text-align: center; font-weight: 700; color: var(--duo-green);">🏅 Lên Cấp ${level}!</p>` : ''}
+                    ${(won && !duelData) ? `<p style="text-align: center; font-weight: 700; color: var(--duo-green);">🏅 Lên Cấp ${level}!</p>` : ''}
                     <div style="display: flex; gap: 15px; justify-content: center; margin-top: 15px;">
-                        <button class="btn-primary" id="mem-again">${won ? 'CẤP TIẾP THEO' : 'THỬ LẠI CẤP NÀY'}</button>
-                        <button class="btn-secondary" id="mem-exit">QUAY LẠI</button>
+                        ${duelData ? '' : `<button class="btn-primary" id="mem-again">${won ? 'CẤP TIẾP THEO' : 'THỬ LẠI CẤP NÀY'}</button>`}
+                        <button class="btn-secondary" id="mem-exit">${duelData ? 'TIẾP TỤC' : 'QUAY LẠI'}</button>
                     </div>
                 </div>
             `;
-            document.getElementById('mem-again').addEventListener('click', () => startLevel());
+            if (!duelData) document.getElementById('mem-again').addEventListener('click', () => startLevel());
             document.getElementById('mem-exit').addEventListener('click', () => onExit());
         }
 
@@ -473,12 +509,26 @@ const Games = (() => {
         return { cards, mainTopic };
     }
 
-    function renderOddOneOutGame(container, callbacks) {
+    // Pre-generates the full set of rounds for duel mode - both players see the exact
+    // same 3-from-topic-plus-1-odd cards in the exact same order.
+    function generateOddOneOutRounds() {
+        const groupedByTopic = groupNounsByTopic();
+        const topics = Object.keys(groupedByTopic).filter(t => groupedByTopic[t].length >= 4);
+        const rounds = [];
+        for (let i = 0; i < ODD_ONE_OUT_ROUNDS && topics.length >= 2; i++) {
+            rounds.push(buildOddOneOutRound(groupedByTopic, topics));
+        }
+        return rounds;
+    }
+
+    function renderOddOneOutGame(container, callbacks, duelRounds) {
         const onRoundEnd = (callbacks && callbacks.onRoundEnd) || function () {};
+        const onProgress = (callbacks && callbacks.onProgress) || function () {};
         const onExit = (callbacks && callbacks.onExit) || function () {};
 
         const groupedByTopic = groupNounsByTopic();
         const topics = Object.keys(groupedByTopic).filter(t => groupedByTopic[t].length >= 4);
+        const totalRounds = duelRounds ? duelRounds.length : ODD_ONE_OUT_ROUNDS;
 
         let round, correctCount, current, locked;
 
@@ -489,13 +539,13 @@ const Games = (() => {
         }
 
         function nextRound() {
-            if (round >= ODD_ONE_OUT_ROUNDS || topics.length < 2) {
+            if (round >= totalRounds || (!duelRounds && topics.length < 2)) {
                 showResult();
                 return;
             }
             round++;
             locked = false;
-            current = buildOddOneOutRound(groupedByTopic, topics);
+            current = duelRounds ? duelRounds[round - 1] : buildOddOneOutRound(groupedByTopic, topics);
             render();
         }
 
@@ -505,7 +555,7 @@ const Games = (() => {
                     <h2 style="text-align: center;">🔎 Từ Lạc Loài</h2>
                     <p style="text-align: center; color: #777;">3 từ cùng một chủ đề, 1 từ không cùng nhóm - hãy tìm nó!</p>
                     <div class="game-stats">
-                        <span>🎯 Vòng <span id="ooo-round">${round}</span>/${ODD_ONE_OUT_ROUNDS}</span>
+                        <span>🎯 Vòng <span id="ooo-round">${round}</span>/${totalRounds}</span>
                         <span>✅ <span id="ooo-score">${correctCount}</span></span>
                     </div>
                     <div class="odd-one-out-grid" id="ooo-grid"></div>
@@ -539,25 +589,26 @@ const Games = (() => {
                 el.classList.add('ooo-wrong');
                 allCards[current.cards.findIndex(c => c.isOdd)].classList.add('ooo-reveal');
             }
+            onProgress(round, correctCount);
             setTimeout(nextRound, 850);
         }
 
         function showResult() {
-            const won = correctCount >= ODD_ONE_OUT_ROUNDS * 0.5;
+            const won = correctCount >= totalRounds * 0.5;
             playTone(won ? 'cheer' : 'cry');
-            onRoundEnd(correctCount, ODD_ONE_OUT_ROUNDS);
+            onRoundEnd(correctCount, totalRounds);
             container.innerHTML = `
                 <div class="game-screen">
                     <div class="duo-character">${won ? '🧩' : '🤔'}</div>
                     <h2 style="text-align: center;">${won ? 'Bộ não tinh nhạy!' : 'Luyện thêm chút nữa nhé!'}</h2>
-                    <p style="text-align: center; color: #777;">Bạn tìm đúng ${correctCount}/${ODD_ONE_OUT_ROUNDS} vòng.</p>
+                    <p style="text-align: center; color: #777;">Bạn tìm đúng ${correctCount}/${totalRounds} vòng.</p>
                     <div style="display: flex; gap: 15px; justify-content: center; margin-top: 15px;">
-                        <button class="btn-primary" id="ooo-again">CHƠI TIẾP</button>
-                        <button class="btn-secondary" id="ooo-exit">QUAY LẠI</button>
+                        ${duelRounds ? '' : '<button class="btn-primary" id="ooo-again">CHƠI TIẾP</button>'}
+                        <button class="btn-secondary" id="ooo-exit">${duelRounds ? 'TIẾP TỤC' : 'QUAY LẠI'}</button>
                     </div>
                 </div>
             `;
-            document.getElementById('ooo-again').addEventListener('click', () => startGame());
+            if (!duelRounds) document.getElementById('ooo-again').addEventListener('click', () => startGame());
             document.getElementById('ooo-exit').addEventListener('click', () => onExit());
         }
 
@@ -583,10 +634,21 @@ const Games = (() => {
         return { en: word.en, vi: shownVi, isCorrect: shownVi === word.vi };
     }
 
-    function renderReflexGame(container, callbacks) {
+    // Pre-generates the full set of cards for duel mode - both players see the exact
+    // same word/proposed-meaning sequence (including which ones are decoys).
+    function generateReflexRounds() {
+        const pool = [...VOCAB_BANK.nouns, ...VOCAB_BANK.verbs, ...VOCAB_BANK.adjectives];
+        const rounds = [];
+        for (let i = 0; i < REFLEX_ROUNDS; i++) rounds.push(buildReflexCard(pool));
+        return rounds;
+    }
+
+    function renderReflexGame(container, callbacks, duelRounds) {
         const onRoundEnd = (callbacks && callbacks.onRoundEnd) || function () {};
+        const onProgress = (callbacks && callbacks.onProgress) || function () {};
         const onExit = (callbacks && callbacks.onExit) || function () {};
         const pool = [...VOCAB_BANK.nouns, ...VOCAB_BANK.verbs, ...VOCAB_BANK.adjectives];
+        const totalRounds = duelRounds ? duelRounds.length : REFLEX_ROUNDS;
 
         let round, correctCount, combo, bestCombo, current, locked, timeLeft, timerHandle;
 
@@ -600,13 +662,13 @@ const Games = (() => {
 
         function nextRound() {
             clearInterval(timerHandle);
-            if (round >= REFLEX_ROUNDS) {
+            if (round >= totalRounds) {
                 showResult();
                 return;
             }
             round++;
             locked = false;
-            current = buildReflexCard(pool);
+            current = duelRounds ? duelRounds[round - 1] : buildReflexCard(pool);
             timeLeft = REFLEX_SECONDS_PER_CARD;
             render();
             timerHandle = setInterval(() => {
@@ -625,7 +687,7 @@ const Games = (() => {
                 <div class="game-screen reflex-screen">
                     <h2 style="text-align: center;">⚡ Phản Xạ Từ Vựng</h2>
                     <div class="game-stats">
-                        <span>🎯 <span id="reflex-round">${round}</span>/${REFLEX_ROUNDS}</span>
+                        <span>🎯 <span id="reflex-round">${round}</span>/${totalRounds}</span>
                         <span>✅ <span id="reflex-score">${correctCount}</span></span>
                         <span>🔥 Combo <span id="reflex-combo">${combo}</span></span>
                     </div>
@@ -667,25 +729,26 @@ const Games = (() => {
             const comboEl = document.getElementById('reflex-combo');
             if (scoreEl) scoreEl.textContent = correctCount;
             if (comboEl) comboEl.textContent = combo;
+            onProgress(round, correctCount);
             setTimeout(nextRound, 500);
         }
 
         function showResult() {
-            const won = correctCount >= REFLEX_ROUNDS * 0.5;
+            const won = correctCount >= totalRounds * 0.5;
             playTone(won ? 'cheer' : 'cry');
-            onRoundEnd(correctCount, REFLEX_ROUNDS);
+            onRoundEnd(correctCount, totalRounds);
             container.innerHTML = `
                 <div class="game-screen">
                     <div class="duo-character">${won ? '⚡' : '🐢'}</div>
                     <h2 style="text-align: center;">${won ? 'Phản xạ cực nhanh!' : 'Cố lên, nhanh tay hơn nhé!'}</h2>
-                    <p style="text-align: center; color: #777;">Bạn trả lời đúng ${correctCount}/${REFLEX_ROUNDS} câu, combo cao nhất: ${bestCombo}.</p>
+                    <p style="text-align: center; color: #777;">Bạn trả lời đúng ${correctCount}/${totalRounds} câu, combo cao nhất: ${bestCombo}.</p>
                     <div style="display: flex; gap: 15px; justify-content: center; margin-top: 15px;">
-                        <button class="btn-primary" id="reflex-again">CHƠI TIẾP</button>
-                        <button class="btn-secondary" id="reflex-exit">QUAY LẠI</button>
+                        ${duelRounds ? '' : '<button class="btn-primary" id="reflex-again">CHƠI TIẾP</button>'}
+                        <button class="btn-secondary" id="reflex-exit">${duelRounds ? 'TIẾP TỤC' : 'QUAY LẠI'}</button>
                     </div>
                 </div>
             `;
-            document.getElementById('reflex-again').addEventListener('click', () => startGame());
+            if (!duelRounds) document.getElementById('reflex-again').addEventListener('click', () => startGame());
             document.getElementById('reflex-exit').addEventListener('click', () => onExit());
         }
 
@@ -712,9 +775,20 @@ const Games = (() => {
         return { correct, options };
     }
 
-    function renderPictureWordGame(container, callbacks) {
+    // Pre-generates the full set of rounds for duel mode - both players see the exact
+    // same icon-plus-4-options sequence.
+    function generatePictureWordRounds() {
+        const usedIds = new Set();
+        const rounds = [];
+        for (let i = 0; i < PICTURE_WORD_ROUNDS; i++) rounds.push(buildPictureWordRound(usedIds));
+        return rounds;
+    }
+
+    function renderPictureWordGame(container, callbacks, duelRounds) {
         const onRoundEnd = (callbacks && callbacks.onRoundEnd) || function () {};
+        const onProgress = (callbacks && callbacks.onProgress) || function () {};
         const onExit = (callbacks && callbacks.onExit) || function () {};
+        const totalRounds = duelRounds ? duelRounds.length : PICTURE_WORD_ROUNDS;
 
         let round, correctCount, current, locked, usedIds;
 
@@ -726,13 +800,13 @@ const Games = (() => {
         }
 
         function nextRound() {
-            if (round >= PICTURE_WORD_ROUNDS) {
+            if (round >= totalRounds) {
                 showResult();
                 return;
             }
             round++;
             locked = false;
-            current = buildPictureWordRound(usedIds);
+            current = duelRounds ? duelRounds[round - 1] : buildPictureWordRound(usedIds);
             render();
         }
 
@@ -741,7 +815,7 @@ const Games = (() => {
                 <div class="game-screen picture-word-screen">
                     <h2 style="text-align: center;">🖼️ Nhìn Hình Chọn Từ Đúng</h2>
                     <div class="game-stats">
-                        <span>🎯 <span id="pw-round">${round}</span>/${PICTURE_WORD_ROUNDS}</span>
+                        <span>🎯 <span id="pw-round">${round}</span>/${totalRounds}</span>
                         <span>✅ <span id="pw-score">${correctCount}</span></span>
                     </div>
                     <div class="picture-word-icon" id="pw-icon">${current.correct.svg}</div>
@@ -773,32 +847,37 @@ const Games = (() => {
             }
             const scoreEl = document.getElementById('pw-score');
             if (scoreEl) scoreEl.textContent = correctCount;
+            onProgress(round, correctCount);
             setTimeout(nextRound, 700);
         }
 
         function showResult() {
-            const won = correctCount >= PICTURE_WORD_ROUNDS * 0.5;
+            const won = correctCount >= totalRounds * 0.5;
             playTone(won ? 'cheer' : 'cry');
-            onRoundEnd(correctCount, PICTURE_WORD_ROUNDS);
+            onRoundEnd(correctCount, totalRounds);
             container.innerHTML = `
                 <div class="game-screen">
                     <div class="duo-character">${won ? '🖼️' : '🤔'}</div>
                     <h2 style="text-align: center;">${won ? 'Mắt tinh, từ giỏi!' : 'Nhìn kỹ hơn nhé!'}</h2>
-                    <p style="text-align: center; color: #777;">Bạn chọn đúng ${correctCount}/${PICTURE_WORD_ROUNDS} hình.</p>
+                    <p style="text-align: center; color: #777;">Bạn chọn đúng ${correctCount}/${totalRounds} hình.</p>
                     <div style="display: flex; gap: 15px; justify-content: center; margin-top: 15px;">
-                        <button class="btn-primary" id="pw-again">CHƠI TIẾP</button>
-                        <button class="btn-secondary" id="pw-exit">QUAY LẠI</button>
+                        ${duelRounds ? '' : '<button class="btn-primary" id="pw-again">CHƠI TIẾP</button>'}
+                        <button class="btn-secondary" id="pw-exit">${duelRounds ? 'TIẾP TỤC' : 'QUAY LẠI'}</button>
                     </div>
                 </div>
             `;
-            document.getElementById('pw-again').addEventListener('click', () => startGame());
+            if (!duelRounds) document.getElementById('pw-again').addEventListener('click', () => startGame());
             document.getElementById('pw-exit').addEventListener('click', () => onExit());
         }
 
         startGame();
     }
 
-    return { renderWordMatchGame, renderMemoryGame, renderOddOneOutGame, renderReflexGame, renderPictureWordGame };
+    return {
+        renderWordMatchGame, renderMemoryGame, renderOddOneOutGame, renderReflexGame, renderPictureWordGame,
+        generateWordMatchRounds, generateMemoryRounds, generateOddOneOutRounds, generateReflexRounds, generatePictureWordRounds,
+        getMemoryLevelConfig
+    };
 })();
 
 window.Games = Games;

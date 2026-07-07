@@ -937,6 +937,54 @@ body {
     font-size: 16px;
 }
 
+/* Wraps a solo-play game button + its "⚔️ Đấu 1v1" duel button on the same line -
+   .game-picker-list already caps width/centers the column, this just adds the
+   side-by-side row inside it. */
+.game-picker-row {
+    display: flex;
+    align-items: stretch;
+    gap: 8px;
+}
+
+.game-picker-row .game-pick-btn {
+    flex: 1;
+}
+
+.game-picker-row .game-pick-duel-btn {
+    flex: 0 0 auto;
+    width: 54px;
+    padding: 0;
+    font-size: 18px;
+}
+
+/* Friends list / pending-request rows - unlike .leaderboard-row, this needs a flexible
+   width for the name plus a variable number of action buttons (1-2), not a fixed
+   4-column grid sized for rank/name/streak/xp. */
+.friend-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 12px 16px;
+    border: 2px solid var(--duo-border);
+    border-radius: 12px;
+    font-weight: 700;
+    background: white;
+    margin-bottom: 10px;
+}
+
+.friend-row-name {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.friend-row-actions {
+    display: flex;
+    gap: 6px;
+    flex-shrink: 0;
+}
+
 .game-stats {
     display: flex;
     justify-content: center;
@@ -1407,10 +1455,37 @@ body {
     align-items: center;
     padding: 20px 0 30px;
     border-radius: 24px;
-    /* Faint terrain-like wash (not a literal texture image) so the map reads as a place
-       rather than a plain white list - kept subtle since the real visual interest is the
-       road + nodes, not the backdrop. */
-    background: linear-gradient(180deg, #f3faee 0%, #ffffff 45%);
+    position: relative;
+    overflow: hidden;
+    /* Mystical/cute pastel backdrop - a soft lavender-mint-pink color wash plus a scatter
+       of tiny sparkle dots, all pure CSS gradients layered in one background (no external
+       image, keeps the page self-contained and light). Node/road content sits at z-index 1
+       (see .path-node-row), well above this. */
+    background:
+        radial-gradient(circle, rgba(255,255,255,0.9) 1.6px, transparent 1.7px) 20px 24px / 150px 150px,
+        radial-gradient(circle, rgba(255,255,255,0.75) 1.4px, transparent 1.5px) 70px 110px / 190px 190px,
+        radial-gradient(circle, rgba(255,255,255,0.85) 1.5px, transparent 1.6px) 130px 50px / 230px 230px,
+        radial-gradient(circle at 12% 10%, rgba(255, 200, 240, 0.5) 0%, transparent 40%),
+        radial-gradient(circle at 88% 6%, rgba(190, 220, 255, 0.5) 0%, transparent 42%),
+        radial-gradient(circle at 50% 105%, rgba(205, 255, 222, 0.55) 0%, transparent 55%),
+        linear-gradient(180deg, #f3ecff 0%, #eaf5ff 45%, #ffffff 85%);
+}
+
+.path-map::after {
+    content: '✨';
+    position: absolute;
+    top: 14px;
+    right: 20px;
+    font-size: 20px;
+    opacity: 0.6;
+    pointer-events: none;
+    z-index: 0;
+    animation: pathSparkleFloat 4.5s ease-in-out infinite;
+}
+
+@keyframes pathSparkleFloat {
+    0%, 100% { transform: translateY(0) rotate(0deg); opacity: 0.5; }
+    50% { transform: translateY(-6px) rotate(12deg); opacity: 0.9; }
 }
 
 .path-map-unit-title {
@@ -1729,6 +1804,95 @@ body {
     gap: 8px;
 }
 
+/* Any displayed username wrapped via app.js's clickableUsername() - underline-on-hover
+   signals "this opens something" without shouting like a full button would, since these
+   appear inline inside sentences/rows all over the app. */
+.user-clickable {
+    cursor: pointer;
+    text-decoration-line: underline;
+    text-decoration-color: transparent;
+    text-underline-offset: 3px;
+    transition: text-decoration-color 0.15s ease;
+}
+
+.user-clickable:hover,
+.user-clickable:focus-visible {
+    text-decoration-color: currentColor;
+}
+
+.user-action-menu {
+    position: absolute;
+    z-index: 2200;
+    min-width: 200px;
+    background: white;
+    border: 1px solid var(--duo-border, #e5e5e5);
+    border-radius: 14px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.18);
+    padding: 8px;
+    animation: userActionMenuPop 0.15s ease-out;
+}
+
+@keyframes userActionMenuPop {
+    from { opacity: 0; transform: translateY(-4px) scale(0.97); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.user-action-menu-header {
+    font-weight: 800;
+    font-size: 13px;
+    color: var(--duo-dark-grey, #afafaf);
+    padding: 6px 10px 8px;
+    border-bottom: 1px solid var(--duo-border, #e5e5e5);
+    margin-bottom: 4px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.user-action-menu-item {
+    display: block;
+    width: 100%;
+    text-align: left;
+    background: none;
+    border: none;
+    border-radius: 8px;
+    padding: 10px;
+    font-size: 14.5px;
+    font-weight: 700;
+    color: var(--duo-text);
+    cursor: pointer;
+    font-family: inherit;
+}
+
+.user-action-menu-item:hover {
+    background: var(--accent-soft, #f0f7ff);
+}
+
+.user-info-stats {
+    display: flex;
+    justify-content: center;
+    gap: 22px;
+    margin: 16px 0;
+}
+
+.user-info-stat {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+}
+
+.user-info-stat-value {
+    font-size: 17px;
+    font-weight: 800;
+    color: var(--duo-text);
+}
+
+.user-info-stat-label {
+    font-size: 11.5px;
+    color: var(--duo-dark-grey, #afafaf);
+}
+
 .duel-invite-toast-actions button {
     flex: 1;
 }
@@ -1938,4 +2102,177 @@ body {
         text-overflow: ellipsis;
         white-space: nowrap;
     }
+}
+
+/* ============================= Global Chat widget (Home dashboard) ============================= */
+
+.global-chat-widget {
+    margin: 18px 0;
+    border: 2px solid var(--duo-border);
+    border-radius: 14px;
+    background: white;
+    overflow: hidden;
+}
+
+.global-chat-toggle {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 18px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-family: inherit;
+    font-size: 15px;
+    font-weight: 800;
+    color: var(--duo-text);
+}
+
+.global-chat-toggle:hover {
+    background: #f7f7f7;
+}
+
+#global-chat-toggle-icon {
+    color: #999;
+    font-size: 13px;
+}
+
+.global-chat-body {
+    border-top: 2px solid var(--duo-border);
+    padding: 12px 14px 14px;
+}
+
+.global-chat-body.hidden {
+    display: none;
+}
+
+.global-chat-messages {
+    max-height: 260px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 4px 2px;
+    margin-bottom: 10px;
+}
+
+.global-chat-input-row {
+    display: flex;
+    gap: 8px;
+}
+
+.global-chat-input-row .input-field {
+    flex: 1;
+    margin: 0;
+    padding: 10px 14px;
+}
+
+.global-chat-input-row .btn-primary {
+    padding: 10px 18px;
+    font-size: 14px;
+}
+
+/* ============================= Chat bubbles (shared: global chat + inbox conversation) ============================= */
+
+.chat-bubble-row {
+    display: flex;
+}
+
+.chat-bubble-row.mine {
+    justify-content: flex-end;
+}
+
+.chat-bubble-row.theirs {
+    justify-content: flex-start;
+}
+
+.chat-bubble {
+    max-width: 78%;
+    padding: 8px 13px;
+    border-radius: 14px;
+    font-size: 13.5px;
+    line-height: 1.45;
+    word-break: break-word;
+    background: #f0f0f0;
+    color: var(--duo-text);
+}
+
+.chat-bubble-row.mine .chat-bubble {
+    background: var(--duo-blue, #1cb0f6);
+    color: white;
+    border-bottom-right-radius: 4px;
+}
+
+.chat-bubble-row.theirs .chat-bubble {
+    border-bottom-left-radius: 4px;
+}
+
+.chat-bubble-sender {
+    display: block;
+    font-size: 11px;
+    font-weight: 800;
+    color: var(--duo-blue, #1cb0f6);
+    margin-bottom: 2px;
+}
+
+/* ============================= Inbox (personal direct messages) ============================= */
+
+.nav-unread-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 18px;
+    height: 18px;
+    padding: 0 5px;
+    border-radius: 9px;
+    background: var(--duo-red, #ff4b4b);
+    color: white;
+    font-size: 11px;
+    font-weight: 800;
+    line-height: 1;
+}
+
+.nav-unread-badge.hidden {
+    display: none;
+}
+
+.inbox-conversation-row {
+    cursor: pointer;
+}
+
+.inbox-preview {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #888;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.conversation-thread {
+    max-width: 500px;
+    margin: 0 auto;
+    height: min(50vh, 420px);
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 10px;
+    border: 2px solid var(--duo-border);
+    border-radius: 14px;
+    background: #fafafa;
+}
+
+.conversation-input-row {
+    display: flex;
+    gap: 8px;
+    max-width: 500px;
+    margin: 12px auto 0;
+}
+
+.conversation-input-row .input-field {
+    flex: 1;
+    margin: 0;
+    padding: 12px 16px;
 }

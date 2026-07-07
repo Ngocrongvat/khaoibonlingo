@@ -27,7 +27,19 @@
         }
     }
 
-    async function challengeUser(myProfile, targetUsername, questions) {
+    // gameType/gameLevel default to the original lesson-duel behavior - callers
+    // challenging to a mini-game instead pass e.g. 'word_match'/'memory' and (for
+    // 'memory' only) the level both players are locked to. The `duels` table and every
+    // other function in this module were already schema-generic (questions is jsonb,
+    // *_correct are plain integers used as "score") - these two extra columns are the
+    // only change needed to reuse the whole realtime/RLS/winner-resolution pipeline for
+    // mini-game 1v1 instead of building a parallel system.
+    // questionCount defaults to questions.length (true for lesson questions and every
+    // mini-game's round array 1:1) but the Memory game's `questions` payload is its
+    // CARDS array (2x the pair count, since each pair has an en+vi card) - the actual
+    // "total" that matches the 0..config.pairs scale used by *_correct/onProgress needs
+    // to be passed explicitly there instead of falling out of questions.length.
+    async function challengeUser(myProfile, targetUsername, questions, gameType = 'lesson', gameLevel = null, questionCount = null) {
         if (!client || !myProfile || !targetUsername) return { error: 'Chưa cấu hình.' };
         try {
             const target = await getProfileIdByUsername(targetUsername);
@@ -40,7 +52,9 @@
                 opponent_id: target.id,
                 opponent_username: target.username,
                 questions,
-                question_count: questions.length
+                question_count: questionCount != null ? questionCount : questions.length,
+                game_type: gameType,
+                game_level: gameLevel
             }).select().single();
             if (error) throw error;
             return { data };

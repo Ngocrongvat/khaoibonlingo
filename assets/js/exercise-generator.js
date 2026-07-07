@@ -116,7 +116,47 @@ const ExerciseGenerator = (() => {
         return `${word}er`;
     }
 
-    const HELPERS = { presentVerb, doAux, doAuxCap, beVerb, article, comparativeForm, nounPhrase };
+    // Same syllable-counting rules as comparativeForm() above (kept in sync deliberately -
+    // a word that takes "more X" also takes "most X", one that takes "-er" also takes
+    // "-est"), just swapping the suffix/prefix pair.
+    function superlativeForm(adjective) {
+        const word = adjective.toLowerCase();
+        const vowels = 'aeiou';
+        const core = word.endsWith('e') && word.length > 1 ? word.slice(0, -1) : word;
+        let syllables = 0;
+        let prevVowel = false;
+        for (const ch of core) {
+            const isVowel = vowels.includes(ch) || ch === 'y';
+            if (isVowel && !prevVowel) syllables++;
+            prevVowel = isVowel;
+        }
+        syllables = Math.max(syllables, 1);
+
+        if (syllables >= 3 || (syllables === 2 && !word.endsWith('y'))) return `most ${adjective}`;
+
+        if (word.endsWith('y') && word.length > 1 && !vowels.includes(word[word.length - 2])) {
+            return `${word.slice(0, -1)}iest`;
+        }
+        if (word.endsWith('e')) return `${word}st`;
+        const last3 = word.slice(-3);
+        if (last3.length === 3) {
+            const [c1, v, c2] = last3;
+            if (!vowels.includes(c1) && vowels.includes(v) && !vowels.includes(c2) && !'wxy'.includes(c2)) {
+                return `${word}${c2}est`;
+            }
+        }
+        return `${word}est`;
+    }
+
+    function beVerbPast(pronounEn) {
+        return ['I', 'He', 'She', 'It'].includes(pronounEn) ? 'was' : 'were';
+    }
+
+    function presentPerfectAux(pronounEn) {
+        return ['He', 'She', 'It'].includes(pronounEn) ? 'has' : 'have';
+    }
+
+    const HELPERS = { presentVerb, doAux, doAuxCap, beVerb, article, comparativeForm, superlativeForm, beVerbPast, presentPerfectAux, nounPhrase };
 
     const FREQUENCY_WORDS = ['always', 'usually', 'often', 'sometimes', 'rarely', 'never'];
 

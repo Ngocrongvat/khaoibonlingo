@@ -127,6 +127,30 @@ const RANK_TIERS = [
     { name: 'Huyền Thoại', icon: '🌟', difficulty: 3 }
 ];
 
+// Standard character-level edit distance (insertions/deletions/substitutions) between
+// two strings - used by App.pronunciationScore() to turn a speech-recognition transcript
+// into a 0-100 similarity score instead of a binary word-overlap check.
+function levenshteinDistance(a, b) {
+    const m = a.length;
+    const n = b.length;
+    if (m === 0) return n;
+    if (n === 0) return m;
+    let prevRow = Array.from({ length: n + 1 }, (_, j) => j);
+    for (let i = 1; i <= m; i++) {
+        const currRow = [i];
+        for (let j = 1; j <= n; j++) {
+            const cost = a[i - 1] === b[j - 1] ? 0 : 1;
+            currRow[j] = Math.min(
+                prevRow[j] + 1,        // deletion
+                currRow[j - 1] + 1,    // insertion
+                prevRow[j - 1] + cost  // substitution
+            );
+        }
+        prevRow = currRow;
+    }
+    return prevRow[n];
+}
+
 // XP needed to advance FROM `level` to `level + 1` - grows linearly (not a flat
 // amount) so higher levels take meaningfully longer to reach, the same way most game
 // leveling curves work. Level 1 costs XP_LEVEL_BASE; each subsequent level costs
@@ -205,6 +229,7 @@ class DuoClone {
             assessmentCorrect: 0,
             reviewQueue: [],
             reviewMode: false,
+            friendCount: 0,
             stats: { ...DEFAULT_STATS }
         };
         this.errorTracker = null;
@@ -240,6 +265,9 @@ class DuoClone {
             assessmentBtn: document.getElementById('assessment-btn'),
             ieltsBtn: document.getElementById('ielts-btn'),
             duelBtn: document.getElementById('duel-btn'),
+            friendsBtn: document.getElementById('friends-btn'),
+            inboxBtn: document.getElementById('inbox-btn'),
+            inboxUnreadBadge: document.getElementById('inbox-unread-badge'),
             achievementsBtn: document.getElementById('achievements-btn'),
             adminBtn: document.getElementById('admin-btn')
         };
@@ -254,6 +282,19 @@ class DuoClone {
             this.ui.container.innerHTML = "<h1 style='color:red'>Lỗi load dữ liệu.</h1>";
             return;
         }
+
+        // Single delegated listener for EVERY clickable username in the app, registered
+        // once here rather than re-wired after each of the ~15 screens that display one -
+        // any element anywhere (now or added later) with class "user-clickable" and
+        // data-username (optionally data-user-id) automatically gets the action menu.
+        document.body.addEventListener('click', (e) => {
+            const target = e.target.closest('.user-clickable');
+            if (!target) return;
+            e.stopPropagation();
+            const username = target.dataset.username;
+            if (!username) return;
+            this.showUserActionMenu(target, target.dataset.userId || null, username);
+        });
 
         if (this.ui.checkBtn) {
             this.ui.checkBtn.onclick = () => this.checkAnswer();
@@ -306,6 +347,12 @@ class DuoClone {
         }
         if (this.ui.duelBtn) {
             this.ui.duelBtn.onclick = () => this.renderDuelMenu();
+        }
+        if (this.ui.friendsBtn) {
+            this.ui.friendsBtn.onclick = () => this.renderFriendsMenu();
+        }
+        if (this.ui.inboxBtn) {
+            this.ui.inboxBtn.onclick = () => this.renderInboxMenu();
         }
         if (this.ui.achievementsBtn) {
             this.ui.achievementsBtn.onclick = () => this.renderAchievements();
@@ -461,6 +508,7 @@ class DuoClone {
 
         if (typeof ErrorTracker !== 'undefined') {
             this.errorTracker = new ErrorTracker(profile.id);
+            this.errorTracker.hydrateFromRemote(this.state.stats.errorHistory);
         }
         if (typeof BadgeTracker !== 'undefined') {
             this.badgeTracker = new BadgeTracker(profile.id);
@@ -470,6 +518,10 @@ class DuoClone {
         this.loadLocalPosition(profile.id);
         this.checkWeeklyReset();
         this.setupDuelInviteWatcher();
+        this.setupFriendRequestWatcher();
+        this.claimPendingHeartGifts();
+        this.setupInboxWatcher();
+        this.setupGlobalChatWatcher();
 
         const neverPlaced = !this.state.stats.placementLevel;
         const noProgressYet = this.state.xp === 0 && this.state.currentUnitIdx === 0 && this.state.currentLessonIdx === 0 && this.state.currentExIdx === 0;
@@ -552,6 +604,13 @@ class DuoClone {
         this.saveLocalPosition();
 
         if (window.AuthService) {
+            // errorHistory rides along inside the same stats jsonb blob as earnedBadges/
+            // certificates (no new SQL column) - piggybacking on this already-frequent
+            // save path (called from ~18 sites across every mode) means the spaced-
+            // repetition history syncs to Supabase without adding any new write traffic.
+            const stats = this.errorTracker
+                ? { ...this.state.stats, errorHistory: this.errorTracker.data }
+                : this.state.stats;
             window.AuthService.updateProfile(this.state.profile.id, {
                 hearts: this.state.hearts,
                 xp: this.state.xp,
@@ -559,7 +618,7 @@ class DuoClone {
                 streak: this.state.streak,
                 last_activity_date: this.state.lastActivityDate,
                 last_week_id: this.state.lastWeekId,
-                stats: this.state.stats
+                stats
             });
         }
     }
@@ -621,6 +680,11 @@ class DuoClone {
 
     renderHomeDashboard() {
         if (!this.state.currentUser) { this.renderAuthScreen(); return; }
+        // Cleans up any global-chat realtime subscription left over from a previous
+        // visit to this screen before the DOM (and the widget state) gets rebuilt below
+        // - without this, revisiting Home repeatedly while the chat was left open would
+        // stack a new channel on top of the old one every time.
+        this.cleanupGlobalChat();
         this.state.mode = 'curriculum';
         this.updateNav();
         const unit = this.state.courseData.units[this.state.currentUnitIdx];
@@ -647,6 +711,20 @@ class DuoClone {
                     </button>
                 ` : ''}
 
+                <div class="global-chat-widget" id="global-chat-widget">
+                    <button class="global-chat-toggle" id="global-chat-toggle">
+                        <span>🌐 Chat Cộng Đồng <span id="global-chat-unread-badge" class="nav-unread-badge hidden">0</span></span>
+                        <span id="global-chat-toggle-icon">▾</span>
+                    </button>
+                    <div class="global-chat-body hidden" id="global-chat-body">
+                        <div class="global-chat-messages" id="global-chat-messages"></div>
+                        <div class="global-chat-input-row">
+                            <input type="text" id="global-chat-input" class="input-field" maxlength="500" placeholder="Nhắn gì đó với mọi người...">
+                            <button class="btn-primary" id="global-chat-send">GỬI</button>
+                        </div>
+                    </div>
+                </div>
+
                 <h2 class="home-path-heading">🗺️ Lộ trình học tập</h2>
                 <div class="unit-strip" id="unit-strip"></div>
                 <div class="path-map" id="path-map"></div>
@@ -661,6 +739,148 @@ class DuoClone {
 
         this.renderUnitStrip();
         this.renderPathMap(this.state.currentUnitIdx);
+        this.initGlobalChatWidget();
+    }
+
+    // Wires the toggle + send controls ONCE right after the widget's markup is created -
+    // toggling the panel open/closed only ever flips a CSS class on the existing DOM (see
+    // toggleGlobalChat()), so wiring these here (rather than inside the open/close logic
+    // itself) avoids attaching a second click handler to the same send button every time
+    // the user re-opens the panel.
+    initGlobalChatWidget() {
+        const toggle = document.getElementById('global-chat-toggle');
+        if (toggle) toggle.addEventListener('click', () => this.toggleGlobalChat());
+
+        const sendBtn = document.getElementById('global-chat-send');
+        const input = document.getElementById('global-chat-input');
+        const send = async () => {
+            if (!input || !window.GlobalChat || !this.state.profile) return;
+            const text = input.value.trim();
+            if (!text) return;
+            input.value = '';
+            const result = await window.GlobalChat.sendMessage(this.state.profile, text);
+            if (result.error) alert(result.error);
+        };
+        if (sendBtn) sendBtn.addEventListener('click', send);
+        if (input) input.addEventListener('keydown', (e) => { if (e.key === 'Enter') send(); });
+
+        // The badge element itself is rebuilt fresh on every Home render - reflect
+        // whatever setupGlobalChatWatcher() has already tracked in memory since login.
+        this.updateGlobalChatBadge(this.state.globalChatUnreadCount || 0);
+    }
+
+    getGlobalChatLastSeen() {
+        if (!this.state.profile) return null;
+        return localStorage.getItem(`duo_global_chat_last_seen_${this.state.profile.id}`);
+    }
+
+    setGlobalChatLastSeen(iso) {
+        if (!this.state.profile) return;
+        localStorage.setItem(`duo_global_chat_last_seen_${this.state.profile.id}`, iso);
+    }
+
+    updateGlobalChatBadge(count) {
+        const badge = document.getElementById('global-chat-unread-badge');
+        if (!badge) return;
+        if (count > 0) {
+            badge.textContent = count > 99 ? '99+' : String(count);
+            badge.classList.remove('hidden');
+        } else {
+            badge.classList.add('hidden');
+        }
+    }
+
+    // Called once per login (completeLogin()), mirroring setupInboxWatcher()/
+    // setupFriendRequestWatcher() - keeps the unread badge current for the whole
+    // session, not just while the Home dashboard happens to be open. Uses its own
+    // channelKey ('badge-watcher') distinct from the widget's own open/closed
+    // subscription (see subscribeToNewMessages()'s doc comment in global-chat.js).
+    async setupGlobalChatWatcher() {
+        if (!window.GlobalChat || !window.GlobalChat.isConfigured || !this.state.profile) return;
+        const lastSeen = this.getGlobalChatLastSeen() || new Date(0).toISOString();
+        this.state.globalChatUnreadCount = await window.GlobalChat.getUnreadCount(lastSeen);
+        this.updateGlobalChatBadge(this.state.globalChatUnreadCount);
+        if (this.globalChatWatcherUnsub) this.globalChatWatcherUnsub();
+        this.globalChatWatcherUnsub = window.GlobalChat.subscribeToNewMessages((msg) => {
+            if (this.state.profile && msg.sender_id === this.state.profile.id) return;
+            const body = document.getElementById('global-chat-body');
+            const widgetOpen = body && !body.classList.contains('hidden');
+            if (widgetOpen) {
+                // Already looking at the chat - the widget's own subscription (see
+                // toggleGlobalChat()) live-appends it there, so treat it as seen
+                // immediately instead of incrementing the badge behind the user's back.
+                this.setGlobalChatLastSeen(new Date().toISOString());
+                return;
+            }
+            this.state.globalChatUnreadCount = (this.state.globalChatUnreadCount || 0) + 1;
+            this.updateGlobalChatBadge(this.state.globalChatUnreadCount);
+        }, 'badge-watcher');
+    }
+
+    async toggleGlobalChat() {
+        const body = document.getElementById('global-chat-body');
+        const icon = document.getElementById('global-chat-toggle-icon');
+        if (!body) return;
+        const opening = body.classList.contains('hidden');
+        body.classList.toggle('hidden');
+        if (icon) icon.textContent = opening ? '▴' : '▾';
+
+        if (!opening) {
+            this.cleanupGlobalChat();
+            return;
+        }
+        this.setGlobalChatLastSeen(new Date().toISOString());
+        this.state.globalChatUnreadCount = 0;
+        this.updateGlobalChatBadge(0);
+        if (!window.GlobalChat) return;
+        const messages = await window.GlobalChat.getRecentMessages(50);
+        this.renderGlobalChatMessages(messages);
+        this.cleanupGlobalChat();
+        this.globalChatUnsub = window.GlobalChat.subscribeToNewMessages((msg) => {
+            // Defensive check: if the user has since navigated away from Home, this
+            // channel keeps running (see cleanupGlobalChat() comment above) until the
+            // next Home visit cleans it up - guard against writing into a DOM node that
+            // no longer exists rather than erroring.
+            const listEl = document.getElementById('global-chat-messages');
+            if (!listEl) return;
+            this.appendGlobalChatMessage(msg);
+            this.setGlobalChatLastSeen(new Date().toISOString());
+        });
+    }
+
+    globalChatMessageHtml(m) {
+        const isMine = this.state.profile && m.sender_id === this.state.profile.id;
+        return `
+            <div class="chat-bubble-row ${isMine ? 'mine' : 'theirs'}">
+                <div class="chat-bubble">
+                    ${isMine ? '' : `<span class="chat-bubble-sender">${this.clickableUsername(m.sender_id, m.sender_username)}</span>`}
+                    ${this.escapeHtml(m.message)}
+                </div>
+            </div>
+        `;
+    }
+
+    renderGlobalChatMessages(messages) {
+        const listEl = document.getElementById('global-chat-messages');
+        if (!listEl) return;
+        listEl.innerHTML = messages.length
+            ? messages.map(m => this.globalChatMessageHtml(m)).join('')
+            : '<p style="text-align:center; color:#999; font-size:13px;">Chưa có tin nhắn nào. Hãy là người đầu tiên chào hỏi!</p>';
+        listEl.scrollTop = listEl.scrollHeight;
+    }
+
+    appendGlobalChatMessage(msg) {
+        const listEl = document.getElementById('global-chat-messages');
+        if (!listEl) return;
+        listEl.insertAdjacentHTML('beforeend', this.globalChatMessageHtml(msg));
+        listEl.scrollTop = listEl.scrollHeight;
+    }
+
+    cleanupGlobalChat() {
+        if (this.globalChatUnsub) {
+            this.globalChatUnsub();
+            this.globalChatUnsub = null;
+        }
     }
 
     renderUnitStrip() {
@@ -702,13 +922,16 @@ class DuoClone {
 
         const isPastUnit = viewedUnitIdx < this.state.currentUnitIdx;
         // Progressive reveal ("mở rộng dần"): the current unit only shows completed
-        // lessons + the current one + a single upcoming preview - the rest stay hidden
-        // behind a fog teaser rather than dumping every remaining locked node on screen
-        // at once. Each completed lesson pushes the fog boundary one node further,
-        // so the visible map literally grows as the player advances.
+        // lessons + the current one + several upcoming locked previews - the rest stay
+        // hidden behind a fog teaser rather than dumping every remaining locked node on
+        // screen at once. Showing more than just 1 upcoming node (bumped from +2 to +6)
+        // gives a stronger "look how much is coming up" sense of a journey ahead, rather
+        // than the path feeling like it dead-ends right after the current lesson. Each
+        // completed lesson pushes the fog boundary one node further, so the visible map
+        // literally grows as the player advances.
         const visibleCount = isPastUnit
             ? unit.lessons.length
-            : Math.min(this.state.currentLessonIdx + 2, unit.lessons.length);
+            : Math.min(this.state.currentLessonIdx + 6, unit.lessons.length);
         const hiddenCount = unit.lessons.length - visibleCount;
 
         const offsets = [0, 1, 2, 1]; // zigzag pattern, repeats every 4 nodes
@@ -827,6 +1050,150 @@ class DuoClone {
         const div = document.createElement('div');
         div.textContent = String(str);
         return div.innerHTML;
+    }
+
+    // ===================== Clickable username -> action menu =====================
+    // Wrap ANY displayed username in this everywhere in the app (Leaderboard, Friends,
+    // Duel, chat, Inbox, toasts...) to get the "⚔️ Thách đấu / 💬 Gửi tin nhắn / ℹ️ Xem
+    // info / 👋 Kết bạn" popup for free via the single delegated listener in init().
+    // userId is optional - pass null/'' when the call site only has a username (e.g.
+    // Leaderboard/Hall of Fame rows, which don't store a user id) and
+    // showUserActionMenu() will resolve it lazily via Friends.searchUserByUsername().
+    clickableUsername(userId, username) {
+        const safeName = this.escapeHtml(username || '');
+        return `<span class="user-clickable" data-user-id="${userId || ''}" data-username="${safeName}">${safeName}</span>`;
+    }
+
+    closeUserActionMenu() {
+        const existing = document.getElementById('user-action-menu');
+        if (existing) existing.remove();
+        if (this._dismissUserActionMenu) {
+            document.removeEventListener('click', this._dismissUserActionMenu);
+            this._dismissUserActionMenu = null;
+        }
+    }
+
+    async showUserActionMenu(anchorEl, userId, username) {
+        // No point showing "challenge/message/friend yourself".
+        if (username === this.state.currentUser || (this.state.profile && userId === this.state.profile.id)) return;
+        if (!window.Friends || !this.state.currentUser) return;
+
+        this.closeUserActionMenu();
+
+        let resolvedId = userId;
+        if (!resolvedId) {
+            const found = await window.Friends.searchUserByUsername(username);
+            if (found) resolvedId = found.id;
+        }
+
+        let alreadyFriends = false;
+        if (resolvedId && this.state.profile) {
+            alreadyFriends = await window.Friends.isFriend(this.state.profile.id, resolvedId);
+        }
+
+        // Re-check the anchor is still on screen (the async lookups above could easily
+        // outlive a fast navigation away) before positioning a menu against it.
+        if (!document.body.contains(anchorEl)) return;
+
+        const rect = anchorEl.getBoundingClientRect();
+        const menu = document.createElement('div');
+        menu.className = 'user-action-menu';
+        menu.id = 'user-action-menu';
+        menu.style.top = (rect.bottom + window.scrollY + 6) + 'px';
+        const menuWidth = 210;
+        menu.style.left = Math.max(8, Math.min(rect.left + window.scrollX, window.innerWidth - menuWidth - 8)) + 'px';
+
+        menu.innerHTML = `
+            <div class="user-action-menu-header">${this.escapeHtml(username)}</div>
+            <button class="user-action-menu-item" data-action="duel">⚔️ Thách đấu</button>
+            <button class="user-action-menu-item" data-action="message">💬 Gửi tin nhắn</button>
+            <button class="user-action-menu-item" data-action="info">ℹ️ Xem info</button>
+            ${(resolvedId && !alreadyFriends) ? '<button class="user-action-menu-item" data-action="friend">👋 Kết bạn</button>' : ''}
+        `;
+        document.body.appendChild(menu);
+
+        menu.querySelector('[data-action="duel"]').addEventListener('click', () => {
+            this.closeUserActionMenu();
+            this.renderGameTypePicker(username);
+        });
+        menu.querySelector('[data-action="message"]').addEventListener('click', () => {
+            this.closeUserActionMenu();
+            if (!resolvedId) { alert('Không tìm thấy người dùng này.'); return; }
+            this.renderConversation(resolvedId, username);
+        });
+        menu.querySelector('[data-action="info"]').addEventListener('click', () => {
+            this.closeUserActionMenu();
+            this.renderUserInfo(username);
+        });
+        const friendBtn = menu.querySelector('[data-action="friend"]');
+        if (friendBtn) {
+            friendBtn.addEventListener('click', async () => {
+                this.closeUserActionMenu();
+                const result = await window.Friends.sendFriendRequest(this.state.profile, username);
+                alert(result.error || 'Đã gửi lời mời kết bạn!');
+            });
+        }
+
+        // Deferred by one tick so the SAME click that opened the menu (which is still
+        // bubbling up to document when this runs) doesn't immediately close it again.
+        setTimeout(() => {
+            this._dismissUserActionMenu = (e) => {
+                if (!menu.contains(e.target)) this.closeUserActionMenu();
+            };
+            document.addEventListener('click', this._dismissUserActionMenu);
+        }, 0);
+    }
+
+    async renderUserInfo(username) {
+        this.ui.container.innerHTML = `
+            <div class="welcome-screen">
+                <div class="duo-character">👤</div>
+                <h1 style="text-align: center;">${this.escapeHtml(username)}</h1>
+                <p style="text-align: center; color: #777;">Đang tải...</p>
+            </div>
+        `;
+        this.ui.checkBtn.disabled = true;
+        this.ui.checkBtn.classList.remove('active');
+
+        const info = window.Friends ? await window.Friends.getUserInfo(username) : null;
+        if (!info) {
+            this.ui.container.innerHTML = `
+                <div class="welcome-screen">
+                    <div class="duo-character">🤔</div>
+                    <h1 style="text-align: center;">${this.escapeHtml(username)}</h1>
+                    <p style="text-align: center; color: #777;">Không tìm thấy thông tin người dùng này.</p>
+                    <button class="btn-secondary" id="user-info-back" style="display: block; margin: 20px auto; padding: 15px 30px;">QUAY LẠI</button>
+                </div>
+            `;
+            document.getElementById('user-info-back').addEventListener('click', () => this.renderHomeDashboard());
+            return;
+        }
+
+        const rank = getRankInfo(info.xp || 0);
+        this.ui.container.innerHTML = `
+            <div class="welcome-screen">
+                ${info.avatar_url
+                    ? `<img src="${info.avatar_url}" alt="" style="width:88px; height:88px; border-radius:50%; display:block; margin:0 auto; object-fit:cover;">`
+                    : `<div class="duo-character">👤</div>`}
+                <h1 style="text-align: center;">${this.escapeHtml(info.username)}</h1>
+                <p style="text-align: center; color: #777;">${rank.label}</p>
+                <div class="user-info-stats">
+                    <div class="user-info-stat"><span class="user-info-stat-value">⭐ ${info.xp || 0}</span><span class="user-info-stat-label">XP</span></div>
+                    <div class="user-info-stat"><span class="user-info-stat-value">🔥 ${info.streak || 0}</span><span class="user-info-stat-label">Chuỗi ngày</span></div>
+                    <div class="user-info-stat"><span class="user-info-stat-value">🧸 ${info.teddy_bears || 0}</span><span class="user-info-stat-label">Gấu bông</span></div>
+                </div>
+                <div class="game-picker-list" style="max-width: 280px;">
+                    <button class="btn-primary game-pick-btn" id="user-info-duel">⚔️ Thách đấu</button>
+                    <button class="btn-primary game-pick-btn" id="user-info-message">💬 Gửi tin nhắn</button>
+                </div>
+                <button class="btn-secondary" id="user-info-back" style="display: block; margin: 10px auto; padding: 15px 30px;">QUAY LẠI</button>
+            </div>
+        `;
+        this.ui.checkBtn.disabled = true;
+        this.ui.checkBtn.classList.remove('active');
+        document.getElementById('user-info-back').addEventListener('click', () => this.renderHomeDashboard());
+        document.getElementById('user-info-duel').addEventListener('click', () => this.renderGameTypePicker(info.username));
+        document.getElementById('user-info-message').addEventListener('click', () => this.renderConversation(info.id, info.username));
     }
 
     // So the learner always knows what lesson/question they're on and how far they've
@@ -1200,7 +1567,17 @@ class DuoClone {
         recognition.onresult = (event) => {
             const transcript = event.results[0][0].transcript;
             this.state.recognizedSpeech = transcript;
-            if (resultEl) resultEl.innerText = `Bạn nói: "${transcript}"`;
+            if (resultEl) {
+                const ex = this.getCurrentExercise();
+                const target = ex && ex.target;
+                let html = `Bạn nói: "${this.escapeHtml(transcript)}"`;
+                if (target) {
+                    const score = this.pronunciationScore(transcript, target);
+                    const color = score >= 80 ? 'var(--duo-green)' : (score >= 50 ? '#ffc800' : 'var(--duo-red)');
+                    html += `<br><span style="font-weight:800; color:${color};">Độ chính xác: ${score}%</span>`;
+                }
+                resultEl.innerHTML = html;
+            }
             this.ui.checkBtn.disabled = false;
             this.ui.checkBtn.classList.add('active');
         };
@@ -1227,15 +1604,27 @@ class DuoClone {
             .trim();
     }
 
-    comparePronunciation(spoken, target) {
+    // Character-level similarity (0-100) between what was recognized and the target
+    // sentence, via Levenshtein edit distance. This is a free, local approximation - not
+    // true phoneme-level acoustic pronunciation analysis (that needs a paid API like
+    // Azure Pronunciation Assessment, not available here) - but it reflects "how close"
+    // far more informatively than a binary correct/wrong ever could.
+    pronunciationScore(spoken, target) {
         const a = this.normalizeSpeech(spoken);
         const b = this.normalizeSpeech(target);
-        if (!a) return false;
-        if (a === b) return true;
-        const aWords = a.split(' ');
-        const bWords = b.split(' ');
-        const matches = bWords.filter(w => aWords.includes(w)).length;
-        return matches / bWords.length >= 0.8;
+        if (!a || !b) return 0;
+        if (a === b) return 100;
+        const distance = levenshteinDistance(a, b);
+        const maxLen = Math.max(a.length, b.length);
+        return Math.max(0, Math.round((1 - distance / maxLen) * 100));
+    }
+
+    // Kept as a boolean gate (same name/signature every caller already expects) so
+    // duel exclusion, the pronunciation_master badge counter, and checkAnswer()'s
+    // isCorrect logic are all unaffected - only the scoring method underneath changed,
+    // not the pass/fail threshold (still the same 80% bar as the old word-overlap check).
+    comparePronunciation(spoken, target) {
+        return this.pronunciationScore(spoken, target) >= 80;
     }
 
     // Checks a short free-form comprehension answer against a list of acceptable
@@ -1782,7 +2171,7 @@ class DuoClone {
                 const isMe = entry.username === this.state.currentUser;
                 return `<div class="leaderboard-row ${isMe ? 'me' : ''}">
                             <span class="lb-rank">${medal}</span>
-                            <span class="lb-name">${entry.username}</span>
+                            <span class="lb-name">${isMe ? this.escapeHtml(entry.username) : this.clickableUsername(null, entry.username)}</span>
                             <span class="lb-streak">🔥 ${entry.streak || 0}</span>
                             <span class="lb-xp">⭐ ${entry.xp || 0} XP</span>
                         </div>`;
@@ -1800,7 +2189,7 @@ class DuoClone {
     }
 
     closeLeaderboard() {
-        this.returnToApp();
+        this.renderHomeDashboard();
     }
 
     returnToApp() {
@@ -1870,11 +2259,26 @@ class DuoClone {
             <div class="game-screen">
                 <h2 style="text-align: center;">🎮 Trò Chơi Luyện Từ Vựng</h2>
                 <div class="game-picker-list">
-                    <button class="btn-primary game-pick-btn" id="pick-word-match">⚡ Ghép Từ Nhanh</button>
-                    <button class="btn-primary game-pick-btn" id="pick-memory">🧠 Lật Thẻ Nhớ Từ</button>
-                    <button class="btn-primary game-pick-btn" id="pick-odd-one-out">🔎 Từ Lạc Loài</button>
-                    <button class="btn-primary game-pick-btn" id="pick-reflex">⚡ Phản Xạ Từ Vựng</button>
-                    <button class="btn-primary game-pick-btn" id="pick-picture-word">🖼️ Nhìn Hình Chọn Từ</button>
+                    <div class="game-picker-row">
+                        <button class="btn-primary game-pick-btn" id="pick-word-match">⚡ Ghép Từ Nhanh</button>
+                        <button class="btn-secondary game-pick-duel-btn" data-game-type="word_match" title="Đấu 1v1">⚔️</button>
+                    </div>
+                    <div class="game-picker-row">
+                        <button class="btn-primary game-pick-btn" id="pick-memory">🧠 Lật Thẻ Nhớ Từ</button>
+                        <button class="btn-secondary game-pick-duel-btn" data-game-type="memory" title="Đấu 1v1">⚔️</button>
+                    </div>
+                    <div class="game-picker-row">
+                        <button class="btn-primary game-pick-btn" id="pick-odd-one-out">🔎 Từ Lạc Loài</button>
+                        <button class="btn-secondary game-pick-duel-btn" data-game-type="odd_one_out" title="Đấu 1v1">⚔️</button>
+                    </div>
+                    <div class="game-picker-row">
+                        <button class="btn-primary game-pick-btn" id="pick-reflex">⚡ Phản Xạ Từ Vựng</button>
+                        <button class="btn-secondary game-pick-duel-btn" data-game-type="reflex" title="Đấu 1v1">⚔️</button>
+                    </div>
+                    <div class="game-picker-row">
+                        <button class="btn-primary game-pick-btn" id="pick-picture-word">🖼️ Nhìn Hình Chọn Từ</button>
+                        <button class="btn-secondary game-pick-duel-btn" data-game-type="picture_word" title="Đấu 1v1">⚔️</button>
+                    </div>
                 </div>
                 <button class="btn-secondary" style="margin-top: 20px;" id="game-picker-close">QUAY LẠI</button>
             </div>
@@ -1887,7 +2291,14 @@ class DuoClone {
         document.getElementById('pick-odd-one-out').addEventListener('click', () => this.launchOddOneOutGame());
         document.getElementById('pick-reflex').addEventListener('click', () => this.launchReflexGame());
         document.getElementById('pick-picture-word').addEventListener('click', () => this.launchPictureWordGame());
-        document.getElementById('game-picker-close').addEventListener('click', () => this.returnToApp());
+        document.getElementById('game-picker-close').addEventListener('click', () => this.renderHomeDashboard());
+        this.ui.container.querySelectorAll('.game-pick-duel-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                if (!this.state.currentUser) { alert('Vui lòng đăng nhập trước khi thi đấu 1v1!'); return; }
+                this.renderDuelChallengeForm(btn.dataset.gameType);
+            });
+        });
     }
 
     launchWordMatchGame() {
@@ -2023,7 +2434,7 @@ class DuoClone {
         document.getElementById('practice-again').addEventListener('click', () => this.startPracticeMode());
         document.getElementById('practice-exit').addEventListener('click', () => {
             this.state.mode = 'curriculum';
-            this.returnToApp();
+            this.renderHomeDashboard();
         });
     }
 
@@ -2059,7 +2470,7 @@ class DuoClone {
         this.state.ielts = null;
         this.state.ieltsSpeaking = null;
         this.state.mode = 'curriculum';
-        this.returnToApp();
+        this.renderHomeDashboard();
     }
 
     renderIeltsExitButton() {
@@ -2266,7 +2677,7 @@ class DuoClone {
         this.ui.checkBtn.classList.remove('active');
         document.getElementById('ielts-done').addEventListener('click', () => {
             this.state.mode = 'curriculum';
-            this.returnToApp();
+            this.renderHomeDashboard();
         });
     }
 
@@ -2339,7 +2750,7 @@ class DuoClone {
         this.ui.checkBtn.classList.remove('active');
         document.getElementById('ielts-grade-done').addEventListener('click', () => {
             this.state.mode = 'curriculum';
-            this.returnToApp();
+            this.renderHomeDashboard();
         });
     }
 
@@ -2359,7 +2770,7 @@ class DuoClone {
         this.ui.checkBtn.classList.remove('active');
         document.getElementById('ielts-write-task1').addEventListener('click', () => this.startIeltsWriting('task1'));
         document.getElementById('ielts-write-task2').addEventListener('click', () => this.startIeltsWriting('task2'));
-        document.getElementById('ielts-write-back').addEventListener('click', () => this.renderIeltsMenu());
+        document.getElementById('ielts-write-back').addEventListener('click', () => this.renderHomeDashboard());
     }
 
     startIeltsWriting(taskType) {
@@ -2412,7 +2823,7 @@ class DuoClone {
         this.ui.checkBtn.disabled = true;
         this.ui.checkBtn.classList.remove('active');
         document.getElementById('ielts-speak-start').addEventListener('click', () => this.startIeltsSpeaking());
-        document.getElementById('ielts-speak-back').addEventListener('click', () => this.renderIeltsMenu());
+        document.getElementById('ielts-speak-back').addEventListener('click', () => this.renderHomeDashboard());
     }
 
     startIeltsSpeaking() {
@@ -2486,6 +2897,20 @@ class DuoClone {
     // answers already scored by simple equality checks in checkAnswer().
     static get DUEL_SAFE_TYPES() {
         return ['multiple_choice', 'translate', 'ordering', 'fill_blank', 'synonym', 'meaning', 'reading', 'dialogue', 'listening'];
+    }
+
+    // Shared display labels for every duels.game_type value - used by the game-type
+    // picker, the challenge form's title, and the incoming-invite prompt so a mini-game
+    // duel reads as clearly as a lesson duel does.
+    static get GAME_TYPE_LABELS() {
+        return {
+            lesson: '📚 Bài học',
+            word_match: '⚡ Ghép Từ Nhanh',
+            memory: '🧠 Lật Thẻ Nhớ Từ',
+            odd_one_out: '🔎 Từ Lạc Loài',
+            reflex: '⚡ Phản Xạ Từ Vựng',
+            picture_word: '🖼️ Nhìn Hình Chọn Từ'
+        };
     }
 
     buildDuelQuestions(count, difficulty) {
@@ -2578,7 +3003,7 @@ class DuoClone {
         const invitesHtml = invites.length ? invites.map(inv => `
             <div class="leaderboard-row" data-duel-id="${inv.id}" style="cursor:pointer;">
                 <span class="lb-rank">⚔️</span>
-                <span class="lb-name">${this.escapeHtml(inv.challenger_username)}</span>
+                <span class="lb-name">${this.clickableUsername(inv.challenger_id, inv.challenger_username)}</span>
                 <span class="lb-xp">đã thách đấu bạn</span>
             </div>
         `).join('') : `<p style="text-align:center; color:#777;">Chưa có lời mời nào.</p>`;
@@ -2622,7 +3047,7 @@ class DuoClone {
             return `
                 <div class="leaderboard-row" style="${isMe ? 'background: var(--accent-soft, #fff8e8); font-weight:800;' : ''}">
                     <span class="lb-rank">${medal}</span>
-                    <span class="lb-name">${this.escapeHtml(e.username)}</span>
+                    <span class="lb-name">${isMe ? this.escapeHtml(e.username) : this.clickableUsername(null, e.username)}</span>
                     <span class="lb-xp">${e.wins} thắng</span>
                 </div>
             `;
@@ -2639,14 +3064,18 @@ class DuoClone {
         `;
         this.ui.checkBtn.disabled = true;
         this.ui.checkBtn.classList.remove('active');
-        document.getElementById('duel-leaderboard-back').addEventListener('click', () => this.renderDuelMenu());
+        document.getElementById('duel-leaderboard-back').addEventListener('click', () => this.renderHomeDashboard());
     }
 
-    renderDuelChallengeForm() {
+    // gameType defaults to 'lesson' (the original behavior, reached from the Duel menu's
+    // "THÁCH ĐẤU NGƯỜI KHÁC" button) - the game picker's per-game "⚔️" buttons reuse this
+    // same form with the corresponding mini-game type instead.
+    renderDuelChallengeForm(gameType = 'lesson') {
+        const label = DuoClone.GAME_TYPE_LABELS[gameType] || '';
         this.ui.container.innerHTML = `
             <div class="welcome-screen">
                 <div class="duo-character">⚔️</div>
-                <h1 style="text-align: center;">Thách đấu</h1>
+                <h1 style="text-align: center;">Thách đấu${label ? ' — ' + label : ''}</h1>
                 <p style="text-align: center; color: #777;">Nhập tên người dùng bạn muốn thách đấu.</p>
                 <p style="text-align: center; color: #999; font-size: 13px;">⚠️ Cược 20 XP: thắng được +20 XP từ đối thủ, thua bị trừ 20 XP. Hòa không đổi gì.</p>
                 <input type="text" id="duel-target-input" class="input-field" style="display:block; width:80%; max-width:300px; margin:15px auto; padding:15px; text-align:center;" placeholder="Tên người dùng...">
@@ -2657,25 +3086,81 @@ class DuoClone {
         `;
         this.ui.checkBtn.disabled = true;
         this.ui.checkBtn.classList.remove('active');
-        document.getElementById('duel-back').addEventListener('click', () => this.renderDuelMenu());
+        document.getElementById('duel-back').addEventListener('click', () => this.renderHomeDashboard());
         document.getElementById('duel-send-challenge').addEventListener('click', async () => {
             const target = document.getElementById('duel-target-input').value.trim();
             const errorEl = document.getElementById('duel-challenge-error');
             if (!target) { errorEl.innerText = 'Vui lòng nhập tên người dùng.'; return; }
+            const result = await this.sendGameDuelChallenge(target, gameType);
+            if (result && result.error) errorEl.innerText = result.error;
+        });
+    }
+
+    // Builds the pre-generated round set for a mini-game duel (challenger-side only -
+    // the opponent later plays from the exact same data read back off the duels row).
+    // `rounds` is always a flat array here (even for Memory, whose cards ARE the array -
+    // `level`/`config` are reconstructed separately in renderGameDuelRound() via the
+    // dedicated game_level column). `total` is the score-scale denominator matching
+    // *_correct/onProgress - for every game except Memory this equals rounds.length, but
+    // Memory's cards array is 2x its actual pair count (one card each for the en/vi
+    // side of every pair), so it's returned separately rather than derived from
+    // rounds.length.
+    // Memory always starts new duels at level 1 regardless of either player's own solo
+    // progress, so a duel's difficulty is predictable and fair for both sides.
+    buildGameDuelRounds(gameType) {
+        if (gameType === 'word_match') {
+            const rounds = window.Games.generateWordMatchRounds();
+            return { rounds, level: null, total: rounds.length };
+        }
+        if (gameType === 'memory') {
+            const level = 1;
+            const generated = window.Games.generateMemoryRounds(level);
+            return { rounds: generated.cards, level, total: generated.config.pairs };
+        }
+        if (gameType === 'odd_one_out') {
+            const rounds = window.Games.generateOddOneOutRounds();
+            return { rounds, level: null, total: rounds.length };
+        }
+        if (gameType === 'reflex') {
+            const rounds = window.Games.generateReflexRounds();
+            return { rounds, level: null, total: rounds.length };
+        }
+        if (gameType === 'picture_word') {
+            const rounds = window.Games.generatePictureWordRounds();
+            return { rounds, level: null, total: rounds.length };
+        }
+        return null;
+    }
+
+    // Single entry point for sending ANY duel challenge (lesson or mini-game), used by
+    // both the manual-username form (renderDuelChallengeForm) and the friend-list
+    // "⚔️ Thách đấu" button (renderGameTypePicker) - keeps question/round generation and
+    // the challengeUser() call in one place instead of duplicated per entry point.
+    async sendGameDuelChallenge(targetUsername, gameType = 'lesson') {
+        if (this.state.mode === 'duel') return { error: 'Bạn đang trong một trận đấu khác.' };
+        let questions, gameLevel = null, questionCount = null;
+        if (gameType === 'lesson') {
             const baseDifficulty = this.errorTracker ? this.errorTracker.recommendDifficulty() : 2;
             const difficulty = Math.max(baseDifficulty, getRankInfo(this.state.xp).difficulty);
-            const questions = this.buildDuelQuestions(8, difficulty);
-            const result = await window.Duel.challengeUser(this.state.profile, target, questions);
-            if (result.error) { errorEl.innerText = result.error; return; }
-            this.renderDuelWaitingRoom(result.data);
-        });
+            questions = this.buildDuelQuestions(8, difficulty);
+        } else {
+            const built = this.buildGameDuelRounds(gameType);
+            if (!built) return { error: 'Loại trò chơi không hợp lệ.' };
+            questions = built.rounds;
+            gameLevel = built.level;
+            questionCount = built.total;
+        }
+        const result = await window.Duel.challengeUser(this.state.profile, targetUsername, questions, gameType, gameLevel, questionCount);
+        if (result.error) return result;
+        this.renderDuelWaitingRoom(result.data);
+        return result;
     }
 
     renderDuelWaitingRoom(duelRow) {
         this.ui.container.innerHTML = `
             <div class="welcome-screen">
                 <div class="duo-character">⏳</div>
-                <h1 style="text-align: center;">Đang chờ ${this.escapeHtml(duelRow.opponent_username)} chấp nhận...</h1>
+                <h1 style="text-align: center;">Đang chờ ${this.clickableUsername(duelRow.opponent_id, duelRow.opponent_username)} chấp nhận...</h1>
                 <p id="duel-wait-hint" style="text-align: center; color: #777;"></p>
                 <button class="btn-secondary" id="duel-cancel" style="display: block; margin: 20px auto; padding: 15px 30px;">HỦY THÁCH ĐẤU</button>
             </div>
@@ -2718,11 +3203,16 @@ class DuoClone {
     }
 
     renderDuelInvitePrompt(invite) {
+        const gameType = invite.game_type || 'lesson';
+        const label = DuoClone.GAME_TYPE_LABELS[gameType] || '';
+        const subtitle = gameType === 'lesson'
+            ? `Bộ đề gồm ${invite.question_count} câu hỏi. Sẵn sàng chưa?`
+            : `Thử thách: ${label}. Sẵn sàng chưa?`;
         this.ui.container.innerHTML = `
             <div class="welcome-screen">
                 <div class="duo-character">⚔️</div>
-                <h1 style="text-align: center;">${this.escapeHtml(invite.challenger_username)} đã thách đấu bạn!</h1>
-                <p style="text-align: center; color: #777;">Bộ đề gồm ${invite.question_count} câu hỏi. Sẵn sàng chưa?</p>
+                <h1 style="text-align: center;">${this.clickableUsername(invite.challenger_id, invite.challenger_username)} đã thách đấu bạn!</h1>
+                <p style="text-align: center; color: #777;">${subtitle}</p>
                 <p style="text-align: center; color: #999; font-size: 13px;">⚠️ Cược 20 XP: thắng được +20 XP từ đối thủ, thua bị trừ 20 XP. Hòa không đổi gì.</p>
                 <button class="btn-primary" id="duel-accept" style="display: block; margin: 15px auto; padding: 15px 30px;">CHẤP NHẬN</button>
                 <button class="btn-secondary" id="duel-decline" style="display: block; margin: 10px auto; padding: 15px 30px;">TỪ CHỐI</button>
@@ -2746,6 +3236,9 @@ class DuoClone {
         this.state.duelId = duelRow.id;
         this.state.isDuelChallenger = isChallenger;
         this.state.duelQueue = duelRow.questions;
+        this.state.duelTotal = duelRow.question_count;
+        this.state.duelGameType = duelRow.game_type || 'lesson';
+        this.state.duelGameLevel = duelRow.game_level;
         this.state.duelIdx = isChallenger ? duelRow.challenger_idx : duelRow.opponent_idx;
         this.state.duelCorrect = isChallenger ? duelRow.challenger_correct : duelRow.opponent_correct;
         this.state.duelLastOpponentUpdate = Date.now();
@@ -2787,7 +3280,56 @@ class DuoClone {
             }
         }, 15000);
 
-        this.renderLesson();
+        if (this.state.duelGameType === 'lesson') {
+            this.renderLesson();
+        } else {
+            this.renderGameDuelRound();
+        }
+    }
+
+    // Launches the mini-game corresponding to this duel's game_type, wiring its
+    // onProgress/onRoundEnd callbacks into the same Duel.updateMyProgress()/
+    // finishDuelIfNeeded() pipeline the lesson-duel path already uses via
+    // nextDuelExercise() - the round-robin progress bar, forfeit watchdog, and result
+    // screen are all shared code, unaware of which game_type produced the score.
+    renderGameDuelRound() {
+        this.ui.checkBtn.disabled = true;
+        this.ui.checkBtn.classList.remove('active');
+        if (this.ui.skipBtn) this.ui.skipBtn.style.display = 'none';
+
+        const duelData = this.state.duelQueue;
+        const callbacks = {
+            onProgress: (idx, correct) => {
+                this.state.duelIdx = idx;
+                this.state.duelCorrect = correct;
+                window.Duel.updateMyProgress(this.state.duelId, this.state.isDuelChallenger, { idx, correct, finished: false });
+            },
+            onRoundEnd: (correct, total) => {
+                this.state.duelIdx = total;
+                this.state.duelCorrect = correct;
+                window.Duel.updateMyProgress(this.state.duelId, this.state.isDuelChallenger, { idx: total, correct, finished: true });
+                this.renderDuelWaitingForOpponent();
+            },
+            // Backing out mid-round abandons the match same as the lesson-duel forfeit
+            // button - there is no "just leave" option once a duel round has started.
+            onExit: () => this.forfeitDuel()
+        };
+
+        const gameType = this.state.duelGameType;
+        if (gameType === 'word_match') {
+            window.Games.renderWordMatchGame(this.ui.container, callbacks, duelData);
+        } else if (gameType === 'memory') {
+            const uid = this.state.profile ? this.state.profile.id : 'guest';
+            const level = this.state.duelGameLevel || 1;
+            const memoryDuelData = { level, config: window.Games.getMemoryLevelConfig(level), cards: duelData };
+            window.Games.renderMemoryGame(this.ui.container, callbacks, uid, memoryDuelData);
+        } else if (gameType === 'odd_one_out') {
+            window.Games.renderOddOneOutGame(this.ui.container, callbacks, duelData);
+        } else if (gameType === 'reflex') {
+            window.Games.renderReflexGame(this.ui.container, callbacks, duelData);
+        } else if (gameType === 'picture_word') {
+            window.Games.renderPictureWordGame(this.ui.container, callbacks, duelData);
+        }
     }
 
     nextDuelExercise() {
@@ -2816,7 +3358,7 @@ class DuoClone {
             <div class="welcome-screen">
                 <div class="duo-character">⏳</div>
                 <h1 style="text-align: center;">Bạn đã xong! Đang chờ đối thủ...</h1>
-                <p style="text-align: center; color: #777;">Bạn trả lời đúng ${this.state.duelCorrect}/${this.state.duelQueue.length} câu.</p>
+                <p style="text-align: center; color: #777;">Bạn trả lời đúng ${this.state.duelCorrect}/${this.state.duelTotal} câu.</p>
             </div>
         `;
         this.ui.checkBtn.disabled = true;
@@ -2849,6 +3391,7 @@ class DuoClone {
         const myCorrect = this.state.isDuelChallenger ? duelRow.challenger_correct : duelRow.opponent_correct;
         const oppCorrect = this.state.isDuelChallenger ? duelRow.opponent_correct : duelRow.challenger_correct;
         const oppName = this.state.isDuelChallenger ? duelRow.opponent_username : duelRow.challenger_username;
+        const oppId = this.state.isDuelChallenger ? duelRow.opponent_id : duelRow.challenger_id;
 
         // Zero-sum wager: the winner takes XP straight from the loser rather than both
         // sides just getting a flat participation bonus - each client only ever touches
@@ -2882,7 +3425,7 @@ class DuoClone {
             <div class="certificate">
                 <div class="certificate-badge">${isDraw ? '🤝' : (iWon ? '🏆' : '⚔️')}</div>
                 <h2 style="color:${resultColor};">${resultLabel}</h2>
-                <p class="certificate-score">Bạn: ${myCorrect} đúng &nbsp;|&nbsp; ${this.escapeHtml(oppName)}: ${oppCorrect} đúng</p>
+                <p class="certificate-score">Bạn: ${myCorrect} đúng &nbsp;|&nbsp; ${this.clickableUsername(oppId, oppName)}: ${oppCorrect} đúng</p>
                 ${xpChangeLabel ? `<p style="font-weight:800; color:${xpChangeColor};">${xpChangeLabel}</p>` : ''}
             </div>
             <button class="btn-primary" id="duel-result-done" style="display: block; margin: 20px auto; padding: 15px 30px;">VỀ TRANG CHÍNH</button>
@@ -2891,11 +3434,368 @@ class DuoClone {
         this.ui.checkBtn.classList.remove('active');
         document.getElementById('duel-result-done').addEventListener('click', () => {
             this.state.mode = 'curriculum';
-            this.returnToApp();
+            this.renderHomeDashboard();
         });
         this.playTone(iWon ? 'cheer' : (isDraw ? 'correct' : 'cry'));
         this.checkBadges();
         this.saveUserProgress();
+    }
+
+    // ===================== Friends (requests, list, heart gifting) =====================
+
+    async renderFriendsMenu() {
+        if (!this.state.currentUser) {
+            alert("Vui lòng đăng nhập trước khi xem bạn bè!");
+            return;
+        }
+        if (!window.Friends) return;
+        this.ui.container.innerHTML = `
+            <div class="welcome-screen">
+                <div class="duo-character">👥</div>
+                <h1 style="text-align: center;">Bạn Bè</h1>
+                <p style="text-align: center; color: #777;">Đang tải...</p>
+            </div>
+        `;
+        this.ui.checkBtn.disabled = true;
+        this.ui.checkBtn.classList.remove('active');
+
+        const [pendingRequests, friendsList] = await Promise.all([
+            window.Friends.getPendingRequestsFor(this.state.profile.id),
+            window.Friends.getFriendsList(this.state.profile.id)
+        ]);
+        // Drives the friend-count achievement badges (friend_5/friend_20) - checked
+        // right after the list loads rather than fetched separately for checkBadges().
+        this.state.friendCount = friendsList.length;
+        this.checkBadges();
+
+        const requestsHtml = pendingRequests.map(req => `
+            <div class="friend-row">
+                <span class="friend-row-name">👋 ${this.clickableUsername(req.requester_id, req.requester_username)}</span>
+                <span class="friend-row-actions">
+                    <button class="btn-primary friend-accept-btn" data-request-id="${req.id}" style="padding:5px 12px; font-size:12px;">Chấp nhận</button>
+                    <button class="btn-secondary friend-decline-btn" data-request-id="${req.id}" style="padding:5px 12px; font-size:12px;">Từ chối</button>
+                </span>
+            </div>
+        `).join('');
+
+        const friendsHtml = friendsList.length ? friendsList.map(f => {
+            const canGift = window.Friends.canGiftHeartToday({ last_heart_gift_at: f.lastHeartGiftAt });
+            return `
+                <div class="friend-row" data-friendship-id="${f.friendshipId}" data-friend-id="${f.friendId}" data-friend-username="${this.escapeHtml(f.friendUsername)}">
+                    <span class="friend-row-name">🧑 ${this.clickableUsername(f.friendId, f.friendUsername)}</span>
+                    <span class="friend-row-actions">
+                        <button class="btn-primary friend-duel-btn" style="padding:5px 12px; font-size:12px;">⚔️ Thách đấu</button>
+                        <button class="btn-secondary friend-gift-btn" style="padding:5px 12px; font-size:12px;" ${canGift ? '' : 'disabled'}>${canGift ? '❤️ Tặng tim' : '❤️ Đã tặng hôm nay'}</button>
+                    </span>
+                </div>
+            `;
+        }).join('') : `<p style="text-align:center; color:#777;">Bạn chưa có người bạn nào. Hãy kết bạn nhé!</p>`;
+
+        this.ui.container.innerHTML = `
+            <div class="welcome-screen">
+                <div class="duo-character">👥</div>
+                <h1 style="text-align: center;">Bạn Bè</h1>
+                ${pendingRequests.length ? `<h2 style="text-align:center;">Lời mời kết bạn</h2><div style="max-width:500px; margin:0 auto 20px;">${requestsHtml}</div>` : ''}
+                <h2 style="text-align:center;">Danh sách bạn bè (${friendsList.length})</h2>
+                <div style="max-width:500px; margin:0 auto;">${friendsHtml}</div>
+                <button class="btn-primary" id="friends-add-btn" style="display: block; margin: 20px auto; padding: 15px 30px;">+ KẾT BẠN</button>
+                <button class="btn-secondary" id="friends-close" style="display: block; margin: 10px auto; padding: 15px 30px;">QUAY LẠI</button>
+            </div>
+        `;
+        this.ui.checkBtn.disabled = true;
+        this.ui.checkBtn.classList.remove('active');
+
+        document.getElementById('friends-add-btn').addEventListener('click', () => this.renderAddFriendForm());
+        document.getElementById('friends-close').addEventListener('click', () => this.renderHomeDashboard());
+
+        this.ui.container.querySelectorAll('.friend-accept-btn').forEach(btn => {
+            btn.addEventListener('click', async (e) => {
+                e.stopPropagation();
+                await window.Friends.acceptFriendRequest(btn.dataset.requestId);
+                this.renderFriendsMenu();
+            });
+        });
+        this.ui.container.querySelectorAll('.friend-decline-btn').forEach(btn => {
+            btn.addEventListener('click', async (e) => {
+                e.stopPropagation();
+                await window.Friends.declineFriendRequest(btn.dataset.requestId);
+                this.renderFriendsMenu();
+            });
+        });
+        this.ui.container.querySelectorAll('.friend-duel-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                if (this.state.mode === 'duel') { alert('Bạn đang trong một trận đấu khác.'); return; }
+                const row = btn.closest('[data-friend-username]');
+                this.renderGameTypePicker(row.dataset.friendUsername);
+            });
+        });
+        this.ui.container.querySelectorAll('.friend-gift-btn').forEach(btn => {
+            btn.addEventListener('click', async (e) => {
+                e.stopPropagation();
+                if (btn.disabled) return;
+                const row = btn.closest('[data-friendship-id]');
+                btn.disabled = true;
+                const result = await window.Friends.giftHeart(row.dataset.friendshipId, this.state.profile, row.dataset.friendId);
+                if (result.error) { alert(result.error); btn.disabled = false; return; }
+                btn.textContent = '❤️ Đã tặng hôm nay';
+                alert(`🎁 Đã tặng 1 tim cho ${row.dataset.friendUsername}!`);
+            });
+        });
+    }
+
+    renderAddFriendForm() {
+        this.ui.container.innerHTML = `
+            <div class="welcome-screen">
+                <div class="duo-character">👥</div>
+                <h1 style="text-align: center;">Kết bạn</h1>
+                <p style="text-align: center; color: #777;">Nhập tên người dùng bạn muốn kết bạn.</p>
+                <input type="text" id="friend-target-input" class="input-field" style="display:block; width:80%; max-width:300px; margin:15px auto; padding:15px; text-align:center;" placeholder="Tên người dùng...">
+                <p id="friend-add-error" style="text-align:center; color: var(--duo-red); min-height:18px;"></p>
+                <button class="btn-primary" id="friend-send-request" style="display: block; margin: 10px auto; padding: 15px 30px;">GỬI LỜI MỜI KẾT BẠN</button>
+                <button class="btn-secondary" id="friend-add-back" style="display: block; margin: 10px auto; padding: 15px 30px;">QUAY LẠI</button>
+            </div>
+        `;
+        this.ui.checkBtn.disabled = true;
+        this.ui.checkBtn.classList.remove('active');
+        document.getElementById('friend-add-back').addEventListener('click', () => this.renderHomeDashboard());
+        document.getElementById('friend-send-request').addEventListener('click', async () => {
+            const target = document.getElementById('friend-target-input').value.trim();
+            const errorEl = document.getElementById('friend-add-error');
+            if (!target) { errorEl.innerText = 'Vui lòng nhập tên người dùng.'; return; }
+            const result = await window.Friends.sendFriendRequest(this.state.profile, target);
+            if (result.error) { errorEl.innerText = result.error; return; }
+            this.renderFriendsMenu();
+        });
+    }
+
+    // Small sub-menu shown after clicking "⚔️ Thách đấu" on a friend row - lets the
+    // challenger pick lesson or any of the 5 mini-games, then delegates to the same
+    // sendGameDuelChallenge() the manual-username form/game-picker duel buttons use.
+    renderGameTypePicker(friendUsername) {
+        const labels = DuoClone.GAME_TYPE_LABELS;
+        this.ui.container.innerHTML = `
+            <div class="welcome-screen">
+                <div class="duo-character">⚔️</div>
+                <h1 style="text-align: center;">Thách đấu ${this.escapeHtml(friendUsername)}</h1>
+                <p style="text-align: center; color: #777;">Chọn loại thi đấu.</p>
+                <div class="game-picker-list">
+                    ${Object.keys(labels).map(gt => `<button class="btn-primary game-pick-btn" data-game-type="${gt}">${labels[gt]}</button>`).join('')}
+                </div>
+                <button class="btn-secondary" style="margin-top: 20px;" id="game-type-picker-back">QUAY LẠI</button>
+            </div>
+        `;
+        this.ui.checkBtn.disabled = true;
+        this.ui.checkBtn.classList.remove('active');
+        document.getElementById('game-type-picker-back').addEventListener('click', () => this.renderHomeDashboard());
+        this.ui.container.querySelectorAll('[data-game-type]').forEach(btn => {
+            btn.addEventListener('click', async () => {
+                const result = await this.sendGameDuelChallenge(friendUsername, btn.dataset.gameType);
+                if (result && result.error) alert(result.error);
+            });
+        });
+    }
+
+    // ===================== Personal Inbox (direct messages) =====================
+
+    async renderInboxMenu() {
+        if (!this.state.currentUser) {
+            alert("Vui lòng đăng nhập trước khi xem hộp thư!");
+            return;
+        }
+        if (!window.Inbox) return;
+        this.ui.container.innerHTML = `
+            <div class="welcome-screen">
+                <div class="duo-character">📬</div>
+                <h1 style="text-align: center;">Hộp Thư</h1>
+                <p style="text-align: center; color: #777;">Đang tải...</p>
+            </div>
+        `;
+        this.ui.checkBtn.disabled = true;
+        this.ui.checkBtn.classList.remove('active');
+
+        const conversations = await window.Inbox.getConversations(this.state.profile.id);
+
+        const listHtml = conversations.length ? conversations.map(c => `
+            <div class="friend-row inbox-conversation-row" data-other-id="${c.otherUserId}" data-other-username="${this.escapeHtml(c.otherUsername)}">
+                <span class="friend-row-name">${c.unreadCount > 0 ? '🔵 ' : ''}${this.clickableUsername(c.otherUserId, c.otherUsername)}</span>
+                <span class="inbox-preview">
+                    ${this.escapeHtml((c.lastMessage || '').slice(0, 36))}${(c.lastMessage || '').length > 36 ? '…' : ''}
+                    ${c.unreadCount > 0 ? `<span class="nav-unread-badge">${c.unreadCount}</span>` : ''}
+                </span>
+            </div>
+        `).join('') : `<p style="text-align:center; color:#777;">Chưa có tin nhắn nào. Hãy nhắn tin cho ai đó nhé!</p>`;
+
+        this.ui.container.innerHTML = `
+            <div class="welcome-screen">
+                <div class="duo-character">📬</div>
+                <h1 style="text-align: center;">Hộp Thư</h1>
+                <div style="max-width:500px; margin:0 auto;">${listHtml}</div>
+                <button class="btn-primary" id="inbox-new-btn" style="display: block; margin: 20px auto; padding: 15px 30px;">+ NHẮN TIN MỚI</button>
+                <button class="btn-secondary" id="inbox-close" style="display: block; margin: 10px auto; padding: 15px 30px;">QUAY LẠI</button>
+            </div>
+        `;
+        this.ui.checkBtn.disabled = true;
+        this.ui.checkBtn.classList.remove('active');
+        document.getElementById('inbox-new-btn').addEventListener('click', () => this.renderNewMessageForm());
+        document.getElementById('inbox-close').addEventListener('click', () => this.renderHomeDashboard());
+        this.ui.container.querySelectorAll('.inbox-conversation-row').forEach(row => {
+            row.addEventListener('click', () => this.renderConversation(row.dataset.otherId, row.dataset.otherUsername));
+        });
+    }
+
+    renderNewMessageForm() {
+        this.ui.container.innerHTML = `
+            <div class="welcome-screen">
+                <div class="duo-character">📬</div>
+                <h1 style="text-align: center;">Nhắn tin mới</h1>
+                <p style="text-align: center; color: #777;">Nhập tên người dùng bạn muốn nhắn tin (không cần là bạn bè).</p>
+                <input type="text" id="dm-target-input" class="input-field" style="display:block; width:80%; max-width:300px; margin:15px auto; padding:15px; text-align:center;" placeholder="Tên người dùng...">
+                <p id="dm-target-error" style="text-align:center; color: var(--duo-red); min-height:18px;"></p>
+                <button class="btn-primary" id="dm-target-next" style="display: block; margin: 10px auto; padding: 15px 30px;">TIẾP TỤC</button>
+                <button class="btn-secondary" id="dm-target-back" style="display: block; margin: 10px auto; padding: 15px 30px;">QUAY LẠI</button>
+            </div>
+        `;
+        this.ui.checkBtn.disabled = true;
+        this.ui.checkBtn.classList.remove('active');
+        document.getElementById('dm-target-back').addEventListener('click', () => this.renderHomeDashboard());
+        document.getElementById('dm-target-next').addEventListener('click', async () => {
+            const target = document.getElementById('dm-target-input').value.trim();
+            const errorEl = document.getElementById('dm-target-error');
+            if (!target) { errorEl.innerText = 'Vui lòng nhập tên người dùng.'; return; }
+            if (target === this.state.currentUser) { errorEl.innerText = 'Bạn không thể tự nhắn tin cho chính mình.'; return; }
+            const user = await window.Inbox.searchUserByUsername(target);
+            if (!user) { errorEl.innerText = 'Không tìm thấy người dùng này.'; return; }
+            this.renderConversation(user.id, user.username);
+        });
+    }
+
+    cleanupInboxConversation() {
+        if (this.inboxConversationUnsub) {
+            this.inboxConversationUnsub();
+            this.inboxConversationUnsub = null;
+        }
+    }
+
+    async renderConversation(otherUserId, otherUsername) {
+        if (!this.state.currentUser || !window.Inbox) return;
+        this.cleanupInboxConversation();
+        this.ui.container.innerHTML = `
+            <div class="welcome-screen">
+                <div class="duo-character">📬</div>
+                <h1 style="text-align: center;">${this.escapeHtml(otherUsername)}</h1>
+                <div class="conversation-thread" id="conversation-thread"></div>
+                <div class="conversation-input-row">
+                    <input type="text" id="dm-message-input" class="input-field" placeholder="Nhập tin nhắn...">
+                    <button class="btn-primary" id="dm-send-btn">GỬI</button>
+                </div>
+                <button class="btn-secondary" id="conversation-back" style="display: block; margin: 15px auto 0; padding: 12px 24px;">QUAY LẠI</button>
+            </div>
+        `;
+        this.ui.checkBtn.disabled = true;
+        this.ui.checkBtn.classList.remove('active');
+        document.getElementById('conversation-back').addEventListener('click', () => {
+            this.cleanupInboxConversation();
+            this.renderHomeDashboard();
+        });
+
+        await window.Inbox.markConversationRead(this.state.profile.id, otherUserId);
+        this.updateInboxBadge();
+
+        const renderMessages = (messages) => {
+            const threadEl = document.getElementById('conversation-thread');
+            if (!threadEl) return;
+            threadEl.innerHTML = messages.map(m => {
+                const isMine = m.sender_id === this.state.profile.id;
+                return `<div class="chat-bubble-row ${isMine ? 'mine' : 'theirs'}"><div class="chat-bubble">${this.escapeHtml(m.message)}</div></div>`;
+            }).join('');
+            threadEl.scrollTop = threadEl.scrollHeight;
+        };
+
+        const messages = await window.Inbox.getConversationMessages(this.state.profile.id, otherUserId);
+        renderMessages(messages);
+
+        const sendHandler = async () => {
+            const input = document.getElementById('dm-message-input');
+            const text = input.value.trim();
+            if (!text) return;
+            input.value = '';
+            const result = await window.Inbox.sendDirectMessageToId(this.state.profile, otherUserId, otherUsername, text);
+            if (result.error) { alert(result.error); return; }
+            const updated = await window.Inbox.getConversationMessages(this.state.profile.id, otherUserId);
+            renderMessages(updated);
+        };
+        document.getElementById('dm-send-btn').addEventListener('click', sendHandler);
+        document.getElementById('dm-message-input').addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') sendHandler();
+        });
+
+        // Scoped to THIS conversation - subscribeToIncomingMessages already filters at
+        // the DB level to "messages addressed to me", the sender check here narrows it
+        // further to just the person currently open on screen.
+        this.inboxConversationUnsub = window.Inbox.subscribeToIncomingMessages(this.state.profile.id, async (msg) => {
+            if (msg.sender_id !== otherUserId) return;
+            await window.Inbox.markConversationRead(this.state.profile.id, otherUserId);
+            this.updateInboxBadge();
+            const updated = await window.Inbox.getConversationMessages(this.state.profile.id, otherUserId);
+            renderMessages(updated);
+        }, 'conversation:' + otherUserId);
+    }
+
+    // Called once per login (completeLogin()) - keeps the unread badge current and
+    // toasts new incoming DMs regardless of which screen is open, mirroring
+    // setupDuelInviteWatcher()/setupFriendRequestWatcher().
+    async setupInboxWatcher() {
+        if (!window.Inbox || !window.Inbox.isConfigured || !this.state.profile) return;
+        this.updateInboxBadge();
+        if (this.inboxUnsub) this.inboxUnsub();
+        this.inboxUnsub = window.Inbox.subscribeToIncomingMessages(this.state.profile.id, (msg) => {
+            this.updateInboxBadge();
+            // If the matching conversation thread is already open, its own subscription
+            // (see renderConversation()) handles live-appending the message - avoid
+            // double-showing it as a toast on top of that.
+            if (document.getElementById('conversation-thread') && this.state.mode !== 'duel') {
+                return;
+            }
+            if (this.state.mode === 'duel') return;
+            this.showDMToast(msg);
+        });
+    }
+
+    async updateInboxBadge() {
+        if (!window.Inbox || !this.state.profile || !this.ui.inboxUnreadBadge) return;
+        const count = await window.Inbox.getTotalUnreadCount(this.state.profile.id);
+        if (count > 0) {
+            this.ui.inboxUnreadBadge.textContent = count > 99 ? '99+' : String(count);
+            this.ui.inboxUnreadBadge.classList.remove('hidden');
+        } else {
+            this.ui.inboxUnreadBadge.classList.add('hidden');
+        }
+    }
+
+    showDMToast(msg) {
+        if (document.getElementById('dm-toast-' + msg.id)) return;
+        const toast = document.createElement('div');
+        toast.className = 'duel-invite-toast';
+        toast.id = 'dm-toast-' + msg.id;
+        toast.innerHTML = `
+            <div class="duel-invite-toast-header">📬 <strong>${this.clickableUsername(msg.sender_id, msg.sender_username)}</strong>: ${this.escapeHtml(msg.message.slice(0, 60))}</div>
+            <div class="duel-invite-toast-actions">
+                <button class="btn-primary" data-action="open" style="padding:6px 14px; font-size:13px;">Mở</button>
+                <button class="btn-secondary" data-action="dismiss" style="padding:6px 14px; font-size:13px;">Đóng</button>
+            </div>
+        `;
+        document.body.appendChild(toast);
+        setTimeout(() => toast.classList.add('show'), 10);
+        const dismiss = () => {
+            toast.classList.remove('show');
+            setTimeout(() => toast.remove(), 400);
+        };
+        toast.querySelector('[data-action="open"]').addEventListener('click', () => {
+            dismiss();
+            this.renderConversation(msg.sender_id, msg.sender_username);
+        });
+        toast.querySelector('[data-action="dismiss"]').addEventListener('click', dismiss);
     }
 
     startAssessment() {
@@ -3039,7 +3939,7 @@ class DuoClone {
         this.ui.checkBtn.classList.remove('active');
         document.getElementById('cert-done').addEventListener('click', () => {
             this.state.mode = 'curriculum';
-            this.returnToApp();
+            this.renderHomeDashboard();
         });
 
         this.playTone(passed ? 'cheer' : 'cry');
@@ -3061,7 +3961,8 @@ class DuoClone {
             practiceSessions: this.state.stats.practiceSessions,
             assessmentsPassed: this.state.stats.assessmentsPassed,
             duelsPlayed: this.state.stats.duelsPlayed,
-            duelWins: this.state.stats.duelWins
+            duelWins: this.state.stats.duelWins,
+            friendCount: this.state.friendCount || 0
         };
         const newBadges = this.badgeTracker.checkAndAward(snapshot);
         newBadges.forEach(b => this.showBadgeToast(b));
@@ -3101,7 +4002,7 @@ class DuoClone {
         toast.className = 'duel-invite-toast';
         toast.id = 'duel-invite-toast-' + invite.id;
         toast.innerHTML = `
-            <div class="duel-invite-toast-header">⚔️ <strong>${this.escapeHtml(invite.challenger_username)}</strong> đã thách đấu bạn!</div>
+            <div class="duel-invite-toast-header">⚔️ <strong>${this.clickableUsername(invite.challenger_id, invite.challenger_username)}</strong> đã thách đấu bạn!</div>
             <div class="duel-invite-toast-actions">
                 <button class="btn-primary" data-action="accept" style="padding:6px 14px; font-size:13px;">Chấp nhận</button>
                 <button class="btn-secondary" data-action="decline" style="padding:6px 14px; font-size:13px;">Từ chối</button>
@@ -3125,6 +4026,87 @@ class DuoClone {
             dismiss();
             await window.Duel.declineDuel(invite.id);
         });
+    }
+
+    // Mirrors setupDuelInviteWatcher() - fetches requests that arrived while offline,
+    // then subscribes for new ones landing this session.
+    async setupFriendRequestWatcher() {
+        if (!window.Friends || !window.Friends.isConfigured || !this.state.profile) return;
+        const existing = await window.Friends.getPendingRequestsFor(this.state.profile.id);
+        existing.forEach(req => this.showFriendRequestToast(req));
+        if (this.friendRequestUnsub) this.friendRequestUnsub();
+        this.friendRequestUnsub = window.Friends.subscribeToIncomingFriendRequests(this.state.profile.id, (req) => {
+            this.showFriendRequestToast(req);
+        });
+    }
+
+    showFriendRequestToast(request) {
+        // Guard against showing the same request twice (initial fetch + a stray
+        // realtime echo could both resolve to the same row) - same pattern as the duel
+        // invite toast's own guard.
+        if (document.getElementById('friend-request-toast-' + request.id)) return;
+
+        const toast = document.createElement('div');
+        toast.className = 'duel-invite-toast';
+        toast.id = 'friend-request-toast-' + request.id;
+        toast.innerHTML = `
+            <div class="duel-invite-toast-header">👋 <strong>${this.clickableUsername(request.requester_id, request.requester_username)}</strong> muốn kết bạn với bạn!</div>
+            <div class="duel-invite-toast-actions">
+                <button class="btn-primary" data-action="accept" style="padding:6px 14px; font-size:13px;">Chấp nhận</button>
+                <button class="btn-secondary" data-action="decline" style="padding:6px 14px; font-size:13px;">Từ chối</button>
+            </div>
+        `;
+        document.body.appendChild(toast);
+        setTimeout(() => toast.classList.add('show'), 10);
+
+        const dismiss = () => {
+            toast.classList.remove('show');
+            setTimeout(() => toast.remove(), 400);
+        };
+        toast.querySelector('[data-action="accept"]').addEventListener('click', async () => {
+            dismiss();
+            await window.Friends.acceptFriendRequest(request.id);
+        });
+        toast.querySelector('[data-action="decline"]').addEventListener('click', async () => {
+            dismiss();
+            await window.Friends.declineFriendRequest(request.id);
+        });
+    }
+
+    // Silently applies any hearts gifted by friends while the user was away (or just
+    // sitting on another screen) - the sender only ever wrote to their OWN row (see
+    // friends.js giftHeart()), so claiming means incrementing OUR OWN hearts and
+    // marking the gift claimed, both self-updates allowed under the existing RLS model.
+    async claimPendingHeartGifts() {
+        if (!window.Friends || !window.Friends.isConfigured || !this.state.profile) return;
+        const gifts = await window.Friends.getUnclaimedGifts(this.state.profile.id);
+        if (!gifts.length) return;
+        let totalGained = 0;
+        for (const gift of gifts) {
+            const before = this.state.hearts;
+            this.state.hearts = Math.min(MAX_HEARTS, this.state.hearts + 1);
+            totalGained += this.state.hearts - before;
+            await window.Friends.claimGift(gift.id);
+        }
+        if (this.ui.hearts) this.ui.hearts.innerText = this.state.hearts;
+        this.saveUserProgress();
+        const lastSender = gifts[gifts.length - 1].from_username;
+        const label = gifts.length > 1
+            ? `🎁 Bạn nhận được ${totalGained} tim từ bạn bè!`
+            : `🎁 Bạn nhận được 1 tim từ ${this.escapeHtml(lastSender)}!`;
+        this.showHeartGiftToast(label);
+    }
+
+    showHeartGiftToast(label) {
+        const toast = document.createElement('div');
+        toast.className = 'badge-toast';
+        toast.innerHTML = `<span class="badge-toast-icon">❤️</span><div>${label}</div>`;
+        document.body.appendChild(toast);
+        setTimeout(() => toast.classList.add('show'), 10);
+        setTimeout(() => {
+            toast.classList.remove('show');
+            setTimeout(() => toast.remove(), 400);
+        }, 3500);
     }
 
     showBadgeToast(badge) {
@@ -3250,7 +4232,7 @@ class DuoClone {
 
         document.getElementById('settings-back-btn').addEventListener('click', () => {
             this.state.mode = 'curriculum';
-            this.returnToApp();
+            this.renderHomeDashboard();
         });
         document.getElementById('settings-signout-btn').addEventListener('click', () => this.handleSignOut());
         document.getElementById('settings-view-achievements').addEventListener('click', () => this.renderAchievements());
@@ -3358,7 +4340,7 @@ class DuoClone {
         `;
         this.ui.checkBtn.disabled = true;
         this.ui.checkBtn.classList.remove('active');
-        document.getElementById('achievements-close').addEventListener('click', () => this.returnToApp());
+        document.getElementById('achievements-close').addEventListener('click', () => this.renderHomeDashboard());
         document.getElementById('view-certificates').addEventListener('click', () => this.renderCertificateHistory());
 
         const teddyListEl = document.getElementById('teddy-list');
@@ -3368,7 +4350,7 @@ class DuoClone {
                 teddyListEl.innerHTML = winners.length ? winners.map(w => `
                     <div class="leaderboard-row">
                         <span class="lb-rank">🧸</span>
-                        <span class="lb-name">${this.escapeHtml(w.username)}</span>
+                        <span class="lb-name">${this.clickableUsername(null, w.username)}</span>
                         <span class="lb-xp">${this.escapeHtml(window.Leaderboard.formatWeekLabel(w.week_id))} — ${w.weekly_xp} XP</span>
                     </div>
                 `).join('') : `<p style="text-align: center; color: #777;">Chưa có ai được trao gấu bông. Hãy dẫn đầu bảng xếp hạng vào tối thứ 7!</p>`;
@@ -3400,7 +4382,7 @@ class DuoClone {
         `;
         this.ui.checkBtn.disabled = true;
         this.ui.checkBtn.classList.remove('active');
-        document.getElementById('cert-history-close').addEventListener('click', () => this.renderAchievements());
+        document.getElementById('cert-history-close').addEventListener('click', () => this.renderHomeDashboard());
     }
 
     async renderAdminDashboard() {
@@ -3436,7 +4418,7 @@ class DuoClone {
         `;
         this.ui.checkBtn.disabled = true;
         this.ui.checkBtn.classList.remove('active');
-        document.getElementById('admin-close').addEventListener('click', () => this.returnToApp());
+        document.getElementById('admin-close').addEventListener('click', () => this.renderHomeDashboard());
 
         const allProfiles = await window.AuthService.listAllProfiles();
         this.renderAdminSummary(allProfiles);
