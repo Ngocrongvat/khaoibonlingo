@@ -159,6 +159,26 @@ const AuthService = (() => {
         }
     }
 
+    // Same upload pattern as uploadAvatar() above, just under a "group-<id>" path prefix
+    // instead of the user's own uid - the storage RLS policies added in
+    // groups_schema.sql (group_avatar_upload_by_admin etc.) key off that exact prefix to
+    // check the caller has an owner/admin role for this specific group.
+    async function uploadGroupAvatar(groupId, file) {
+        if (!client) return { error: 'Chưa cấu hình đăng nhập.' };
+        try {
+            const ext = (file.name.split('.').pop() || 'jpg').toLowerCase();
+            const path = `group-${groupId}/avatar.${ext}`;
+            const { error: uploadError } = await client.storage
+                .from('avatars')
+                .upload(path, file, { upsert: true, cacheControl: '3600' });
+            if (uploadError) return { error: uploadError.message };
+            const { data } = client.storage.from('avatars').getPublicUrl(path);
+            return { url: `${data.publicUrl}?t=${Date.now()}` };
+        } catch (e) {
+            return { error: e.message };
+        }
+    }
+
     async function updatePassword(newPassword) {
         if (!client) return { error: 'Chưa cấu hình đăng nhập.' };
         try {
@@ -181,7 +201,7 @@ const AuthService = (() => {
         }
     }
 
-    return { isConfigured, signUp, signIn, signOut, getSession, getProfile, ensureProfile, updateProfile, listAllProfiles, deleteProfile, resetAllWeeklyXp, uploadAvatar, updatePassword };
+    return { isConfigured, signUp, signIn, signOut, getSession, getProfile, ensureProfile, updateProfile, listAllProfiles, deleteProfile, resetAllWeeklyXp, uploadAvatar, uploadGroupAvatar, updatePassword };
 })();
 
 window.AuthService = AuthService;

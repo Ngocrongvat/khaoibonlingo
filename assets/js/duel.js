@@ -39,14 +39,21 @@
     // CARDS array (2x the pair count, since each pair has an en+vi card) - the actual
     // "total" that matches the 0..config.pairs scale used by *_correct/onProgress needs
     // to be passed explicitly there instead of falling out of questions.length.
-    async function challengeUser(myProfile, targetUsername, questions, gameType = 'lesson', gameLevel = null, questionCount = null) {
+    // groupBattleId/groupSide are optional and only ever set when this duel is one leg
+    // of a larger group-vs-group battle (see groups.js's group battle screen in app.js).
+    // Only included in the insert payload when actually provided (not just defaulted to
+    // null) - PostgREST rejects an insert containing a key with no matching column, so
+    // sending these unconditionally would break EVERY duel challenge (not just group
+    // battle ones) on any Supabase project that hasn't yet run groups_schema.sql,
+    // silently regressing a feature that has nothing to do with groups.
+    async function challengeUser(myProfile, targetUsername, questions, gameType = 'lesson', gameLevel = null, questionCount = null, groupBattleId = null, groupSide = null) {
         if (!client || !myProfile || !targetUsername) return { error: 'Chưa cấu hình.' };
         try {
             const target = await getProfileIdByUsername(targetUsername);
             if (!target) return { error: 'Không tìm thấy người dùng này.' };
             if (target.id === myProfile.id) return { error: 'Bạn không thể tự thách đấu chính mình.' };
 
-            const { data, error } = await client.from('duels').insert({
+            const payload = {
                 challenger_id: myProfile.id,
                 challenger_username: myProfile.username,
                 opponent_id: target.id,
@@ -55,7 +62,11 @@
                 question_count: questionCount != null ? questionCount : questions.length,
                 game_type: gameType,
                 game_level: gameLevel
-            }).select().single();
+            };
+            if (groupBattleId != null) payload.group_battle_id = groupBattleId;
+            if (groupSide != null) payload.group_side = groupSide;
+
+            const { data, error } = await client.from('duels').insert(payload).select().single();
             if (error) throw error;
             return { data };
         } catch (e) {

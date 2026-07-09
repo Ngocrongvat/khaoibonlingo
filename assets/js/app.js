@@ -188,6 +188,27 @@ function getRankInfo(xp) {
     };
 }
 
+// Group "level" from its accumulated vibrancy_score - reuses the exact same
+// xpNeededForLevel() curve as individual players (via getRankInfo() above) rather than
+// inventing a second formula, so leveling up a group feels consistent with leveling up
+// a character. No rank tiers here (groups don't have Đồng/Bạc/Vàng...), just a level +
+// progress-to-next-level readout.
+function getGroupLevelInfo(vibrancyScore) {
+    const safeScore = Math.max(0, vibrancyScore || 0);
+    let level = 1;
+    let remaining = safeScore;
+    while (remaining >= xpNeededForLevel(level)) {
+        remaining -= xpNeededForLevel(level);
+        level++;
+    }
+    return {
+        level,
+        scoreIntoLevel: remaining,
+        scoreForNextLevel: xpNeededForLevel(level),
+        label: `Cấp ${level}`
+    };
+}
+
 const DEFAULT_STATS = {
     perfectLessons: 0,
     pronunciationCorrect: 0,
@@ -268,6 +289,7 @@ class DuoClone {
             friendsBtn: document.getElementById('friends-btn'),
             inboxBtn: document.getElementById('inbox-btn'),
             inboxUnreadBadge: document.getElementById('inbox-unread-badge'),
+            groupsBtn: document.getElementById('groups-btn'),
             achievementsBtn: document.getElementById('achievements-btn'),
             adminBtn: document.getElementById('admin-btn')
         };
@@ -353,6 +375,9 @@ class DuoClone {
         }
         if (this.ui.inboxBtn) {
             this.ui.inboxBtn.onclick = () => this.renderInboxMenu();
+        }
+        if (this.ui.groupsBtn) {
+            this.ui.groupsBtn.onclick = () => this.renderGroupsMenu();
         }
         if (this.ui.achievementsBtn) {
             this.ui.achievementsBtn.onclick = () => this.renderAchievements();
@@ -522,6 +547,7 @@ class DuoClone {
         this.claimPendingHeartGifts();
         this.setupInboxWatcher();
         this.setupGlobalChatWatcher();
+        this.setupGroupHeartbeat();
 
         const neverPlaced = !this.state.stats.placementLevel;
         const noProgressYet = this.state.xp === 0 && this.state.currentUnitIdx === 0 && this.state.currentLessonIdx === 0 && this.state.currentExIdx === 0;
@@ -815,6 +841,31 @@ class DuoClone {
             this.state.globalChatUnreadCount = (this.state.globalChatUnreadCount || 0) + 1;
             this.updateGlobalChatBadge(this.state.globalChatUnreadCount);
         }, 'badge-watcher');
+    }
+
+    // Called once per login - looks up the user's current group (membership can change
+    // across sessions, so this can't just be cached from a previous login) and, if
+    // they're in one, starts a 60s interval crediting a small amount of vibrancy_score
+    // and refreshing last_active_at (used by the battle screen's 🟢 online indicator).
+    // Mirrors startEnergyRegeneration()'s interval pattern; no explicit cleanup needed -
+    // handleSignOut() does a full location.reload(), which tears down the interval along
+    // with all other page state.
+    async setupGroupHeartbeat() {
+        if (this.groupHeartbeatInterval) {
+            clearInterval(this.groupHeartbeatInterval);
+            this.groupHeartbeatInterval = null;
+        }
+        if (!window.Groups || !this.state.profile) return;
+        const mine = await window.Groups.getMyGroup(this.state.profile.id);
+        this.state.myGroupId = mine ? mine.group.id : null;
+        if (!this.state.myGroupId) return;
+
+        window.Groups.sendHeartbeat(this.state.myGroupId, this.state.profile.id);
+        this.groupHeartbeatInterval = setInterval(() => {
+            if (this.state.myGroupId && this.state.profile) {
+                window.Groups.sendHeartbeat(this.state.myGroupId, this.state.profile.id);
+            }
+        }, 60000);
     }
 
     async toggleGlobalChat() {
@@ -2085,6 +2136,11 @@ class DuoClone {
         this.ui.xp.innerText = this.state.xp;
         this.ui.streak.innerText = this.state.streak;
         this.syncLeaderboardScore();
+        // "Chuỗi online thành viên" contribution to the group's vibrancy score - only on
+        // days the streak actually extended (not every lesson), scaled by streak length.
+        if (streakExtended && this.state.myGroupId && window.Groups) {
+            window.Groups.creditStreakVibrancy(this.state.myGroupId, this.state.streak).catch(() => {});
+        }
     }
 
     // Ranks by cumulative xp, not a resetting weekly counter - a leader nobody catches
@@ -3136,7 +3192,12 @@ class DuoClone {
     // both the manual-username form (renderDuelChallengeForm) and the friend-list
     // "⚔️ Thách đấu" button (renderGameTypePicker) - keeps question/round generation and
     // the challengeUser() call in one place instead of duplicated per entry point.
-    async sendGameDuelChallenge(targetUsername, gameType = 'lesson') {
+    // groupBattleId/groupSide are optional - only passed when this challenge is one leg
+    // of a group-vs-group battle (renderGroupBattleScreen()'s per-member "Đấu" buttons),
+    // tagging the resulting duel row so recomputeBattleScore() can find it later. Every
+    // other call site (friend list, manual username form) omits them, keeping the
+    // existing individual-duel behavior byte-for-byte unchanged.
+    async sendGameDuelChallenge(targetUsername, gameType = 'lesson', groupBattleId = null, groupSide = null) {
         if (this.state.mode === 'duel') return { error: 'Bạn đang trong một trận đấu khác.' };
         let questions, gameLevel = null, questionCount = null;
         if (gameType === 'lesson') {
@@ -3150,7 +3211,7 @@ class DuoClone {
             gameLevel = built.level;
             questionCount = built.total;
         }
-        const result = await window.Duel.challengeUser(this.state.profile, targetUsername, questions, gameType, gameLevel, questionCount);
+        const result = await window.Duel.challengeUser(this.state.profile, targetUsername, questions, gameType, gameLevel, questionCount, groupBattleId, groupSide);
         if (result.error) return result;
         this.renderDuelWaitingRoom(result.data);
         return result;
@@ -3373,14 +3434,20 @@ class DuoClone {
         if (this.state.duelResultShown) return;
         this.state.duelResultShown = true;
 
-        if (duelRow.status === 'finished') {
-            this.renderDuelResult(duelRow);
-            return;
+        let finalRow = duelRow;
+        if (duelRow.status !== 'finished') {
+            const winnerId = window.Duel.resolveDuelWinner(duelRow);
+            await window.Duel.finalizeDuel(duelRow.id, winnerId);
+            finalRow = await window.Duel.getDuel(duelRow.id) || duelRow;
         }
-        const winnerId = window.Duel.resolveDuelWinner(duelRow);
-        await window.Duel.finalizeDuel(duelRow.id, winnerId);
-        const finalRow = await window.Duel.getDuel(duelRow.id);
-        this.renderDuelResult(finalRow || duelRow);
+        // If this 1v1 was one leg of a group battle, opportunistically recompute that
+        // battle's aggregate score now - whichever client happens to reach this point
+        // first after the duel resolves keeps the group_battles row current, no cron
+        // needed (same "whoever's here does the update" pattern as chat auto-cleanup).
+        if (finalRow.group_battle_id && window.Groups) {
+            window.Groups.recomputeBattleScore(finalRow.group_battle_id).catch(() => {});
+        }
+        this.renderDuelResult(finalRow);
     }
 
     renderDuelResult(duelRow) {
@@ -3569,6 +3636,123 @@ class DuoClone {
         });
     }
 
+    // ===================== Groups =====================
+
+    // Entry point from the nav icon. Two very different screens depending on whether
+    // the user is already in a group (own group summary + "Vào group") or not yet
+    // (browse/search public groups + "+ Tạo group"), mirroring how renderFriendsMenu()
+    // itself doesn't branch this way (friends are many, a group is at most one at a
+    // time per the plan's "mỗi user ở 1 group tại một thời điểm" scope).
+    async renderGroupsMenu(searchQuery = '') {
+        this.ui.container.innerHTML = `
+            <div class="welcome-screen">
+                <div class="duo-character">🏰</div>
+                <h1 style="text-align: center;">Group</h1>
+                <p style="text-align: center; color: #777;">Đang tải...</p>
+            </div>
+        `;
+        this.ui.checkBtn.disabled = true;
+        this.ui.checkBtn.classList.remove('active');
+
+        if (!window.Groups || !this.state.profile) return;
+        const mine = await window.Groups.getMyGroup(this.state.profile.id);
+
+        if (mine) {
+            const levelInfo = getGroupLevelInfo(mine.group.vibrancy_score);
+            this.ui.container.innerHTML = `
+                <div class="welcome-screen">
+                    ${mine.group.avatar_url
+                        ? `<img src="${mine.group.avatar_url}" alt="" style="width:88px; height:88px; border-radius:20px; display:block; margin:0 auto; object-fit:cover;">`
+                        : `<div class="duo-character">🏰</div>`}
+                    <h1 style="text-align: center;">${this.escapeHtml(mine.group.name)}</h1>
+                    <p style="text-align: center; color: #777;">${levelInfo.label} · ⭐ ${mine.group.vibrancy_score} điểm sôi nổi</p>
+                    <button class="btn-primary" id="group-enter-btn" style="display: block; margin: 20px auto; padding: 15px 30px;">VÀO GROUP</button>
+                    <button class="btn-secondary" id="group-leaderboards-btn" style="display: block; margin: 10px auto; padding: 12px 30px;">🏆 BẢNG XẾP HẠNG GROUP</button>
+                    <button class="btn-secondary" id="groups-close" style="display: block; margin: 10px auto; padding: 15px 30px;">QUAY LẠI</button>
+                </div>
+            `;
+            document.getElementById('group-enter-btn').addEventListener('click', () => this.renderGroupDetail(mine.group.id));
+            document.getElementById('group-leaderboards-btn').addEventListener('click', () => this.renderGroupLeaderboards());
+            document.getElementById('groups-close').addEventListener('click', () => this.renderHomeDashboard());
+            this.ui.checkBtn.disabled = true;
+            this.ui.checkBtn.classList.remove('active');
+            return;
+        }
+
+        const groups = await window.Groups.searchGroups(searchQuery, 30);
+        const listHtml = groups.length
+            ? groups.map(g => {
+                const info = getGroupLevelInfo(g.vibrancy_score);
+                return `
+                    <div class="friend-row">
+                        <span class="friend-row-name">🏰 ${this.escapeHtml(g.name)} <span style="color:#999; font-weight:400;">(${info.label})</span></span>
+                        <span class="friend-row-actions">
+                            <button class="btn-primary group-join-btn" data-group-id="${g.id}" style="padding:5px 12px; font-size:12px;">Xin gia nhập</button>
+                        </span>
+                    </div>
+                `;
+            }).join('')
+            : `<p style="text-align:center; color:#777;">Chưa có group nào${searchQuery ? ' khớp tìm kiếm' : ''}. Hãy là người đầu tiên tạo group!</p>`;
+
+        this.ui.container.innerHTML = `
+            <div class="welcome-screen">
+                <div class="duo-character">🏰</div>
+                <h1 style="text-align: center;">Group</h1>
+                <p style="text-align: center; color: #777;">Bạn chưa ở trong group nào. Tham gia hoặc tạo group mới!</p>
+                <input type="text" id="group-search-input" class="input-field" style="display:block; width:80%; max-width:300px; margin:10px auto; padding:12px; text-align:center;" placeholder="Tìm group theo tên..." value="${this.escapeHtml(searchQuery)}">
+                <button class="btn-primary" id="group-create-btn" style="display: block; margin: 10px auto; padding: 15px 30px;">+ TẠO GROUP</button>
+                <button class="btn-secondary" id="group-leaderboards-btn" style="display: block; margin: 10px auto; padding: 12px 30px;">🏆 BẢNG XẾP HẠNG GROUP</button>
+                <div class="friends-list" style="margin-top:15px;">${listHtml}</div>
+                <button class="btn-secondary" id="groups-close" style="display: block; margin: 15px auto; padding: 15px 30px;">QUAY LẠI</button>
+            </div>
+        `;
+        this.ui.checkBtn.disabled = true;
+        this.ui.checkBtn.classList.remove('active');
+
+        document.getElementById('group-create-btn').addEventListener('click', () => this.renderCreateGroupForm());
+        document.getElementById('group-leaderboards-btn').addEventListener('click', () => this.renderGroupLeaderboards());
+        document.getElementById('groups-close').addEventListener('click', () => this.renderHomeDashboard());
+        const searchInput = document.getElementById('group-search-input');
+        searchInput.addEventListener('keydown', (e) => { if (e.key === 'Enter') this.renderGroupsMenu(searchInput.value.trim()); });
+        this.ui.container.querySelectorAll('.group-join-btn').forEach(btn => {
+            btn.addEventListener('click', async () => {
+                btn.disabled = true;
+                const result = await window.Groups.requestJoin(this.state.profile, btn.dataset.groupId);
+                if (result.error) { alert(result.error); btn.disabled = false; return; }
+                alert('Đã gửi yêu cầu tham gia! Chờ Chủ nhóm duyệt nhé.');
+                this.renderGroupsMenu(searchQuery);
+            });
+        });
+    }
+
+    renderCreateGroupForm() {
+        this.ui.container.innerHTML = `
+            <div class="welcome-screen">
+                <div class="duo-character">🏰</div>
+                <h1 style="text-align: center;">Tạo Group</h1>
+                <input type="text" id="group-name-input" class="input-field" style="display:block; width:80%; max-width:300px; margin:15px auto; padding:15px; text-align:center;" placeholder="Tên group (2-40 ký tự)...">
+                <textarea id="group-desc-input" class="input-field" style="display:block; width:80%; max-width:300px; margin:10px auto; padding:12px;" placeholder="Mô tả ngắn (không bắt buộc)..." rows="3"></textarea>
+                <p id="group-create-error" style="text-align:center; color: var(--duo-red); min-height:18px;"></p>
+                <button class="btn-primary" id="group-create-submit" style="display: block; margin: 10px auto; padding: 15px 30px;">TẠO GROUP</button>
+                <button class="btn-secondary" id="group-create-back" style="display: block; margin: 10px auto; padding: 15px 30px;">QUAY LẠI</button>
+            </div>
+        `;
+        this.ui.checkBtn.disabled = true;
+        this.ui.checkBtn.classList.remove('active');
+        document.getElementById('group-create-back').addEventListener('click', () => this.renderGroupsMenu());
+        document.getElementById('group-create-submit').addEventListener('click', async () => {
+            const name = document.getElementById('group-name-input').value.trim();
+            const description = document.getElementById('group-desc-input').value.trim();
+            const errorEl = document.getElementById('group-create-error');
+            if (!name) { errorEl.innerText = 'Vui lòng nhập tên group.'; return; }
+            const result = await window.Groups.createGroup(this.state.profile, name, description);
+            if (result.error) { errorEl.innerText = result.error; return; }
+            this.state.myGroupId = result.data.id;
+            this.setupGroupHeartbeat();
+            this.renderGroupDetail(result.data.id);
+        });
+    }
+
     // Small sub-menu shown after clicking "⚔️ Thách đấu" on a friend row - lets the
     // challenger pick lesson or any of the 5 mini-games, then delegates to the same
     // sendGameDuelChallenge() the manual-username form/game-picker duel buttons use.
@@ -3594,6 +3778,471 @@ class DuoClone {
                 if (result && result.error) alert(result.error);
             });
         });
+    }
+
+    // Full group screen: header/level, avatar upload + pending join requests (owner/
+    // admin only), member roster with role controls, an embedded group chat widget
+    // (mirrors the home dashboard's global-chat-widget markup/behavior under distinct
+    // ids so both can exist independently), and the entry point into group battles.
+    async renderGroupDetail(groupId) {
+        this.cleanupGroupChat();
+        this.ui.container.innerHTML = `<div class="welcome-screen"><p style="text-align:center; color:#777;">Đang tải...</p></div>`;
+        if (!window.Groups || !this.state.profile) return;
+
+        const [group, members, myMembership] = await Promise.all([
+            window.Groups.getGroupById(groupId),
+            window.Groups.getGroupMembers(groupId),
+            window.Groups.getMyGroup(this.state.profile.id)
+        ]);
+        if (!group) {
+            this.ui.container.innerHTML = `<div class="welcome-screen"><p style="text-align:center; color:#777;">Không tìm thấy group này.</p><button class="btn-secondary" id="group-detail-back" style="display:block; margin:15px auto; padding:12px 24px;">QUAY LẠI</button></div>`;
+            document.getElementById('group-detail-back').addEventListener('click', () => this.renderHomeDashboard());
+            return;
+        }
+        const myRole = myMembership && myMembership.group.id === groupId ? myMembership.membership.role : null;
+        const isAdmin = myRole === 'owner' || myRole === 'admin';
+        const isOwner = myRole === 'owner';
+
+        const pendingRequests = isAdmin ? await window.Groups.getPendingJoinRequests(groupId) : [];
+        const levelInfo = getGroupLevelInfo(group.vibrancy_score);
+        const roleLabel = { owner: '👑 Chủ nhóm', admin: '⭐ Phó nhóm', member: '' };
+
+        const requestsHtml = pendingRequests.length ? `
+            <h3 style="margin: 15px 0 8px;">Yêu cầu tham gia (${pendingRequests.length})</h3>
+            ${pendingRequests.map(r => `
+                <div class="friend-row">
+                    <span class="friend-row-name">👋 ${this.clickableUsername(r.user_id, r.username)}</span>
+                    <span class="friend-row-actions">
+                        <button class="btn-primary group-approve-btn" data-id="${r.id}" style="padding:5px 12px; font-size:12px;">Duyệt</button>
+                        <button class="btn-secondary group-decline-btn" data-id="${r.id}" style="padding:5px 12px; font-size:12px;">Từ chối</button>
+                    </span>
+                </div>
+            `).join('')}
+        ` : '';
+
+        const membersHtml = members.map(m => `
+            <div class="friend-row" data-member-id="${m.id}" data-user-id="${m.user_id}">
+                <span class="friend-row-name">${this.clickableUsername(m.user_id, m.username)} ${roleLabel[m.role] ? `<span class="group-role-badge">${roleLabel[m.role]}</span>` : ''}</span>
+                ${isAdmin && m.user_id !== this.state.profile.id ? `
+                    <span class="friend-row-actions">
+                        ${m.role === 'member' ? `<button class="btn-secondary group-promote-btn" data-id="${m.id}" style="padding:5px 10px; font-size:11px;">Phong Phó nhóm</button>` : ''}
+                        ${isOwner && m.role === 'admin' ? `<button class="btn-secondary group-demote-btn" data-id="${m.id}" style="padding:5px 10px; font-size:11px;">Hạ cấp</button>` : ''}
+                        <button class="btn-secondary group-kick-btn" data-id="${m.id}" style="padding:5px 10px; font-size:11px; color:var(--duo-red);">Xoá</button>
+                    </span>
+                ` : ''}
+            </div>
+        `).join('');
+
+        this.ui.container.innerHTML = `
+            <div class="welcome-screen">
+                ${group.avatar_url
+                    ? `<img src="${group.avatar_url}" alt="" style="width:88px; height:88px; border-radius:20px; display:block; margin:0 auto; object-fit:cover;">`
+                    : `<div class="duo-character">🏰</div>`}
+                <h1 style="text-align: center;">${this.escapeHtml(group.name)}</h1>
+                ${group.description ? `<p style="text-align:center; color:#777;">${this.escapeHtml(group.description)}</p>` : ''}
+                <p style="text-align: center; color: #777;">${levelInfo.label} · ⭐ ${group.vibrancy_score} điểm sôi nổi · ⚔️ ${group.battle_wins}T-${group.battle_losses}B</p>
+
+                ${isAdmin ? `
+                    <input type="file" id="group-avatar-input" accept="image/*" style="display:block; margin: 10px auto;">
+                ` : ''}
+
+                <button class="btn-primary" id="group-battle-btn" style="display: block; margin: 15px auto; padding: 15px 30px;">⚔️ ĐẤU GROUP</button>
+
+                ${requestsHtml}
+
+                <h3 style="margin: 15px 0 8px;">Thành viên (${members.length}/${window.Groups.MAX_MEMBERS})</h3>
+                <div class="friends-list">${membersHtml}</div>
+
+                <div class="global-chat-widget" id="group-chat-widget">
+                    <button class="global-chat-toggle" id="group-chat-toggle">
+                        <span>💬 Chat nhóm</span>
+                        <span id="group-chat-toggle-icon">▾</span>
+                    </button>
+                    <div class="global-chat-body hidden" id="group-chat-body">
+                        <div class="global-chat-messages" id="group-chat-messages"></div>
+                        <div class="global-chat-input-row">
+                            <input type="text" id="group-chat-input" class="input-field" maxlength="500" placeholder="Nhắn gì đó với cả nhóm...">
+                            <button class="btn-primary" id="group-chat-send">GỬI</button>
+                        </div>
+                    </div>
+                </div>
+
+                ${myRole && myRole !== 'owner' ? `<button class="btn-secondary" id="group-leave-btn" style="display: block; margin: 15px auto; padding: 12px 24px; color:var(--duo-red);">RỜI GROUP</button>` : ''}
+                <button class="btn-secondary" id="group-detail-back" style="display: block; margin: 10px auto; padding: 15px 30px;">QUAY LẠI</button>
+            </div>
+        `;
+        this.ui.checkBtn.disabled = true;
+        this.ui.checkBtn.classList.remove('active');
+
+        document.getElementById('group-detail-back').addEventListener('click', () => this.renderHomeDashboard());
+        document.getElementById('group-battle-btn').addEventListener('click', () => this.renderGroupBattleMenu(groupId));
+
+        const avatarInput = document.getElementById('group-avatar-input');
+        if (avatarInput) {
+            avatarInput.addEventListener('change', async () => {
+                const file = avatarInput.files[0];
+                if (!file || !window.AuthService) return;
+                const result = await window.AuthService.uploadGroupAvatar(groupId, file);
+                if (result.error) { alert(result.error); return; }
+                await window.Groups.updateGroupAvatar(groupId, result.url);
+                this.renderGroupDetail(groupId);
+            });
+        }
+
+        this.ui.container.querySelectorAll('.group-approve-btn').forEach(btn => {
+            btn.addEventListener('click', async () => {
+                const result = await window.Groups.approveJoinRequest(btn.dataset.id, groupId);
+                if (result.error) { alert(result.error); return; }
+                this.renderGroupDetail(groupId);
+            });
+        });
+        this.ui.container.querySelectorAll('.group-decline-btn').forEach(btn => {
+            btn.addEventListener('click', async () => {
+                await window.Groups.declineJoinRequest(btn.dataset.id);
+                this.renderGroupDetail(groupId);
+            });
+        });
+        this.ui.container.querySelectorAll('.group-promote-btn').forEach(btn => {
+            btn.addEventListener('click', async () => {
+                await window.Groups.promoteToAdmin(btn.dataset.id);
+                this.renderGroupDetail(groupId);
+            });
+        });
+        this.ui.container.querySelectorAll('.group-demote-btn').forEach(btn => {
+            btn.addEventListener('click', async () => {
+                await window.Groups.demoteToMember(btn.dataset.id);
+                this.renderGroupDetail(groupId);
+            });
+        });
+        this.ui.container.querySelectorAll('.group-kick-btn').forEach(btn => {
+            btn.addEventListener('click', async () => {
+                if (!confirm('Xoá thành viên này khỏi group?')) return;
+                await window.Groups.removeMember(btn.dataset.id);
+                this.renderGroupDetail(groupId);
+            });
+        });
+        const leaveBtn = document.getElementById('group-leave-btn');
+        if (leaveBtn) {
+            leaveBtn.addEventListener('click', async () => {
+                if (!confirm('Bạn chắc chắn muốn rời group này?')) return;
+                await window.Groups.removeMember(myMembership.membership.id);
+                this.state.myGroupId = null;
+                this.renderHomeDashboard();
+            });
+        }
+
+        this.initGroupChatWidget(groupId);
+    }
+
+    initGroupChatWidget(groupId) {
+        const toggle = document.getElementById('group-chat-toggle');
+        if (toggle) toggle.addEventListener('click', () => this.toggleGroupChat(groupId));
+
+        const sendBtn = document.getElementById('group-chat-send');
+        const input = document.getElementById('group-chat-input');
+        const send = async () => {
+            if (!input || !window.Groups || !this.state.profile) return;
+            const text = input.value.trim();
+            if (!text) return;
+            input.value = '';
+            const result = await window.Groups.sendGroupMessage(groupId, this.state.profile, text);
+            if (result.error) alert(result.error);
+        };
+        if (sendBtn) sendBtn.addEventListener('click', send);
+        if (input) input.addEventListener('keydown', (e) => { if (e.key === 'Enter') send(); });
+    }
+
+    async toggleGroupChat(groupId) {
+        const body = document.getElementById('group-chat-body');
+        const icon = document.getElementById('group-chat-toggle-icon');
+        if (!body) return;
+        const opening = body.classList.contains('hidden');
+        body.classList.toggle('hidden');
+        if (icon) icon.textContent = opening ? '▴' : '▾';
+
+        if (!opening) {
+            this.cleanupGroupChat();
+            return;
+        }
+        if (!window.Groups) return;
+        const messages = await window.Groups.getGroupMessages(groupId, 50);
+        this.renderGroupChatMessages(messages);
+        this.cleanupGroupChat();
+        this.groupChatUnsub = window.Groups.subscribeToGroupMessages(groupId, (msg) => {
+            const listEl = document.getElementById('group-chat-messages');
+            if (!listEl) return;
+            this.appendGroupChatMessage(msg);
+        });
+    }
+
+    groupChatMessageHtml(m) {
+        const isMine = this.state.profile && m.sender_id === this.state.profile.id;
+        return `
+            <div class="chat-bubble-row ${isMine ? 'mine' : 'theirs'}">
+                <div class="chat-bubble">
+                    ${isMine ? '' : `<span class="chat-bubble-sender">${this.clickableUsername(m.sender_id, m.sender_username)}</span>`}
+                    ${this.escapeHtml(m.message)}
+                </div>
+            </div>
+        `;
+    }
+
+    renderGroupChatMessages(messages) {
+        const listEl = document.getElementById('group-chat-messages');
+        if (!listEl) return;
+        listEl.innerHTML = messages.length
+            ? messages.map(m => this.groupChatMessageHtml(m)).join('')
+            : '<p style="text-align:center; color:#999; font-size:13px;">Chưa có tin nhắn nào trong group.</p>';
+        listEl.scrollTop = listEl.scrollHeight;
+    }
+
+    appendGroupChatMessage(msg) {
+        const listEl = document.getElementById('group-chat-messages');
+        if (!listEl) return;
+        listEl.insertAdjacentHTML('beforeend', this.groupChatMessageHtml(msg));
+        listEl.scrollTop = listEl.scrollHeight;
+    }
+
+    cleanupGroupChat() {
+        if (this.groupChatUnsub) {
+            this.groupChatUnsub();
+            this.groupChatUnsub = null;
+        }
+    }
+
+    // 3 tabs sharing one screen (Cấp độ/Thiện chiến/Máu chiến) rather than 3 separate
+    // render functions - reuses the exact .leaderboard-row/.lb-name/.lb-xp markup/CSS
+    // already built for renderLeaderboard()/renderDuelLeaderboard(), just pointed at
+    // window.Groups.getGroupLeaderboard() instead.
+    async renderGroupLeaderboards(sortBy = 'vibrancy_score') {
+        const tabs = [
+            { key: 'vibrancy_score', label: 'Cấp độ' },
+            { key: 'battle_wins', label: 'Thiện chiến' },
+            { key: 'battles_initiated', label: 'Máu chiến' }
+        ];
+        this.ui.container.innerHTML = `<div class="welcome-screen"><p style="text-align:center; color:#777;">Đang tải...</p></div>`;
+        this.ui.checkBtn.disabled = true;
+        this.ui.checkBtn.classList.remove('active');
+        if (!window.Groups) return;
+
+        const entries = await window.Groups.getGroupLeaderboard(sortBy, 20);
+        const valueLabel = (g) => {
+            if (sortBy === 'battle_wins') return `${g.battle_wins} thắng`;
+            if (sortBy === 'battles_initiated') return `${g.battles_initiated} trận`;
+            return `${getGroupLevelInfo(g.vibrancy_score).label} · ⭐ ${g.vibrancy_score}`;
+        };
+        const rowsHtml = entries.length ? entries.map((g, i) => {
+            const medal = i === 0 ? '🥇' : i === 1 ? '🥈' : i === 2 ? '🥉' : `#${i + 1}`;
+            return `
+                <div class="leaderboard-row">
+                    <span class="lb-rank">${medal}</span>
+                    <span class="lb-name">🏰 ${this.escapeHtml(g.name)}</span>
+                    <span class="lb-xp">${valueLabel(g)}</span>
+                </div>
+            `;
+        }).join('') : `<p style="text-align:center; color:#777;">Chưa có group nào.</p>`;
+
+        this.ui.container.innerHTML = `
+            <div class="welcome-screen">
+                <div class="duo-character">🏆</div>
+                <h1 style="text-align: center;">Bảng Xếp Hạng Group</h1>
+                <div class="game-picker-list" style="flex-direction:row; justify-content:center; gap:8px; max-width:500px; margin:10px auto;">
+                    ${tabs.map(t => `<button class="btn-secondary group-lb-tab-btn ${t.key === sortBy ? 'group-lb-tab-active' : ''}" data-sort="${t.key}" style="padding:8px 14px; font-size:13px;">${t.label}</button>`).join('')}
+                </div>
+                <div style="max-width:500px; margin:0 auto;">${rowsHtml}</div>
+                <button class="btn-secondary" id="group-lb-back" style="display: block; margin: 20px auto; padding: 15px 30px;">QUAY LẠI</button>
+            </div>
+        `;
+        this.ui.checkBtn.disabled = true;
+        this.ui.checkBtn.classList.remove('active');
+        document.getElementById('group-lb-back').addEventListener('click', () => this.renderHomeDashboard());
+        this.ui.container.querySelectorAll('.group-lb-tab-btn').forEach(btn => {
+            btn.addEventListener('click', () => this.renderGroupLeaderboards(btn.dataset.sort));
+        });
+    }
+
+    // Intermediate screen reached from "⚔️ ĐẤU GROUP" - routes straight into the live
+    // battle screen if one is already active, otherwise shows any incoming challenges to
+    // accept/decline plus a form to challenge another group by name.
+    async renderGroupBattleMenu(groupId) {
+        this.ui.container.innerHTML = `<div class="welcome-screen"><p style="text-align:center; color:#777;">Đang tải...</p></div>`;
+        if (!window.Groups) return;
+
+        const active = await window.Groups.getActiveBattleFor(groupId);
+        if (active) {
+            this.renderGroupBattleScreen(active.id);
+            return;
+        }
+
+        const [pending, myMembership] = await Promise.all([
+            window.Groups.getPendingBattlesFor(groupId),
+            window.Groups.getMyGroup(this.state.profile.id)
+        ]);
+        const myRole = myMembership ? myMembership.membership.role : null;
+        const isAdmin = myRole === 'owner' || myRole === 'admin';
+
+        const pendingHtml = pending.length ? `
+            <h3 style="margin: 15px 0 8px;">Lời thách đấu</h3>
+            ${await Promise.all(pending.map(async b => {
+                const challenger = await window.Groups.getGroupById(b.group_a_id);
+                return `
+                    <div class="friend-row">
+                        <span class="friend-row-name">⚔️ ${this.escapeHtml(challenger ? challenger.name : 'Group khác')}</span>
+                        <span class="friend-row-actions">
+                            ${isAdmin ? `
+                                <button class="btn-primary group-battle-accept-btn" data-id="${b.id}" style="padding:5px 12px; font-size:12px;">Chấp nhận</button>
+                                <button class="btn-secondary group-battle-decline-btn" data-id="${b.id}" style="padding:5px 12px; font-size:12px;">Từ chối</button>
+                            ` : '<span style="color:#999; font-size:12px;">Chờ Chủ/Phó nhóm duyệt</span>'}
+                        </span>
+                    </div>
+                `;
+            })).then(rows => rows.join(''))}
+        ` : '';
+
+        this.ui.container.innerHTML = `
+            <div class="welcome-screen">
+                <div class="duo-character">⚔️</div>
+                <h1 style="text-align: center;">Đấu Group</h1>
+                <p style="text-align: center; color: #777;">Tổng điểm nhiều trận 1vs1 giữa thành viên 2 group.</p>
+                ${pendingHtml}
+                ${isAdmin ? `
+                    <h3 style="margin: 15px 0 8px;">Thách đấu group khác</h3>
+                    <input type="text" id="group-battle-target-input" class="input-field" style="display:block; width:80%; max-width:300px; margin:10px auto; padding:12px; text-align:center;" placeholder="Tên group muốn thách đấu...">
+                    <p id="group-battle-error" style="text-align:center; color: var(--duo-red); min-height:18px;"></p>
+                    <button class="btn-primary" id="group-battle-challenge-btn" style="display: block; margin: 10px auto; padding: 15px 30px;">GỬI THÁCH ĐẤU</button>
+                ` : ''}
+                <button class="btn-secondary" id="group-battle-menu-back" style="display: block; margin: 15px auto; padding: 15px 30px;">QUAY LẠI</button>
+            </div>
+        `;
+        this.ui.checkBtn.disabled = true;
+        this.ui.checkBtn.classList.remove('active');
+
+        document.getElementById('group-battle-menu-back').addEventListener('click', () => this.renderGroupDetail(groupId));
+        this.ui.container.querySelectorAll('.group-battle-accept-btn').forEach(btn => {
+            btn.addEventListener('click', async () => {
+                const result = await window.Groups.acceptGroupBattle(btn.dataset.id);
+                if (result.error) { alert(result.error); return; }
+                this.renderGroupBattleScreen(btn.dataset.id);
+            });
+        });
+        this.ui.container.querySelectorAll('.group-battle-decline-btn').forEach(btn => {
+            btn.addEventListener('click', async () => {
+                await window.Groups.declineGroupBattle(btn.dataset.id);
+                this.renderGroupBattleMenu(groupId);
+            });
+        });
+        const challengeBtn = document.getElementById('group-battle-challenge-btn');
+        if (challengeBtn) {
+            challengeBtn.addEventListener('click', async () => {
+                const target = document.getElementById('group-battle-target-input').value.trim();
+                const errorEl = document.getElementById('group-battle-error');
+                if (!target) { errorEl.innerText = 'Vui lòng nhập tên group.'; return; }
+                const result = await window.Groups.challengeGroupBattle(groupId, target);
+                if (result.error) { errorEl.innerText = result.error; return; }
+                alert('Đã gửi thách đấu! Chờ group kia chấp nhận.');
+                this.renderGroupBattleMenu(groupId);
+            });
+        }
+    }
+
+    // Live battle screen: shows the running aggregate score, both sides' currently-
+    // online members (heartbeat'd within the last 3 minutes) with per-member "Đấu"
+    // buttons, and a manual "Kết thúc trận" for owner/admin - no automatic timer since
+    // this app has no cron infrastructure (see groups_schema.sql's comments).
+    async renderGroupBattleScreen(battleId) {
+        this.ui.container.innerHTML = `<div class="welcome-screen"><p style="text-align:center; color:#777;">Đang tải...</p></div>`;
+        if (!window.Groups || !this.state.profile) return;
+
+        const recomputed = await window.Groups.recomputeBattleScore(battleId);
+        if (!recomputed) {
+            this.ui.container.innerHTML = `<div class="welcome-screen"><p style="text-align:center; color:#777;">Không tìm thấy trận đấu.</p><button class="btn-secondary" id="group-battle-back" style="display:block; margin:15px auto; padding:12px 24px;">QUAY LẠI</button></div>`;
+            document.getElementById('group-battle-back').addEventListener('click', () => this.renderHomeDashboard());
+            return;
+        }
+
+        const [groupA, groupB, membersA, membersB, myMembership] = await Promise.all([
+            window.Groups.getGroupById(recomputed.group_a_id),
+            window.Groups.getGroupById(recomputed.group_b_id),
+            window.Groups.getGroupMembers(recomputed.group_a_id),
+            window.Groups.getGroupMembers(recomputed.group_b_id),
+            window.Groups.getMyGroup(this.state.profile.id)
+        ]);
+        const myGroupId = myMembership ? myMembership.group.id : null;
+        const myRole = myMembership ? myMembership.membership.role : null;
+        const isAdmin = myRole === 'owner' || myRole === 'admin';
+        const mySide = myGroupId === recomputed.group_a_id ? 'a' : (myGroupId === recomputed.group_b_id ? 'b' : null);
+
+        const ONLINE_WINDOW_MS = 3 * 60 * 1000;
+        const isOnline = (m) => m.last_active_at && (Date.now() - new Date(m.last_active_at).getTime()) < ONLINE_WINDOW_MS;
+
+        const renderSide = (members, sideKey) => {
+            const isMySide = sideKey === mySide;
+            return members.map(m => {
+                const online = isOnline(m);
+                const canChallenge = !isMySide && mySide && online && recomputed.status === 'active';
+                return `
+                    <div class="friend-row">
+                        <span class="friend-row-name">${online ? '🟢' : '⚪'} ${this.clickableUsername(m.user_id, m.username)}</span>
+                        ${canChallenge ? `<button class="btn-primary group-battle-fight-btn" data-username="${this.escapeHtml(m.username)}" data-side="${mySide}" style="padding:5px 12px; font-size:12px;">Đấu</button>` : ''}
+                    </div>
+                `;
+            }).join('');
+        };
+
+        if (recomputed.status === 'finished') {
+            const resultText = !recomputed.winner_group_id
+                ? 'Trận đấu hoà!'
+                : (recomputed.winner_group_id === myGroupId ? '🏆 Group bạn đã thắng!' : 'Group bạn đã thua trận này.');
+            this.ui.container.innerHTML = `
+                <div class="certificate">
+                    <div class="certificate-badge">${!recomputed.winner_group_id ? '🤝' : (recomputed.winner_group_id === myGroupId ? '🏆' : '⚔️')}</div>
+                    <h2>${resultText}</h2>
+                    <p class="certificate-score">${this.escapeHtml(groupA.name)}: ${recomputed.group_a_wins} thắng &nbsp;|&nbsp; ${this.escapeHtml(groupB.name)}: ${recomputed.group_b_wins} thắng</p>
+                </div>
+                <button class="btn-primary" id="group-battle-back" style="display: block; margin: 20px auto; padding: 15px 30px;">VỀ TRANG CHÍNH</button>
+            `;
+            this.ui.checkBtn.disabled = true;
+            this.ui.checkBtn.classList.remove('active');
+            document.getElementById('group-battle-back').addEventListener('click', () => this.renderHomeDashboard());
+            return;
+        }
+
+        this.ui.container.innerHTML = `
+            <div class="welcome-screen">
+                <div class="duo-character">⚔️</div>
+                <h1 style="text-align: center;">${this.escapeHtml(groupA.name)} vs ${this.escapeHtml(groupB.name)}</h1>
+                <p style="text-align: center; font-size: 22px; font-weight: 800;">${recomputed.group_a_wins} — ${recomputed.group_b_wins}</p>
+                <p style="text-align: center; color: #777;">🟢 = đang online, có thể thách đấu ngay</p>
+
+                <h3 style="margin: 15px 0 8px;">${this.escapeHtml(groupA.name)}</h3>
+                <div class="friends-list">${renderSide(membersA, 'a')}</div>
+
+                <h3 style="margin: 15px 0 8px;">${this.escapeHtml(groupB.name)}</h3>
+                <div class="friends-list">${renderSide(membersB, 'b')}</div>
+
+                ${isAdmin ? `<button class="btn-secondary" id="group-battle-finish-btn" style="display: block; margin: 15px auto; padding: 12px 24px;">KẾT THÚC TRẬN</button>` : ''}
+                <button class="btn-secondary" id="group-battle-back" style="display: block; margin: 10px auto; padding: 15px 30px;">QUAY LẠI</button>
+            </div>
+        `;
+        this.ui.checkBtn.disabled = true;
+        this.ui.checkBtn.classList.remove('active');
+
+        document.getElementById('group-battle-back').addEventListener('click', () => this.renderHomeDashboard());
+        this.ui.container.querySelectorAll('.group-battle-fight-btn').forEach(btn => {
+            btn.addEventListener('click', async () => {
+                const result = await this.sendGameDuelChallenge(btn.dataset.username, 'lesson', battleId, btn.dataset.side);
+                if (result && result.error) alert(result.error);
+            });
+        });
+        const finishBtn = document.getElementById('group-battle-finish-btn');
+        if (finishBtn) {
+            finishBtn.addEventListener('click', async () => {
+                if (!confirm('Kết thúc trận đấu ngay bây giờ? Bên nào đang thắng nhiều trận 1vs1 hơn sẽ được tính thắng chung cuộc.')) return;
+                const result = await window.Groups.finalizeGroupBattle(battleId);
+                if (result.error) { alert(result.error); return; }
+                this.renderGroupBattleScreen(battleId);
+            });
+        }
     }
 
     // ===================== Personal Inbox (direct messages) =====================
