@@ -5062,6 +5062,11 @@ class DuoClone {
                 </div>
                 <div id="admin-hof-list"><p style="text-align: center; color: #777;">Đang tải...</p></div>
 
+                <h3 style="text-align: center; margin-top: 30px;">🏰 Quản lý Group</h3>
+                <div class="admin-controls" style="justify-content: center;">
+                    <button class="btn-secondary" id="admin-manage-groups">🏰 Xem tất cả Group</button>
+                </div>
+
                 <button class="btn-secondary" id="admin-close" style="margin-top: 20px;">QUAY LẠI</button>
             </div>
         `;
@@ -5094,6 +5099,7 @@ class DuoClone {
             await window.Leaderboard.clearHallOfFame();
             this.renderAdminDashboard();
         });
+        document.getElementById('admin-manage-groups').addEventListener('click', () => this.renderAdminGroupsList());
 
         await this.renderAdminHallOfFame();
     }
@@ -5266,6 +5272,245 @@ class DuoClone {
             btn.disabled = true;
             await window.AuthService.deleteProfile(id);
             this.renderAdminDashboard();
+            return;
+        }
+    }
+
+    // ===================== Admin: Group oversight (groups_admin_schema.sql) =====================
+    // Every write here goes through a dedicated admin_* RPC in groups.js, which itself is
+    // backed by a SECURITY DEFINER function checking is_site_admin(auth.uid()) - real DB-
+    // level enforcement, not just this UI being hidden from non-admins (see the plan's
+    // context note on why profiles/leaderboard's admin actions don't offer that guarantee
+    // but Group's do).
+
+    async renderAdminGroupsList(searchQuery = '') {
+        this.ui.container.innerHTML = `<div class="admin-screen"><p style="text-align:center; color:#777;">Đang tải...</p></div>`;
+        this.ui.checkBtn.disabled = true;
+        this.ui.checkBtn.classList.remove('active');
+        if (!window.Groups) return;
+
+        const groups = await window.Groups.searchGroups(searchQuery, 100);
+        const rowsHtml = groups.length ? groups.map(g => {
+            const info = getGroupLevelInfo(g.vibrancy_score);
+            return `
+                <div class="admin-row">
+                    <div class="admin-row-main">
+                        <strong>🏰 ${this.escapeHtml(g.name)}</strong>
+                        <div class="admin-row-meta">${info.label} · ⭐ ${g.vibrancy_score} điểm sôi nổi · ⚔️ ${g.battle_wins}T-${g.battle_losses}B · Máu chiến: ${g.battles_initiated}</div>
+                    </div>
+                    <div class="admin-row-actions">
+                        <button class="btn-secondary admin-action-btn" data-group-action="view-group" data-id="${g.id}">Xem chi tiết</button>
+                        <button class="btn-secondary admin-action-btn admin-action-danger" data-group-action="delete-group" data-id="${g.id}">Xóa group</button>
+                    </div>
+                </div>
+            `;
+        }).join('') : `<p style="text-align: center; color: #777;">Không tìm thấy group nào.</p>`;
+
+        this.ui.container.innerHTML = `
+            <div class="admin-screen">
+                <h2 style="text-align: center;">🏰 Quản lý Group</h2>
+                <div class="admin-controls">
+                    <input type="text" id="admin-group-search" class="input-field admin-search-input" placeholder="Tìm group theo tên..." value="${this.escapeHtml(searchQuery)}">
+                </div>
+                <div class="admin-table">${rowsHtml}</div>
+                <button class="btn-secondary" id="admin-groups-back" style="margin-top: 20px;">QUAY LẠI</button>
+            </div>
+        `;
+        this.ui.checkBtn.disabled = true;
+        this.ui.checkBtn.classList.remove('active');
+
+        document.getElementById('admin-groups-back').addEventListener('click', () => this.renderAdminDashboard());
+        const searchInput = document.getElementById('admin-group-search');
+        searchInput.addEventListener('input', () => this.renderAdminGroupsList(searchInput.value));
+        this.ui.container.querySelectorAll('.admin-action-btn').forEach(btn => {
+            btn.addEventListener('click', () => this.handleAdminGroupAction(btn));
+        });
+    }
+
+    async renderAdminGroupDetail(groupId) {
+        this.ui.container.innerHTML = `<div class="admin-screen"><p style="text-align:center; color:#777;">Đang tải...</p></div>`;
+        this.ui.checkBtn.disabled = true;
+        this.ui.checkBtn.classList.remove('active');
+        if (!window.Groups) return;
+
+        const [group, members, battles] = await Promise.all([
+            window.Groups.getGroupById(groupId),
+            window.Groups.adminGetGroupMembersAll(groupId),
+            window.Groups.adminGetBattlesFor(groupId)
+        ]);
+        if (!group) {
+            this.ui.container.innerHTML = `<div class="admin-screen"><p style="text-align:center; color:#777;">Không tìm thấy group này.</p><button class="btn-secondary" id="admin-group-detail-back">QUAY LẠI</button></div>`;
+            document.getElementById('admin-group-detail-back').addEventListener('click', () => this.renderAdminGroupsList());
+            return;
+        }
+
+        const roleLabel = { owner: '👑 Chủ nhóm', admin: '⭐ Phó nhóm', member: 'Thành viên' };
+        const roleOptions = (current) => ['owner', 'admin', 'member']
+            .map(r => `<option value="${r}" ${r === current ? 'selected' : ''}>${roleLabel[r]}</option>`).join('');
+
+        const membersHtml = members.length ? members.map(m => `
+            <div class="admin-row">
+                <div class="admin-row-main">
+                    <strong>${this.escapeHtml(m.username)}</strong>
+                    ${m.status === 'pending' ? '<span class="admin-badge-tag">Chờ duyệt</span>' : ''}
+                    <div class="admin-row-meta">${roleLabel[m.role] || m.role}</div>
+                </div>
+                <div class="admin-row-actions">
+                    <select class="input-field admin-role-select" data-id="${m.id}" style="width:auto; padding:6px 10px; font-size:12px;">${roleOptions(m.role)}</select>
+                    <button class="btn-secondary admin-action-btn admin-action-danger" data-group-action="remove-member" data-id="${m.id}">Gỡ khỏi group</button>
+                </div>
+            </div>
+        `).join('') : `<p style="text-align: center; color: #777;">Group chưa có thành viên nào.</p>`;
+
+        const battleStatusLabel = { pending: 'Chờ chấp nhận', active: 'Đang diễn ra', finished: 'Đã kết thúc' };
+        const battlesHtml = battles.length ? battles.map(b => `
+            <div class="admin-row">
+                <div class="admin-row-main">
+                    <strong>${b.group_a_wins} — ${b.group_b_wins}</strong>
+                    <div class="admin-row-meta">${battleStatusLabel[b.status] || b.status} · ${new Date(b.created_at).toLocaleString('vi-VN')}</div>
+                </div>
+                <div class="admin-row-actions">
+                    ${b.status !== 'finished' ? `<button class="btn-secondary admin-action-btn" data-group-action="force-finish-battle" data-id="${b.id}">Buộc kết thúc</button>` : ''}
+                </div>
+            </div>
+        `).join('') : `<p style="text-align: center; color: #777;">Group chưa có trận đấu nào.</p>`;
+
+        this.ui.container.innerHTML = `
+            <div class="admin-screen">
+                <h2 style="text-align: center;">🏰 ${this.escapeHtml(group.name)}</h2>
+                <div style="display:flex; align-items:center; justify-content:center; gap:10px; margin: 10px 0;">
+                    <input type="number" id="admin-vibrancy-input" class="input-field" value="${group.vibrancy_score}" style="width:120px; text-align:center;">
+                    <button class="btn-secondary" id="admin-save-vibrancy">Lưu điểm sôi nổi</button>
+                </div>
+
+                <h3 style="margin: 20px 0 8px;">Thành viên (${members.length})</h3>
+                <div class="admin-table">${membersHtml}</div>
+
+                <h3 style="margin: 20px 0 8px;">Trận đấu</h3>
+                <div class="admin-table">${battlesHtml}</div>
+
+                <div class="admin-controls" style="justify-content: center; margin-top: 20px;">
+                    <button class="btn-secondary" id="admin-view-chat">💬 Xem &amp; kiểm duyệt chat</button>
+                    <button class="btn-secondary admin-action-danger" id="admin-delete-group-btn">Xóa group này</button>
+                </div>
+
+                <button class="btn-secondary" id="admin-group-detail-back" style="margin-top: 20px;">QUAY LẠI</button>
+            </div>
+        `;
+        this.ui.checkBtn.disabled = true;
+        this.ui.checkBtn.classList.remove('active');
+
+        document.getElementById('admin-group-detail-back').addEventListener('click', () => this.renderAdminGroupsList());
+        document.getElementById('admin-view-chat').addEventListener('click', () => this.renderAdminGroupChat(groupId));
+        document.getElementById('admin-save-vibrancy').addEventListener('click', async () => {
+            const val = parseInt(document.getElementById('admin-vibrancy-input').value, 10);
+            if (Number.isNaN(val)) { alert('Giá trị không hợp lệ.'); return; }
+            const result = await window.Groups.adminSetVibrancy(groupId, val);
+            if (result.error) { alert(result.error); return; }
+            this.renderAdminGroupDetail(groupId);
+        });
+        document.getElementById('admin-delete-group-btn').addEventListener('click', async () => {
+            const ok = confirm(`XÓA VĨNH VIỄN group "${group.name}"? Toàn bộ thành viên, tin nhắn, trận đấu sẽ mất. Không thể hoàn tác.`);
+            if (!ok) return;
+            const result = await window.Groups.adminDeleteGroup(groupId);
+            if (result.error) { alert(result.error); return; }
+            this.renderAdminGroupsList();
+        });
+        this.ui.container.querySelectorAll('.admin-role-select').forEach(sel => {
+            sel.addEventListener('change', async () => {
+                sel.disabled = true;
+                const result = await window.Groups.adminChangeMemberRole(sel.dataset.id, sel.value);
+                if (result.error) { alert(result.error); }
+                this.renderAdminGroupDetail(groupId);
+            });
+        });
+        this.ui.container.querySelectorAll('[data-group-action]').forEach(btn => {
+            btn.addEventListener('click', () => this.handleAdminGroupAction(btn, groupId));
+        });
+    }
+
+    async renderAdminGroupChat(groupId) {
+        this.ui.container.innerHTML = `<div class="admin-screen"><p style="text-align:center; color:#777;">Đang tải...</p></div>`;
+        this.ui.checkBtn.disabled = true;
+        this.ui.checkBtn.classList.remove('active');
+        if (!window.Groups) return;
+
+        const messages = await window.Groups.getGroupMessages(groupId, 100);
+        const messagesHtml = messages.length ? messages.map(m => `
+            <div class="admin-row">
+                <div class="admin-row-main">
+                    <strong>${this.escapeHtml(m.sender_username)}</strong>
+                    <div class="admin-row-meta">${this.escapeHtml(m.message)}</div>
+                    <div class="admin-row-meta">${new Date(m.created_at).toLocaleString('vi-VN')}</div>
+                </div>
+                <div class="admin-row-actions">
+                    <button class="btn-secondary admin-action-btn admin-action-danger" data-group-action="delete-message" data-id="${m.id}">Xóa</button>
+                </div>
+            </div>
+        `).join('') : `<p style="text-align: center; color: #777;">Group chưa có tin nhắn nào.</p>`;
+
+        this.ui.container.innerHTML = `
+            <div class="admin-screen">
+                <h2 style="text-align: center;">💬 Kiểm duyệt chat nhóm</h2>
+                <div class="admin-table">${messagesHtml}</div>
+                <button class="btn-secondary" id="admin-group-chat-back" style="margin-top: 20px;">QUAY LẠI</button>
+            </div>
+        `;
+        this.ui.checkBtn.disabled = true;
+        this.ui.checkBtn.classList.remove('active');
+
+        document.getElementById('admin-group-chat-back').addEventListener('click', () => this.renderAdminGroupDetail(groupId));
+        this.ui.container.querySelectorAll('[data-group-action]').forEach(btn => {
+            btn.addEventListener('click', () => this.handleAdminGroupAction(btn, groupId));
+        });
+    }
+
+    async handleAdminGroupAction(btn, groupId) {
+        const action = btn.dataset.groupAction;
+        const id = btn.dataset.id;
+
+        if (action === 'view-group') {
+            this.renderAdminGroupDetail(id);
+            return;
+        }
+
+        if (action === 'delete-group') {
+            const ok = confirm('XÓA VĨNH VIỄN group này? Toàn bộ thành viên, tin nhắn, trận đấu sẽ mất. Không thể hoàn tác.');
+            if (!ok) return;
+            btn.disabled = true;
+            const result = await window.Groups.adminDeleteGroup(id);
+            if (result.error) { alert(result.error); return; }
+            this.renderAdminGroupsList();
+            return;
+        }
+
+        if (action === 'remove-member') {
+            const ok = confirm('Gỡ thành viên này khỏi group?');
+            if (!ok) return;
+            btn.disabled = true;
+            const result = await window.Groups.adminRemoveMember(id);
+            if (result.error) { alert(result.error); return; }
+            this.renderAdminGroupDetail(groupId);
+            return;
+        }
+
+        if (action === 'force-finish-battle') {
+            const ok = confirm('Buộc kết thúc trận đấu này ngay bây giờ? Nếu trận đang 0-0 hoặc chưa ai chấp nhận, hành động này coi như hủy trận (không bên nào được cộng/trừ điểm).');
+            if (!ok) return;
+            btn.disabled = true;
+            const result = await window.Groups.adminForceFinishBattle(id);
+            if (result.error) { alert(result.error); return; }
+            this.renderAdminGroupDetail(groupId);
+            return;
+        }
+
+        if (action === 'delete-message') {
+            const ok = confirm('Xóa tin nhắn này?');
+            if (!ok) return;
+            btn.disabled = true;
+            const result = await window.Groups.adminDeleteMessage(id);
+            if (result.error) { alert(result.error); return; }
+            this.renderAdminGroupChat(groupId);
             return;
         }
     }

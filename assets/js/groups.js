@@ -529,6 +529,122 @@
         }
     }
 
+    // ===================== Site-admin oversight (groups_admin_schema.sql) =====================
+    // Every function below is either a plain SELECT that now sees more rows thanks to the
+    // *_select_by_site_admin RLS policies, or a thin wrapper around a SECURITY DEFINER RPC
+    // that itself checks is_site_admin(auth.uid()) - the enforcement lives in the RPC, not
+    // here, so a non-admin calling these directly gets rejected by Postgres, not just an
+    // app that happens to hide the button.
+
+    // Unlike getGroupMembers() (active only), this returns every status/role - relies on
+    // group_members_select_by_site_admin to actually see pending rows for groups the
+    // caller isn't personally in.
+    async function adminGetGroupMembersAll(groupId) {
+        if (!client || !groupId) return [];
+        try {
+            const { data, error } = await client
+                .from('group_members')
+                .select('*')
+                .eq('group_id', groupId)
+                .order('joined_at', { ascending: true });
+            if (error) throw error;
+            return data || [];
+        } catch (e) {
+            console.error('Failed to fetch all group members (admin):', e);
+            return [];
+        }
+    }
+
+    // Unlike getPendingBattlesFor()/getActiveBattleFor() (each scoped to one status), this
+    // returns every battle involving the group regardless of status, for oversight.
+    async function adminGetBattlesFor(groupId) {
+        if (!client || !groupId) return [];
+        try {
+            const { data, error } = await client
+                .from('group_battles')
+                .select('*')
+                .or(`group_a_id.eq.${groupId},group_b_id.eq.${groupId}`)
+                .order('created_at', { ascending: false });
+            if (error) throw error;
+            return data || [];
+        } catch (e) {
+            console.error('Failed to fetch all group battles (admin):', e);
+            return [];
+        }
+    }
+
+    async function adminDeleteGroup(groupId) {
+        if (!client || !groupId) return { error: 'Chưa cấu hình.' };
+        try {
+            const { error } = await client.rpc('admin_delete_group', { p_group_id: groupId });
+            if (error) throw error;
+            return {};
+        } catch (e) {
+            console.error('Failed to delete group (admin):', e);
+            return { error: e.message };
+        }
+    }
+
+    async function adminRemoveMember(memberId) {
+        if (!client || !memberId) return { error: 'Chưa cấu hình.' };
+        try {
+            const { error } = await client.rpc('admin_remove_group_member', { p_member_id: memberId });
+            if (error) throw error;
+            return {};
+        } catch (e) {
+            console.error('Failed to remove group member (admin):', e);
+            return { error: e.message };
+        }
+    }
+
+    async function adminChangeMemberRole(memberId, newRole) {
+        if (!client || !memberId || !newRole) return { error: 'Chưa cấu hình.' };
+        try {
+            const { error } = await client.rpc('admin_change_member_role', { p_member_id: memberId, p_new_role: newRole });
+            if (error) throw error;
+            return {};
+        } catch (e) {
+            console.error('Failed to change member role (admin):', e);
+            return { error: e.message };
+        }
+    }
+
+    async function adminSetVibrancy(groupId, newScore) {
+        if (!client || !groupId) return { error: 'Chưa cấu hình.' };
+        try {
+            const { error } = await client.rpc('admin_set_group_vibrancy', { p_group_id: groupId, p_new_score: newScore });
+            if (error) throw error;
+            return {};
+        } catch (e) {
+            console.error('Failed to set group vibrancy (admin):', e);
+            return { error: e.message };
+        }
+    }
+
+    async function adminDeleteMessage(messageId) {
+        if (!client || !messageId) return { error: 'Chưa cấu hình.' };
+        try {
+            const { error } = await client.rpc('admin_delete_group_message', { p_message_id: messageId });
+            if (error) throw error;
+            return {};
+        } catch (e) {
+            console.error('Failed to delete group message (admin):', e);
+            return { error: e.message };
+        }
+    }
+
+    async function adminForceFinishBattle(battleId) {
+        if (!client || !battleId) return { error: 'Chưa cấu hình.' };
+        try {
+            const { data, error } = await client.rpc('admin_force_finish_battle', { p_battle_id: battleId });
+            if (error) throw error;
+            return { data };
+        } catch (e) {
+            console.error('Failed to force-finish group battle (admin):', e);
+            return { error: e.message };
+        }
+    }
+
     window.Groups = {
         isConfigured,
         MAX_MEMBERS,
@@ -559,6 +675,14 @@
         recomputeBattleScore,
         finalizeGroupBattle,
         sendHeartbeat,
-        creditStreakVibrancy
+        creditStreakVibrancy,
+        adminGetGroupMembersAll,
+        adminGetBattlesFor,
+        adminDeleteGroup,
+        adminRemoveMember,
+        adminChangeMemberRole,
+        adminSetVibrancy,
+        adminDeleteMessage,
+        adminForceFinishBattle
     };
 })();
