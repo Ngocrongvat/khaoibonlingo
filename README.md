@@ -103,6 +103,8 @@ Vào **Supabase Dashboard → SQL Editor → New query**, dán và chạy **lầ
 | 8 | `chat_cleanup_and_user_menu.sql` | Policy tự xóa chat cũ >24h; mở rộng view `profile_usernames` |
 | 9 | `groups_schema.sql` | Toàn bộ hệ thống Group: bảng, RLS, RPC tính điểm/đấu group |
 | 10 | `groups_admin_schema.sql` | Quyền quản trị hệ thống Group cho tài khoản admin |
+| 11 | `presence_and_activity_schema.sql` | Cột `last_active_at` (đang online), BXH chuỗi ngày + gấu bông streak, bảng `activity_feed` (marquee) |
+| 12 | `self_service_inbox_vibrancy.sql` | RPC tự đổi tên + tự xóa tài khoản; xóa tin nhắn hộp thư (mỗi phía); cột `vibrancy` cho BXH Sôi nổi cá nhân |
 
 > **Lưu ý:** đây là repo không có Supabase CLI/pipeline migration tự động — mọi thay đổi schema phải chạy tay theo thứ tự trên. Nếu một file báo lỗi giữa chừng, đọc kỹ comment đầu file đó (mỗi file đều giải thích rõ mục đích và cách áp dụng).
 

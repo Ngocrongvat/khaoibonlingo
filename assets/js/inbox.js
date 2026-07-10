@@ -78,6 +78,16 @@
     // party" - there's no separate conversations table, a conversation is just the set
     // of messages between two specific people. Mirrors how friends.js normalizes
     // requester/recipient rows into a flat {friendId, friendUsername} shape.
+    // Per-side soft delete (see self_service_inbox_vibrancy.sql): a message the user
+    // deleted from THEIR side carries deleted_by_sender/deleted_by_recipient = true and
+    // must disappear from their lists without touching the other participant's view.
+    // Filtered client-side (not in the query) so this keeps working on projects that
+    // haven't applied that migration yet - the columns are simply undefined there.
+    function isDeletedForMe(row, userId) {
+        const iAmSender = row.sender_id === userId;
+        return iAmSender ? !!row.deleted_by_sender : !!row.deleted_by_recipient;
+    }
+
     async function getConversations(userId) {
         if (!client || !userId) return [];
         try {
@@ -89,7 +99,7 @@
             if (error) throw error;
 
             const byOther = new Map();
-            (data || []).forEach(row => {
+            (data || []).filter(row => !isDeletedForMe(row, userId)).forEach(row => {
                 const iAmSender = row.sender_id === userId;
                 const otherId = iAmSender ? row.recipient_id : row.sender_id;
                 const otherUsername = iAmSender ? row.recipient_username : row.sender_username;
@@ -118,10 +128,57 @@
                 .or(`and(sender_id.eq.${userId},recipient_id.eq.${otherUserId}),and(sender_id.eq.${otherUserId},recipient_id.eq.${userId})`)
                 .order('created_at', { ascending: true });
             if (error) throw error;
-            return data || [];
+            return (data || []).filter(row => !isDeletedForMe(row, userId));
         } catch (e) {
             console.error('Failed to fetch conversation messages:', e);
             return [];
+        }
+    }
+
+    // Hides ONE message from the caller's side only - sets the flag matching their role
+    // on that row. RLS allows each side to update only their own rows, so the wrong-side
+    // flag can't be flipped even if called with a mismatched role.
+    async function deleteMessageForMe(userId, message) {
+        if (!client || !userId || !message) return { error: 'Chưa cấu hình.' };
+        const iAmSender = message.sender_id === userId;
+        // A recipient hiding an unread message also marks it read, otherwise it would
+        // keep counting toward the unread badge while being invisible in the thread.
+        const fields = iAmSender ? { deleted_by_sender: true } : { deleted_by_recipient: true, read: true };
+        try {
+            const { error } = await client
+                .from('direct_messages')
+                .update(fields)
+                .eq('id', message.id);
+            if (error) throw error;
+            return {};
+        } catch (e) {
+            console.error('Failed to delete message:', e);
+            return { error: 'Không thể xóa tin nhắn. Có thể cần chạy migration "self_service_inbox_vibrancy.sql" trên Supabase.' };
+        }
+    }
+
+    // Hides an entire conversation from the caller's side (both directions), leaving
+    // the other participant's copy untouched. Two updates because each direction flips
+    // a different flag under a different RLS policy.
+    async function deleteConversationForMe(userId, otherUserId) {
+        if (!client || !userId || !otherUserId) return { error: 'Chưa cấu hình.' };
+        try {
+            const { error: sentErr } = await client
+                .from('direct_messages')
+                .update({ deleted_by_sender: true })
+                .eq('sender_id', userId)
+                .eq('recipient_id', otherUserId);
+            if (sentErr) throw sentErr;
+            const { error: recvErr } = await client
+                .from('direct_messages')
+                .update({ deleted_by_recipient: true, read: true })
+                .eq('recipient_id', userId)
+                .eq('sender_id', otherUserId);
+            if (recvErr) throw recvErr;
+            return {};
+        } catch (e) {
+            console.error('Failed to delete conversation:', e);
+            return { error: 'Không thể xóa cuộc trò chuyện. Có thể cần chạy migration "self_service_inbox_vibrancy.sql" trên Supabase.' };
         }
     }
 
@@ -189,6 +246,8 @@
         sendDirectMessageToId,
         getConversations,
         getConversationMessages,
+        deleteMessageForMe,
+        deleteConversationForMe,
         markConversationRead,
         getTotalUnreadCount,
         subscribeToIncomingMessages

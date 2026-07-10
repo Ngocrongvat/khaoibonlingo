@@ -15,7 +15,11 @@
     async function deleteOldMessages() {
         if (!client) return;
         try {
-            const cutoff = new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString();
+            // 7 days (was 24h) so the "scroll up for older history" flow actually has
+            // history to page through. Still comfortably within the DELETE policy's
+            // "only rows already older than 24h" safety bound (a stricter cutoff
+            // deletes a subset of what the policy allows).
+            const cutoff = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString();
             const { error } = await client.from('global_chat_messages').delete().lt('created_at', cutoff);
             if (error) throw error;
         } catch (e) {
@@ -39,6 +43,27 @@
             return (data || []).reverse();
         } catch (e) {
             console.error('Failed to fetch global chat messages:', e);
+            return [];
+        }
+    }
+
+    // Pages further back in history for the "scroll up to load older messages" flow -
+    // fetches the N messages strictly older than beforeIso, returned oldest-first ready
+    // to prepend above the existing list. No deleteOldMessages() call here (the initial
+    // getRecentMessages() already did the opportunistic cleanup this session).
+    async function getMessagesBefore(beforeIso, limit = 50) {
+        if (!client || !beforeIso) return [];
+        try {
+            const { data, error } = await client
+                .from('global_chat_messages')
+                .select('*')
+                .lt('created_at', beforeIso)
+                .order('created_at', { ascending: false })
+                .limit(limit);
+            if (error) throw error;
+            return (data || []).reverse();
+        } catch (e) {
+            console.error('Failed to fetch older global chat messages:', e);
             return [];
         }
     }
@@ -104,6 +129,7 @@
         isConfigured,
         MAX_MESSAGE_LENGTH,
         getRecentMessages,
+        getMessagesBefore,
         getUnreadCount,
         sendMessage,
         subscribeToNewMessages

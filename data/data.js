@@ -513,7 +513,7 @@ const COURSE_DATA = {
               "id": "ex_25",
               "type": "pronunciation",
               "question": "Hãy phát âm từ này thật chuẩn:",
-              "target": "Hour"
+              "target": "Minute"
             },
             {
               "id": "ex_26",
@@ -7560,6 +7560,12 @@ const COURSE_DATA = {
                 "They congratulated him about his success"
               ],
               "correct": 0
+            },
+            {
+              "id": "ex_25_hour",
+              "type": "pronunciation",
+              "question": "Thử thách cuối: phát âm từ khó này thật chuẩn (chữ H câm - đọc là 'ao-ơ'):",
+              "target": "Hour"
             }
           ]
         }

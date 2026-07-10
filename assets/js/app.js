@@ -396,10 +396,86 @@ class DuoClone {
 
     async resumeSession() {
         if (!window.AuthService || !window.AuthService.isConfigured) return;
+        // Arriving via the "quên mật khẩu" email link: Supabase puts type=recovery in
+        // the URL hash and emits PASSWORD_RECOVERY once the recovery session is set up.
+        // Both signals are checked because the hash can be consumed/cleared by the SDK
+        // before this runs, and the event alone can fire after completeLogin() has
+        // already navigated away.
+        if (location.hash.includes('type=recovery')) {
+            this.state.passwordRecoveryPending = true;
+        }
+        window.AuthService.onPasswordRecovery(() => {
+            this.state.passwordRecoveryPending = true;
+            this.renderPasswordResetScreen();
+        });
         const session = await window.AuthService.getSession();
         if (session && session.user) {
             await this.completeLogin(session.user);
         }
+    }
+
+    // Shown when the user lands here from a password-recovery email - they already have
+    // a temporary session, so updatePassword() works directly; afterwards continue into
+    // the app like a normal login.
+    renderPasswordResetScreen() {
+        this.state.passwordRecoveryPending = true;
+        this.ui.container.innerHTML = `
+            <div class="welcome-screen">
+                <div class="duo-character">🔑</div>
+                <h1 style="text-align: center;">Đặt lại mật khẩu</h1>
+                <p style="text-align: center; color: #777;">Nhập mật khẩu mới cho tài khoản của bạn.</p>
+                <div class="auth-box" style="display: flex; flex-direction: column; gap: 15px; margin: 30px auto; width: 80%; max-width: 300px;">
+                    <div class="password-field-wrap">
+                        <input type="password" id="recovery-password-input" placeholder="Mật khẩu mới (ít nhất 6 ký tự)..." class="input-field" style="width:100%; padding: 15px 44px 15px 15px; border: 2px solid #e5e5e5; border-radius: 12px; text-align: center;">
+                        <button type="button" class="password-eye-btn" id="recovery-eye-btn" title="Hiện/ẩn mật khẩu">👁️</button>
+                    </div>
+                    <input type="password" id="recovery-password-confirm" placeholder="Nhập lại mật khẩu mới..." class="input-field" style="padding: 15px; border: 2px solid #e5e5e5; border-radius: 12px; text-align: center;">
+                    <p id="recovery-error" style="color: var(--duo-red); text-align: center; font-size: 14px; min-height: 18px; margin: 0;"></p>
+                    <button id="recovery-submit-btn" class="btn-primary" style="padding: 15px; background-color: #58cc02; color: white; border: none; border-radius: 12px; font-weight: 800; cursor: pointer;">LƯU MẬT KHẨU MỚI</button>
+                </div>
+            </div>
+        `;
+        this.ui.checkBtn.disabled = true;
+        this.ui.checkBtn.classList.remove('active');
+        if (this.ui.skipBtn) this.ui.skipBtn.style.display = 'none';
+
+        this.bindPasswordEyeToggle('recovery-eye-btn', 'recovery-password-input');
+        document.getElementById('recovery-submit-btn').addEventListener('click', async () => {
+            const errorEl = document.getElementById('recovery-error');
+            const pw = document.getElementById('recovery-password-input').value;
+            const confirmPw = document.getElementById('recovery-password-confirm').value;
+            if (pw.length < 6) { errorEl.innerText = 'Mật khẩu mới phải có ít nhất 6 ký tự.'; return; }
+            if (pw !== confirmPw) { errorEl.innerText = 'Hai mật khẩu không khớp nhau.'; return; }
+            errorEl.style.color = 'var(--duo-dark-grey)';
+            errorEl.innerText = 'Đang cập nhật...';
+            const result = await window.AuthService.updatePassword(pw);
+            if (result.error) {
+                errorEl.style.color = 'var(--duo-red)';
+                errorEl.innerText = `Không đặt lại được mật khẩu: ${result.error}`;
+                return;
+            }
+            this.state.passwordRecoveryPending = false;
+            alert('Đặt lại mật khẩu thành công! Bạn sẽ được đăng nhập ngay bây giờ.');
+            const session = await window.AuthService.getSession();
+            if (session && session.user) {
+                await this.completeLogin(session.user);
+            } else {
+                location.reload();
+            }
+        });
+    }
+
+    // Shared by the login screen and the recovery screen - flips one password input
+    // between type=password/text so users can see what they typed.
+    bindPasswordEyeToggle(btnId, inputId) {
+        const btn = document.getElementById(btnId);
+        const input = document.getElementById(inputId);
+        if (!btn || !input) return;
+        btn.addEventListener('click', () => {
+            const show = input.type === 'password';
+            input.type = show ? 'text' : 'password';
+            btn.textContent = show ? '🙈' : '👁️';
+        });
     }
 
     renderAuthScreen() {
@@ -414,10 +490,14 @@ class DuoClone {
                 <div class="auth-box" style="display: flex; flex-direction: column; gap: 15px; margin: 30px auto; width: 80%; max-width: 300px;">
                     <input type="text" id="username-input" placeholder="Tên hiển thị..." class="input-field" style="display: none; padding: 15px; border: 2px solid #e5e5e5; border-radius: 12px; text-align: center;">
                     <input type="email" id="email-input" placeholder="Email..." class="input-field" style="padding: 15px; border: 2px solid #e5e5e5; border-radius: 12px; text-align: center;">
-                    <input type="password" id="password-input" placeholder="Mật khẩu (ít nhất 6 ký tự)..." class="input-field" style="padding: 15px; border: 2px solid #e5e5e5; border-radius: 12px; text-align: center;">
+                    <div class="password-field-wrap">
+                        <input type="password" id="password-input" placeholder="Mật khẩu (ít nhất 6 ký tự)..." class="input-field" style="width:100%; padding: 15px 44px 15px 15px; border: 2px solid #e5e5e5; border-radius: 12px; text-align: center;">
+                        <button type="button" class="password-eye-btn" id="password-eye-btn" title="Hiện/ẩn mật khẩu">👁️</button>
+                    </div>
                     <p id="auth-error" style="color: var(--duo-red); text-align: center; font-size: 14px; min-height: 18px; margin: 0;"></p>
                     <button id="login-btn" class="btn-primary" style="padding: 15px; background-color: #58cc02; color: white; border: none; border-radius: 12px; font-weight: 800; cursor: pointer;">ĐĂNG NHẬP</button>
                     <button id="auth-toggle-btn" style="padding: 12px; border-radius: 12px; font-weight: 700; cursor: pointer; background: white; border: 2px solid #e5e5e5; color: #777;">Chưa có tài khoản? Đăng ký</button>
+                    <button id="forgot-password-btn" style="padding: 6px; border: none; background: none; color: #1cb0f6; font-weight: 700; cursor: pointer; font-size: 14px;">Quên mật khẩu?</button>
                 </div>
             </div>
         `;
@@ -432,6 +512,8 @@ class DuoClone {
             this.authMode = this.authMode === 'signin' ? 'signup' : 'signin';
             this.applyAuthMode();
         });
+        this.bindPasswordEyeToggle('password-eye-btn', 'password-input');
+        document.getElementById('forgot-password-btn').addEventListener('click', () => this.handleForgotPassword());
 
         this.ui.checkBtn.disabled = true;
         this.ui.checkBtn.classList.remove('active');
@@ -446,6 +528,33 @@ class DuoClone {
         const errorEl = document.getElementById('auth-error');
         errorEl.innerText = '';
         errorEl.style.color = 'var(--duo-red)';
+    }
+
+    // Reuses whatever the user already typed in the email box (asking again would be
+    // pointless friction) - only errors if it's empty. Success/failure is reported in
+    // the same inline auth-error element the login flow already uses.
+    async handleForgotPassword() {
+        const errorEl = document.getElementById('auth-error');
+        const email = this.ui.emailInput.value.trim();
+        errorEl.style.color = 'var(--duo-red)';
+        if (!email) {
+            errorEl.innerText = 'Nhập email của bạn vào ô Email phía trên rồi bấm "Quên mật khẩu?" nhé.';
+            return;
+        }
+        if (!window.AuthService || !window.AuthService.isConfigured) {
+            errorEl.innerText = 'Hệ thống đăng nhập chưa được cấu hình.';
+            return;
+        }
+        errorEl.style.color = 'var(--duo-dark-grey)';
+        errorEl.innerText = 'Đang gửi email đặt lại mật khẩu...';
+        const result = await window.AuthService.requestPasswordReset(email);
+        if (result.error) {
+            errorEl.style.color = 'var(--duo-red)';
+            errorEl.innerText = `Không gửi được email: ${result.error}`;
+            return;
+        }
+        errorEl.style.color = 'var(--duo-green)';
+        errorEl.innerText = `Đã gửi! Kiểm tra hộp thư ${email} và bấm vào link để đặt lại mật khẩu.`;
     }
 
     async handleAuthSubmit() {
@@ -520,10 +629,11 @@ class DuoClone {
         this.state.profile = profile;
         this.state.currentUser = profile.username;
         this.state.isAdmin = profile.role === 'admin';
-        // Clamp to MAX_HEARTS on load, not just when awarding - existing accounts from
-        // before the 20 -> 10 max-hearts change may still have a stored value above the
-        // new cap until this runs once.
-        this.state.hearts = Math.min(MAX_HEARTS, typeof profile.hearts === 'number' ? profile.hearts : MAX_HEARTS);
+        // No clamp to MAX_HEARTS here: hearts CAN legitimately exceed the cap now
+        // (achievement unlocks grant +5 each with overflow allowed - see checkBadges()).
+        // MAX_HEARTS still caps passive regen and game/gift rewards, so overflow only
+        // ever drains back down toward the cap.
+        this.state.hearts = typeof profile.hearts === 'number' ? profile.hearts : MAX_HEARTS;
         this.state.xp = profile.xp || 0;
         this.state.weeklyXp = profile.weekly_xp || 0;
         this.state.streak = profile.streak || 0;
@@ -532,6 +642,9 @@ class DuoClone {
         this.state.teddyBears = profile.teddy_bears || 0;
         this.state.stats = Object.assign({ ...DEFAULT_STATS }, profile.stats || {});
         this.state.avatarUrl = profile.avatar_url || null;
+        // "Sôi nổi" activity score - persisted inside the stats jsonb (no new profiles
+        // column) and mirrored to the world-readable leaderboard table for ranking.
+        this.state.vibrancy = this.state.stats.vibrancy || 0;
 
         if (this.ui.userBadgeName) this.ui.userBadgeName.innerText = this.state.currentUser;
         this.updateAvatarDisplay();
@@ -574,7 +687,11 @@ class DuoClone {
 
         const neverPlaced = !this.state.stats.placementLevel;
         const noProgressYet = this.state.xp === 0 && this.state.currentUnitIdx === 0 && this.state.currentLessonIdx === 0 && this.state.currentExIdx === 0;
-        if (neverPlaced && noProgressYet && window.ExerciseGenerator) {
+        if (this.state.passwordRecoveryPending) {
+            // Came here from a "quên mật khẩu" email link - let the user set the new
+            // password before dropping them into the course.
+            this.renderPasswordResetScreen();
+        } else if (neverPlaced && noProgressYet && window.ExerciseGenerator) {
             this.renderPlacementIntro();
         } else {
             this.startCourse();
@@ -827,7 +944,11 @@ class DuoClone {
             if (!text) return;
             input.value = '';
             const result = await window.GlobalChat.sendMessage(this.state.profile, text);
-            if (result.error) alert(result.error);
+            if (result.error) { alert(result.error); return; }
+            // Chatting counts toward the user's "Sôi nổi" score, mirroring how group
+            // chat activity feeds the group's vibrancy.
+            this.addVibrancy(1);
+            this.saveUserProgress();
         };
         if (sendBtn) sendBtn.addEventListener('click', send);
         if (input) input.addEventListener('keydown', (e) => { if (e.key === 'Enter') send(); });
@@ -928,6 +1049,7 @@ class DuoClone {
         if (!window.GlobalChat) return;
         const messages = await window.GlobalChat.getRecentMessages(50);
         this.renderGlobalChatMessages(messages);
+        this.setupGlobalChatHistoryScroll(messages);
         this.cleanupGlobalChat();
         this.globalChatUnsub = window.GlobalChat.subscribeToNewMessages((msg) => {
             // Defensive check: if the user has since navigated away from Home, this
@@ -976,19 +1098,68 @@ class DuoClone {
         }
     }
 
+    // "Kéo lên để xem lịch sử" for the community chat: when the user scrolls near the
+    // top of the message list, one older page is fetched (strictly before the oldest
+    // message currently shown) and prepended, preserving the visual scroll position.
+    // Uses onscroll assignment (not addEventListener) so re-opening the widget can't
+    // stack duplicate handlers on the same element.
+    setupGlobalChatHistoryScroll(initialMessages) {
+        const listEl = document.getElementById('global-chat-messages');
+        if (!listEl) return;
+        this.state.globalChatOldestIso = initialMessages.length ? initialMessages[0].created_at : null;
+        // A first page smaller than the requested 50 means there is nothing older.
+        this.state.globalChatHasOlder = initialMessages.length >= 50;
+        this.state.globalChatLoadingOlder = false;
+
+        listEl.onscroll = async () => {
+            if (listEl.scrollTop > 40) return;
+            if (this.state.globalChatLoadingOlder || !this.state.globalChatHasOlder || !this.state.globalChatOldestIso) return;
+            this.state.globalChatLoadingOlder = true;
+            try {
+                const older = await window.GlobalChat.getMessagesBefore(this.state.globalChatOldestIso, 50);
+                if (!older.length) {
+                    this.state.globalChatHasOlder = false;
+                    return;
+                }
+                this.state.globalChatOldestIso = older[0].created_at;
+                this.state.globalChatHasOlder = older.length >= 50;
+                const prevHeight = listEl.scrollHeight;
+                listEl.insertAdjacentHTML('afterbegin', older.map(m => this.globalChatMessageHtml(m)).join(''));
+                // Keep the message the user was looking at in place instead of snapping
+                // the view to the very top of the newly-prepended block.
+                listEl.scrollTop += listEl.scrollHeight - prevHeight;
+            } finally {
+                this.state.globalChatLoadingOlder = false;
+            }
+        };
+    }
+
     // Community-wide scrolling ticker (welcome/badge/level-up/teddy-bear/streak-top1
     // events, broadcast via activity-feed.js's Realtime channel) - always running while
     // Home is on screen, no toggle/collapse unlike the chat widget, since it's meant to be
     // ambient background info rather than something the user opens deliberately.
+    // Keeps only FRESH events on screen: anything older than 12h is dropped, and at
+    // most the 12 newest are shown - the DB retains 72h of history (see activity-feed
+    // .js's cleanup window), but a marquee crowded with day-old news buries whatever
+    // just happened, which defeats its purpose as a live ticker.
+    pruneTickerEvents(events) {
+        const MAX_TICKER_AGE_MS = 12 * 60 * 60 * 1000;
+        const MAX_TICKER_ITEMS = 12;
+        const cutoff = Date.now() - MAX_TICKER_AGE_MS;
+        return (events || [])
+            .filter(e => !e.created_at || new Date(e.created_at).getTime() >= cutoff)
+            .slice(-MAX_TICKER_ITEMS);
+    }
+
     async initActivityTicker() {
         if (!window.ActivityFeed) return;
-        this.state.activityTickerEvents = await window.ActivityFeed.getRecentEvents(30);
+        this.state.activityTickerEvents = this.pruneTickerEvents(await window.ActivityFeed.getRecentEvents(30));
         this.renderActivityTicker();
         this.cleanupActivityTicker();
         this.activityTickerUnsub = window.ActivityFeed.subscribeToNewEvents((event) => {
             const track = document.getElementById('activity-ticker-track');
             if (!track) return;
-            this.state.activityTickerEvents = [...(this.state.activityTickerEvents || []), event].slice(-30);
+            this.state.activityTickerEvents = this.pruneTickerEvents([...(this.state.activityTickerEvents || []), event]);
             this.renderActivityTicker();
         });
     }
@@ -1364,6 +1535,7 @@ class DuoClone {
     renderLesson() {
         const ex = this.getCurrentExercise();
 
+        this.ensureSessionAnswerContext();
         this.updateNav();
 
         const progressLabel = this.getLessonProgressLabel();
@@ -1914,6 +2086,127 @@ class DuoClone {
         originalEl.classList.remove('used');
     }
 
+    // ============== Session answer log (powers the "Tổng kết" summary screens) ==============
+    // One record per distinct question answered in the current session (lesson, practice,
+    // assessment, placement or lesson-duel). A question re-answered during review updates
+    // its existing record (final verdict) but keeps hadMistake=true so the summary can
+    // show it needed a retry.
+
+    resetSessionAnswers() {
+        this.state.sessionAnswers = [];
+    }
+
+    // Keys the answer log to the specific session it belongs to (one curriculum
+    // lesson, one duel, one practice run...). Called on every renderLesson(): when the
+    // key matches, records survive detours (e.g. visiting Home mid-lesson and hitting
+    // "TIẾP TỤC HỌC" keeps everything answered so far); when it changes (different
+    // lesson, different mode), stale records are dropped so they can't leak into the
+    // wrong summary.
+    ensureSessionAnswerContext() {
+        const mode = this.state.mode;
+        const key = mode === 'curriculum'
+            ? `curriculum:${this.state.currentUnitIdx}:${this.state.currentLessonIdx}`
+            : (mode === 'duel' ? `duel:${this.state.duelId}` : mode);
+        if (this.state.sessionAnswersKey !== key) {
+            this.state.sessionAnswersKey = key;
+            this.resetSessionAnswers();
+        }
+    }
+
+    describeQuestionForSummary(ex) {
+        if (!ex) return '';
+        if (ex.type === 'translate') return `Dịch: "${ex.source || ''}"`;
+        if (ex.type === 'ordering') return `Sắp xếp câu: "${ex.sentence || ''}"`;
+        if (ex.type === 'preposition' || ex.type === 'fill_blank') return `Điền vào chỗ trống: "${ex.sentence || ''}"`;
+        if (ex.type === 'matching') return 'Nối các cặp từ tương ứng';
+        if (ex.type === 'listening') return 'Nghe và chọn từ/câu đúng';
+        if (ex.type === 'dictation') return 'Nghe và gõ lại câu';
+        if (ex.type === 'pronunciation') return `Phát âm: "${ex.target || ''}"`;
+        return ex.question || '';
+    }
+
+    describeCorrectAnswerForSummary(ex) {
+        if (!ex) return '';
+        const optionBasedTypes = ['multiple_choice', 'listening', 'preposition', 'fill_blank', 'synonym', 'meaning', 'reading', 'dialogue'];
+        if (optionBasedTypes.includes(ex.type)) return ex.options && ex.options[ex.correct] != null ? String(ex.options[ex.correct]) : '';
+        if (ex.type === 'translate' || ex.type === 'ordering') return Array.isArray(ex.correct) ? ex.correct.join(' ') : '';
+        if (ex.type === 'pronunciation' || ex.type === 'dictation') return ex.target || '';
+        if (ex.type === 'matching') return (ex.pairs || []).map(p => `${p.en} = ${p.vi}`).join('  ·  ');
+        if (ex.type === 'listening_comprehension') return (ex.acceptedAnswers && ex.acceptedAnswers[0]) || '';
+        return '';
+    }
+
+    // Captures what the user actually submitted for the CURRENT exercise - must be
+    // called from checkAnswer() while the per-exercise input state is still populated
+    // (it gets wiped on the next renderLesson()).
+    captureUserAnswerForSummary(ex) {
+        if (!ex) return '';
+        const optionBasedTypes = ['multiple_choice', 'listening', 'preposition', 'fill_blank', 'synonym', 'meaning', 'reading', 'dialogue'];
+        if (optionBasedTypes.includes(ex.type)) {
+            return this.state.selectedOption != null && ex.options ? String(ex.options[this.state.selectedOption]) : '';
+        }
+        if (ex.type === 'translate' || ex.type === 'ordering') return (this.state.currentAnswer || []).join(' ');
+        if (ex.type === 'pronunciation') return this.state.recognizedSpeech || '';
+        if (ex.type === 'dictation') return this.state.dictationText || '';
+        if (ex.type === 'matching') {
+            const ms = this.state.matchingState;
+            return ms && ms.mistakenIds.size === 0 ? 'Nối đúng tất cả' : 'Có lần nối sai';
+        }
+        if (ex.type === 'listening_comprehension') {
+            return (this.state.comprehensionMode === 'speak' ? this.state.recognizedSpeech : this.state.comprehensionText) || '';
+        }
+        return '';
+    }
+
+    recordSessionAnswer(ex, isCorrect, userAnswer) {
+        if (!ex) return;
+        if (!Array.isArray(this.state.sessionAnswers)) this.state.sessionAnswers = [];
+        // The id alone isn't a safe dedup key: generated exercises use
+        // Date.now()+random ids that can collide within one batch - include the
+        // question content so two distinct questions can never merge into one row.
+        const key = `${ex.id || ''}|${ex.type}|${ex.question || ''}|${ex.target || ex.sentence || ex.source || ''}`;
+        const existing = this.state.sessionAnswers.find(r => r.key === key);
+        if (existing) {
+            existing.isCorrect = isCorrect;
+            existing.userAnswer = userAnswer;
+            existing.hadMistake = existing.hadMistake || !isCorrect;
+            return;
+        }
+        this.state.sessionAnswers.push({
+            key,
+            question: this.describeQuestionForSummary(ex),
+            correctAnswer: this.describeCorrectAnswerForSummary(ex),
+            userAnswer,
+            isCorrect,
+            hadMistake: !isCorrect
+        });
+    }
+
+    // Shared summary block rendered at the end of every question-based session,
+    // including duels - lists each question with the user's answer vs. the correct one.
+    sessionSummaryHtml() {
+        const records = this.state.sessionAnswers || [];
+        if (!records.length) return '';
+        const correctCount = records.filter(r => r.isCorrect).length;
+        const rows = records.map((r, i) => `
+            <div class="summary-row ${r.isCorrect ? 'summary-correct' : 'summary-wrong'}">
+                <div class="summary-row-head">
+                    <span class="summary-verdict">${r.isCorrect ? '✅' : '❌'}</span>
+                    <span class="summary-question">Câu ${i + 1}: ${this.escapeHtml(r.question)}</span>
+                    ${r.isCorrect && r.hadMistake ? '<span class="summary-retry-note">(đúng sau khi ôn lại)</span>' : ''}
+                </div>
+                ${r.userAnswer ? `<div class="summary-line">Bạn trả lời: <strong>${this.escapeHtml(r.userAnswer)}</strong></div>` : ''}
+                <div class="summary-line">Đáp án đúng: <strong class="summary-answer">${this.escapeHtml(r.correctAnswer)}</strong></div>
+            </div>
+        `).join('');
+        return `
+            <div class="session-summary">
+                <h3 class="session-summary-title">📋 Tổng kết đáp án (${correctCount}/${records.length} đúng)</h3>
+                <div class="session-summary-list">${rows}</div>
+            </div>
+        `;
+    }
+
     async checkAnswer() {
         const ex = this.getCurrentExercise();
         let isCorrect = false;
@@ -1936,6 +2229,8 @@ class DuoClone {
                 : this.state.comprehensionText;
             isCorrect = this.checkComprehensionAnswer(answerText, ex.acceptedAnswers);
         }
+
+        this.recordSessionAnswer(ex, isCorrect, this.captureUserAnswerForSummary(ex));
 
         if (this.errorTracker) {
             if (ex.type === 'matching') {
@@ -1984,6 +2279,40 @@ class DuoClone {
         this.checkBadges();
     }
 
+    // In-app confirmation dialog replacing native confirm() for flows that must NEVER
+    // silently stop working: browsers offer a "block additional dialogs" checkbox that
+    // makes every later confirm() auto-return false with no visible prompt - which is
+    // exactly the "skip sometimes does nothing" instability users hit. A DOM-based
+    // dialog can't be suppressed that way.
+    showConfirmDialog(message, onConfirm, options = {}) {
+        const existing = document.getElementById('app-confirm-overlay');
+        if (existing) existing.remove();
+        const overlay = document.createElement('div');
+        overlay.id = 'app-confirm-overlay';
+        overlay.className = 'app-confirm-overlay';
+        overlay.innerHTML = `
+            <div class="app-confirm-box">
+                <p class="app-confirm-msg">${this.escapeHtml(message)}</p>
+                <div class="app-confirm-actions">
+                    <button class="btn-primary" data-action="ok">${this.escapeHtml(options.okLabel || 'ĐỒNG Ý')}</button>
+                    <button class="btn-secondary" data-action="cancel">${this.escapeHtml(options.cancelLabel || 'HỦY')}</button>
+                </div>
+            </div>
+        `;
+        document.body.appendChild(overlay);
+        // Once-only resolution: rapid double/triple clicks on OK must not re-run the
+        // confirmed action (listeners still fire on the detached button otherwise).
+        let resolved = false;
+        const close = () => { resolved = true; overlay.remove(); };
+        overlay.querySelector('[data-action="ok"]').addEventListener('click', () => {
+            if (resolved) return;
+            close();
+            onConfirm();
+        });
+        overlay.querySelector('[data-action="cancel"]').addEventListener('click', close);
+        overlay.addEventListener('click', (e) => { if (e.target === overlay) close(); });
+    }
+
     // Deliberately does NOT reuse closeModal()'s per-mode branching: that branching
     // decides whether to advance at all based on correctness (e.g. practice mode
     // re-renders the SAME exercise on a wrong answer so the user must retry it) - a skip
@@ -1992,6 +2321,10 @@ class DuoClone {
     // there - see renderLesson()).
     skipCurrentExercise() {
         if (this.state.mode === 'duel') return;
+        // Re-entrancy guard: a double-click (or a click landing while the previous
+        // skip's re-render is still in flight) must not deduct XP twice or advance two
+        // questions.
+        if (this.skipInFlight) return;
         const SKIP_XP_PENALTY = 5;
 
         // Bug fix: skipping used to ALWAYS queue the skipped exercise into reviewQueue,
@@ -2011,14 +2344,26 @@ class DuoClone {
         const confirmMsg = isLastBeforeLessonComplete
             ? `Đây là câu điều kiện để hoàn thành bài học! Nếu bỏ qua, bạn sẽ KHÔNG nhận được điểm thưởng hoàn thành bài (vẫn bị trừ ${SKIP_XP_PENALTY} XP). Bạn có chắc muốn bỏ qua không?`
             : `Bỏ qua câu này sẽ bị trừ ${SKIP_XP_PENALTY} XP. Bạn có chắc muốn bỏ qua không?`;
-        if (!confirm(confirmMsg)) return;
+        this.showConfirmDialog(confirmMsg, () => this.performSkip(isLastBeforeLessonComplete, SKIP_XP_PENALTY), { okLabel: 'BỎ QUA' });
+    }
 
+    performSkip(isLastBeforeLessonComplete, SKIP_XP_PENALTY) {
+        this.skipInFlight = true;
+        try {
+            this.performSkipInner(isLastBeforeLessonComplete, SKIP_XP_PENALTY);
+        } finally {
+            this.skipInFlight = false;
+        }
+    }
+
+    performSkipInner(isLastBeforeLessonComplete, SKIP_XP_PENALTY) {
         const rankBefore = getRankInfo(this.state.xp).rankIndex;
         this.state.xp = Math.max(0, this.state.xp - SKIP_XP_PENALTY);
         this.ui.xp.innerText = this.state.xp;
         this.checkRankDemotion(rankBefore);
 
         const ex = this.getCurrentExercise();
+        if (ex) this.recordSessionAnswer(ex, false, '(đã bỏ qua)');
         if (ex && this.errorTracker) {
             if (ex.type === 'matching') {
                 (ex.pairs || []).forEach(pair => this.errorTracker.recordResult(pair.en, false));
@@ -2037,14 +2382,18 @@ class DuoClone {
         if (this.state.mode === 'placement') { this.nextPlacementExercise(); return; }
 
         if (this.state.reviewMode) {
-            if (isLastBeforeLessonComplete) {
-                this.state.reviewQueue.shift();
+            // Bug fix (the "stuck in the lesson" complaint): skipping during review used
+            // to send the question to the BACK of the queue like a wrong answer does -
+            // so a user skipping their way through review just rotated the same queue
+            // forever and the lesson could never end. A skip is paid for with XP, so it
+            // now REMOVES the question from the queue: every skip strictly reduces the
+            // remaining work and the lesson always terminates.
+            this.state.reviewQueue.shift();
+            if (this.state.reviewQueue.length === 0) {
                 this.state.reviewMode = false;
                 this.finishLessonCompletion(true);
                 return;
             }
-            // send to the back of the queue for a later retry, same as a wrong answer during review
-            this.state.reviewQueue.push(this.state.reviewQueue.shift());
             this.saveUserProgress();
             this.renderLesson();
             return;
@@ -2174,6 +2523,7 @@ class DuoClone {
     // that last question was the actual condition for "completing" this lesson.
     finishLessonCompletion(skippedReward = false) {
         const unit = this.state.courseData.units[this.state.currentUnitIdx];
+        const completedLessonTitle = unit.lessons[this.state.currentLessonIdx] ? unit.lessons[this.state.currentLessonIdx].title : '';
         if (!skippedReward) {
             if (window.confetti) {
                 confetti({
@@ -2182,12 +2532,9 @@ class DuoClone {
                     origin: { y: 0.6 }
                 });
             }
-            alert("Chúc mừng! Bạn đã hoàn thành bài học!");
             if (this.state.stats.lessonWrongCount === 0) {
                 this.state.stats.perfectLessons++;
             }
-        } else {
-            alert("Bạn đã bỏ qua câu điều kiện của bài học nên không nhận được điểm thưởng lần này. Cố gắng hơn ở bài tiếp theo nhé!");
         }
         this.state.stats.lessonWrongCount = 0;
         this.state.reviewQueue = [];
@@ -2201,12 +2548,42 @@ class DuoClone {
             this.state.currentLessonIdx = 0;
         }
         this.saveUserProgress();
+        this.renderLessonSummary(skippedReward, completedLessonTitle);
+    }
 
-        if (this.state.currentUnitIdx >= this.state.courseData.units.length) {
-            this.renderCourseComplete();
-        } else {
-            this.renderLesson();
-        }
+    // End-of-lesson "Tổng kết" screen (replaces the old blocking alert()): celebrates
+    // the completion AND lists every question of the lesson with the user's answer vs.
+    // the correct one, so mistakes are visible before moving on. The lesson indices were
+    // already advanced by finishLessonCompletion() - the continue button just renders
+    // whatever comes next.
+    renderLessonSummary(skippedReward, lessonTitle) {
+        const headline = skippedReward
+            ? 'Bài học kết thúc (đã bỏ qua câu điều kiện)'
+            : 'Hoàn thành bài học!';
+        const subtitle = skippedReward
+            ? 'Bạn đã bỏ qua câu điều kiện của bài học nên không nhận được điểm thưởng lần này. Cố gắng hơn ở bài tiếp theo nhé!'
+            : `Chúc mừng! Bạn đã hoàn thành "${lessonTitle}".`;
+        this.ui.container.innerHTML = `
+            <div class="welcome-screen">
+                <div class="duo-character ${skippedReward ? 'mascot-cry' : 'mascot-cheer'}">${skippedReward ? '😅' : '🎉'}</div>
+                <h1 style="text-align: center;">${this.escapeHtml(headline)}</h1>
+                <p style="text-align: center; color: #777;">${this.escapeHtml(subtitle)}</p>
+                ${this.sessionSummaryHtml()}
+                <button class="btn-primary" id="lesson-summary-continue" style="display: block; margin: 20px auto; padding: 15px 30px;">TIẾP TỤC</button>
+            </div>
+        `;
+        this.ui.checkBtn.disabled = true;
+        this.ui.checkBtn.classList.remove('active');
+        if (this.ui.skipBtn) this.ui.skipBtn.style.display = 'none';
+        if (!skippedReward) this.playTone('cheer');
+        document.getElementById('lesson-summary-continue').addEventListener('click', () => {
+            this.resetSessionAnswers();
+            if (this.state.currentUnitIdx >= this.state.courseData.units.length) {
+                this.renderCourseComplete();
+            } else {
+                this.renderLesson();
+            }
+        });
     }
 
     awardLessonCompletion() {
@@ -2217,6 +2594,7 @@ class DuoClone {
         const totalGain = xpGain + (streakExtended ? streakBonus : 0);
 
         this.state.xp += totalGain;
+        this.addVibrancy(10);
         // weeklyXp is no longer independently tracked/reset - it's kept as a mirror of
         // the same cumulative xp purely so the admin dashboard's "XP tuần" column (which
         // reads profiles.weekly_xp) doesn't show a stale, confusing number now that the
@@ -2253,12 +2631,22 @@ class DuoClone {
         }
     }
 
+    // "Sôi nổi" (vibrancy) score for the individual user - mirrors the group concept:
+    // earned by simply being active (lessons, practice, duels, games, chat), never
+    // deducted. Stored in stats jsonb (persisted by the next saveUserProgress()) and
+    // pushed to the leaderboard table by the next syncLeaderboardScore().
+    addVibrancy(points) {
+        if (!this.state.currentUser || !points) return;
+        this.state.vibrancy = (this.state.vibrancy || 0) + points;
+        this.state.stats.vibrancy = this.state.vibrancy;
+    }
+
     // Ranks by cumulative xp, not a resetting weekly counter - a leader nobody catches
     // up to simply keeps winning the Saturday prize, which is intended now (see
     // checkWeeklyReset()'s comment for the full reasoning).
     syncLeaderboardScore() {
         if (window.Leaderboard && this.state.currentUser) {
-            window.Leaderboard.submitScore(this.state.currentUser, this.state.xp, this.state.streak);
+            window.Leaderboard.submitScore(this.state.currentUser, this.state.xp, this.state.streak, this.state.vibrancy || 0);
             window.Leaderboard.checkAndAwardWeeklyPrize().then(() => this.refreshTeddyBears());
             // Parallel, independent weekly prize track for streak - does not touch or
             // interact with the XP prize above at all (see checkAndAwardStreakPrize()'s
@@ -2331,14 +2719,21 @@ class DuoClone {
         this.playTone('cheer');
     }
 
-    async renderLeaderboard() {
+    // 3 user ranking tabs (XP / Chuỗi / Sôi nổi) sharing one screen, mirroring
+    // renderGroupLeaderboards()'s tab pattern, plus a shortcut to the group boards.
+    async renderLeaderboard(sortBy = 'xp') {
         if (!this.state.currentUser) {
             alert("Vui lòng đăng nhập trước khi xem bảng xếp hạng!");
             return;
         }
+        const tabs = [
+            { key: 'xp', label: '⭐ XP' },
+            { key: 'streak', label: '🔥 Chuỗi ngày' },
+            { key: 'vibrancy', label: '⚡ Sôi nổi' }
+        ];
         this.ui.container.innerHTML = `
             <div class="leaderboard-screen">
-                <h2 style="text-align: center;">🏆 Bảng Xếp Hạng Tuần Này</h2>
+                <h2 style="text-align: center;">🏆 Bảng Xếp Hạng</h2>
                 <p style="text-align: center; color: #777;">Đang tải...</p>
             </div>
         `;
@@ -2347,14 +2742,24 @@ class DuoClone {
 
         let result = { configured: false, entries: [] };
         if (window.Leaderboard) {
-            result = await window.Leaderboard.fetchTop(50);
+            if (sortBy === 'streak') result = await window.Leaderboard.getStreakLeaderboard(50);
+            else if (sortBy === 'vibrancy') result = await window.Leaderboard.getVibrancyLeaderboard(50);
+            else result = await window.Leaderboard.fetchTop(50);
         }
+
+        const valueLabel = (entry) => {
+            if (sortBy === 'streak') return `🔥 ${entry.streak || 0} ngày`;
+            if (sortBy === 'vibrancy') return `⚡ ${entry.vibrancy || 0} điểm`;
+            return `⭐ ${entry.xp || 0} XP`;
+        };
 
         let bodyHtml;
         if (!result.configured) {
             bodyHtml = `<p style="text-align: center; color: #777;">Bảng xếp hạng đang được thiết lập, quay lại sau nhé!</p>`;
         } else if (result.error) {
-            bodyHtml = `<p style="text-align: center; color: #777;">Không thể tải bảng xếp hạng lúc này. Vui lòng thử lại sau.</p>`;
+            bodyHtml = sortBy === 'vibrancy'
+                ? `<p style="text-align: center; color: #777;">Bảng Sôi nổi chưa sẵn sàng - quản trị viên cần chạy migration "self_service_inbox_vibrancy.sql" trên Supabase.</p>`
+                : `<p style="text-align: center; color: #777;">Không thể tải bảng xếp hạng lúc này. Vui lòng thử lại sau.</p>`;
         } else if (!result.entries.length) {
             bodyHtml = `<p style="text-align: center; color: #777;">Chưa có ai trên bảng xếp hạng. Hãy là người đầu tiên!</p>`;
         } else {
@@ -2365,20 +2770,31 @@ class DuoClone {
                 return `<div class="leaderboard-row ${isMe ? 'me' : ''}">
                             <span class="lb-rank">${medal}</span>
                             <span class="lb-name">${isMe ? this.escapeHtml(entry.username) : this.clickableUsername(null, entry.username)}</span>
-                            <span class="lb-streak">🔥 ${entry.streak || 0}</span>
-                            <span class="lb-xp">⭐ ${entry.xp || 0} XP</span>
+                            <span class="lb-xp">${valueLabel(entry)}</span>
                         </div>`;
             }).join('') + `</div>`;
         }
 
+        const footNote = sortBy === 'vibrancy'
+            ? '⚡ Điểm Sôi nổi tăng khi bạn hoạt động: học bài, luyện tập, thách đấu, chơi game và trò chuyện cùng cộng đồng.'
+            : '🧸 Người dẫn đầu lúc 19h thứ Bảy sẽ được tặng gấu bông! Điểm không bị reset - nếu không ai vượt qua, người dẫn đầu vẫn tiếp tục được thưởng vào tuần sau.';
+
         this.ui.container.innerHTML = `
             <div class="leaderboard-screen">
                 <h2 style="text-align: center;">🏆 Bảng Xếp Hạng</h2>
+                <div class="game-picker-list" style="flex-direction:row; justify-content:center; gap:8px; max-width:500px; margin:10px auto;">
+                    ${tabs.map(t => `<button class="btn-secondary user-lb-tab-btn ${t.key === sortBy ? 'group-lb-tab-active' : ''}" data-sort="${t.key}" style="padding:8px 14px; font-size:13px;">${t.label}</button>`).join('')}
+                </div>
                 ${bodyHtml}
-                <p style="text-align: center; color: #999; font-size: 13px; margin-top: 15px;">🧸 Người dẫn đầu lúc 19h thứ Bảy sẽ được tặng gấu bông! Điểm không bị reset - nếu không ai vượt qua, người dẫn đầu vẫn tiếp tục được thưởng vào tuần sau.</p>
+                <p style="text-align: center; color: #999; font-size: 13px; margin-top: 15px;">${footNote}</p>
+                <button class="btn-secondary" id="user-lb-groups-btn" style="display:block; margin: 10px auto 0; padding: 12px 24px;">🏰 BẢNG XẾP HẠNG GROUP</button>
                 <button class="btn-primary" style="margin-top: 10px;" onclick="app.closeLeaderboard()">QUAY LẠI</button>
             </div>
         `;
+        this.ui.container.querySelectorAll('.user-lb-tab-btn').forEach(btn => {
+            btn.addEventListener('click', () => this.renderLeaderboard(btn.dataset.sort));
+        });
+        document.getElementById('user-lb-groups-btn').addEventListener('click', () => this.renderGroupLeaderboards());
     }
 
     closeLeaderboard() {
@@ -2548,9 +2964,12 @@ class DuoClone {
 
         if (reward > 0 && this.state.currentUser) {
             const before = this.state.hearts;
-            this.state.hearts = Math.min(MAX_HEARTS, this.state.hearts + reward);
+            // Game rewards still respect the cap - but never REDUCE hearts that are
+            // already above it (achievement bonuses may have pushed them past MAX).
+            this.state.hearts = Math.max(this.state.hearts, Math.min(MAX_HEARTS, this.state.hearts + reward));
             const actualGained = this.state.hearts - before;
             this.ui.hearts.innerText = this.state.hearts;
+            this.addVibrancy(3);
             this.saveUserProgress();
             if (actualGained > 0) {
                 this.showHeartRewardToast(actualGained);
@@ -2595,6 +3014,7 @@ class DuoClone {
         this.state.mode = 'practice';
         this.state.practiceQueue = window.ExerciseGenerator.generateBatch(batchSize, difficulty, weakKeys);
         this.state.practiceIdx = 0;
+        this.resetSessionAnswers();
         this.renderLesson();
     }
 
@@ -2609,6 +3029,7 @@ class DuoClone {
 
     renderPracticeSummary() {
         this.state.stats.practiceSessions++;
+        this.addVibrancy(5);
         this.checkBadges();
         const stats = this.errorTracker ? this.errorTracker.getStats() : null;
         this.ui.container.innerHTML = `
@@ -2617,6 +3038,7 @@ class DuoClone {
                 <h1 style="text-align: center;">Hoàn thành buổi luyện tập!</h1>
                 <p style="text-align: center; color: #777;">Bạn đã luyện ${this.state.practiceQueue.length} câu.</p>
                 ${stats ? `<p style="text-align: center; color: #777;">Độ chính xác tổng: ${Math.round(stats.accuracy * 100)}%</p>` : ''}
+                ${this.sessionSummaryHtml()}
                 <button class="btn-primary" id="practice-again" style="display: block; margin: 20px auto; padding: 15px 30px;">LUYỆN THÊM</button>
                 <button class="btn-secondary" id="practice-exit" style="display: block; margin: 10px auto; padding: 15px 30px;">VỀ TRANG CHÍNH</button>
             </div>
@@ -3441,6 +3863,7 @@ class DuoClone {
         this.state.duelCorrect = isChallenger ? duelRow.challenger_correct : duelRow.opponent_correct;
         this.state.duelLastOpponentUpdate = Date.now();
         this.state.duelResultShown = false;
+        this.resetSessionAnswers();
 
         this.injectDuelProgressBar(duelRow, isChallenger);
 
@@ -3625,6 +4048,12 @@ class DuoClone {
         const xpChangeLabel = isDraw ? '' : (iWon ? `+${DUEL_XP_WAGER} XP` : `-${DUEL_XP_WAGER} XP`);
         const xpChangeColor = iWon ? 'var(--duo-green)' : 'var(--duo-red)';
 
+        // Winner gets "Thách đấu lại", loser gets "Phục thù" - same action underneath
+        // (send a fresh challenge of the same game type to the same opponent), the label
+        // just matches which side of the result the user is standing on.
+        const rematchLabel = isDraw ? '⚔️ ĐẤU LẠI' : (iWon ? '⚔️ THÁCH ĐẤU LẠI' : '🔥 PHỤC THÙ');
+        const gameType = duelRow.game_type || 'lesson';
+
         this.ui.container.innerHTML = `
             <div class="certificate">
                 <div class="certificate-badge">${isDraw ? '🤝' : (iWon ? '🏆' : '⚔️')}</div>
@@ -3632,7 +4061,10 @@ class DuoClone {
                 <p class="certificate-score">Bạn: ${myCorrect} đúng &nbsp;|&nbsp; ${this.clickableUsername(oppId, oppName)}: ${oppCorrect} đúng</p>
                 ${xpChangeLabel ? `<p style="font-weight:800; color:${xpChangeColor};">${xpChangeLabel}</p>` : ''}
             </div>
-            <button class="btn-primary" id="duel-result-done" style="display: block; margin: 20px auto; padding: 15px 30px;">VỀ TRANG CHÍNH</button>
+            ${gameType === 'lesson' ? this.sessionSummaryHtml() : ''}
+            <button class="btn-primary" id="duel-rematch-btn" style="display: block; margin: 20px auto 10px; padding: 15px 30px;">${rematchLabel}</button>
+            <p id="duel-rematch-error" style="text-align:center; color: var(--duo-red); min-height:18px; margin:0;"></p>
+            <button class="btn-secondary" id="duel-result-done" style="display: block; margin: 10px auto; padding: 15px 30px;">VỀ TRANG CHÍNH</button>
         `;
         this.ui.checkBtn.disabled = true;
         this.ui.checkBtn.classList.remove('active');
@@ -3640,7 +4072,21 @@ class DuoClone {
             this.state.mode = 'curriculum';
             this.renderHomeDashboard();
         });
+        document.getElementById('duel-rematch-btn').addEventListener('click', async () => {
+            const btn = document.getElementById('duel-rematch-btn');
+            const errorEl = document.getElementById('duel-rematch-error');
+            // The finished duel is over - leave duel mode BEFORE re-challenging, since
+            // sendGameDuelChallenge() refuses to start a challenge mid-duel.
+            this.state.mode = 'curriculum';
+            btn.disabled = true;
+            const result = await this.sendGameDuelChallenge(oppName, gameType);
+            if (result && result.error) {
+                btn.disabled = false;
+                if (errorEl) errorEl.innerText = result.error;
+            }
+        });
         this.playTone(iWon ? 'cheer' : (isDraw ? 'correct' : 'cry'));
+        this.addVibrancy(8);
         this.checkBadges();
         this.saveUserProgress();
     }
@@ -4196,7 +4642,7 @@ class DuoClone {
     // window.Groups.getGroupLeaderboard() instead.
     async renderGroupLeaderboards(sortBy = 'vibrancy_score') {
         const tabs = [
-            { key: 'vibrancy_score', label: 'Cấp độ' },
+            { key: 'vibrancy_score', label: '⚡ Sôi nổi' },
             { key: 'battle_wins', label: 'Thiện chiến' },
             { key: 'battles_initiated', label: 'Máu chiến' }
         ];
@@ -4452,6 +4898,7 @@ class DuoClone {
                     ${this.escapeHtml((c.lastMessage || '').slice(0, 36))}${(c.lastMessage || '').length > 36 ? '…' : ''}
                     ${c.unreadCount > 0 ? `<span class="nav-unread-badge">${c.unreadCount}</span>` : ''}
                 </span>
+                <button class="btn-secondary inbox-delete-convo-btn" data-other-id="${c.otherUserId}" title="Xóa cuộc trò chuyện (chỉ phía bạn)" style="padding:4px 10px; font-size:12px;">🗑️</button>
             </div>
         `).join('') : `<p style="text-align:center; color:#777;">Chưa có tin nhắn nào. Hãy nhắn tin cho ai đó nhé!</p>`;
 
@@ -4470,6 +4917,19 @@ class DuoClone {
         document.getElementById('inbox-close').addEventListener('click', () => this.renderHomeDashboard());
         this.ui.container.querySelectorAll('.inbox-conversation-row').forEach(row => {
             row.addEventListener('click', () => this.renderConversation(row.dataset.otherId, row.dataset.otherUsername));
+        });
+        this.ui.container.querySelectorAll('.inbox-delete-convo-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                // The row's own click handler opens the conversation - a delete click
+                // must not also navigate into the thread it is about to remove.
+                e.stopPropagation();
+                this.showConfirmDialog('Xóa toàn bộ cuộc trò chuyện này khỏi hộp thư của bạn? (Người kia vẫn giữ bản của họ)', async () => {
+                    const result = await window.Inbox.deleteConversationForMe(this.state.profile.id, btn.dataset.otherId);
+                    if (result.error) { alert(result.error); return; }
+                    this.updateInboxBadge();
+                    this.renderInboxMenu();
+                }, { okLabel: 'XÓA' });
+            });
         });
     }
 
@@ -4531,18 +4991,39 @@ class DuoClone {
         await window.Inbox.markConversationRead(this.state.profile.id, otherUserId);
         this.updateInboxBadge();
 
+        // Kept in the closure so per-message delete buttons can look their row back up
+        // by id - refreshed on every re-render (send, incoming message, delete).
+        let currentMessages = [];
+        const refresh = async () => {
+            currentMessages = await window.Inbox.getConversationMessages(this.state.profile.id, otherUserId);
+            renderMessages(currentMessages);
+        };
         const renderMessages = (messages) => {
             const threadEl = document.getElementById('conversation-thread');
             if (!threadEl) return;
             threadEl.innerHTML = messages.map(m => {
                 const isMine = m.sender_id === this.state.profile.id;
-                return `<div class="chat-bubble-row ${isMine ? 'mine' : 'theirs'}"><div class="chat-bubble">${this.escapeHtml(m.message)}</div></div>`;
+                return `<div class="chat-bubble-row ${isMine ? 'mine' : 'theirs'}">
+                            <div class="chat-bubble">${this.escapeHtml(m.message)}</div>
+                            <button class="dm-delete-btn" data-msg-id="${m.id}" title="Xóa tin nhắn này (chỉ phía bạn)">✕</button>
+                        </div>`;
             }).join('');
             threadEl.scrollTop = threadEl.scrollHeight;
+            threadEl.querySelectorAll('.dm-delete-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const msg = currentMessages.find(m => m.id === btn.dataset.msgId);
+                    if (!msg) return;
+                    this.showConfirmDialog('Xóa tin nhắn này khỏi hộp thư của bạn? (Người kia vẫn nhìn thấy bản của họ)', async () => {
+                        const result = await window.Inbox.deleteMessageForMe(this.state.profile.id, msg);
+                        if (result.error) { alert(result.error); return; }
+                        this.updateInboxBadge();
+                        refresh();
+                    }, { okLabel: 'XÓA' });
+                });
+            });
         };
 
-        const messages = await window.Inbox.getConversationMessages(this.state.profile.id, otherUserId);
-        renderMessages(messages);
+        await refresh();
 
         const sendHandler = async () => {
             const input = document.getElementById('dm-message-input');
@@ -4551,8 +5032,7 @@ class DuoClone {
             input.value = '';
             const result = await window.Inbox.sendDirectMessageToId(this.state.profile, otherUserId, otherUsername, text);
             if (result.error) { alert(result.error); return; }
-            const updated = await window.Inbox.getConversationMessages(this.state.profile.id, otherUserId);
-            renderMessages(updated);
+            await refresh();
         };
         document.getElementById('dm-send-btn').addEventListener('click', sendHandler);
         document.getElementById('dm-message-input').addEventListener('keydown', (e) => {
@@ -4566,8 +5046,7 @@ class DuoClone {
             if (msg.sender_id !== otherUserId) return;
             await window.Inbox.markConversationRead(this.state.profile.id, otherUserId);
             this.updateInboxBadge();
-            const updated = await window.Inbox.getConversationMessages(this.state.profile.id, otherUserId);
-            renderMessages(updated);
+            await refresh();
         }, 'conversation:' + otherUserId);
     }
 
@@ -4638,6 +5117,7 @@ class DuoClone {
         this.state.practiceQueue = window.ExerciseGenerator.generateBatch(20, 2, null);
         this.state.practiceIdx = 0;
         this.state.assessmentCorrect = 0;
+        this.resetSessionAnswers();
         this.renderLesson();
     }
 
@@ -4664,6 +5144,7 @@ class DuoClone {
         this.state.practiceQueue = this.buildPlacementQueue();
         this.state.practiceIdx = 0;
         this.state.assessmentCorrect = 0;
+        this.resetSessionAnswers();
         this.renderLesson();
     }
 
@@ -4713,6 +5194,7 @@ class DuoClone {
                 <p style="text-align: center; color: #777;">Bạn trả lời đúng ${correct}/${total} câu.</p>
                 <p style="text-align: center; font-weight: 800; font-size: 22px; color: var(--duo-green);">Danh hiệu khởi điểm: ${rankInfo.rankIcon} ${this.escapeHtml(rankInfo.rankName)} (Cấp ${rankInfo.level})</p>
                 <p style="text-align: center; color: #777;">Các bài luyện tập sẽ được điều chỉnh phù hợp và tăng dần độ khó theo danh hiệu của bạn.</p>
+                ${this.sessionSummaryHtml()}
                 <button class="btn-primary" id="placement-done" style="display: block; margin: 20px auto; padding: 15px 30px;">BẮT ĐẦU HỌC</button>
             </div>
         `;
@@ -4751,6 +5233,7 @@ class DuoClone {
                     <p class="certificate-score">${scorePct}% — ${level}</p>
                     <p class="certificate-date">Ngày ${dateStr}</p>
                 </div>
+                ${this.sessionSummaryHtml()}
                 <button class="btn-primary" id="cert-done" style="display: block; margin: 20px auto; padding: 15px 30px;">HOÀN TẤT</button>
             `;
         } else {
@@ -4759,6 +5242,7 @@ class DuoClone {
                     <div class="duo-character mascot-cry">📝</div>
                     <h1 style="text-align: center;">Kết quả: ${scorePct}%</h1>
                     <p style="text-align: center; color: #777;">Bạn cần đạt ít nhất 70% để nhận chứng chỉ. Hãy luyện tập thêm rồi thử lại nhé!</p>
+                    ${this.sessionSummaryHtml()}
                     <button class="btn-primary" id="cert-done" style="display: block; margin: 20px auto; padding: 15px 30px;">VỀ TRANG CHÍNH</button>
                 </div>
             `;
@@ -4772,6 +5256,7 @@ class DuoClone {
         });
 
         this.playTone(passed ? 'cheer' : 'cry');
+        this.addVibrancy(passed ? 10 : 5);
         this.checkBadges();
         this.saveUserProgress();
     }
@@ -4794,12 +5279,22 @@ class DuoClone {
             friendCount: this.state.friendCount || 0
         };
         const newBadges = this.badgeTracker.checkAndAward(snapshot);
+        // Each unlocked achievement grants +5 hearts ON TOP of the normal cap -
+        // deliberately NOT clamped to MAX_HEARTS (overflow hearts are fully usable;
+        // only passive regen and game/gift rewards respect the cap, so the overflow
+        // simply drains back down over time). completeLogin() was updated to stop
+        // clamping stored hearts on load for the same reason.
+        const BADGE_HEART_BONUS = 5;
         newBadges.forEach(b => {
-            this.showBadgeToast(b);
+            this.state.hearts += BADGE_HEART_BONUS;
+            this.showBadgeToast(b, BADGE_HEART_BONUS);
             if (window.ActivityFeed && this.state.profile) {
                 window.ActivityFeed.postEvent('badge', this.state.profile.id, this.state.currentUser, `🏅 ${this.state.currentUser} vừa mở khóa huy hiệu "${b.name}"!`);
             }
         });
+        if (newBadges.length && this.ui.hearts) {
+            this.ui.hearts.innerText = this.state.hearts;
+        }
         if (newBadges.length) {
             // Persist to Supabase right away - some call sites (e.g. checkAnswer()) already
             // ran saveUserProgress() before checkBadges(), so a newly earned badge would
@@ -4918,7 +5413,9 @@ class DuoClone {
         let totalGained = 0;
         for (const gift of gifts) {
             const before = this.state.hearts;
-            this.state.hearts = Math.min(MAX_HEARTS, this.state.hearts + 1);
+            // Same overflow-safe capping as applyGameReward(): gifts respect MAX_HEARTS
+            // but must never clamp DOWN hearts already above it (achievement bonuses).
+            this.state.hearts = Math.max(this.state.hearts, Math.min(MAX_HEARTS, this.state.hearts + 1));
             totalGained += this.state.hearts - before;
             await window.Friends.claimGift(gift.id);
         }
@@ -4943,10 +5440,10 @@ class DuoClone {
         }, 3500);
     }
 
-    showBadgeToast(badge) {
+    showBadgeToast(badge, heartBonus = 0) {
         const toast = document.createElement('div');
         toast.className = 'badge-toast';
-        toast.innerHTML = `<span class="badge-toast-icon">${badge.icon}</span><div><strong>Huy hiệu mới!</strong><br>${this.escapeHtml(badge.name)}</div>`;
+        toast.innerHTML = `<span class="badge-toast-icon">${badge.icon}</span><div><strong>Huy hiệu mới!</strong><br>${this.escapeHtml(badge.name)}${heartBonus ? `<br><span style="color:var(--duo-red); font-weight:800;">+${heartBonus} ❤️ tim thưởng!</span>` : ''}</div>`;
         document.body.appendChild(toast);
         setTimeout(() => toast.classList.add('show'), 10);
         setTimeout(() => {
@@ -5074,11 +5571,26 @@ class DuoClone {
                 </div>
 
                 <div class="settings-card">
+                    <h2>👤 Tên hiển thị</h2>
+                    <input type="text" id="rename-input" class="input-field" maxlength="20" value="${this.escapeHtml(this.state.currentUser)}" placeholder="Tên hiển thị mới (3-20 ký tự)">
+                    <p id="rename-status" class="settings-status"></p>
+                    <button class="btn-primary" id="rename-btn" style="padding:12px 24px;">ĐỔI TÊN</button>
+                </div>
+
+                <div class="settings-card">
                     <h2>Đổi mật khẩu</h2>
                     <input type="password" id="new-password-input" class="input-field" placeholder="Mật khẩu mới (ít nhất 6 ký tự)" style="margin-bottom:10px;">
                     <input type="password" id="confirm-password-input" class="input-field" placeholder="Nhập lại mật khẩu mới">
                     <p id="password-change-status" class="settings-status"></p>
                     <button class="btn-primary" id="change-password-btn" style="padding:12px 24px;">ĐỔI MẬT KHẨU</button>
+                </div>
+
+                <div class="settings-card settings-danger-card">
+                    <h2>⚠️ Xóa tài khoản</h2>
+                    <p class="settings-empty-note">Xóa vĩnh viễn tài khoản cùng toàn bộ tiến trình học, XP, huy hiệu và tin nhắn. Hành động này KHÔNG THỂ hoàn tác.</p>
+                    <input type="text" id="delete-account-confirm-input" class="input-field" placeholder='Gõ chính xác tên "${this.escapeHtml(this.state.currentUser)}" để xác nhận'>
+                    <p id="delete-account-status" class="settings-status"></p>
+                    <button class="btn-secondary settings-delete-account-btn" id="delete-account-btn">XÓA TÀI KHOẢN CỦA TÔI</button>
                 </div>
 
                 <button class="btn-secondary" id="settings-back-btn" style="display:block; margin:20px auto 10px; padding:14px 28px;">QUAY LẠI</button>
@@ -5104,6 +5616,66 @@ class DuoClone {
         });
 
         document.getElementById('change-password-btn').addEventListener('click', () => this.handleChangePassword());
+        document.getElementById('rename-btn').addEventListener('click', () => this.handleRename());
+        document.getElementById('delete-account-btn').addEventListener('click', () => this.handleDeleteAccount());
+    }
+
+    async handleRename() {
+        const statusEl = document.getElementById('rename-status');
+        const newName = document.getElementById('rename-input').value.trim();
+        if (newName.length < 3 || newName.length > 20) {
+            statusEl.style.color = 'var(--duo-red)';
+            statusEl.innerText = 'Tên hiển thị phải từ 3 đến 20 ký tự.';
+            return;
+        }
+        if (newName === this.state.currentUser) {
+            statusEl.style.color = 'var(--duo-red)';
+            statusEl.innerText = 'Đây đã là tên hiện tại của bạn rồi.';
+            return;
+        }
+        statusEl.style.color = 'var(--duo-dark-grey)';
+        statusEl.innerText = 'Đang đổi tên...';
+        const result = await window.AuthService.renameAccount(newName);
+        if (result.error) {
+            statusEl.style.color = 'var(--duo-red)';
+            statusEl.innerText = /rename_own_account/.test(result.error)
+                ? 'Tính năng đổi tên chưa sẵn sàng - quản trị viên cần chạy migration "self_service_inbox_vibrancy.sql" trên Supabase.'
+                : `Đổi tên thất bại: ${result.error}`;
+            return;
+        }
+        this.state.currentUser = result.username;
+        if (this.state.profile) this.state.profile.username = result.username;
+        if (this.ui.userBadgeName) this.ui.userBadgeName.innerText = result.username;
+        statusEl.style.color = 'var(--duo-green)';
+        statusEl.innerText = `Đổi tên thành công! Tên mới của bạn là "${result.username}".`;
+    }
+
+    handleDeleteAccount() {
+        const statusEl = document.getElementById('delete-account-status');
+        const typed = document.getElementById('delete-account-confirm-input').value.trim();
+        if (typed !== this.state.currentUser) {
+            statusEl.style.color = 'var(--duo-red)';
+            statusEl.innerText = `Vui lòng gõ chính xác tên "${this.state.currentUser}" để xác nhận xóa.`;
+            return;
+        }
+        this.showConfirmDialog('Bạn CHẮC CHẮN muốn xóa vĩnh viễn tài khoản? Toàn bộ dữ liệu sẽ mất và không thể khôi phục. Tin nhắn, kết bạn và lịch sử thách đấu giữa bạn và người khác cũng sẽ biến mất ở cả hai phía.', async () => {
+            statusEl.style.color = 'var(--duo-dark-grey)';
+            statusEl.innerText = 'Đang xóa tài khoản...';
+            const result = await window.AuthService.deleteOwnAccount();
+            if (result.error) {
+                statusEl.style.color = 'var(--duo-red)';
+                statusEl.innerText = /delete_own_account/.test(result.error)
+                    ? 'Tính năng xóa tài khoản chưa sẵn sàng - quản trị viên cần chạy migration "self_service_inbox_vibrancy.sql" trên Supabase.'
+                    : `Xóa tài khoản thất bại: ${result.error}`;
+                return;
+            }
+            if (this.state.profile) {
+                localStorage.removeItem(`duo_position_${this.state.profile.id}`);
+            }
+            alert('Tài khoản của bạn đã được xóa. Tạm biệt và hẹn gặp lại!');
+            if (window.AuthService) await window.AuthService.signOut();
+            location.reload();
+        }, { okLabel: 'XÓA VĨNH VIỄN' });
     }
 
     async handleAvatarUpload(file) {

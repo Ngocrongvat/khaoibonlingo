@@ -179,6 +179,57 @@ const AuthService = (() => {
         }
     }
 
+    // Sends the Supabase password-reset email. redirectTo points back at the current
+    // page - when the user clicks the emailed link, they land here with a recovery
+    // session and onPasswordRecovery() (below) fires so the app can show a
+    // "set new password" screen.
+    async function requestPasswordReset(email) {
+        if (!client) return { error: 'Chưa cấu hình đăng nhập.' };
+        try {
+            const redirectTo = location.origin + location.pathname;
+            const { error } = await client.auth.resetPasswordForEmail(email, { redirectTo });
+            if (error) return { error: error.message };
+            return {};
+        } catch (e) {
+            return { error: e.message };
+        }
+    }
+
+    // Fires the callback once when the user arrives via a password-recovery email link
+    // (Supabase parses the link's token from the URL hash and emits PASSWORD_RECOVERY).
+    function onPasswordRecovery(callback) {
+        if (!client) return;
+        client.auth.onAuthStateChange((event) => {
+            if (event === 'PASSWORD_RECOVERY') callback();
+        });
+    }
+
+    // Both of these call SECURITY DEFINER SQL functions (see
+    // supabase/migrations/self_service_inbox_vibrancy.sql) because the work fans out
+    // across tables the client's own RLS grants can't reach (denormalized username
+    // copies, the auth.users row itself).
+    async function renameAccount(newUsername) {
+        if (!client) return { error: 'Chưa cấu hình đăng nhập.' };
+        try {
+            const { data, error } = await client.rpc('rename_own_account', { p_new_username: newUsername });
+            if (error) return { error: error.message };
+            return { username: data };
+        } catch (e) {
+            return { error: e.message };
+        }
+    }
+
+    async function deleteOwnAccount() {
+        if (!client) return { error: 'Chưa cấu hình đăng nhập.' };
+        try {
+            const { error } = await client.rpc('delete_own_account');
+            if (error) return { error: error.message };
+            return {};
+        } catch (e) {
+            return { error: e.message };
+        }
+    }
+
     async function updatePassword(newPassword) {
         if (!client) return { error: 'Chưa cấu hình đăng nhập.' };
         try {
@@ -201,7 +252,7 @@ const AuthService = (() => {
         }
     }
 
-    return { isConfigured, signUp, signIn, signOut, getSession, getProfile, ensureProfile, updateProfile, listAllProfiles, deleteProfile, resetAllWeeklyXp, uploadAvatar, uploadGroupAvatar, updatePassword };
+    return { isConfigured, signUp, signIn, signOut, getSession, getProfile, ensureProfile, updateProfile, listAllProfiles, deleteProfile, resetAllWeeklyXp, uploadAvatar, uploadGroupAvatar, updatePassword, requestPasswordReset, onPasswordRecovery, renameAccount, deleteOwnAccount };
 })();
 
 window.AuthService = AuthService;

@@ -1,18 +1,49 @@
 const isConfigured = window.SupabaseClient ? window.SupabaseClient.isConfigured : false;
 const client = window.SupabaseClient ? window.SupabaseClient.client : null;
 
-async function submitScore(username, xp, streak) {
+async function submitScore(username, xp, streak, vibrancy = null) {
     if (!client || !username) return;
+    const base = {
+        username,
+        xp,
+        streak,
+        updated_at: new Date().toISOString()
+    };
     try {
-        const { error } = await client.from('leaderboard').upsert({
-            username,
-            xp,
-            streak,
-            updated_at: new Date().toISOString()
-        });
-        if (error) throw error;
+        // vibrancy is a newer column (self_service_inbox_vibrancy.sql) - include it
+        // only when the caller tracks it, and fall back to the legacy payload if the
+        // column doesn't exist yet so the core XP/streak sync never breaks.
+        const payload = vibrancy != null ? { ...base, vibrancy } : base;
+        const { error } = await client.from('leaderboard').upsert(payload);
+        if (error) {
+            if (vibrancy != null) {
+                const { error: retryError } = await client.from('leaderboard').upsert(base);
+                if (retryError) throw retryError;
+                return;
+            }
+            throw error;
+        }
     } catch (e) {
         console.error('Failed to submit score to leaderboard:', e);
+    }
+}
+
+// User "Sôi nổi" ranking - same world-readable `leaderboard` table, sorted by the
+// vibrancy column instead of xp/streak. Returns error:true (rendered as a friendly
+// "not available" message) on projects that haven't added the column yet.
+async function getVibrancyLeaderboard(count = 50) {
+    if (!client) return { configured: false, entries: [] };
+    try {
+        const { data, error } = await client
+            .from('leaderboard')
+            .select('*')
+            .order('vibrancy', { ascending: false })
+            .limit(count);
+        if (error) throw error;
+        return { configured: true, entries: data || [] };
+    } catch (e) {
+        console.error('Failed to fetch vibrancy leaderboard:', e);
+        return { configured: true, entries: [], error: true };
     }
 }
 
@@ -261,6 +292,7 @@ window.Leaderboard = {
     deleteHallOfFameEntry,
     clearHallOfFame,
     getStreakLeaderboard,
+    getVibrancyLeaderboard,
     checkAndAwardStreakPrize,
     getStreakHallOfFame
 };
