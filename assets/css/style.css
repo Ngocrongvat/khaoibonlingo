@@ -1356,6 +1356,31 @@ body {
     animation: fadeInUp 0.4s ease-out;
 }
 
+.activity-ticker {
+    width: 100%;
+    overflow: hidden;
+    background: linear-gradient(90deg, #fff8e1, #fef3ff);
+    border: 1px solid var(--duo-border, #e5e5e5);
+    border-radius: 12px;
+    padding: 10px 0;
+    margin-bottom: 16px;
+    white-space: nowrap;
+}
+
+.activity-ticker-track {
+    display: inline-block;
+    padding-left: 100%;
+    font-size: 13.5px;
+    font-weight: 700;
+    color: var(--duo-text);
+    will-change: transform;
+}
+
+@keyframes activityTickerScroll {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+}
+
 .home-greeting-row {
     display: flex;
     align-items: center;
@@ -1789,6 +1814,11 @@ body {
 
 .badge-toast-icon {
     font-size: 28px;
+}
+
+.welcome-toast {
+    border-color: var(--duo-green, #58cc02);
+    max-width: 320px;
 }
 
 .duel-invite-toast {

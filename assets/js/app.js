@@ -290,12 +290,14 @@ class DuoClone {
             inboxBtn: document.getElementById('inbox-btn'),
             inboxUnreadBadge: document.getElementById('inbox-unread-badge'),
             groupsBtn: document.getElementById('groups-btn'),
+            onlineMembersBtn: document.getElementById('online-members-btn'),
             achievementsBtn: document.getElementById('achievements-btn'),
             adminBtn: document.getElementById('admin-btn')
         };
 
         this.init();
         this.startEnergyRegeneration();
+        this.startPresenceHeartbeat();
         this.resumeSession();
     }
 
@@ -378,6 +380,9 @@ class DuoClone {
         }
         if (this.ui.groupsBtn) {
             this.ui.groupsBtn.onclick = () => this.renderGroupsMenu();
+        }
+        if (this.ui.onlineMembersBtn) {
+            this.ui.onlineMembersBtn.onclick = () => this.renderOnlineMembers();
         }
         if (this.ui.achievementsBtn) {
             this.ui.achievementsBtn.onclick = () => this.renderAchievements();
@@ -480,7 +485,7 @@ class DuoClone {
                 this.applyAuthMode();
                 return;
             }
-            await this.completeLogin(result.user, username);
+            await this.completeLogin(result.user, username, true);
         } else {
             const result = await window.AuthService.signIn(email, password);
             this.ui.loginBtn.disabled = false;
@@ -492,7 +497,10 @@ class DuoClone {
         }
     }
 
-    async completeLogin(user, fallbackUsername) {
+    // isNewSignup is only ever true from the signup branch above - distinguishes "just
+    // created this account" from every other completeLogin() call site (plain sign-in,
+    // session restore on page load), which never pass it.
+    async completeLogin(user, fallbackUsername, isNewSignup = false) {
         this.state.authUser = user;
         const profile = await window.AuthService.ensureProfile(user, fallbackUsername);
         if (!profile) {
@@ -548,6 +556,21 @@ class DuoClone {
         this.setupInboxWatcher();
         this.setupGlobalChatWatcher();
         this.setupGroupHeartbeat();
+        // Fire once immediately rather than waiting up to 60s for startPresenceHeartbeat()'s
+        // first interval tick, so a freshly logged-in user shows up in "Đang online" right away.
+        window.AuthService.updateProfile(profile.id, { last_active_at: new Date().toISOString() });
+
+        // Baseline for level-up detection (see syncLeaderboardScore()) - set once per
+        // login so only a level actually CROSSED during this session gets announced, not
+        // whatever level the account already happened to be at before logging in.
+        this.state.lastKnownLevel = getRankInfo(this.state.xp).level;
+
+        if (isNewSignup) {
+            this.showWelcomeToast(profile.username);
+            if (window.ActivityFeed) {
+                window.ActivityFeed.postEvent('welcome', profile.id, profile.username, `🎉 Chào mừng thành viên mới ${profile.username} đã gia nhập KhoaiBonlingo!`);
+            }
+        }
 
         const neverPlaced = !this.state.stats.placementLevel;
         const noProgressYet = this.state.xp === 0 && this.state.currentUnitIdx === 0 && this.state.currentLessonIdx === 0 && this.state.currentExIdx === 0;
@@ -682,6 +705,19 @@ class DuoClone {
         }, 60000);
     }
 
+    // Site-wide "online members" support - unlike Groups.sendHeartbeat() (which only runs
+    // for members currently in a group, crediting vibrancy_score), this runs for EVERY
+    // logged-in user regardless of group membership, just stamping profiles.last_active_at
+    // so renderOnlineMembers() can show who's recently active. Mirrors
+    // startEnergyRegeneration()'s always-on interval pattern, called once at init().
+    startPresenceHeartbeat() {
+        setInterval(() => {
+            if (this.state.profile && window.AuthService) {
+                window.AuthService.updateProfile(this.state.profile.id, { last_active_at: new Date().toISOString() });
+            }
+        }, 60000);
+    }
+
     getGreeting() {
         const hour = new Date().getHours();
         if (hour < 11) return 'Chào buổi sáng';
@@ -711,6 +747,7 @@ class DuoClone {
         // - without this, revisiting Home repeatedly while the chat was left open would
         // stack a new channel on top of the old one every time.
         this.cleanupGlobalChat();
+        this.cleanupActivityTicker();
         this.state.mode = 'curriculum';
         this.updateNav();
         const unit = this.state.courseData.units[this.state.currentUnitIdx];
@@ -718,6 +755,10 @@ class DuoClone {
 
         this.ui.container.innerHTML = `
             <div class="home-dashboard">
+                <div class="activity-ticker" id="activity-ticker">
+                    <div class="activity-ticker-track" id="activity-ticker-track"></div>
+                </div>
+
                 <div class="home-greeting-row">
                     <div class="home-greeting-mascot">${getMascotSvg('happy', 64)}</div>
                     <div>
@@ -766,6 +807,7 @@ class DuoClone {
         this.renderUnitStrip();
         this.renderPathMap(this.state.currentUnitIdx);
         this.initGlobalChatWidget();
+        this.initActivityTicker();
     }
 
     // Wires the toggle + send controls ONCE right after the widget's markup is created -
@@ -931,6 +973,53 @@ class DuoClone {
         if (this.globalChatUnsub) {
             this.globalChatUnsub();
             this.globalChatUnsub = null;
+        }
+    }
+
+    // Community-wide scrolling ticker (welcome/badge/level-up/teddy-bear/streak-top1
+    // events, broadcast via activity-feed.js's Realtime channel) - always running while
+    // Home is on screen, no toggle/collapse unlike the chat widget, since it's meant to be
+    // ambient background info rather than something the user opens deliberately.
+    async initActivityTicker() {
+        if (!window.ActivityFeed) return;
+        this.state.activityTickerEvents = await window.ActivityFeed.getRecentEvents(30);
+        this.renderActivityTicker();
+        this.cleanupActivityTicker();
+        this.activityTickerUnsub = window.ActivityFeed.subscribeToNewEvents((event) => {
+            const track = document.getElementById('activity-ticker-track');
+            if (!track) return;
+            this.state.activityTickerEvents = [...(this.state.activityTickerEvents || []), event].slice(-30);
+            this.renderActivityTicker();
+        });
+    }
+
+    renderActivityTicker() {
+        const track = document.getElementById('activity-ticker-track');
+        if (!track) return;
+        const events = this.state.activityTickerEvents || [];
+        if (!events.length) {
+            track.innerHTML = '';
+            track.style.animation = 'none';
+            return;
+        }
+        // Joined text is duplicated back-to-back so the CSS scroll loop has no visible
+        // gap - once the first copy has fully scrolled past, the second is already lined
+        // up to continue seamlessly (classic marquee technique).
+        const joined = events.map(e => this.escapeHtml(e.message)).join('&nbsp;&nbsp;&nbsp;•&nbsp;&nbsp;&nbsp;');
+        track.innerHTML = `<span>${joined}</span><span aria-hidden="true">&nbsp;&nbsp;&nbsp;•&nbsp;&nbsp;&nbsp;${joined}</span>`;
+        // Scroll speed scales with content length so a short list doesn't fly by too fast
+        // and a long one doesn't crawl - restarting the animation (removing then
+        // re-triggering) is a minor visual reset but happens rarely (a few events/session).
+        const duration = Math.max(18, Math.min(90, events.length * 3.5));
+        track.style.animation = 'none';
+        void track.offsetWidth;
+        track.style.animation = `activityTickerScroll ${duration}s linear infinite`;
+    }
+
+    cleanupActivityTicker() {
+        if (this.activityTickerUnsub) {
+            this.activityTickerUnsub();
+            this.activityTickerUnsub = null;
         }
     }
 
@@ -2141,6 +2230,27 @@ class DuoClone {
         if (streakExtended && this.state.myGroupId && window.Groups) {
             window.Groups.creditStreakVibrancy(this.state.myGroupId, this.state.streak).catch(() => {});
         }
+        if (streakExtended) {
+            this.checkStreakTop1();
+        }
+    }
+
+    // Only checked on days the streak actually extended (not every lesson), and only
+    // announces once per session (announcedTop1ThisSession) so a user who's ALREADY #1
+    // doesn't get re-broadcast on every single lesson they finish while holding the lead.
+    async checkStreakTop1() {
+        if (!window.Leaderboard || !this.state.profile || this.state.announcedTop1ThisSession) return;
+        // submitScore() inside syncLeaderboardScore() (called just above, fire-and-forget)
+        // needs a moment to land before this query would see this session's own updated
+        // streak value - a short wait here is simpler than threading an awaited promise
+        // back through awardLessonCompletion()'s otherwise-synchronous call chain.
+        await new Promise(resolve => setTimeout(resolve, 800));
+        const result = await window.Leaderboard.getStreakLeaderboard(1);
+        const top = result.entries && result.entries[0];
+        if (top && top.username === this.state.currentUser && window.ActivityFeed) {
+            this.state.announcedTop1ThisSession = true;
+            window.ActivityFeed.postEvent('streak_top1', this.state.profile.id, this.state.currentUser, `🔥 ${this.state.currentUser} đang giữ chuỗi ngày cao nhất bảng xếp hạng!`);
+        }
     }
 
     // Ranks by cumulative xp, not a resetting weekly counter - a leader nobody catches
@@ -2150,7 +2260,34 @@ class DuoClone {
         if (window.Leaderboard && this.state.currentUser) {
             window.Leaderboard.submitScore(this.state.currentUser, this.state.xp, this.state.streak);
             window.Leaderboard.checkAndAwardWeeklyPrize().then(() => this.refreshTeddyBears());
+            // Parallel, independent weekly prize track for streak - does not touch or
+            // interact with the XP prize above at all (see checkAndAwardStreakPrize()'s
+            // own comment on why it needs an explicit teddy-bear RPC).
+            window.Leaderboard.checkAndAwardStreakPrize().then((winner) => {
+                if (winner && window.ActivityFeed) {
+                    window.ActivityFeed.postEvent('teddy_bear', winner.userId, winner.username, `🧸 ${winner.username} vừa nhận gấu bông vì giữ chuỗi ${winner.streak} ngày cao nhất tuần!`);
+                }
+                if (winner && this.state.profile && winner.userId === this.state.profile.id) {
+                    this.refreshTeddyBears();
+                }
+            });
         }
+        this.checkLevelUp();
+    }
+
+    // Centralized level-up detection - every XP-changing action in the app eventually
+    // calls syncLeaderboardScore(), so checking here catches a level crossed via lesson
+    // completion, duel wins, or anything else without needing before/after tracking
+    // scattered at each individual XP-award site.
+    checkLevelUp() {
+        if (!this.state.profile) return;
+        const currentLevel = getRankInfo(this.state.xp).level;
+        if (this.state.lastKnownLevel != null && currentLevel > this.state.lastKnownLevel) {
+            if (window.ActivityFeed) {
+                window.ActivityFeed.postEvent('level_up', this.state.profile.id, this.state.currentUser, `⭐ ${this.state.currentUser} vừa thăng lên Cấp ${currentLevel}!`);
+            }
+        }
+        this.state.lastKnownLevel = currentLevel;
     }
 
     async refreshTeddyBears() {
@@ -3508,6 +3645,49 @@ class DuoClone {
         this.saveUserProgress();
     }
 
+    // ===================== Online members board =====================
+
+    async renderOnlineMembers() {
+        if (!this.state.currentUser) {
+            alert("Vui lòng đăng nhập trước khi xem thành viên đang online!");
+            return;
+        }
+        this.ui.container.innerHTML = `
+            <div class="welcome-screen">
+                <div class="duo-character">🟢</div>
+                <h1 style="text-align: center;">Đang Online</h1>
+                <p style="text-align: center; color: #777;">Đang tải...</p>
+            </div>
+        `;
+        this.ui.checkBtn.disabled = true;
+        this.ui.checkBtn.classList.remove('active');
+        if (!window.Friends) return;
+
+        const members = await window.Friends.getOnlineMembers(5, 100);
+        const rowsHtml = members.length ? members.map(m => {
+            const isMe = m.username === this.state.currentUser;
+            return `
+                <div class="friend-row">
+                    <span class="friend-row-name">🟢 ${isMe ? this.escapeHtml(m.username) + ' (bạn)' : this.clickableUsername(m.id, m.username)}</span>
+                    <span class="friend-row-actions" style="color:#999; font-size:12px;">⭐ ${m.xp || 0} XP · 🔥 ${m.streak || 0}</span>
+                </div>
+            `;
+        }).join('') : `<p style="text-align:center; color:#777;">Không có ai đang online lúc này.</p>`;
+
+        this.ui.container.innerHTML = `
+            <div class="welcome-screen">
+                <div class="duo-character">🟢</div>
+                <h1 style="text-align: center;">Đang Online (${members.length})</h1>
+                <p style="text-align: center; color: #777;">Thành viên hoạt động trong 5 phút gần đây.</p>
+                <div class="friends-list">${rowsHtml}</div>
+                <button class="btn-secondary" id="online-members-back" style="display: block; margin: 20px auto; padding: 15px 30px;">QUAY LẠI</button>
+            </div>
+        `;
+        this.ui.checkBtn.disabled = true;
+        this.ui.checkBtn.classList.remove('active');
+        document.getElementById('online-members-back').addEventListener('click', () => this.renderHomeDashboard());
+    }
+
     // ===================== Friends (requests, list, heart gifting) =====================
 
     async renderFriendsMenu() {
@@ -4614,7 +4794,12 @@ class DuoClone {
             friendCount: this.state.friendCount || 0
         };
         const newBadges = this.badgeTracker.checkAndAward(snapshot);
-        newBadges.forEach(b => this.showBadgeToast(b));
+        newBadges.forEach(b => {
+            this.showBadgeToast(b);
+            if (window.ActivityFeed && this.state.profile) {
+                window.ActivityFeed.postEvent('badge', this.state.profile.id, this.state.currentUser, `🏅 ${this.state.currentUser} vừa mở khóa huy hiệu "${b.name}"!`);
+            }
+        });
         if (newBadges.length) {
             // Persist to Supabase right away - some call sites (e.g. checkAnswer()) already
             // ran saveUserProgress() before checkBadges(), so a newly earned badge would
@@ -4768,6 +4953,30 @@ class DuoClone {
             toast.classList.remove('show');
             setTimeout(() => toast.remove(), 400);
         }, 3500);
+        // Lighter than the signup/level-up confetti bursts below - a badge can be earned
+        // fairly often, so a smaller/quicker burst keeps it celebratory without becoming
+        // visual noise on every lesson.
+        if (window.confetti) {
+            confetti({ particleCount: 60, spread: 55, origin: { y: 0.3 } });
+        }
+    }
+
+    // One-time special moment for a BRAND NEW signup only (see completeLogin()'s
+    // isNewSignup flag) - distinct from showBriefToast/showBadgeToast in both visual
+    // weight (bigger, longer-lived) and the confetti burst accompanying it.
+    showWelcomeToast(username) {
+        const toast = document.createElement('div');
+        toast.className = 'badge-toast welcome-toast';
+        toast.innerHTML = `<span class="badge-toast-icon">🎉</span><div><strong>Chào mừng đến với KhoaiBonlingo!</strong><br>${this.escapeHtml(username)}, chúc bạn học vui mỗi ngày!</div>`;
+        document.body.appendChild(toast);
+        setTimeout(() => toast.classList.add('show'), 10);
+        setTimeout(() => {
+            toast.classList.remove('show');
+            setTimeout(() => toast.remove(), 400);
+        }, 4500);
+        if (window.confetti) {
+            confetti({ particleCount: 150, spread: 80, origin: { y: 0.5 } });
+        }
     }
 
     updateAvatarDisplay() {

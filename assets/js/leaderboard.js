@@ -112,6 +112,94 @@ async function checkAndAwardWeeklyPrize() {
     }
 }
 
+// Same `leaderboard` table already used for the XP board - just sorted by streak instead,
+// no separate table needed for the ranking itself.
+async function getStreakLeaderboard(count = 50) {
+    if (!client) return { configured: false, entries: [] };
+    try {
+        const { data, error } = await client
+            .from('leaderboard')
+            .select('*')
+            .order('streak', { ascending: false })
+            .limit(count);
+        if (error) throw error;
+        return { configured: true, entries: data || [] };
+    } catch (e) {
+        console.error('Failed to fetch streak leaderboard:', e);
+        return { configured: true, entries: [], error: true };
+    }
+}
+
+// Mirrors checkAndAwardWeeklyPrize() exactly (same Saturday-19:00 cutoff, same
+// idempotency-via-unique-week_id pattern) but ranks by streak and writes to the separate
+// streak_hall_of_fame table - deliberately does not touch hall_of_fame/the XP prize at
+// all. Unlike the XP board (whose teddy-bear award comes from an untracked mechanism
+// outside this repo), this explicitly calls award_streak_teddy_bear() since nothing else
+// would credit the winner for a brand-new table.
+async function checkAndAwardStreakPrize() {
+    if (!client) return null;
+    const now = new Date();
+    const weekId = getWeekId(now);
+    const awardMoment = getSaturdayEveningOfWeek(now);
+    if (now < awardMoment) return null;
+
+    try {
+        const { data: existing } = await client
+            .from('streak_hall_of_fame')
+            .select('week_id')
+            .eq('week_id', weekId)
+            .maybeSingle();
+        if (existing) return null;
+
+        const { data: top, error: topError } = await client
+            .from('leaderboard')
+            .select('*')
+            .order('streak', { ascending: false })
+            .limit(1);
+        if (topError || !top || !top.length || top[0].streak <= 0) return null;
+        const winner = top[0];
+
+        const { error: insertError } = await client.from('streak_hall_of_fame').insert({
+            week_id: weekId,
+            username: winner.username,
+            streak_value: winner.streak
+        });
+        if (insertError) return null;
+
+        // profile_usernames (not `leaderboard`, which has no id column) resolves the
+        // winner's id for the teddy-bear RPC and the activity-feed broadcast.
+        const { data: winnerProfile } = await client
+            .from('profile_usernames')
+            .select('id')
+            .eq('username', winner.username)
+            .maybeSingle();
+        if (winnerProfile) {
+            await client.rpc('award_streak_teddy_bear', { p_user_id: winnerProfile.id });
+        }
+
+        return { username: winner.username, streak: winner.streak, weekId, userId: winnerProfile ? winnerProfile.id : null };
+    } catch (e) {
+        console.error('Weekly streak prize check failed:', e);
+        return null;
+    }
+}
+
+async function getStreakHallOfFame(limit = 20) {
+    if (!client) return [];
+    try {
+        const { data, error } = await client
+            .from('streak_hall_of_fame')
+            .select('*')
+            .order('week_id', { ascending: false })
+            .limit(limit);
+        if (error) throw error;
+        return data || [];
+    } catch (e) {
+        console.error('Failed to fetch streak hall of fame:', e);
+        return [];
+    }
+}
+
 async function getHallOfFame(limit = 20) {
     if (!client) return [];
     try {
@@ -171,5 +259,8 @@ window.Leaderboard = {
     getHallOfFame,
     resetLeaderboard,
     deleteHallOfFameEntry,
-    clearHallOfFame
+    clearHallOfFame,
+    getStreakLeaderboard,
+    checkAndAwardStreakPrize,
+    getStreakHallOfFame
 };

@@ -45,6 +45,28 @@
         }
     }
 
+    // Powers the "Đang online" board - a user counts as online if last_active_at (bumped
+    // every 60s by app.js's startPresenceHeartbeat() while a tab is open) falls inside the
+    // given window. Same profile_usernames view already used everywhere else for public-
+    // safe cross-user reads.
+    async function getOnlineMembers(minutesWindow = 5, limit = 100) {
+        if (!client) return [];
+        try {
+            const cutoff = new Date(Date.now() - minutesWindow * 60 * 1000).toISOString();
+            const { data, error } = await client
+                .from('profile_usernames')
+                .select('id, username, xp, streak, last_active_at')
+                .gt('last_active_at', cutoff)
+                .order('last_active_at', { ascending: false })
+                .limit(limit);
+            if (error) throw error;
+            return data || [];
+        } catch (e) {
+            console.error('Failed to fetch online members:', e);
+            return [];
+        }
+    }
+
     async function sendFriendRequest(myProfile, targetUsername) {
         if (!client || !myProfile || !targetUsername) return { error: 'Chưa cấu hình.' };
         try {
@@ -272,6 +294,7 @@
         isConfigured,
         searchUserByUsername,
         getUserInfo,
+        getOnlineMembers,
         sendFriendRequest,
         acceptFriendRequest,
         declineFriendRequest,
