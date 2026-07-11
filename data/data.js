@@ -58,7 +58,8 @@ const COURSE_DATA = {
                 "to",
                 "meet",
                 "you"
-              ]
+              ],
+              "source": "Rất vui được gặp bạn"
             },
             {
               "id": "ex_4",
@@ -113,7 +114,8 @@ const COURSE_DATA = {
                 "They",
                 "are",
                 "happy"
-              ]
+              ],
+              "source": "Họ đang vui vẻ"
             },
             {
               "id": "ex_7",
@@ -125,6 +127,18 @@ const COURSE_DATA = {
                 "We are",
                 "I am",
                 "You are"
+              ],
+              "correct": 0
+            },
+            {
+              "id": "ex_500",
+              "type": "multiple_choice",
+              "question": "How do you say 'Cảm ơn'?",
+              "options": [
+                "Thank you",
+                "Goodbye",
+                "Sorry",
+                "Please"
               ],
               "correct": 0
             }
@@ -140,6 +154,160 @@ const COURSE_DATA = {
               "type": "pronunciation",
               "question": "Hãy đọc to câu này thật chuẩn:",
               "target": "Nice to meet you"
+            },
+            {
+              "id": "ex_501",
+              "type": "pronunciation",
+              "question": "Hãy đọc to câu này thật chuẩn:",
+              "target": "Good morning"
+            },
+            {
+              "id": "ex_502",
+              "type": "listening",
+              "question": "Listen and choose the correct word",
+              "options": [
+                "Hello",
+                "Please",
+                "Goodbye",
+                "Sorry"
+              ],
+              "correct": 0
+            },
+            {
+              "id": "ex_503",
+              "type": "pronunciation",
+              "question": "Hãy đọc to câu này thật chuẩn:",
+              "target": "How are you today"
+            }
+          ]
+        },
+        {
+          "id": "lesson_1_4",
+          "title": "Chào hỏi hằng ngày",
+          "type": "interactive",
+          "exercises": [
+            {
+              "id": "ex_504",
+              "type": "translate",
+              "source": "Chúc một ngày tốt lành",
+              "target": "Have a nice day",
+              "options": [
+                "day",
+                "nice",
+                "Have",
+                "morning",
+                "Goodbye",
+                "a"
+              ],
+              "correct": [
+                "Have",
+                "a",
+                "nice",
+                "day"
+              ]
+            },
+            {
+              "id": "ex_505",
+              "type": "ordering",
+              "source": "Hẹn gặp lại bạn ngày mai",
+              "sentence": "See you tomorrow",
+              "shuffled": [
+                "See",
+                "tomorrow",
+                "you"
+              ],
+              "correct": [
+                "See",
+                "you",
+                "tomorrow"
+              ]
+            },
+            {
+              "id": "ex_506",
+              "type": "listening",
+              "question": "Listen and choose the correct word",
+              "options": [
+                "Evening",
+                "Morning",
+                "Afternoon",
+                "Night"
+              ],
+              "correct": 3
+            },
+            {
+              "id": "ex_507",
+              "type": "multiple_choice",
+              "question": "How do you say 'Xin lỗi'?",
+              "options": [
+                "Sorry",
+                "Welcome",
+                "Hello",
+                "Thank you"
+              ],
+              "correct": 0
+            }
+          ]
+        },
+        {
+          "id": "lesson_1_5",
+          "title": "Giới thiệu bản thân",
+          "type": "interactive",
+          "exercises": [
+            {
+              "id": "ex_508",
+              "type": "translate",
+              "source": "Tên tôi là Lan",
+              "target": "My name is Lan",
+              "options": [
+                "Lan",
+                "Hello",
+                "friend",
+                "My",
+                "is",
+                "name"
+              ],
+              "correct": [
+                "My",
+                "name",
+                "is",
+                "Lan"
+              ]
+            },
+            {
+              "id": "ex_509",
+              "type": "ordering",
+              "source": "Tôi đến từ Việt Nam",
+              "sentence": "I am from Vietnam",
+              "shuffled": [
+                "Vietnam",
+                "from",
+                "am",
+                "I"
+              ],
+              "correct": [
+                "I",
+                "am",
+                "from",
+                "Vietnam"
+              ]
+            },
+            {
+              "id": "ex_510",
+              "type": "pronunciation",
+              "question": "Hãy đọc to câu này thật chuẩn:",
+              "target": "Nice to meet you"
+            },
+            {
+              "id": "ex_511",
+              "type": "multiple_choice",
+              "question": "How do you say 'Bạn bè'?",
+              "options": [
+                "Teacher",
+                "Doctor",
+                "Friend",
+                "Mother"
+              ],
+              "correct": 2
             }
           ]
         }
@@ -192,7 +360,8 @@ const COURSE_DATA = {
                 "is",
                 "a",
                 "doctor"
-              ]
+              ],
+              "source": "Mẹ tôi là bác sĩ"
             },
             {
               "id": "ex_10",
@@ -206,6 +375,18 @@ const COURSE_DATA = {
                 "Grandpa"
               ],
               "correct": 0
+            },
+            {
+              "id": "ex_512",
+              "type": "multiple_choice",
+              "question": "How do you say 'Bố'?",
+              "options": [
+                "Brother",
+                "Sister",
+                "Father",
+                "Mother"
+              ],
+              "correct": 2
             }
           ]
         },
@@ -250,7 +431,8 @@ const COURSE_DATA = {
                 "kitchen",
                 "is",
                 "clean"
-              ]
+              ],
+              "source": "Căn bếp sạch sẽ"
             },
             {
               "id": "ex_13",
@@ -264,6 +446,18 @@ const COURSE_DATA = {
                 "In the car"
               ],
               "correct": 0
+            },
+            {
+              "id": "ex_513",
+              "type": "listening",
+              "question": "Listen and choose the correct word",
+              "options": [
+                "Garden",
+                "Bedroom",
+                "Kitchen",
+                "Bathroom"
+              ],
+              "correct": 1
             }
           ]
         },
@@ -277,6 +471,198 @@ const COURSE_DATA = {
               "type": "pronunciation",
               "question": "Hãy đọc to câu này thật chuẩn:",
               "target": "This is my father"
+            },
+            {
+              "id": "ex_514",
+              "type": "pronunciation",
+              "question": "Hãy phát âm từ này thật chuẩn:",
+              "target": "Bedroom"
+            },
+            {
+              "id": "ex_515",
+              "type": "translate",
+              "source": "Tôi dọn dẹp phòng của tôi mỗi ngày",
+              "target": "I clean my room every day",
+              "options": [
+                "She",
+                "kitchen",
+                "day",
+                "clean",
+                "room",
+                "I",
+                "my",
+                "every"
+              ],
+              "correct": [
+                "I",
+                "clean",
+                "my",
+                "room",
+                "every",
+                "day"
+              ]
+            },
+            {
+              "id": "ex_516",
+              "type": "ordering",
+              "source": "Phòng khách rất ấm cúng",
+              "sentence": "The living room is very cozy",
+              "shuffled": [
+                "living",
+                "cozy",
+                "is",
+                "room",
+                "very",
+                "The"
+              ],
+              "correct": [
+                "The",
+                "living",
+                "room",
+                "is",
+                "very",
+                "cozy"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "lesson_2_4",
+          "title": "Sinh hoạt buổi sáng",
+          "type": "interactive",
+          "exercises": [
+            {
+              "id": "ex_517",
+              "type": "translate",
+              "source": "Tôi đánh răng vào buổi sáng",
+              "target": "I brush my teeth in the morning",
+              "options": [
+                "night",
+                "brush",
+                "the",
+                "my",
+                "teeth",
+                "in",
+                "wash",
+                "I",
+                "morning"
+              ],
+              "correct": [
+                "I",
+                "brush",
+                "my",
+                "teeth",
+                "in",
+                "the",
+                "morning"
+              ]
+            },
+            {
+              "id": "ex_518",
+              "type": "ordering",
+              "source": "Cô ấy nấu bữa sáng cho chúng tôi",
+              "sentence": "She cooks breakfast for us",
+              "shuffled": [
+                "us",
+                "She",
+                "for",
+                "cooks",
+                "breakfast"
+              ],
+              "correct": [
+                "She",
+                "cooks",
+                "breakfast",
+                "for",
+                "us"
+              ]
+            },
+            {
+              "id": "ex_519",
+              "type": "listening",
+              "question": "Listen and choose the correct word",
+              "options": [
+                "Snack",
+                "Breakfast",
+                "Dinner",
+                "Lunch"
+              ],
+              "correct": 1
+            },
+            {
+              "id": "ex_520",
+              "type": "pronunciation",
+              "question": "Hãy đọc to câu này thật chuẩn:",
+              "target": "I wash my face"
+            }
+          ]
+        },
+        {
+          "id": "lesson_2_5",
+          "title": "Đồ vật trong nhà",
+          "type": "interactive",
+          "exercises": [
+            {
+              "id": "ex_521",
+              "type": "multiple_choice",
+              "question": "How do you say 'Cái ghế'?",
+              "options": [
+                "Door",
+                "Table",
+                "Bed",
+                "Chair"
+              ],
+              "correct": 3
+            },
+            {
+              "id": "ex_522",
+              "type": "translate",
+              "source": "Cửa sổ đang mở",
+              "target": "The window is open",
+              "options": [
+                "open",
+                "closed",
+                "The",
+                "is",
+                "door",
+                "window"
+              ],
+              "correct": [
+                "The",
+                "window",
+                "is",
+                "open"
+              ]
+            },
+            {
+              "id": "ex_523",
+              "type": "ordering",
+              "source": "Cánh cửa đang đóng",
+              "sentence": "The door is closed",
+              "shuffled": [
+                "door",
+                "closed",
+                "is",
+                "The"
+              ],
+              "correct": [
+                "The",
+                "door",
+                "is",
+                "closed"
+              ]
+            },
+            {
+              "id": "ex_524",
+              "type": "listening",
+              "question": "Listen and choose the correct word",
+              "options": [
+                "Door",
+                "Chair",
+                "Table",
+                "Window"
+              ],
+              "correct": 3
             }
           ]
         }
@@ -337,6 +723,18 @@ const COURSE_DATA = {
                 "Egg"
               ],
               "correct": 0
+            },
+            {
+              "id": "ex_525",
+              "type": "multiple_choice",
+              "question": "How do you say 'Cơm'?",
+              "options": [
+                "Bread",
+                "Soup",
+                "Rice",
+                "Noodles"
+              ],
+              "correct": 2
             }
           ]
         },
@@ -350,6 +748,247 @@ const COURSE_DATA = {
               "type": "pronunciation",
               "question": "Hãy đọc to câu này thật chuẩn:",
               "target": "I want to drink water"
+            },
+            {
+              "id": "ex_526",
+              "type": "pronunciation",
+              "question": "Hãy phát âm từ này thật chuẩn:",
+              "target": "Delicious"
+            },
+            {
+              "id": "ex_527",
+              "type": "translate",
+              "source": "Tôi thích uống trà",
+              "target": "I like drinking tea",
+              "options": [
+                "coffee",
+                "I",
+                "tea",
+                "drinking",
+                "like",
+                "eating"
+              ],
+              "correct": [
+                "I",
+                "like",
+                "drinking",
+                "tea"
+              ]
+            },
+            {
+              "id": "ex_528",
+              "type": "ordering",
+              "source": "Món canh này rất nóng",
+              "sentence": "This soup is very hot",
+              "shuffled": [
+                "soup",
+                "This",
+                "very",
+                "is",
+                "hot"
+              ],
+              "correct": [
+                "This",
+                "soup",
+                "is",
+                "very",
+                "hot"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "lesson_3_3",
+          "title": "Đồ uống",
+          "type": "interactive",
+          "exercises": [
+            {
+              "id": "ex_529",
+              "type": "multiple_choice",
+              "question": "How do you say 'Nước'?",
+              "options": [
+                "Milk",
+                "Juice",
+                "Coffee",
+                "Water"
+              ],
+              "correct": 3
+            },
+            {
+              "id": "ex_530",
+              "type": "listening",
+              "question": "Listen and choose the correct word",
+              "options": [
+                "Coffee",
+                "Juice",
+                "Milk",
+                "Tea"
+              ],
+              "correct": 0
+            },
+            {
+              "id": "ex_531",
+              "type": "translate",
+              "source": "Cô ấy uống cà phê mỗi sáng",
+              "target": "She drinks coffee every morning",
+              "options": [
+                "coffee",
+                "every",
+                "morning",
+                "night",
+                "drinks",
+                "She",
+                "tea"
+              ],
+              "correct": [
+                "She",
+                "drinks",
+                "coffee",
+                "every",
+                "morning"
+              ]
+            },
+            {
+              "id": "ex_532",
+              "type": "pronunciation",
+              "question": "Hãy đọc to câu này thật chuẩn:",
+              "target": "A cup of coffee"
+            }
+          ]
+        },
+        {
+          "id": "lesson_3_4",
+          "title": "Trong nhà hàng",
+          "type": "interactive",
+          "exercises": [
+            {
+              "id": "ex_533",
+              "type": "translate",
+              "source": "Tôi muốn gọi món",
+              "target": "I want to order food",
+              "options": [
+                "order",
+                "menu",
+                "food",
+                "I",
+                "want",
+                "drink",
+                "to"
+              ],
+              "correct": [
+                "I",
+                "want",
+                "to",
+                "order",
+                "food"
+              ]
+            },
+            {
+              "id": "ex_534",
+              "type": "ordering",
+              "source": "Món ăn có vị rất ngon",
+              "sentence": "The food tastes delicious",
+              "shuffled": [
+                "delicious",
+                "food",
+                "tastes",
+                "The"
+              ],
+              "correct": [
+                "The",
+                "food",
+                "tastes",
+                "delicious"
+              ]
+            },
+            {
+              "id": "ex_535",
+              "type": "multiple_choice",
+              "question": "How do you say 'Bữa tối'?",
+              "options": [
+                "Breakfast",
+                "Dinner",
+                "Lunch",
+                "Menu"
+              ],
+              "correct": 1
+            },
+            {
+              "id": "ex_536",
+              "type": "listening",
+              "question": "Listen and choose the correct word",
+              "options": [
+                "Bread",
+                "Rice",
+                "Noodles",
+                "Cake"
+              ],
+              "correct": 3
+            }
+          ]
+        },
+        {
+          "id": "lesson_3_5",
+          "title": "Khẩu vị",
+          "type": "interactive",
+          "exercises": [
+            {
+              "id": "ex_537",
+              "type": "translate",
+              "source": "Quả chanh rất chua",
+              "target": "The lemon is very sour",
+              "options": [
+                "sour",
+                "sweet",
+                "is",
+                "apple",
+                "very",
+                "lemon",
+                "The"
+              ],
+              "correct": [
+                "The",
+                "lemon",
+                "is",
+                "very",
+                "sour"
+              ]
+            },
+            {
+              "id": "ex_538",
+              "type": "ordering",
+              "source": "Tôi thích những chiếc bánh ngọt",
+              "sentence": "I love sweet cakes",
+              "shuffled": [
+                "cakes",
+                "I",
+                "love",
+                "sweet"
+              ],
+              "correct": [
+                "I",
+                "love",
+                "sweet",
+                "cakes"
+              ]
+            },
+            {
+              "id": "ex_539",
+              "type": "pronunciation",
+              "question": "Hãy đọc to câu này thật chuẩn:",
+              "target": "Sweet and sour"
+            },
+            {
+              "id": "ex_540",
+              "type": "multiple_choice",
+              "question": "How do you say 'Cay'?",
+              "options": [
+                "Salty",
+                "Sour",
+                "Spicy",
+                "Sweet"
+              ],
+              "correct": 2
             }
           ]
         }
@@ -406,7 +1045,8 @@ const COURSE_DATA = {
                 "open",
                 "the",
                 "document"
-              ]
+              ],
+              "source": "Vui lòng mở tài liệu"
             },
             {
               "id": "ex_19",
@@ -420,6 +1060,18 @@ const COURSE_DATA = {
                 "Close window"
               ],
               "correct": 0
+            },
+            {
+              "id": "ex_541",
+              "type": "multiple_choice",
+              "question": "How do you say 'Cuộc họp'?",
+              "options": [
+                "Report",
+                "Meeting",
+                "Office",
+                "Email"
+              ],
+              "correct": 1
             }
           ]
         },
@@ -433,6 +1085,261 @@ const COURSE_DATA = {
               "type": "pronunciation",
               "question": "Hãy đọc to câu này thật chuẩn:",
               "target": "Please open the document"
+            },
+            {
+              "id": "ex_542",
+              "type": "pronunciation",
+              "question": "Hãy phát âm từ này thật chuẩn:",
+              "target": "Office"
+            },
+            {
+              "id": "ex_543",
+              "type": "translate",
+              "source": "Tôi có một cuộc họp lúc chín giờ",
+              "target": "I have a meeting at nine",
+              "options": [
+                "have",
+                "at",
+                "meeting",
+                "office",
+                "a",
+                "I",
+                "ten",
+                "nine"
+              ],
+              "correct": [
+                "I",
+                "have",
+                "a",
+                "meeting",
+                "at",
+                "nine"
+              ]
+            },
+            {
+              "id": "ex_544",
+              "type": "ordering",
+              "source": "Anh ấy viết báo cáo mỗi tuần",
+              "sentence": "He writes a report every week",
+              "shuffled": [
+                "a",
+                "writes",
+                "report",
+                "every",
+                "He",
+                "week"
+              ],
+              "correct": [
+                "He",
+                "writes",
+                "a",
+                "report",
+                "every",
+                "week"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "lesson_4_3",
+          "title": "Văn phòng",
+          "type": "interactive",
+          "exercises": [
+            {
+              "id": "ex_545",
+              "type": "multiple_choice",
+              "question": "How do you say 'Đồng nghiệp'?",
+              "options": [
+                "Colleague",
+                "Manager",
+                "Boss",
+                "Customer"
+              ],
+              "correct": 0
+            },
+            {
+              "id": "ex_546",
+              "type": "listening",
+              "question": "Listen and choose the correct word",
+              "options": [
+                "Email",
+                "Meeting",
+                "Report",
+                "Office"
+              ],
+              "correct": 0
+            },
+            {
+              "id": "ex_547",
+              "type": "translate",
+              "source": "Sếp của tôi rất bận",
+              "target": "My boss is very busy",
+              "options": [
+                "free",
+                "teacher",
+                "boss",
+                "My",
+                "busy",
+                "very",
+                "is"
+              ],
+              "correct": [
+                "My",
+                "boss",
+                "is",
+                "very",
+                "busy"
+              ]
+            },
+            {
+              "id": "ex_548",
+              "type": "pronunciation",
+              "question": "Hãy đọc to câu này thật chuẩn:",
+              "target": "Send me the report"
+            }
+          ]
+        },
+        {
+          "id": "lesson_4_4",
+          "title": "Chuyến công tác",
+          "type": "interactive",
+          "exercises": [
+            {
+              "id": "ex_549",
+              "type": "translate",
+              "source": "Chúng tôi đi công tác ở Hà Nội",
+              "target": "We have a business trip in Hanoi",
+              "options": [
+                "business",
+                "Hanoi",
+                "a",
+                "We",
+                "have",
+                "holiday",
+                "trip",
+                "in",
+                "to"
+              ],
+              "correct": [
+                "We",
+                "have",
+                "a",
+                "business",
+                "trip",
+                "in",
+                "Hanoi"
+              ]
+            },
+            {
+              "id": "ex_550",
+              "type": "ordering",
+              "source": "Cuộc họp bắt đầu lúc mười giờ",
+              "sentence": "The meeting starts at ten",
+              "shuffled": [
+                "meeting",
+                "ten",
+                "The",
+                "starts",
+                "at"
+              ],
+              "correct": [
+                "The",
+                "meeting",
+                "starts",
+                "at",
+                "ten"
+              ]
+            },
+            {
+              "id": "ex_551",
+              "type": "listening",
+              "question": "Listen and choose the correct word",
+              "options": [
+                "Airport",
+                "Ticket",
+                "Hotel",
+                "Taxi"
+              ],
+              "correct": 2
+            },
+            {
+              "id": "ex_552",
+              "type": "multiple_choice",
+              "question": "How do you say 'Vé'?",
+              "options": [
+                "Ticket",
+                "Passport",
+                "Map",
+                "Suitcase"
+              ],
+              "correct": 0
+            }
+          ]
+        },
+        {
+          "id": "lesson_4_5",
+          "title": "Ở sân bay",
+          "type": "interactive",
+          "exercises": [
+            {
+              "id": "ex_553",
+              "type": "translate",
+              "source": "Máy bay cất cánh lúc sáu giờ",
+              "target": "The plane takes off at six",
+              "options": [
+                "six",
+                "lands",
+                "plane",
+                "takes",
+                "off",
+                "at",
+                "seven",
+                "The"
+              ],
+              "correct": [
+                "The",
+                "plane",
+                "takes",
+                "off",
+                "at",
+                "six"
+              ]
+            },
+            {
+              "id": "ex_554",
+              "type": "ordering",
+              "source": "Vui lòng xuất trình hộ chiếu",
+              "sentence": "Please show your passport",
+              "shuffled": [
+                "show",
+                "passport",
+                "your",
+                "Please"
+              ],
+              "correct": [
+                "Please",
+                "show",
+                "your",
+                "passport"
+              ]
+            },
+            {
+              "id": "ex_555",
+              "type": "pronunciation",
+              "question": "Hãy đọc to câu này thật chuẩn:",
+              "target": "Where is the gate"
+            },
+            {
+              "id": "ex_556",
+              "type": "multiple_choice",
+              "question": "How do you say 'Hành lý'?",
+              "options": [
+                "Ticket",
+                "Gate",
+                "Passport",
+                "Luggage"
+              ],
+              "correct": 3
             }
           ]
         }
@@ -630,7 +1537,8 @@ const COURSE_DATA = {
                 "at",
                 "seven",
                 "o'clock"
-              ]
+              ],
+              "source": "Tôi thức dậy lúc bảy giờ"
             },
             {
               "id": "ex_34",
@@ -686,7 +1594,8 @@ const COURSE_DATA = {
                 "days",
                 "a",
                 "week"
-              ]
+              ],
+              "source": "Cô ấy làm việc năm ngày một tuần"
             },
             {
               "id": "ex_37",
@@ -737,7 +1646,8 @@ const COURSE_DATA = {
                 "ten",
                 "minutes",
                 "late"
-              ]
+              ],
+              "source": "Anh ấy đến muộn mười phút"
             }
           ]
         }
@@ -933,7 +1843,8 @@ const COURSE_DATA = {
                 "autumn",
                 "the",
                 "most"
-              ]
+              ],
+              "source": "Tôi thích mùa thu nhất"
             },
             {
               "id": "ex_54",
@@ -983,7 +1894,8 @@ const COURSE_DATA = {
                 "We",
                 "brought",
                 "raincoats"
-              ]
+              ],
+              "source": "Chúng tôi đã mang áo mưa"
             },
             {
               "id": "ex_57",
@@ -1038,7 +1950,8 @@ const COURSE_DATA = {
                 "be",
                 "a",
                 "storm"
-              ]
+              ],
+              "source": "Dự báo thời tiết nói sẽ có bão"
             }
           ]
         }
@@ -1242,7 +2155,8 @@ const COURSE_DATA = {
                 "pair",
                 "of",
                 "shoes"
-              ]
+              ],
+              "source": "Tôi muốn mua một đôi giày mới"
             },
             {
               "id": "ex_74",
@@ -1300,7 +2214,8 @@ const COURSE_DATA = {
                 "have",
                 "enough",
                 "cash"
-              ]
+              ],
+              "source": "Tôi không có đủ tiền mặt"
             },
             {
               "id": "ex_77",
@@ -1347,7 +2262,8 @@ const COURSE_DATA = {
                 "on",
                 "the",
                 "weekend"
-              ]
+              ],
+              "source": "Chúng tôi đi mua sắm vào cuối tuần"
             }
           ]
         }
@@ -1541,7 +2457,8 @@ const COURSE_DATA = {
                 "see",
                 "a",
                 "doctor"
-              ]
+              ],
+              "source": "Bạn nên đi khám bác sĩ"
             },
             {
               "id": "ex_94",
@@ -1595,7 +2512,8 @@ const COURSE_DATA = {
                 "medicine",
                 "after",
                 "meals"
-              ]
+              ],
+              "source": "Uống thuốc này sau bữa ăn"
             },
             {
               "id": "ex_97",
@@ -1642,7 +2560,8 @@ const COURSE_DATA = {
                 "to",
                 "eat",
                 "healthily"
-              ]
+              ],
+              "source": "Chúng ta cần ăn uống lành mạnh"
             }
           ]
         }
@@ -1842,7 +2761,8 @@ const COURSE_DATA = {
                 "good",
                 "at",
                 "painting"
-              ]
+              ],
+              "source": "Cô ấy vẽ rất giỏi"
             },
             {
               "id": "ex_114",
@@ -1898,7 +2818,8 @@ const COURSE_DATA = {
                 "hobby",
                 "is",
                 "cooking"
-              ]
+              ],
+              "source": "Sở thích của tôi là nấu ăn"
             },
             {
               "id": "ex_117",
@@ -1939,7 +2860,8 @@ const COURSE_DATA = {
                 "We",
                 "sing",
                 "together"
-              ]
+              ],
+              "source": "Chúng tôi hát cùng nhau"
             }
           ]
         }
@@ -2135,7 +3057,8 @@ const COURSE_DATA = {
                 "flight",
                 "is",
                 "delayed"
-              ]
+              ],
+              "source": "Chuyến bay của chúng tôi bị hoãn"
             },
             {
               "id": "ex_134",
@@ -2197,7 +3120,8 @@ const COURSE_DATA = {
                 "during",
                 "rush",
                 "hour"
-              ]
+              ],
+              "source": "Giao thông rất đông đúc vào giờ cao điểm"
             },
             {
               "id": "ex_137",
@@ -2248,7 +3172,8 @@ const COURSE_DATA = {
                 "the",
                 "airport",
                 "early"
-              ]
+              ],
+              "source": "Chúng tôi đến sân bay sớm"
             }
           ]
         }
@@ -2446,7 +3371,8 @@ const COURSE_DATA = {
                 "the",
                 "wifi",
                 "password"
-              ]
+              ],
+              "source": "Mật khẩu wifi là gì"
             },
             {
               "id": "ex_154",
@@ -2504,7 +3430,8 @@ const COURSE_DATA = {
                 "you",
                 "an",
                 "email"
-              ]
+              ],
+              "source": "Tôi đã gửi cho bạn một email"
             },
             {
               "id": "ex_157",
@@ -2555,7 +3482,8 @@ const COURSE_DATA = {
                 "on",
                 "social",
                 "media"
-              ]
+              ],
+              "source": "Chúng tôi nhắn tin cho nhau trên mạng xã hội"
             }
           ]
         }
@@ -2753,7 +3681,8 @@ const COURSE_DATA = {
                 "feels",
                 "sad",
                 "today"
-              ]
+              ],
+              "source": "Hôm nay cô ấy thấy buồn"
             },
             {
               "id": "ex_174",
@@ -2813,7 +3742,8 @@ const COURSE_DATA = {
                 "about",
                 "the",
                 "trip"
-              ]
+              ],
+              "source": "Chúng tôi háo hức về chuyến đi"
             },
             {
               "id": "ex_177",
@@ -2866,7 +3796,8 @@ const COURSE_DATA = {
                 "for",
                 "your",
                 "help"
-              ]
+              ],
+              "source": "Tôi rất biết ơn sự giúp đỡ của bạn"
             }
           ]
         }
@@ -3066,7 +3997,8 @@ const COURSE_DATA = {
                 "in",
                 "the",
                 "forest"
-              ]
+              ],
+              "source": "Chúng tôi đi dạo trong rừng"
             },
             {
               "id": "ex_194",
@@ -3126,7 +4058,8 @@ const COURSE_DATA = {
                 "flowers",
                 "in",
                 "spring"
-              ]
+              ],
+              "source": "Cô ấy thích ngắm hoa vào mùa xuân"
             },
             {
               "id": "ex_197",
@@ -3177,7 +4110,8 @@ const COURSE_DATA = {
                 "is",
                 "very",
                 "long"
-              ]
+              ],
+              "source": "Con sông này rất dài"
             }
           ]
         }
@@ -3371,7 +4305,8 @@ const COURSE_DATA = {
                 "is",
                 "very",
                 "kind"
-              ]
+              ],
+              "source": "Giáo viên của tôi rất tốt bụng"
             },
             {
               "id": "ex_214",
@@ -3425,7 +4360,8 @@ const COURSE_DATA = {
                 "graduate",
                 "next",
                 "year"
-              ]
+              ],
+              "source": "Cô ấy sẽ tốt nghiệp vào năm sau"
             },
             {
               "id": "ex_217",
@@ -3474,7 +4410,8 @@ const COURSE_DATA = {
                 "has",
                 "thirty",
                 "students"
-              ]
+              ],
+              "source": "Lớp học của chúng tôi có ba mươi học sinh"
             }
           ]
         }
@@ -3536,7 +4473,8 @@ const COURSE_DATA = {
                 "live",
                 "in",
                 "Hanoi"
-              ]
+              ],
+              "source": "Tôi sống ở Hà Nội"
             },
             {
               "id": "ex_227",
@@ -3617,7 +4555,8 @@ const COURSE_DATA = {
                 "on",
                 "the",
                 "table"
-              ]
+              ],
+              "source": "Cuốn sách ở trên bàn"
             },
             {
               "id": "ex_232",
@@ -3694,7 +4633,8 @@ const COURSE_DATA = {
                 "at",
                 "seven",
                 "o'clock"
-              ]
+              ],
+              "source": "Chúng tôi gặp nhau lúc bảy giờ"
             },
             {
               "id": "ex_237",
@@ -3771,7 +4711,8 @@ const COURSE_DATA = {
                 "born",
                 "in",
                 "May"
-              ]
+              ],
+              "source": "Cô ấy sinh vào tháng Năm"
             },
             {
               "id": "ex_242",
@@ -3852,7 +4793,8 @@ const COURSE_DATA = {
                 "on",
                 "the",
                 "wall"
-              ]
+              ],
+              "source": "Bức tranh treo trên tường"
             },
             {
               "id": "ex_247",
@@ -3937,7 +4879,8 @@ const COURSE_DATA = {
                 "on",
                 "the",
                 "weekend"
-              ]
+              ],
+              "source": "Chúng tôi sẽ đi chơi vào cuối tuần"
             },
             {
               "id": "ex_252",
@@ -4018,7 +4961,8 @@ const COURSE_DATA = {
                 "in",
                 "the",
                 "evening"
-              ]
+              ],
+              "source": "Bữa tiệc diễn ra vào buổi tối"
             },
             {
               "id": "ex_257",
@@ -4095,7 +5039,8 @@ const COURSE_DATA = {
                 "at",
                 "this",
                 "company"
-              ]
+              ],
+              "source": "Anh ấy làm việc ở công ty này"
             },
             {
               "id": "ex_262",
@@ -4176,7 +5121,8 @@ const COURSE_DATA = {
                 "the",
                 "third",
                 "floor"
-              ]
+              ],
+              "source": "Chúng tôi sống ở tầng ba"
             },
             {
               "id": "ex_267",
@@ -4257,7 +5203,8 @@ const COURSE_DATA = {
                 "in",
                 "the",
                 "morning"
-              ]
+              ],
+              "source": "Tôi thức dậy vào buổi sáng"
             },
             {
               "id": "ex_272",
@@ -4345,7 +5292,8 @@ const COURSE_DATA = {
                 "school",
                 "every",
                 "day"
-              ]
+              ],
+              "source": "Tôi đi bộ đến trường mỗi ngày"
             },
             {
               "id": "ex_277",
@@ -4418,7 +5366,8 @@ const COURSE_DATA = {
                 "comes",
                 "from",
                 "Japan"
-              ]
+              ],
+              "source": "Cô ấy đến từ Nhật Bản"
             },
             {
               "id": "ex_282",
@@ -4499,7 +5448,8 @@ const COURSE_DATA = {
                 "into",
                 "the",
                 "box"
-              ]
+              ],
+              "source": "Con mèo nhảy vào trong hộp"
             },
             {
               "id": "ex_287",
@@ -4584,7 +5534,8 @@ const COURSE_DATA = {
                 "onto",
                 "the",
                 "table"
-              ]
+              ],
+              "source": "Anh ấy đặt cuốn sách lên bàn"
             },
             {
               "id": "ex_292",
@@ -4661,7 +5612,8 @@ const COURSE_DATA = {
                 "through",
                 "the",
                 "tunnel"
-              ]
+              ],
+              "source": "Chúng tôi lái xe qua đường hầm"
             },
             {
               "id": "ex_297",
@@ -4738,7 +5690,8 @@ const COURSE_DATA = {
                 "across",
                 "the",
                 "river"
-              ]
+              ],
+              "source": "Cô ấy bơi qua con sông"
             },
             {
               "id": "ex_302",
@@ -4819,7 +5772,8 @@ const COURSE_DATA = {
                 "of",
                 "the",
                 "room"
-              ]
+              ],
+              "source": "Anh ấy bước ra khỏi căn phòng"
             },
             {
               "id": "ex_307",
@@ -4900,7 +5854,8 @@ const COURSE_DATA = {
                 "to",
                 "the",
                 "airport"
-              ]
+              ],
+              "source": "Chiếc xe buýt đi đến sân bay"
             },
             {
               "id": "ex_312",
@@ -4977,7 +5932,8 @@ const COURSE_DATA = {
                 "into",
                 "the",
                 "tub"
-              ]
+              ],
+              "source": "Nước chảy vào trong bồn"
             },
             {
               "id": "ex_317",
@@ -5054,7 +6010,8 @@ const COURSE_DATA = {
                 "to",
                 "another",
                 "city"
-              ]
+              ],
+              "source": "Họ chuyển đến một thành phố khác"
             },
             {
               "id": "ex_322",
@@ -5138,7 +6095,8 @@ const COURSE_DATA = {
                 "during",
                 "the",
                 "movie"
-              ]
+              ],
+              "source": "Đừng nói chuyện trong lúc xem phim"
             },
             {
               "id": "ex_327",
@@ -5219,7 +6177,8 @@ const COURSE_DATA = {
                 "you",
                 "before",
                 "lunch"
-              ]
+              ],
+              "source": "Tôi sẽ gọi bạn trước bữa trưa"
             },
             {
               "id": "ex_332",
@@ -5300,7 +6259,8 @@ const COURSE_DATA = {
                 "walk",
                 "after",
                 "dinner"
-              ]
+              ],
+              "source": "Chúng tôi đi dạo sau bữa tối"
             },
             {
               "id": "ex_337",
@@ -5381,7 +6341,8 @@ const COURSE_DATA = {
                 "here",
                 "since",
                 "2010"
-              ]
+              ],
+              "source": "Cô ấy đã sống ở đây từ năm 2010"
             },
             {
               "id": "ex_342",
@@ -5462,7 +6423,8 @@ const COURSE_DATA = {
                 "for",
                 "two",
                 "hours"
-              ]
+              ],
+              "source": "Tôi đã đợi bạn trong hai giờ"
             },
             {
               "id": "ex_347",
@@ -5543,7 +6505,8 @@ const COURSE_DATA = {
                 "homework",
                 "by",
                 "Friday"
-              ]
+              ],
+              "source": "Hãy hoàn thành bài tập trước thứ Sáu"
             },
             {
               "id": "ex_352",
@@ -5624,7 +6587,8 @@ const COURSE_DATA = {
                 "here",
                 "until",
                 "dark"
-              ]
+              ],
+              "source": "Chúng tôi sẽ ở đây cho đến khi trời tối"
             },
             {
               "id": "ex_357",
@@ -5701,7 +6665,8 @@ const COURSE_DATA = {
                 "during",
                 "the",
                 "flight"
-              ]
+              ],
+              "source": "Anh ấy ngủ trong suốt chuyến bay"
             },
             {
               "id": "ex_362",
@@ -5786,7 +6751,8 @@ const COURSE_DATA = {
                 "for",
                 "three",
                 "years"
-              ]
+              ],
+              "source": "Tôi đã học tiếng Anh được ba năm"
             },
             {
               "id": "ex_367",
@@ -5879,7 +6845,8 @@ const COURSE_DATA = {
                 "of",
                 "the",
                 "month"
-              ]
+              ],
+              "source": "Hãy nộp báo cáo trước cuối tháng"
             },
             {
               "id": "ex_372",
@@ -5971,7 +6938,8 @@ const COURSE_DATA = {
                 "under",
                 "the",
                 "table"
-              ]
+              ],
+              "source": "Con mèo đang ngủ dưới gầm bàn"
             },
             {
               "id": "ex_377",
@@ -6052,7 +7020,8 @@ const COURSE_DATA = {
                 "over",
                 "the",
                 "city"
-              ]
+              ],
+              "source": "Một chiếc máy bay bay qua thành phố"
             },
             {
               "id": "ex_382",
@@ -6133,7 +7102,8 @@ const COURSE_DATA = {
                 "above",
                 "the",
                 "desk"
-              ]
+              ],
+              "source": "Chiếc đèn treo phía trên bàn làm việc"
             },
             {
               "id": "ex_387",
@@ -6210,7 +7180,8 @@ const COURSE_DATA = {
                 "is",
                 "below",
                 "zero"
-              ]
+              ],
+              "source": "Nhiệt độ đang dưới mức không độ"
             },
             {
               "id": "ex_392",
@@ -6303,7 +7274,8 @@ const COURSE_DATA = {
                 "and",
                 "the",
                 "cafe"
-              ]
+              ],
+              "source": "Cửa hàng nằm giữa ngân hàng và quán cà phê"
             },
             {
               "id": "ex_397",
@@ -6384,7 +7356,8 @@ const COURSE_DATA = {
                 "among",
                 "her",
                 "classmates"
-              ]
+              ],
+              "source": "Cô ấy rất nổi tiếng trong đám bạn của mình"
             },
             {
               "id": "ex_402",
@@ -6469,7 +7442,8 @@ const COURSE_DATA = {
                 "behind",
                 "the",
                 "house"
-              ]
+              ],
+              "source": "Chiếc xe đậu phía sau ngôi nhà"
             },
             {
               "id": "ex_407",
@@ -6562,7 +7536,8 @@ const COURSE_DATA = {
                 "of",
                 "the",
                 "building"
-              ]
+              ],
+              "source": "Có một khu vườn phía trước tòa nhà"
             },
             {
               "id": "ex_412",
@@ -6651,7 +7626,8 @@ const COURSE_DATA = {
                 "during",
                 "the",
                 "meeting"
-              ]
+              ],
+              "source": "Anh ấy ngồi cạnh tôi trong cuộc họp"
             },
             {
               "id": "ex_417",
@@ -6728,7 +7704,8 @@ const COURSE_DATA = {
                 "near",
                 "the",
                 "school"
-              ]
+              ],
+              "source": "Họ sống gần trường học"
             },
             {
               "id": "ex_422",
@@ -6816,7 +7793,8 @@ const COURSE_DATA = {
                 "in",
                 "learning",
                 "English"
-              ]
+              ],
+              "source": "Tôi quan tâm đến việc học tiếng Anh"
             },
             {
               "id": "ex_427",
@@ -6901,7 +7879,8 @@ const COURSE_DATA = {
                 "playing",
                 "the",
                 "piano"
-              ]
+              ],
+              "source": "Cô ấy chơi piano rất giỏi"
             },
             {
               "id": "ex_432",
@@ -6978,7 +7957,8 @@ const COURSE_DATA = {
                 "afraid",
                 "of",
                 "spiders"
-              ]
+              ],
+              "source": "Anh ấy sợ nhện"
             },
             {
               "id": "ex_437",
@@ -7055,7 +8035,8 @@ const COURSE_DATA = {
                 "on",
                 "each",
                 "other"
-              ]
+              ],
+              "source": "Chúng tôi phụ thuộc vào nhau"
             },
             {
               "id": "ex_442",
@@ -7140,7 +8121,8 @@ const COURSE_DATA = {
                 "to",
                 "your",
                 "reply"
-              ]
+              ],
+              "source": "Tôi rất mong chờ phản hồi của bạn"
             },
             {
               "id": "ex_447",
@@ -7217,7 +8199,8 @@ const COURSE_DATA = {
                 "for",
                 "being",
                 "late"
-              ]
+              ],
+              "source": "Cô ấy xin lỗi vì đã đến muộn"
             },
             {
               "id": "ex_452",
@@ -7306,7 +8289,8 @@ const COURSE_DATA = {
                 "what",
                 "we",
                 "expected"
-              ]
+              ],
+              "source": "Kết quả này khác với những gì chúng tôi mong đợi"
             },
             {
               "id": "ex_457",
@@ -7387,7 +8371,8 @@ const COURSE_DATA = {
                 "to",
                 "a",
                 "doctor"
-              ]
+              ],
+              "source": "Anh ấy đã kết hôn với một bác sĩ"
             },
             {
               "id": "ex_462",
@@ -7460,7 +8445,8 @@ const COURSE_DATA = {
                 "believe",
                 "in",
                 "you"
-              ]
+              ],
+              "source": "Tôi tin tưởng bạn"
             },
             {
               "id": "ex_467",
@@ -7541,7 +8527,8 @@ const COURSE_DATA = {
                 "on",
                 "his",
                 "success"
-              ]
+              ],
+              "source": "Họ đã chúc mừng anh ấy vì thành công"
             },
             {
               "id": "ex_472",
@@ -7560,6 +8547,8179 @@ const COURSE_DATA = {
                 "They congratulated him about his success"
               ],
               "correct": 0
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "unit_20",
+      "title": "Gia đình & Các mối quan hệ",
+      "description": "Learn to talk about family members and relationships.",
+      "lessons": [
+        {
+          "id": "lesson_20_1",
+          "title": "Gia đình & Các mối quan hệ - Từ vựng 1",
+          "type": "interactive",
+          "exercises": [
+            {
+              "id": "ex_557",
+              "type": "multiple_choice",
+              "question": "How do you say 'Con trai'?",
+              "options": [
+                "Girlfriend",
+                "Couple",
+                "Nephew",
+                "Son"
+              ],
+              "correct": 3
+            },
+            {
+              "id": "ex_558",
+              "type": "listening",
+              "question": "Listen and choose the correct word",
+              "options": [
+                "Guest",
+                "Wife",
+                "Father",
+                "Neighbor"
+              ],
+              "correct": 1
+            },
+            {
+              "id": "ex_559",
+              "type": "pronunciation",
+              "question": "Hãy phát âm từ này thật chuẩn:",
+              "target": "Baby"
+            },
+            {
+              "id": "ex_560",
+              "type": "multiple_choice",
+              "question": "How do you say 'Đứa trẻ'?",
+              "options": [
+                "Child",
+                "Daughter",
+                "Friend",
+                "Husband"
+              ],
+              "correct": 0
+            },
+            {
+              "id": "ex_561",
+              "type": "listening",
+              "question": "Listen and choose the correct word",
+              "options": [
+                "Friend",
+                "Cousin",
+                "Grandfather",
+                "Adult"
+              ],
+              "correct": 3
+            }
+          ]
+        },
+        {
+          "id": "lesson_20_2",
+          "title": "Gia đình & Các mối quan hệ - Từ vựng 2",
+          "type": "interactive",
+          "exercises": [
+            {
+              "id": "ex_562",
+              "type": "multiple_choice",
+              "question": "How do you say 'Khách'?",
+              "options": [
+                "Cousin",
+                "Twin",
+                "Grandfather",
+                "Guest"
+              ],
+              "correct": 3
+            },
+            {
+              "id": "ex_563",
+              "type": "listening",
+              "question": "Listen and choose the correct word",
+              "options": [
+                "Son",
+                "Teenager",
+                "Family",
+                "Daughter"
+              ],
+              "correct": 2
+            },
+            {
+              "id": "ex_564",
+              "type": "pronunciation",
+              "question": "Hãy phát âm từ này thật chuẩn:",
+              "target": "Parent"
+            },
+            {
+              "id": "ex_565",
+              "type": "multiple_choice",
+              "question": "How do you say 'Bố'?",
+              "options": [
+                "Wife",
+                "Neighbor",
+                "Child",
+                "Father"
+              ],
+              "correct": 3
+            },
+            {
+              "id": "ex_566",
+              "type": "listening",
+              "question": "Listen and choose the correct word",
+              "options": [
+                "Nephew",
+                "Boyfriend",
+                "Mother",
+                "Twin"
+              ],
+              "correct": 2
+            }
+          ]
+        },
+        {
+          "id": "lesson_20_3",
+          "title": "Gia đình & Các mối quan hệ - Từ vựng 3",
+          "type": "interactive",
+          "exercises": [
+            {
+              "id": "ex_567",
+              "type": "multiple_choice",
+              "question": "How do you say 'Anh chị em họ'?",
+              "options": [
+                "Wife",
+                "Niece",
+                "Child",
+                "Cousin"
+              ],
+              "correct": 3
+            },
+            {
+              "id": "ex_568",
+              "type": "listening",
+              "question": "Listen and choose the correct word",
+              "options": [
+                "Friend",
+                "Grandfather",
+                "Nephew",
+                "Father"
+              ],
+              "correct": 0
+            },
+            {
+              "id": "ex_569",
+              "type": "pronunciation",
+              "question": "Hãy phát âm từ này thật chuẩn:",
+              "target": "Husband"
+            },
+            {
+              "id": "ex_570",
+              "type": "multiple_choice",
+              "question": "How do you say 'Con gái'?",
+              "options": [
+                "Grandmother",
+                "Guest",
+                "Daughter",
+                "Twin"
+              ],
+              "correct": 2
+            },
+            {
+              "id": "ex_571",
+              "type": "listening",
+              "question": "Listen and choose the correct word",
+              "options": [
+                "Grandfather",
+                "Boyfriend",
+                "Neighbor",
+                "Teenager"
+              ],
+              "correct": 2
+            }
+          ]
+        },
+        {
+          "id": "lesson_20_4",
+          "title": "Gia đình & Các mối quan hệ - Từ vựng 4",
+          "type": "interactive",
+          "exercises": [
+            {
+              "id": "ex_572",
+              "type": "multiple_choice",
+              "question": "How do you say 'Bạn trai'?",
+              "options": [
+                "Adult",
+                "Boyfriend",
+                "Teenager",
+                "Baby"
+              ],
+              "correct": 1
+            },
+            {
+              "id": "ex_573",
+              "type": "listening",
+              "question": "Listen and choose the correct word",
+              "options": [
+                "Baby",
+                "Relative",
+                "Girlfriend",
+                "Parent"
+              ],
+              "correct": 2
+            },
+            {
+              "id": "ex_574",
+              "type": "pronunciation",
+              "question": "Hãy phát âm từ này thật chuẩn:",
+              "target": "Grandfather"
+            },
+            {
+              "id": "ex_575",
+              "type": "multiple_choice",
+              "question": "How do you say 'Bà'?",
+              "options": [
+                "Grandmother",
+                "Parent",
+                "Niece",
+                "Child"
+              ],
+              "correct": 0
+            },
+            {
+              "id": "ex_576",
+              "type": "listening",
+              "question": "Listen and choose the correct word",
+              "options": [
+                "Nephew",
+                "Family",
+                "Twin",
+                "Wife"
+              ],
+              "correct": 2
+            }
+          ]
+        },
+        {
+          "id": "lesson_20_5",
+          "title": "Gia đình & Các mối quan hệ - Từ vựng 5",
+          "type": "interactive",
+          "exercises": [
+            {
+              "id": "ex_577",
+              "type": "multiple_choice",
+              "question": "How do you say 'Cháu gái'?",
+              "options": [
+                "Niece",
+                "Adult",
+                "Grandfather",
+                "Friend"
+              ],
+              "correct": 0
+            },
+            {
+              "id": "ex_578",
+              "type": "listening",
+              "question": "Listen and choose the correct word",
+              "options": [
+                "Mother",
+                "Adult",
+                "Son",
+                "Nephew"
+              ],
+              "correct": 3
+            },
+            {
+              "id": "ex_579",
+              "type": "pronunciation",
+              "question": "Hãy phát âm từ này thật chuẩn:",
+              "target": "Couple"
+            },
+            {
+              "id": "ex_580",
+              "type": "multiple_choice",
+              "question": "How do you say 'Thiếu niên'?",
+              "options": [
+                "Teenager",
+                "Cousin",
+                "Neighbor",
+                "Parent"
+              ],
+              "correct": 0
+            },
+            {
+              "id": "ex_581",
+              "type": "listening",
+              "question": "Listen and choose the correct word",
+              "options": [
+                "Relative",
+                "Cousin",
+                "Guest",
+                "Husband"
+              ],
+              "correct": 0
+            }
+          ]
+        },
+        {
+          "id": "lesson_20_6",
+          "title": "Gia đình & Các mối quan hệ - Câu 1",
+          "type": "interactive",
+          "exercises": [
+            {
+              "id": "ex_582",
+              "type": "translate",
+              "source": "Đây là em gái tôi",
+              "target": "This is my younger sister",
+              "options": [
+                "my",
+                "is",
+                "This",
+                "because",
+                "sister",
+                "younger",
+                "always"
+              ],
+              "correct": [
+                "This",
+                "is",
+                "my",
+                "younger",
+                "sister"
+              ]
+            },
+            {
+              "id": "ex_583",
+              "type": "ordering",
+              "source": "Đây là em gái tôi",
+              "sentence": "This is my younger sister",
+              "shuffled": [
+                "This",
+                "is",
+                "younger",
+                "sister",
+                "my"
+              ],
+              "correct": [
+                "This",
+                "is",
+                "my",
+                "younger",
+                "sister"
+              ]
+            },
+            {
+              "id": "ex_584",
+              "type": "pronunciation",
+              "question": "Hãy đọc to câu này thật chuẩn:",
+              "target": "This is my younger sister"
+            },
+            {
+              "id": "ex_585",
+              "type": "translate",
+              "source": "Gia đình tôi có bốn người",
+              "target": "My family has four people",
+              "options": [
+                "always",
+                "people",
+                "has",
+                "four",
+                "My",
+                "yesterday",
+                "family"
+              ],
+              "correct": [
+                "My",
+                "family",
+                "has",
+                "four",
+                "people"
+              ]
+            },
+            {
+              "id": "ex_586",
+              "type": "ordering",
+              "source": "Gia đình tôi có bốn người",
+              "sentence": "My family has four people",
+              "shuffled": [
+                "has",
+                "four",
+                "family",
+                "people",
+                "My"
+              ],
+              "correct": [
+                "My",
+                "family",
+                "has",
+                "four",
+                "people"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "lesson_20_7",
+          "title": "Gia đình & Các mối quan hệ - Câu 2",
+          "type": "interactive",
+          "exercises": [
+            {
+              "id": "ex_587",
+              "type": "translate",
+              "source": "Ông tôi kể những câu chuyện vui",
+              "target": "My grandfather tells funny stories",
+              "options": [
+                "funny",
+                "blue",
+                "happy",
+                "grandfather",
+                "My",
+                "tells",
+                "stories"
+              ],
+              "correct": [
+                "My",
+                "grandfather",
+                "tells",
+                "funny",
+                "stories"
+              ]
+            },
+            {
+              "id": "ex_588",
+              "type": "ordering",
+              "source": "Ông tôi kể những câu chuyện vui",
+              "sentence": "My grandfather tells funny stories",
+              "shuffled": [
+                "grandfather",
+                "My",
+                "tells",
+                "funny",
+                "stories"
+              ],
+              "correct": [
+                "My",
+                "grandfather",
+                "tells",
+                "funny",
+                "stories"
+              ]
+            },
+            {
+              "id": "ex_589",
+              "type": "pronunciation",
+              "question": "Hãy đọc to câu này thật chuẩn:",
+              "target": "My grandfather tells funny stories"
+            },
+            {
+              "id": "ex_590",
+              "type": "translate",
+              "source": "Tôi yêu bố mẹ tôi rất nhiều",
+              "target": "I love my parents very much",
+              "options": [
+                "my",
+                "under",
+                "I",
+                "love",
+                "very",
+                "much",
+                "parents",
+                "many"
+              ],
+              "correct": [
+                "I",
+                "love",
+                "my",
+                "parents",
+                "very",
+                "much"
+              ]
+            },
+            {
+              "id": "ex_591",
+              "type": "ordering",
+              "source": "Tôi yêu bố mẹ tôi rất nhiều",
+              "sentence": "I love my parents very much",
+              "shuffled": [
+                "I",
+                "very",
+                "much",
+                "my",
+                "love",
+                "parents"
+              ],
+              "correct": [
+                "I",
+                "love",
+                "my",
+                "parents",
+                "very",
+                "much"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "lesson_20_8",
+          "title": "Gia đình & Các mối quan hệ - Câu 3",
+          "type": "interactive",
+          "exercises": [
+            {
+              "id": "ex_592",
+              "type": "translate",
+              "source": "Chú tôi sống ở thành phố",
+              "target": "My uncle lives in the city",
+              "options": [
+                "never",
+                "city",
+                "lives",
+                "in",
+                "the",
+                "My",
+                "yesterday",
+                "uncle"
+              ],
+              "correct": [
+                "My",
+                "uncle",
+                "lives",
+                "in",
+                "the",
+                "city"
+              ]
+            },
+            {
+              "id": "ex_593",
+              "type": "ordering",
+              "source": "Chú tôi sống ở thành phố",
+              "sentence": "My uncle lives in the city",
+              "shuffled": [
+                "uncle",
+                "city",
+                "in",
+                "lives",
+                "the",
+                "My"
+              ],
+              "correct": [
+                "My",
+                "uncle",
+                "lives",
+                "in",
+                "the",
+                "city"
+              ]
+            },
+            {
+              "id": "ex_594",
+              "type": "pronunciation",
+              "question": "Hãy đọc to câu này thật chuẩn:",
+              "target": "My uncle lives in the city"
+            },
+            {
+              "id": "ex_595",
+              "type": "translate",
+              "source": "Em họ của cô ấy là bạn thân của tôi",
+              "target": "Her cousin is my best friend",
+              "options": [
+                "never",
+                "quickly",
+                "is",
+                "cousin",
+                "Her",
+                "my",
+                "best",
+                "friend"
+              ],
+              "correct": [
+                "Her",
+                "cousin",
+                "is",
+                "my",
+                "best",
+                "friend"
+              ]
+            },
+            {
+              "id": "ex_596",
+              "type": "ordering",
+              "source": "Em họ của cô ấy là bạn thân của tôi",
+              "sentence": "Her cousin is my best friend",
+              "shuffled": [
+                "best",
+                "my",
+                "is",
+                "cousin",
+                "Her",
+                "friend"
+              ],
+              "correct": [
+                "Her",
+                "cousin",
+                "is",
+                "my",
+                "best",
+                "friend"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "lesson_20_9",
+          "title": "Gia đình & Các mối quan hệ - Câu 4",
+          "type": "interactive",
+          "exercises": [
+            {
+              "id": "ex_597",
+              "type": "translate",
+              "source": "Chúng tôi thăm bà mỗi Chủ nhật",
+              "target": "We visit our grandmother every Sunday",
+              "options": [
+                "Sunday",
+                "blue",
+                "visit",
+                "We",
+                "every",
+                "small",
+                "grandmother",
+                "our"
+              ],
+              "correct": [
+                "We",
+                "visit",
+                "our",
+                "grandmother",
+                "every",
+                "Sunday"
+              ]
+            },
+            {
+              "id": "ex_598",
+              "type": "ordering",
+              "source": "Chúng tôi thăm bà mỗi Chủ nhật",
+              "sentence": "We visit our grandmother every Sunday",
+              "shuffled": [
+                "our",
+                "We",
+                "Sunday",
+                "every",
+                "visit",
+                "grandmother"
+              ],
+              "correct": [
+                "We",
+                "visit",
+                "our",
+                "grandmother",
+                "every",
+                "Sunday"
+              ]
+            },
+            {
+              "id": "ex_599",
+              "type": "pronunciation",
+              "question": "Hãy đọc to câu này thật chuẩn:",
+              "target": "We visit our grandmother every Sunday"
+            },
+            {
+              "id": "ex_600",
+              "type": "translate",
+              "source": "Anh trai tôi cao hơn tôi",
+              "target": "My brother is taller than me",
+              "options": [
+                "under",
+                "My",
+                "brother",
+                "me",
+                "is",
+                "small",
+                "than",
+                "taller"
+              ],
+              "correct": [
+                "My",
+                "brother",
+                "is",
+                "taller",
+                "than",
+                "me"
+              ]
+            },
+            {
+              "id": "ex_601",
+              "type": "ordering",
+              "source": "Anh trai tôi cao hơn tôi",
+              "sentence": "My brother is taller than me",
+              "shuffled": [
+                "My",
+                "taller",
+                "brother",
+                "is",
+                "me",
+                "than"
+              ],
+              "correct": [
+                "My",
+                "brother",
+                "is",
+                "taller",
+                "than",
+                "me"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "lesson_20_10",
+          "title": "Gia đình & Các mối quan hệ - Câu 5",
+          "type": "interactive",
+          "exercises": [
+            {
+              "id": "ex_602",
+              "type": "translate",
+              "source": "Cả nhà ăn tối cùng nhau",
+              "target": "The whole family eats dinner together",
+              "options": [
+                "under",
+                "family",
+                "eats",
+                "dinner",
+                "together",
+                "because",
+                "The",
+                "whole"
+              ],
+              "correct": [
+                "The",
+                "whole",
+                "family",
+                "eats",
+                "dinner",
+                "together"
+              ]
+            },
+            {
+              "id": "ex_603",
+              "type": "ordering",
+              "source": "Cả nhà ăn tối cùng nhau",
+              "sentence": "The whole family eats dinner together",
+              "shuffled": [
+                "family",
+                "whole",
+                "together",
+                "The",
+                "dinner",
+                "eats"
+              ],
+              "correct": [
+                "The",
+                "whole",
+                "family",
+                "eats",
+                "dinner",
+                "together"
+              ]
+            },
+            {
+              "id": "ex_604",
+              "type": "pronunciation",
+              "question": "Hãy đọc to câu này thật chuẩn:",
+              "target": "The whole family eats dinner together"
+            },
+            {
+              "id": "ex_605",
+              "type": "translate",
+              "source": "Dì tôi làm bánh rất ngon",
+              "target": "My aunt makes delicious cakes",
+              "options": [
+                "always",
+                "My",
+                "yesterday",
+                "makes",
+                "cakes",
+                "delicious",
+                "aunt"
+              ],
+              "correct": [
+                "My",
+                "aunt",
+                "makes",
+                "delicious",
+                "cakes"
+              ]
+            },
+            {
+              "id": "ex_606",
+              "type": "ordering",
+              "source": "Dì tôi làm bánh rất ngon",
+              "sentence": "My aunt makes delicious cakes",
+              "shuffled": [
+                "delicious",
+                "My",
+                "cakes",
+                "makes",
+                "aunt"
+              ],
+              "correct": [
+                "My",
+                "aunt",
+                "makes",
+                "delicious",
+                "cakes"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "unit_21",
+      "title": "Nghề nghiệp & Công việc",
+      "description": "Learn vocabulary about jobs and professions.",
+      "lessons": [
+        {
+          "id": "lesson_21_1",
+          "title": "Nghề nghiệp & Công việc - Từ vựng 1",
+          "type": "interactive",
+          "exercises": [
+            {
+              "id": "ex_607",
+              "type": "multiple_choice",
+              "question": "How do you say 'Đầu bếp'?",
+              "options": [
+                "Cook",
+                "Tailor",
+                "Manager",
+                "Lawyer"
+              ],
+              "correct": 0
+            },
+            {
+              "id": "ex_608",
+              "type": "listening",
+              "question": "Listen and choose the correct word",
+              "options": [
+                "Police officer",
+                "Coach",
+                "Intern",
+                "Boss"
+              ],
+              "correct": 3
+            },
+            {
+              "id": "ex_609",
+              "type": "pronunciation",
+              "question": "Hãy phát âm từ này thật chuẩn:",
+              "target": "Nurse"
+            },
+            {
+              "id": "ex_610",
+              "type": "multiple_choice",
+              "question": "How do you say 'Phi công'?",
+              "options": [
+                "Writer",
+                "Artist",
+                "Pilot",
+                "Coach"
+              ],
+              "correct": 2
+            },
+            {
+              "id": "ex_611",
+              "type": "listening",
+              "question": "Listen and choose the correct word",
+              "options": [
+                "Farmer",
+                "Writer",
+                "Driver",
+                "Actor"
+              ],
+              "correct": 3
+            }
+          ]
+        },
+        {
+          "id": "lesson_21_2",
+          "title": "Nghề nghiệp & Công việc - Từ vựng 2",
+          "type": "interactive",
+          "exercises": [
+            {
+              "id": "ex_612",
+              "type": "multiple_choice",
+              "question": "How do you say 'Bảo vệ'?",
+              "options": [
+                "Nurse",
+                "Cook",
+                "Guard",
+                "Actor"
+              ],
+              "correct": 2
+            },
+            {
+              "id": "ex_613",
+              "type": "listening",
+              "question": "Listen and choose the correct word",
+              "options": [
+                "Cook",
+                "Farmer",
+                "Coach",
+                "Cashier"
+              ],
+              "correct": 1
+            },
+            {
+              "id": "ex_614",
+              "type": "pronunciation",
+              "question": "Hãy phát âm từ này thật chuẩn:",
+              "target": "Driver"
+            },
+            {
+              "id": "ex_615",
+              "type": "multiple_choice",
+              "question": "How do you say 'Nghệ sĩ'?",
+              "options": [
+                "Barber",
+                "Plumber",
+                "Artist",
+                "Police officer"
+              ],
+              "correct": 2
+            },
+            {
+              "id": "ex_616",
+              "type": "listening",
+              "question": "Listen and choose the correct word",
+              "options": [
+                "Singer",
+                "Cashier",
+                "Vet",
+                "Lawyer"
+              ],
+              "correct": 0
+            }
+          ]
+        },
+        {
+          "id": "lesson_21_3",
+          "title": "Nghề nghiệp & Công việc - Từ vựng 3",
+          "type": "interactive",
+          "exercises": [
+            {
+              "id": "ex_617",
+              "type": "multiple_choice",
+              "question": "How do you say 'Thu ngân'?",
+              "options": [
+                "Nurse",
+                "Driver",
+                "Cashier",
+                "Guard"
+              ],
+              "correct": 2
+            },
+            {
+              "id": "ex_618",
+              "type": "listening",
+              "question": "Listen and choose the correct word",
+              "options": [
+                "Farmer",
+                "Intern",
+                "Engineer",
+                "Cook"
+              ],
+              "correct": 2
+            },
+            {
+              "id": "ex_619",
+              "type": "pronunciation",
+              "question": "Hãy phát âm từ này thật chuẩn:",
+              "target": "Employee"
+            },
+            {
+              "id": "ex_620",
+              "type": "multiple_choice",
+              "question": "How do you say 'Lính cứu hỏa'?",
+              "options": [
+                "Soldier",
+                "Intern",
+                "Firefighter",
+                "Farmer"
+              ],
+              "correct": 2
+            },
+            {
+              "id": "ex_621",
+              "type": "listening",
+              "question": "Listen and choose the correct word",
+              "options": [
+                "Singer",
+                "Soldier",
+                "Vet",
+                "Police officer"
+              ],
+              "correct": 3
+            }
+          ]
+        },
+        {
+          "id": "lesson_21_4",
+          "title": "Nghề nghiệp & Công việc - Từ vựng 4",
+          "type": "interactive",
+          "exercises": [
+            {
+              "id": "ex_622",
+              "type": "multiple_choice",
+              "question": "How do you say 'Bác sĩ thú y'?",
+              "options": [
+                "Vet",
+                "Farmer",
+                "Pilot",
+                "Firefighter"
+              ],
+              "correct": 0
+            },
+            {
+              "id": "ex_623",
+              "type": "listening",
+              "question": "Listen and choose the correct word",
+              "options": [
+                "Barber",
+                "Coach",
+                "Police officer",
+                "Guard"
+              ],
+              "correct": 1
+            },
+            {
+              "id": "ex_624",
+              "type": "pronunciation",
+              "question": "Hãy phát âm từ này thật chuẩn:",
+              "target": "Lawyer"
+            },
+            {
+              "id": "ex_625",
+              "type": "multiple_choice",
+              "question": "How do you say 'Nhà văn'?",
+              "options": [
+                "Plumber",
+                "Writer",
+                "Cook",
+                "Singer"
+              ],
+              "correct": 1
+            },
+            {
+              "id": "ex_626",
+              "type": "listening",
+              "question": "Listen and choose the correct word",
+              "options": [
+                "Driver",
+                "Barber",
+                "Tailor",
+                "Pilot"
+              ],
+              "correct": 2
+            }
+          ]
+        },
+        {
+          "id": "lesson_21_5",
+          "title": "Nghề nghiệp & Công việc - Từ vựng 5",
+          "type": "interactive",
+          "exercises": [
+            {
+              "id": "ex_627",
+              "type": "multiple_choice",
+              "question": "How do you say 'Thợ cắt tóc'?",
+              "options": [
+                "Vet",
+                "Firefighter",
+                "Engineer",
+                "Barber"
+              ],
+              "correct": 3
+            },
+            {
+              "id": "ex_628",
+              "type": "listening",
+              "question": "Listen and choose the correct word",
+              "options": [
+                "Tailor",
+                "Farmer",
+                "Nurse",
+                "Intern"
+              ],
+              "correct": 3
+            },
+            {
+              "id": "ex_629",
+              "type": "pronunciation",
+              "question": "Hãy phát âm từ này thật chuẩn:",
+              "target": "Soldier"
+            },
+            {
+              "id": "ex_630",
+              "type": "multiple_choice",
+              "question": "How do you say 'Quản lý'?",
+              "options": [
+                "Vet",
+                "Manager",
+                "Engineer",
+                "Actor"
+              ],
+              "correct": 1
+            },
+            {
+              "id": "ex_631",
+              "type": "listening",
+              "question": "Listen and choose the correct word",
+              "options": [
+                "Plumber",
+                "Farmer",
+                "Police officer",
+                "Singer"
+              ],
+              "correct": 0
+            }
+          ]
+        },
+        {
+          "id": "lesson_21_6",
+          "title": "Nghề nghiệp & Công việc - Câu 1",
+          "type": "interactive",
+          "exercises": [
+            {
+              "id": "ex_632",
+              "type": "translate",
+              "source": "Bố tôi là kỹ sư",
+              "target": "My father is an engineer",
+              "options": [
+                "engineer",
+                "because",
+                "quickly",
+                "My",
+                "an",
+                "is",
+                "father"
+              ],
+              "correct": [
+                "My",
+                "father",
+                "is",
+                "an",
+                "engineer"
+              ]
+            },
+            {
+              "id": "ex_633",
+              "type": "ordering",
+              "source": "Bố tôi là kỹ sư",
+              "sentence": "My father is an engineer",
+              "shuffled": [
+                "My",
+                "is",
+                "an",
+                "father",
+                "engineer"
+              ],
+              "correct": [
+                "My",
+                "father",
+                "is",
+                "an",
+                "engineer"
+              ]
+            },
+            {
+              "id": "ex_634",
+              "type": "pronunciation",
+              "question": "Hãy đọc to câu này thật chuẩn:",
+              "target": "My father is an engineer"
+            },
+            {
+              "id": "ex_635",
+              "type": "translate",
+              "source": "Cô ấy muốn trở thành y tá",
+              "target": "She wants to become a nurse",
+              "options": [
+                "nurse",
+                "become",
+                "wants",
+                "She",
+                "yesterday",
+                "many",
+                "a",
+                "to"
+              ],
+              "correct": [
+                "She",
+                "wants",
+                "to",
+                "become",
+                "a",
+                "nurse"
+              ]
+            },
+            {
+              "id": "ex_636",
+              "type": "ordering",
+              "source": "Cô ấy muốn trở thành y tá",
+              "sentence": "She wants to become a nurse",
+              "shuffled": [
+                "become",
+                "to",
+                "a",
+                "nurse",
+                "wants",
+                "She"
+              ],
+              "correct": [
+                "She",
+                "wants",
+                "to",
+                "become",
+                "a",
+                "nurse"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "lesson_21_7",
+          "title": "Nghề nghiệp & Công việc - Câu 2",
+          "type": "interactive",
+          "exercises": [
+            {
+              "id": "ex_637",
+              "type": "translate",
+              "source": "Bác nông dân làm việc trên cánh đồng",
+              "target": "The farmer works in the field",
+              "options": [
+                "The",
+                "field",
+                "in",
+                "works",
+                "always",
+                "quickly",
+                "farmer",
+                "the"
+              ],
+              "correct": [
+                "The",
+                "farmer",
+                "works",
+                "in",
+                "the",
+                "field"
+              ]
+            },
+            {
+              "id": "ex_638",
+              "type": "ordering",
+              "source": "Bác nông dân làm việc trên cánh đồng",
+              "sentence": "The farmer works in the field",
+              "shuffled": [
+                "The",
+                "works",
+                "field",
+                "farmer",
+                "the",
+                "in"
+              ],
+              "correct": [
+                "The",
+                "farmer",
+                "works",
+                "in",
+                "the",
+                "field"
+              ]
+            },
+            {
+              "id": "ex_639",
+              "type": "pronunciation",
+              "question": "Hãy đọc to câu này thật chuẩn:",
+              "target": "The farmer works in the field"
+            },
+            {
+              "id": "ex_640",
+              "type": "translate",
+              "source": "Anh ấy là một ca sĩ nổi tiếng",
+              "target": "He is a famous singer",
+              "options": [
+                "always",
+                "famous",
+                "He",
+                "is",
+                "yesterday",
+                "singer",
+                "a"
+              ],
+              "correct": [
+                "He",
+                "is",
+                "a",
+                "famous",
+                "singer"
+              ]
+            },
+            {
+              "id": "ex_641",
+              "type": "ordering",
+              "source": "Anh ấy là một ca sĩ nổi tiếng",
+              "sentence": "He is a famous singer",
+              "shuffled": [
+                "is",
+                "singer",
+                "a",
+                "famous",
+                "He"
+              ],
+              "correct": [
+                "He",
+                "is",
+                "a",
+                "famous",
+                "singer"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "lesson_21_8",
+          "title": "Nghề nghiệp & Công việc - Câu 3",
+          "type": "interactive",
+          "exercises": [
+            {
+              "id": "ex_642",
+              "type": "translate",
+              "source": "Cảnh sát giúp đỡ mọi người",
+              "target": "The police officer helps people",
+              "options": [
+                "people",
+                "police",
+                "officer",
+                "The",
+                "because",
+                "helps",
+                "yesterday"
+              ],
+              "correct": [
+                "The",
+                "police",
+                "officer",
+                "helps",
+                "people"
+              ]
+            },
+            {
+              "id": "ex_643",
+              "type": "ordering",
+              "source": "Cảnh sát giúp đỡ mọi người",
+              "sentence": "The police officer helps people",
+              "shuffled": [
+                "The",
+                "police",
+                "helps",
+                "people",
+                "officer"
+              ],
+              "correct": [
+                "The",
+                "police",
+                "officer",
+                "helps",
+                "people"
+              ]
+            },
+            {
+              "id": "ex_644",
+              "type": "pronunciation",
+              "question": "Hãy đọc to câu này thật chuẩn:",
+              "target": "The police officer helps people"
+            },
+            {
+              "id": "ex_645",
+              "type": "translate",
+              "source": "Công việc mơ ước của tôi là phi công",
+              "target": "My dream job is a pilot",
+              "options": [
+                "My",
+                "is",
+                "many",
+                "job",
+                "pilot",
+                "under",
+                "dream",
+                "a"
+              ],
+              "correct": [
+                "My",
+                "dream",
+                "job",
+                "is",
+                "a",
+                "pilot"
+              ]
+            },
+            {
+              "id": "ex_646",
+              "type": "ordering",
+              "source": "Công việc mơ ước của tôi là phi công",
+              "sentence": "My dream job is a pilot",
+              "shuffled": [
+                "My",
+                "a",
+                "is",
+                "dream",
+                "pilot",
+                "job"
+              ],
+              "correct": [
+                "My",
+                "dream",
+                "job",
+                "is",
+                "a",
+                "pilot"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "lesson_21_9",
+          "title": "Nghề nghiệp & Công việc - Câu 4",
+          "type": "interactive",
+          "exercises": [
+            {
+              "id": "ex_647",
+              "type": "translate",
+              "source": "Đầu bếp nấu ăn trong nhà hàng",
+              "target": "The chef cooks in the restaurant",
+              "options": [
+                "cooks",
+                "restaurant",
+                "in",
+                "yesterday",
+                "the",
+                "happy",
+                "chef",
+                "The"
+              ],
+              "correct": [
+                "The",
+                "chef",
+                "cooks",
+                "in",
+                "the",
+                "restaurant"
+              ]
+            },
+            {
+              "id": "ex_648",
+              "type": "ordering",
+              "source": "Đầu bếp nấu ăn trong nhà hàng",
+              "sentence": "The chef cooks in the restaurant",
+              "shuffled": [
+                "cooks",
+                "the",
+                "The",
+                "in",
+                "chef",
+                "restaurant"
+              ],
+              "correct": [
+                "The",
+                "chef",
+                "cooks",
+                "in",
+                "the",
+                "restaurant"
+              ]
+            },
+            {
+              "id": "ex_649",
+              "type": "pronunciation",
+              "question": "Hãy đọc to câu này thật chuẩn:",
+              "target": "The chef cooks in the restaurant"
+            },
+            {
+              "id": "ex_650",
+              "type": "translate",
+              "source": "Giáo viên làm việc rất chăm chỉ",
+              "target": "Teachers work very hard",
+              "options": [
+                "always",
+                "quickly",
+                "Teachers",
+                "work",
+                "hard",
+                "very"
+              ],
+              "correct": [
+                "Teachers",
+                "work",
+                "very",
+                "hard"
+              ]
+            },
+            {
+              "id": "ex_651",
+              "type": "ordering",
+              "source": "Giáo viên làm việc rất chăm chỉ",
+              "sentence": "Teachers work very hard",
+              "shuffled": [
+                "Teachers",
+                "very",
+                "work",
+                "hard"
+              ],
+              "correct": [
+                "Teachers",
+                "work",
+                "very",
+                "hard"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "lesson_21_10",
+          "title": "Nghề nghiệp & Công việc - Câu 5",
+          "type": "interactive",
+          "exercises": [
+            {
+              "id": "ex_652",
+              "type": "translate",
+              "source": "Bác sĩ chăm sóc bệnh nhân",
+              "target": "The doctor takes care of patients",
+              "options": [
+                "of",
+                "care",
+                "yesterday",
+                "takes",
+                "The",
+                "patients",
+                "doctor",
+                "always"
+              ],
+              "correct": [
+                "The",
+                "doctor",
+                "takes",
+                "care",
+                "of",
+                "patients"
+              ]
+            },
+            {
+              "id": "ex_653",
+              "type": "ordering",
+              "source": "Bác sĩ chăm sóc bệnh nhân",
+              "sentence": "The doctor takes care of patients",
+              "shuffled": [
+                "of",
+                "care",
+                "patients",
+                "doctor",
+                "The",
+                "takes"
+              ],
+              "correct": [
+                "The",
+                "doctor",
+                "takes",
+                "care",
+                "of",
+                "patients"
+              ]
+            },
+            {
+              "id": "ex_654",
+              "type": "pronunciation",
+              "question": "Hãy đọc to câu này thật chuẩn:",
+              "target": "The doctor takes care of patients"
+            },
+            {
+              "id": "ex_655",
+              "type": "translate",
+              "source": "Cô ấy làm nghề thiết kế",
+              "target": "She works as a designer",
+              "options": [
+                "She",
+                "small",
+                "designer",
+                "works",
+                "a",
+                "as",
+                "always"
+              ],
+              "correct": [
+                "She",
+                "works",
+                "as",
+                "a",
+                "designer"
+              ]
+            },
+            {
+              "id": "ex_656",
+              "type": "ordering",
+              "source": "Cô ấy làm nghề thiết kế",
+              "sentence": "She works as a designer",
+              "shuffled": [
+                "works",
+                "a",
+                "designer",
+                "as",
+                "She"
+              ],
+              "correct": [
+                "She",
+                "works",
+                "as",
+                "a",
+                "designer"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "unit_22",
+      "title": "Nhà cửa & Nội thất",
+      "description": "Learn vocabulary about home and furniture.",
+      "lessons": [
+        {
+          "id": "lesson_22_1",
+          "title": "Nhà cửa & Nội thất - Từ vựng 1",
+          "type": "interactive",
+          "exercises": [
+            {
+              "id": "ex_657",
+              "type": "multiple_choice",
+              "question": "How do you say 'Cái giường'?",
+              "options": [
+                "Stairs",
+                "Sofa",
+                "Bed",
+                "Bedroom"
+              ],
+              "correct": 2
+            },
+            {
+              "id": "ex_658",
+              "type": "listening",
+              "question": "Listen and choose the correct word",
+              "options": [
+                "Fan",
+                "Bathroom",
+                "Light",
+                "Garden"
+              ],
+              "correct": 0
+            },
+            {
+              "id": "ex_659",
+              "type": "pronunciation",
+              "question": "Hãy phát âm từ này thật chuẩn:",
+              "target": "Key"
+            },
+            {
+              "id": "ex_660",
+              "type": "multiple_choice",
+              "question": "How do you say 'Phòng'?",
+              "options": [
+                "Lamp",
+                "Sofa",
+                "Room",
+                "Light"
+              ],
+              "correct": 2
+            },
+            {
+              "id": "ex_661",
+              "type": "listening",
+              "question": "Listen and choose the correct word",
+              "options": [
+                "Lock",
+                "Wall",
+                "Chair",
+                "Mirror"
+              ],
+              "correct": 1
+            }
+          ]
+        },
+        {
+          "id": "lesson_22_2",
+          "title": "Nhà cửa & Nội thất - Từ vựng 2",
+          "type": "interactive",
+          "exercises": [
+            {
+              "id": "ex_662",
+              "type": "multiple_choice",
+              "question": "How do you say 'Cửa ra vào'?",
+              "options": [
+                "Bedroom",
+                "Door",
+                "Mirror",
+                "Room"
+              ],
+              "correct": 1
+            },
+            {
+              "id": "ex_663",
+              "type": "listening",
+              "question": "Listen and choose the correct word",
+              "options": [
+                "Sofa",
+                "Bathroom",
+                "Floor",
+                "Mirror"
+              ],
+              "correct": 0
+            },
+            {
+              "id": "ex_664",
+              "type": "pronunciation",
+              "question": "Hãy phát âm từ này thật chuẩn:",
+              "target": "Lamp"
+            },
+            {
+              "id": "ex_665",
+              "type": "multiple_choice",
+              "question": "How do you say 'Ổ khóa'?",
+              "options": [
+                "Apartment",
+                "Fan",
+                "Lock",
+                "Pillow"
+              ],
+              "correct": 2
+            },
+            {
+              "id": "ex_666",
+              "type": "listening",
+              "question": "Listen and choose the correct word",
+              "options": [
+                "Window",
+                "House",
+                "Bathroom",
+                "Table"
+              ],
+              "correct": 1
+            }
+          ]
+        },
+        {
+          "id": "lesson_22_3",
+          "title": "Nhà cửa & Nội thất - Từ vựng 3",
+          "type": "interactive",
+          "exercises": [
+            {
+              "id": "ex_667",
+              "type": "multiple_choice",
+              "question": "How do you say 'Sàn nhà'?",
+              "options": [
+                "Clock",
+                "Bedroom",
+                "Floor",
+                "Pillow"
+              ],
+              "correct": 2
+            },
+            {
+              "id": "ex_668",
+              "type": "listening",
+              "question": "Listen and choose the correct word",
+              "options": [
+                "Apartment",
+                "Pillow",
+                "Table",
+                "Lamp"
+              ],
+              "correct": 2
+            },
+            {
+              "id": "ex_669",
+              "type": "pronunciation",
+              "question": "Hãy phát âm từ này thật chuẩn:",
+              "target": "Chair"
+            },
+            {
+              "id": "ex_670",
+              "type": "multiple_choice",
+              "question": "How do you say 'Cái kệ'?",
+              "options": [
+                "Apartment",
+                "Garden",
+                "Shelf",
+                "House"
+              ],
+              "correct": 2
+            },
+            {
+              "id": "ex_671",
+              "type": "listening",
+              "question": "Listen and choose the correct word",
+              "options": [
+                "Light",
+                "Garden",
+                "Bedroom",
+                "Bathroom"
+              ],
+              "correct": 0
+            }
+          ]
+        },
+        {
+          "id": "lesson_22_4",
+          "title": "Nhà cửa & Nội thất - Từ vựng 4",
+          "type": "interactive",
+          "exercises": [
+            {
+              "id": "ex_672",
+              "type": "multiple_choice",
+              "question": "How do you say 'Đồng hồ treo tường'?",
+              "options": [
+                "Bathroom",
+                "Table",
+                "Clock",
+                "Key"
+              ],
+              "correct": 2
+            },
+            {
+              "id": "ex_673",
+              "type": "listening",
+              "question": "Listen and choose the correct word",
+              "options": [
+                "Lamp",
+                "Key",
+                "Blanket",
+                "Garden"
+              ],
+              "correct": 3
+            },
+            {
+              "id": "ex_674",
+              "type": "pronunciation",
+              "question": "Hãy phát âm từ này thật chuẩn:",
+              "target": "Window"
+            },
+            {
+              "id": "ex_675",
+              "type": "multiple_choice",
+              "question": "How do you say 'Cầu thang'?",
+              "options": [
+                "Door",
+                "Blanket",
+                "Stairs",
+                "House"
+              ],
+              "correct": 2
+            },
+            {
+              "id": "ex_676",
+              "type": "listening",
+              "question": "Listen and choose the correct word",
+              "options": [
+                "Room",
+                "Blanket",
+                "Shelf",
+                "Pillow"
+              ],
+              "correct": 3
+            }
+          ]
+        },
+        {
+          "id": "lesson_22_5",
+          "title": "Nhà cửa & Nội thất - Từ vựng 5",
+          "type": "interactive",
+          "exercises": [
+            {
+              "id": "ex_677",
+              "type": "multiple_choice",
+              "question": "How do you say 'Cái gương'?",
+              "options": [
+                "Clock",
+                "Room",
+                "Pillow",
+                "Mirror"
+              ],
+              "correct": 3
+            },
+            {
+              "id": "ex_678",
+              "type": "listening",
+              "question": "Listen and choose the correct word",
+              "options": [
+                "Bedroom",
+                "Room",
+                "Garden",
+                "House"
+              ],
+              "correct": 0
+            },
+            {
+              "id": "ex_679",
+              "type": "pronunciation",
+              "question": "Hãy phát âm từ này thật chuẩn:",
+              "target": "Blanket"
+            },
+            {
+              "id": "ex_680",
+              "type": "multiple_choice",
+              "question": "How do you say 'Phòng tắm'?",
+              "options": [
+                "Fan",
+                "Light",
+                "Bathroom",
+                "Lock"
+              ],
+              "correct": 2
+            },
+            {
+              "id": "ex_681",
+              "type": "listening",
+              "question": "Listen and choose the correct word",
+              "options": [
+                "Shelf",
+                "Apartment",
+                "Bed",
+                "Table"
+              ],
+              "correct": 1
+            }
+          ]
+        },
+        {
+          "id": "lesson_22_6",
+          "title": "Nhà cửa & Nội thất - Câu 1",
+          "type": "interactive",
+          "exercises": [
+            {
+              "id": "ex_682",
+              "type": "translate",
+              "source": "Ghế sofa ở trong phòng khách",
+              "target": "The sofa is in the living room",
+              "options": [
+                "the",
+                "small",
+                "sofa",
+                "The",
+                "living",
+                "in",
+                "is",
+                "room",
+                "because"
+              ],
+              "correct": [
+                "The",
+                "sofa",
+                "is",
+                "in",
+                "the",
+                "living",
+                "room"
+              ]
+            },
+            {
+              "id": "ex_683",
+              "type": "ordering",
+              "source": "Ghế sofa ở trong phòng khách",
+              "sentence": "The sofa is in the living room",
+              "shuffled": [
+                "The",
+                "living",
+                "is",
+                "the",
+                "sofa",
+                "room",
+                "in"
+              ],
+              "correct": [
+                "The",
+                "sofa",
+                "is",
+                "in",
+                "the",
+                "living",
+                "room"
+              ]
+            },
+            {
+              "id": "ex_684",
+              "type": "pronunciation",
+              "question": "Hãy đọc to câu này thật chuẩn:",
+              "target": "The sofa is in the living room"
+            },
+            {
+              "id": "ex_685",
+              "type": "translate",
+              "source": "Tôi ngủ trên chiếc giường êm",
+              "target": "I sleep on a soft bed",
+              "options": [
+                "a",
+                "on",
+                "soft",
+                "sleep",
+                "many",
+                "bed",
+                "I",
+                "under"
+              ],
+              "correct": [
+                "I",
+                "sleep",
+                "on",
+                "a",
+                "soft",
+                "bed"
+              ]
+            },
+            {
+              "id": "ex_686",
+              "type": "ordering",
+              "source": "Tôi ngủ trên chiếc giường êm",
+              "sentence": "I sleep on a soft bed",
+              "shuffled": [
+                "on",
+                "I",
+                "bed",
+                "soft",
+                "a",
+                "sleep"
+              ],
+              "correct": [
+                "I",
+                "sleep",
+                "on",
+                "a",
+                "soft",
+                "bed"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "lesson_22_7",
+          "title": "Nhà cửa & Nội thất - Câu 2",
+          "type": "interactive",
+          "exercises": [
+            {
+              "id": "ex_687",
+              "type": "translate",
+              "source": "Cái đèn ở trên bàn",
+              "target": "The lamp is on the table",
+              "options": [
+                "small",
+                "The",
+                "on",
+                "quickly",
+                "is",
+                "the",
+                "table",
+                "lamp"
+              ],
+              "correct": [
+                "The",
+                "lamp",
+                "is",
+                "on",
+                "the",
+                "table"
+              ]
+            },
+            {
+              "id": "ex_688",
+              "type": "ordering",
+              "source": "Cái đèn ở trên bàn",
+              "sentence": "The lamp is on the table",
+              "shuffled": [
+                "is",
+                "on",
+                "table",
+                "The",
+                "lamp",
+                "the"
+              ],
+              "correct": [
+                "The",
+                "lamp",
+                "is",
+                "on",
+                "the",
+                "table"
+              ]
+            },
+            {
+              "id": "ex_689",
+              "type": "pronunciation",
+              "question": "Hãy đọc to câu này thật chuẩn:",
+              "target": "The lamp is on the table"
+            },
+            {
+              "id": "ex_690",
+              "type": "translate",
+              "source": "Chúng tôi cần một cái tủ lạnh mới",
+              "target": "We need a new refrigerator",
+              "options": [
+                "always",
+                "need",
+                "new",
+                "We",
+                "yesterday",
+                "refrigerator",
+                "a"
+              ],
+              "correct": [
+                "We",
+                "need",
+                "a",
+                "new",
+                "refrigerator"
+              ]
+            },
+            {
+              "id": "ex_691",
+              "type": "ordering",
+              "source": "Chúng tôi cần một cái tủ lạnh mới",
+              "sentence": "We need a new refrigerator",
+              "shuffled": [
+                "a",
+                "new",
+                "need",
+                "refrigerator",
+                "We"
+              ],
+              "correct": [
+                "We",
+                "need",
+                "a",
+                "new",
+                "refrigerator"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "lesson_22_8",
+          "title": "Nhà cửa & Nội thất - Câu 3",
+          "type": "interactive",
+          "exercises": [
+            {
+              "id": "ex_692",
+              "type": "translate",
+              "source": "Tấm gương treo trên tường",
+              "target": "The mirror hangs on the wall",
+              "options": [
+                "quickly",
+                "many",
+                "mirror",
+                "hangs",
+                "the",
+                "wall",
+                "The",
+                "on"
+              ],
+              "correct": [
+                "The",
+                "mirror",
+                "hangs",
+                "on",
+                "the",
+                "wall"
+              ]
+            },
+            {
+              "id": "ex_693",
+              "type": "ordering",
+              "source": "Tấm gương treo trên tường",
+              "sentence": "The mirror hangs on the wall",
+              "shuffled": [
+                "the",
+                "wall",
+                "on",
+                "hangs",
+                "mirror",
+                "The"
+              ],
+              "correct": [
+                "The",
+                "mirror",
+                "hangs",
+                "on",
+                "the",
+                "wall"
+              ]
+            },
+            {
+              "id": "ex_694",
+              "type": "pronunciation",
+              "question": "Hãy đọc to câu này thật chuẩn:",
+              "target": "The mirror hangs on the wall"
+            },
+            {
+              "id": "ex_695",
+              "type": "translate",
+              "source": "Bàn học của tôi ở cạnh cửa sổ",
+              "target": "My desk is next to the window",
+              "options": [
+                "quickly",
+                "desk",
+                "window",
+                "to",
+                "is",
+                "the",
+                "My",
+                "small",
+                "next"
+              ],
+              "correct": [
+                "My",
+                "desk",
+                "is",
+                "next",
+                "to",
+                "the",
+                "window"
+              ]
+            },
+            {
+              "id": "ex_696",
+              "type": "ordering",
+              "source": "Bàn học của tôi ở cạnh cửa sổ",
+              "sentence": "My desk is next to the window",
+              "shuffled": [
+                "is",
+                "the",
+                "window",
+                "My",
+                "next",
+                "desk",
+                "to"
+              ],
+              "correct": [
+                "My",
+                "desk",
+                "is",
+                "next",
+                "to",
+                "the",
+                "window"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "lesson_22_9",
+          "title": "Nhà cửa & Nội thất - Câu 4",
+          "type": "interactive",
+          "exercises": [
+            {
+              "id": "ex_697",
+              "type": "translate",
+              "source": "Vui lòng kéo rèm lại",
+              "target": "Please close the curtains",
+              "options": [
+                "the",
+                "curtains",
+                "yesterday",
+                "close",
+                "Please",
+                "because"
+              ],
+              "correct": [
+                "Please",
+                "close",
+                "the",
+                "curtains"
+              ]
+            },
+            {
+              "id": "ex_698",
+              "type": "ordering",
+              "source": "Vui lòng kéo rèm lại",
+              "sentence": "Please close the curtains",
+              "shuffled": [
+                "the",
+                "close",
+                "curtains",
+                "Please"
+              ],
+              "correct": [
+                "Please",
+                "close",
+                "the",
+                "curtains"
+              ]
+            },
+            {
+              "id": "ex_699",
+              "type": "pronunciation",
+              "question": "Hãy đọc to câu này thật chuẩn:",
+              "target": "Please close the curtains"
+            },
+            {
+              "id": "ex_700",
+              "type": "translate",
+              "source": "Kệ sách đầy những cuốn sách",
+              "target": "The bookshelf is full of books",
+              "options": [
+                "under",
+                "The",
+                "bookshelf",
+                "is",
+                "never",
+                "books",
+                "full",
+                "of"
+              ],
+              "correct": [
+                "The",
+                "bookshelf",
+                "is",
+                "full",
+                "of",
+                "books"
+              ]
+            },
+            {
+              "id": "ex_701",
+              "type": "ordering",
+              "source": "Kệ sách đầy những cuốn sách",
+              "sentence": "The bookshelf is full of books",
+              "shuffled": [
+                "books",
+                "bookshelf",
+                "is",
+                "The",
+                "of",
+                "full"
+              ],
+              "correct": [
+                "The",
+                "bookshelf",
+                "is",
+                "full",
+                "of",
+                "books"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "lesson_22_10",
+          "title": "Nhà cửa & Nội thất - Câu 5",
+          "type": "interactive",
+          "exercises": [
+            {
+              "id": "ex_702",
+              "type": "translate",
+              "source": "Có một chiếc đồng hồ trong bếp",
+              "target": "There is a clock in the kitchen",
+              "options": [
+                "There",
+                "quickly",
+                "a",
+                "kitchen",
+                "in",
+                "the",
+                "clock",
+                "is",
+                "under"
+              ],
+              "correct": [
+                "There",
+                "is",
+                "a",
+                "clock",
+                "in",
+                "the",
+                "kitchen"
+              ]
+            },
+            {
+              "id": "ex_703",
+              "type": "ordering",
+              "source": "Có một chiếc đồng hồ trong bếp",
+              "sentence": "There is a clock in the kitchen",
+              "shuffled": [
+                "kitchen",
+                "clock",
+                "is",
+                "the",
+                "a",
+                "in",
+                "There"
+              ],
+              "correct": [
+                "There",
+                "is",
+                "a",
+                "clock",
+                "in",
+                "the",
+                "kitchen"
+              ]
+            },
+            {
+              "id": "ex_704",
+              "type": "pronunciation",
+              "question": "Hãy đọc to câu này thật chuẩn:",
+              "target": "There is a clock in the kitchen"
+            },
+            {
+              "id": "ex_705",
+              "type": "translate",
+              "source": "Chúng tôi đã mua một chiếc bàn gỗ",
+              "target": "We bought a wooden table",
+              "options": [
+                "bought",
+                "blue",
+                "under",
+                "wooden",
+                "We",
+                "a",
+                "table"
+              ],
+              "correct": [
+                "We",
+                "bought",
+                "a",
+                "wooden",
+                "table"
+              ]
+            },
+            {
+              "id": "ex_706",
+              "type": "ordering",
+              "source": "Chúng tôi đã mua một chiếc bàn gỗ",
+              "sentence": "We bought a wooden table",
+              "shuffled": [
+                "We",
+                "bought",
+                "a",
+                "table",
+                "wooden"
+              ],
+              "correct": [
+                "We",
+                "bought",
+                "a",
+                "wooden",
+                "table"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "unit_23",
+      "title": "Quần áo & Thời trang",
+      "description": "Learn vocabulary about clothing and fashion.",
+      "lessons": [
+        {
+          "id": "lesson_23_1",
+          "title": "Quần áo & Thời trang - Từ vựng 1",
+          "type": "interactive",
+          "exercises": [
+            {
+              "id": "ex_707",
+              "type": "multiple_choice",
+              "question": "How do you say 'Mũ'?",
+              "options": [
+                "Hat",
+                "Dress",
+                "Backpack",
+                "Socks"
+              ],
+              "correct": 0
+            },
+            {
+              "id": "ex_708",
+              "type": "listening",
+              "question": "Listen and choose the correct word",
+              "options": [
+                "Cap",
+                "Skirt",
+                "Handbag",
+                "Wallet"
+              ],
+              "correct": 0
+            },
+            {
+              "id": "ex_709",
+              "type": "pronunciation",
+              "question": "Hãy phát âm từ này thật chuẩn:",
+              "target": "Belt"
+            },
+            {
+              "id": "ex_710",
+              "type": "multiple_choice",
+              "question": "How do you say 'Nhẫn'?",
+              "options": [
+                "Watch",
+                "Wallet",
+                "Ring",
+                "Pocket"
+              ],
+              "correct": 2
+            },
+            {
+              "id": "ex_711",
+              "type": "listening",
+              "question": "Listen and choose the correct word",
+              "options": [
+                "Handbag",
+                "Shirt",
+                "Sandals",
+                "Shorts"
+              ],
+              "correct": 1
+            }
+          ]
+        },
+        {
+          "id": "lesson_23_2",
+          "title": "Quần áo & Thời trang - Từ vựng 2",
+          "type": "interactive",
+          "exercises": [
+            {
+              "id": "ex_712",
+              "type": "multiple_choice",
+              "question": "How do you say 'Quần dài'?",
+              "options": [
+                "Glasses",
+                "Pants",
+                "Pocket",
+                "Handbag"
+              ],
+              "correct": 1
+            },
+            {
+              "id": "ex_713",
+              "type": "listening",
+              "question": "Listen and choose the correct word",
+              "options": [
+                "Shorts",
+                "Jeans",
+                "Glove",
+                "Glasses"
+              ],
+              "correct": 1
+            },
+            {
+              "id": "ex_714",
+              "type": "pronunciation",
+              "question": "Hãy phát âm từ này thật chuẩn:",
+              "target": "Skirt"
+            },
+            {
+              "id": "ex_715",
+              "type": "multiple_choice",
+              "question": "How do you say 'Đầm'?",
+              "options": [
+                "Pocket",
+                "Uniform",
+                "Dress",
+                "Ring"
+              ],
+              "correct": 2
+            },
+            {
+              "id": "ex_716",
+              "type": "listening",
+              "question": "Listen and choose the correct word",
+              "options": [
+                "Slippers",
+                "Socks",
+                "Backpack",
+                "Pocket"
+              ],
+              "correct": 1
+            }
+          ]
+        },
+        {
+          "id": "lesson_23_3",
+          "title": "Quần áo & Thời trang - Từ vựng 3",
+          "type": "interactive",
+          "exercises": [
+            {
+              "id": "ex_717",
+              "type": "multiple_choice",
+              "question": "How do you say 'Giày'?",
+              "options": [
+                "Jeans",
+                "Wallet",
+                "Shoes",
+                "Uniform"
+              ],
+              "correct": 2
+            },
+            {
+              "id": "ex_718",
+              "type": "listening",
+              "question": "Listen and choose the correct word",
+              "options": [
+                "Jeans",
+                "Belt",
+                "Hat",
+                "Glove"
+              ],
+              "correct": 3
+            },
+            {
+              "id": "ex_719",
+              "type": "pronunciation",
+              "question": "Hãy phát âm từ này thật chuẩn:",
+              "target": "Watch"
+            },
+            {
+              "id": "ex_720",
+              "type": "multiple_choice",
+              "question": "How do you say 'Quần short'?",
+              "options": [
+                "Cap",
+                "Shorts",
+                "Dress",
+                "Pocket"
+              ],
+              "correct": 1
+            },
+            {
+              "id": "ex_721",
+              "type": "listening",
+              "question": "Listen and choose the correct word",
+              "options": [
+                "Belt",
+                "Skirt",
+                "T-shirt",
+                "Jacket"
+              ],
+              "correct": 3
+            }
+          ]
+        },
+        {
+          "id": "lesson_23_4",
+          "title": "Quần áo & Thời trang - Từ vựng 4",
+          "type": "interactive",
+          "exercises": [
+            {
+              "id": "ex_722",
+              "type": "multiple_choice",
+              "question": "How do you say 'Túi áo'?",
+              "options": [
+                "Watch",
+                "Pocket",
+                "Ring",
+                "Socks"
+              ],
+              "correct": 1
+            },
+            {
+              "id": "ex_723",
+              "type": "listening",
+              "question": "Listen and choose the correct word",
+              "options": [
+                "Wallet",
+                "Belt",
+                "Sandals",
+                "Watch"
+              ],
+              "correct": 0
+            },
+            {
+              "id": "ex_724",
+              "type": "pronunciation",
+              "question": "Hãy phát âm từ này thật chuẩn:",
+              "target": "T-shirt"
+            },
+            {
+              "id": "ex_725",
+              "type": "multiple_choice",
+              "question": "How do you say 'Áo len'?",
+              "options": [
+                "Glasses",
+                "Watch",
+                "Sweater",
+                "Backpack"
+              ],
+              "correct": 2
+            },
+            {
+              "id": "ex_726",
+              "type": "listening",
+              "question": "Listen and choose the correct word",
+              "options": [
+                "Slippers",
+                "Uniform",
+                "Shorts",
+                "Belt"
+              ],
+              "correct": 1
+            }
+          ]
+        },
+        {
+          "id": "lesson_23_5",
+          "title": "Quần áo & Thời trang - Từ vựng 5",
+          "type": "interactive",
+          "exercises": [
+            {
+              "id": "ex_727",
+              "type": "multiple_choice",
+              "question": "How do you say 'Dép quai'?",
+              "options": [
+                "Sandals",
+                "Cap",
+                "Shorts",
+                "T-shirt"
+              ],
+              "correct": 0
+            },
+            {
+              "id": "ex_728",
+              "type": "listening",
+              "question": "Listen and choose the correct word",
+              "options": [
+                "Wallet",
+                "Sweater",
+                "Pants",
+                "Glasses"
+              ],
+              "correct": 3
+            },
+            {
+              "id": "ex_729",
+              "type": "pronunciation",
+              "question": "Hãy phát âm từ này thật chuẩn:",
+              "target": "Handbag"
+            },
+            {
+              "id": "ex_730",
+              "type": "multiple_choice",
+              "question": "How do you say 'Dép lê'?",
+              "options": [
+                "Sweater",
+                "T-shirt",
+                "Jacket",
+                "Slippers"
+              ],
+              "correct": 3
+            },
+            {
+              "id": "ex_731",
+              "type": "listening",
+              "question": "Listen and choose the correct word",
+              "options": [
+                "Ring",
+                "Skirt",
+                "Backpack",
+                "Pocket"
+              ],
+              "correct": 2
+            }
+          ]
+        },
+        {
+          "id": "lesson_23_6",
+          "title": "Quần áo & Thời trang - Câu 1",
+          "type": "interactive",
+          "exercises": [
+            {
+              "id": "ex_732",
+              "type": "translate",
+              "source": "Cô ấy mặc một chiếc váy đẹp",
+              "target": "She wears a beautiful dress",
+              "options": [
+                "a",
+                "wears",
+                "many",
+                "yesterday",
+                "dress",
+                "She",
+                "beautiful"
+              ],
+              "correct": [
+                "She",
+                "wears",
+                "a",
+                "beautiful",
+                "dress"
+              ]
+            },
+            {
+              "id": "ex_733",
+              "type": "ordering",
+              "source": "Cô ấy mặc một chiếc váy đẹp",
+              "sentence": "She wears a beautiful dress",
+              "shuffled": [
+                "dress",
+                "She",
+                "wears",
+                "a",
+                "beautiful"
+              ],
+              "correct": [
+                "She",
+                "wears",
+                "a",
+                "beautiful",
+                "dress"
+              ]
+            },
+            {
+              "id": "ex_734",
+              "type": "pronunciation",
+              "question": "Hãy đọc to câu này thật chuẩn:",
+              "target": "She wears a beautiful dress"
+            },
+            {
+              "id": "ex_735",
+              "type": "translate",
+              "source": "Tôi cần một chiếc áo khoác ấm",
+              "target": "I need a warm jacket",
+              "options": [
+                "a",
+                "happy",
+                "because",
+                "need",
+                "warm",
+                "jacket",
+                "I"
+              ],
+              "correct": [
+                "I",
+                "need",
+                "a",
+                "warm",
+                "jacket"
+              ]
+            },
+            {
+              "id": "ex_736",
+              "type": "ordering",
+              "source": "Tôi cần một chiếc áo khoác ấm",
+              "sentence": "I need a warm jacket",
+              "shuffled": [
+                "need",
+                "jacket",
+                "I",
+                "warm",
+                "a"
+              ],
+              "correct": [
+                "I",
+                "need",
+                "a",
+                "warm",
+                "jacket"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "lesson_23_7",
+          "title": "Quần áo & Thời trang - Câu 2",
+          "type": "interactive",
+          "exercises": [
+            {
+              "id": "ex_737",
+              "type": "translate",
+              "source": "Áo sơ mi của anh ấy quá rộng",
+              "target": "His shirt is too big",
+              "options": [
+                "too",
+                "yesterday",
+                "is",
+                "big",
+                "blue",
+                "shirt",
+                "His"
+              ],
+              "correct": [
+                "His",
+                "shirt",
+                "is",
+                "too",
+                "big"
+              ]
+            },
+            {
+              "id": "ex_738",
+              "type": "ordering",
+              "source": "Áo sơ mi của anh ấy quá rộng",
+              "sentence": "His shirt is too big",
+              "shuffled": [
+                "is",
+                "His",
+                "too",
+                "shirt",
+                "big"
+              ],
+              "correct": [
+                "His",
+                "shirt",
+                "is",
+                "too",
+                "big"
+              ]
+            },
+            {
+              "id": "ex_739",
+              "type": "pronunciation",
+              "question": "Hãy đọc to câu này thật chuẩn:",
+              "target": "His shirt is too big"
+            },
+            {
+              "id": "ex_740",
+              "type": "translate",
+              "source": "Đôi giày này rất thoải mái",
+              "target": "These shoes are very comfortable",
+              "options": [
+                "very",
+                "are",
+                "yesterday",
+                "These",
+                "never",
+                "shoes",
+                "comfortable"
+              ],
+              "correct": [
+                "These",
+                "shoes",
+                "are",
+                "very",
+                "comfortable"
+              ]
+            },
+            {
+              "id": "ex_741",
+              "type": "ordering",
+              "source": "Đôi giày này rất thoải mái",
+              "sentence": "These shoes are very comfortable",
+              "shuffled": [
+                "are",
+                "shoes",
+                "These",
+                "very",
+                "comfortable"
+              ],
+              "correct": [
+                "These",
+                "shoes",
+                "are",
+                "very",
+                "comfortable"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "lesson_23_8",
+          "title": "Quần áo & Thời trang - Câu 3",
+          "type": "interactive",
+          "exercises": [
+            {
+              "id": "ex_742",
+              "type": "translate",
+              "source": "Anh ấy luôn đội chiếc mũ đen",
+              "target": "He always wears a black hat",
+              "options": [
+                "He",
+                "wears",
+                "black",
+                "happy",
+                "hat",
+                "always",
+                "never",
+                "a"
+              ],
+              "correct": [
+                "He",
+                "always",
+                "wears",
+                "a",
+                "black",
+                "hat"
+              ]
+            },
+            {
+              "id": "ex_743",
+              "type": "ordering",
+              "source": "Anh ấy luôn đội chiếc mũ đen",
+              "sentence": "He always wears a black hat",
+              "shuffled": [
+                "black",
+                "always",
+                "wears",
+                "hat",
+                "a",
+                "He"
+              ],
+              "correct": [
+                "He",
+                "always",
+                "wears",
+                "a",
+                "black",
+                "hat"
+              ]
+            },
+            {
+              "id": "ex_744",
+              "type": "pronunciation",
+              "question": "Hãy đọc to câu này thật chuẩn:",
+              "target": "He always wears a black hat"
+            },
+            {
+              "id": "ex_745",
+              "type": "translate",
+              "source": "Khăn quàng của tôi hợp với găng tay",
+              "target": "My scarf matches my gloves",
+              "options": [
+                "scarf",
+                "my",
+                "never",
+                "gloves",
+                "My",
+                "matches",
+                "blue"
+              ],
+              "correct": [
+                "My",
+                "scarf",
+                "matches",
+                "my",
+                "gloves"
+              ]
+            },
+            {
+              "id": "ex_746",
+              "type": "ordering",
+              "source": "Khăn quàng của tôi hợp với găng tay",
+              "sentence": "My scarf matches my gloves",
+              "shuffled": [
+                "gloves",
+                "My",
+                "scarf",
+                "matches",
+                "my"
+              ],
+              "correct": [
+                "My",
+                "scarf",
+                "matches",
+                "my",
+                "gloves"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "lesson_23_9",
+          "title": "Quần áo & Thời trang - Câu 4",
+          "type": "interactive",
+          "exercises": [
+            {
+              "id": "ex_747",
+              "type": "translate",
+              "source": "Cô ấy đã mua một chiếc chân váy đỏ",
+              "target": "She bought a red skirt",
+              "options": [
+                "many",
+                "a",
+                "because",
+                "skirt",
+                "bought",
+                "She",
+                "red"
+              ],
+              "correct": [
+                "She",
+                "bought",
+                "a",
+                "red",
+                "skirt"
+              ]
+            },
+            {
+              "id": "ex_748",
+              "type": "ordering",
+              "source": "Cô ấy đã mua một chiếc chân váy đỏ",
+              "sentence": "She bought a red skirt",
+              "shuffled": [
+                "a",
+                "skirt",
+                "bought",
+                "red",
+                "She"
+              ],
+              "correct": [
+                "She",
+                "bought",
+                "a",
+                "red",
+                "skirt"
+              ]
+            },
+            {
+              "id": "ex_749",
+              "type": "pronunciation",
+              "question": "Hãy đọc to câu này thật chuẩn:",
+              "target": "She bought a red skirt"
+            },
+            {
+              "id": "ex_750",
+              "type": "translate",
+              "source": "Hãy đi tất vào trước",
+              "target": "Put on your socks first",
+              "options": [
+                "socks",
+                "always",
+                "first",
+                "Put",
+                "your",
+                "on",
+                "under"
+              ],
+              "correct": [
+                "Put",
+                "on",
+                "your",
+                "socks",
+                "first"
+              ]
+            },
+            {
+              "id": "ex_751",
+              "type": "ordering",
+              "source": "Hãy đi tất vào trước",
+              "sentence": "Put on your socks first",
+              "shuffled": [
+                "socks",
+                "first",
+                "your",
+                "on",
+                "Put"
+              ],
+              "correct": [
+                "Put",
+                "on",
+                "your",
+                "socks",
+                "first"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "lesson_23_10",
+          "title": "Quần áo & Thời trang - Câu 5",
+          "type": "interactive",
+          "exercises": [
+            {
+              "id": "ex_752",
+              "type": "translate",
+              "source": "Chiếc áo khoác này làm bằng len",
+              "target": "This coat is made of wool",
+              "options": [
+                "of",
+                "wool",
+                "yesterday",
+                "This",
+                "coat",
+                "because",
+                "is",
+                "made"
+              ],
+              "correct": [
+                "This",
+                "coat",
+                "is",
+                "made",
+                "of",
+                "wool"
+              ]
+            },
+            {
+              "id": "ex_753",
+              "type": "ordering",
+              "source": "Chiếc áo khoác này làm bằng len",
+              "sentence": "This coat is made of wool",
+              "shuffled": [
+                "wool",
+                "is",
+                "This",
+                "of",
+                "made",
+                "coat"
+              ],
+              "correct": [
+                "This",
+                "coat",
+                "is",
+                "made",
+                "of",
+                "wool"
+              ]
+            },
+            {
+              "id": "ex_754",
+              "type": "pronunciation",
+              "question": "Hãy đọc to câu này thật chuẩn:",
+              "target": "This coat is made of wool"
+            },
+            {
+              "id": "ex_755",
+              "type": "translate",
+              "source": "Tôi thích cặp kính râm mới của bạn",
+              "target": "I like your new sunglasses",
+              "options": [
+                "like",
+                "your",
+                "under",
+                "I",
+                "sunglasses",
+                "new",
+                "many"
+              ],
+              "correct": [
+                "I",
+                "like",
+                "your",
+                "new",
+                "sunglasses"
+              ]
+            },
+            {
+              "id": "ex_756",
+              "type": "ordering",
+              "source": "Tôi thích cặp kính râm mới của bạn",
+              "sentence": "I like your new sunglasses",
+              "shuffled": [
+                "sunglasses",
+                "like",
+                "your",
+                "I",
+                "new"
+              ],
+              "correct": [
+                "I",
+                "like",
+                "your",
+                "new",
+                "sunglasses"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "unit_24",
+      "title": "Thành phố & Địa điểm",
+      "description": "Learn vocabulary about the city and places.",
+      "lessons": [
+        {
+          "id": "lesson_24_1",
+          "title": "Thành phố & Địa điểm - Từ vựng 1",
+          "type": "interactive",
+          "exercises": [
+            {
+              "id": "ex_757",
+              "type": "multiple_choice",
+              "question": "How do you say 'Sở thú'?",
+              "options": [
+                "Bank",
+                "Temple",
+                "Suburb",
+                "Zoo"
+              ],
+              "correct": 3
+            },
+            {
+              "id": "ex_758",
+              "type": "listening",
+              "question": "Listen and choose the correct word",
+              "options": [
+                "Pier",
+                "Market",
+                "Mosque",
+                "Gym"
+              ],
+              "correct": 3
+            },
+            {
+              "id": "ex_759",
+              "type": "pronunciation",
+              "question": "Hãy phát âm từ này thật chuẩn:",
+              "target": "City"
+            },
+            {
+              "id": "ex_760",
+              "type": "multiple_choice",
+              "question": "How do you say 'Thị trấn'?",
+              "options": [
+                "Mall",
+                "Museum",
+                "Town",
+                "Square"
+              ],
+              "correct": 2
+            },
+            {
+              "id": "ex_761",
+              "type": "listening",
+              "question": "Listen and choose the correct word",
+              "options": [
+                "Road",
+                "Mall",
+                "Post office",
+                "Park"
+              ],
+              "correct": 0
+            }
+          ]
+        },
+        {
+          "id": "lesson_24_2",
+          "title": "Thành phố & Địa điểm - Từ vựng 2",
+          "type": "interactive",
+          "exercises": [
+            {
+              "id": "ex_762",
+              "type": "multiple_choice",
+              "question": "How do you say 'Công viên'?",
+              "options": [
+                "Suburb",
+                "Park",
+                "Post office",
+                "Gym"
+              ],
+              "correct": 1
+            },
+            {
+              "id": "ex_763",
+              "type": "listening",
+              "question": "Listen and choose the correct word",
+              "options": [
+                "Tunnel",
+                "Alley",
+                "Mall",
+                "Cinema"
+              ],
+              "correct": 2
+            },
+            {
+              "id": "ex_764",
+              "type": "pronunciation",
+              "question": "Hãy phát âm từ này thật chuẩn:",
+              "target": "Bank"
+            },
+            {
+              "id": "ex_765",
+              "type": "multiple_choice",
+              "question": "How do you say 'Nông trại'?",
+              "options": [
+                "Temple",
+                "Village",
+                "Post office",
+                "Farm"
+              ],
+              "correct": 3
+            },
+            {
+              "id": "ex_766",
+              "type": "listening",
+              "question": "Listen and choose the correct word",
+              "options": [
+                "City",
+                "Square",
+                "Bridge",
+                "Zoo"
+              ],
+              "correct": 2
+            }
+          ]
+        },
+        {
+          "id": "lesson_24_3",
+          "title": "Thành phố & Địa điểm - Từ vựng 3",
+          "type": "interactive",
+          "exercises": [
+            {
+              "id": "ex_767",
+              "type": "multiple_choice",
+              "question": "How do you say 'Bảo tàng'?",
+              "options": [
+                "Museum",
+                "City",
+                "Mall",
+                "Zoo"
+              ],
+              "correct": 0
+            },
+            {
+              "id": "ex_768",
+              "type": "listening",
+              "question": "Listen and choose the correct word",
+              "options": [
+                "Square",
+                "Temple",
+                "Town",
+                "Cinema"
+              ],
+              "correct": 3
+            },
+            {
+              "id": "ex_769",
+              "type": "pronunciation",
+              "question": "Hãy phát âm từ này thật chuẩn:",
+              "target": "Market"
+            },
+            {
+              "id": "ex_770",
+              "type": "multiple_choice",
+              "question": "How do you say 'Tiệm bánh'?",
+              "options": [
+                "Suburb",
+                "Square",
+                "Bank",
+                "Bakery"
+              ],
+              "correct": 3
+            },
+            {
+              "id": "ex_771",
+              "type": "listening",
+              "question": "Listen and choose the correct word",
+              "options": [
+                "Post office",
+                "Office",
+                "Park",
+                "Pier"
+              ],
+              "correct": 1
+            }
+          ]
+        },
+        {
+          "id": "lesson_24_4",
+          "title": "Thành phố & Địa điểm - Từ vựng 4",
+          "type": "interactive",
+          "exercises": [
+            {
+              "id": "ex_772",
+              "type": "multiple_choice",
+              "question": "How do you say 'Nhà thờ'?",
+              "options": [
+                "Zoo",
+                "Church",
+                "Farm",
+                "Office"
+              ],
+              "correct": 1
+            },
+            {
+              "id": "ex_773",
+              "type": "listening",
+              "question": "Listen and choose the correct word",
+              "options": [
+                "Tunnel",
+                "Office",
+                "City",
+                "Temple"
+              ],
+              "correct": 3
+            },
+            {
+              "id": "ex_774",
+              "type": "pronunciation",
+              "question": "Hãy phát âm từ này thật chuẩn:",
+              "target": "Village"
+            },
+            {
+              "id": "ex_775",
+              "type": "multiple_choice",
+              "question": "How do you say 'Bưu điện'?",
+              "options": [
+                "Mosque",
+                "Post office",
+                "Square",
+                "Market"
+              ],
+              "correct": 1
+            },
+            {
+              "id": "ex_776",
+              "type": "listening",
+              "question": "Listen and choose the correct word",
+              "options": [
+                "Cinema",
+                "Suburb",
+                "Road",
+                "Pier"
+              ],
+              "correct": 3
+            }
+          ]
+        },
+        {
+          "id": "lesson_24_5",
+          "title": "Thành phố & Địa điểm - Từ vựng 5",
+          "type": "interactive",
+          "exercises": [
+            {
+              "id": "ex_777",
+              "type": "multiple_choice",
+              "question": "How do you say 'Con hẻm'?",
+              "options": [
+                "Bakery",
+                "Alley",
+                "Cinema",
+                "City"
+              ],
+              "correct": 1
+            },
+            {
+              "id": "ex_778",
+              "type": "listening",
+              "question": "Listen and choose the correct word",
+              "options": [
+                "Bridge",
+                "Office",
+                "Cinema",
+                "Suburb"
+              ],
+              "correct": 3
+            },
+            {
+              "id": "ex_779",
+              "type": "pronunciation",
+              "question": "Hãy phát âm từ này thật chuẩn:",
+              "target": "Tunnel"
+            },
+            {
+              "id": "ex_780",
+              "type": "multiple_choice",
+              "question": "How do you say 'Quảng trường'?",
+              "options": [
+                "Village",
+                "Bakery",
+                "Square",
+                "Museum"
+              ],
+              "correct": 2
+            },
+            {
+              "id": "ex_781",
+              "type": "listening",
+              "question": "Listen and choose the correct word",
+              "options": [
+                "Town",
+                "Church",
+                "Mosque",
+                "Road"
+              ],
+              "correct": 2
+            }
+          ]
+        },
+        {
+          "id": "lesson_24_6",
+          "title": "Thành phố & Địa điểm - Câu 1",
+          "type": "interactive",
+          "exercises": [
+            {
+              "id": "ex_782",
+              "type": "translate",
+              "source": "Thư viện ở gần công viên",
+              "target": "The library is near the park",
+              "options": [
+                "near",
+                "is",
+                "the",
+                "park",
+                "under",
+                "The",
+                "library",
+                "never"
+              ],
+              "correct": [
+                "The",
+                "library",
+                "is",
+                "near",
+                "the",
+                "park"
+              ]
+            },
+            {
+              "id": "ex_783",
+              "type": "ordering",
+              "source": "Thư viện ở gần công viên",
+              "sentence": "The library is near the park",
+              "shuffled": [
+                "park",
+                "the",
+                "is",
+                "near",
+                "The",
+                "library"
+              ],
+              "correct": [
+                "The",
+                "library",
+                "is",
+                "near",
+                "the",
+                "park"
+              ]
+            },
+            {
+              "id": "ex_784",
+              "type": "pronunciation",
+              "question": "Hãy đọc to câu này thật chuẩn:",
+              "target": "The library is near the park"
+            },
+            {
+              "id": "ex_785",
+              "type": "translate",
+              "source": "Chúng tôi sống ở một thị trấn nhỏ",
+              "target": "We live in a small town",
+              "options": [
+                "a",
+                "live",
+                "small",
+                "quickly",
+                "under",
+                "town",
+                "We",
+                "in"
+              ],
+              "correct": [
+                "We",
+                "live",
+                "in",
+                "a",
+                "small",
+                "town"
+              ]
+            },
+            {
+              "id": "ex_786",
+              "type": "ordering",
+              "source": "Chúng tôi sống ở một thị trấn nhỏ",
+              "sentence": "We live in a small town",
+              "shuffled": [
+                "We",
+                "small",
+                "town",
+                "in",
+                "live",
+                "a"
+              ],
+              "correct": [
+                "We",
+                "live",
+                "in",
+                "a",
+                "small",
+                "town"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "lesson_24_7",
+          "title": "Thành phố & Địa điểm - Câu 2",
+          "type": "interactive",
+          "exercises": [
+            {
+              "id": "ex_787",
+              "type": "translate",
+              "source": "Bảo tàng mở cửa lúc chín giờ",
+              "target": "The museum opens at nine",
+              "options": [
+                "museum",
+                "at",
+                "nine",
+                "The",
+                "always",
+                "under",
+                "opens"
+              ],
+              "correct": [
+                "The",
+                "museum",
+                "opens",
+                "at",
+                "nine"
+              ]
+            },
+            {
+              "id": "ex_788",
+              "type": "ordering",
+              "source": "Bảo tàng mở cửa lúc chín giờ",
+              "sentence": "The museum opens at nine",
+              "shuffled": [
+                "opens",
+                "nine",
+                "museum",
+                "The",
+                "at"
+              ],
+              "correct": [
+                "The",
+                "museum",
+                "opens",
+                "at",
+                "nine"
+              ]
+            },
+            {
+              "id": "ex_789",
+              "type": "pronunciation",
+              "question": "Hãy đọc to câu này thật chuẩn:",
+              "target": "The museum opens at nine"
+            },
+            {
+              "id": "ex_790",
+              "type": "translate",
+              "source": "Có một ngân hàng trên con phố này",
+              "target": "There is a bank on this street",
+              "options": [
+                "bank",
+                "is",
+                "small",
+                "street",
+                "quickly",
+                "a",
+                "this",
+                "There",
+                "on"
+              ],
+              "correct": [
+                "There",
+                "is",
+                "a",
+                "bank",
+                "on",
+                "this",
+                "street"
+              ]
+            },
+            {
+              "id": "ex_791",
+              "type": "ordering",
+              "source": "Có một ngân hàng trên con phố này",
+              "sentence": "There is a bank on this street",
+              "shuffled": [
+                "a",
+                "is",
+                "bank",
+                "street",
+                "There",
+                "on",
+                "this"
+              ],
+              "correct": [
+                "There",
+                "is",
+                "a",
+                "bank",
+                "on",
+                "this",
+                "street"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "lesson_24_8",
+          "title": "Thành phố & Địa điểm - Câu 3",
+          "type": "interactive",
+          "exercises": [
+            {
+              "id": "ex_792",
+              "type": "translate",
+              "source": "Bệnh viện ở phía sau trường học",
+              "target": "The hospital is behind the school",
+              "options": [
+                "the",
+                "always",
+                "quickly",
+                "is",
+                "school",
+                "behind",
+                "hospital",
+                "The"
+              ],
+              "correct": [
+                "The",
+                "hospital",
+                "is",
+                "behind",
+                "the",
+                "school"
+              ]
+            },
+            {
+              "id": "ex_793",
+              "type": "ordering",
+              "source": "Bệnh viện ở phía sau trường học",
+              "sentence": "The hospital is behind the school",
+              "shuffled": [
+                "is",
+                "behind",
+                "The",
+                "the",
+                "hospital",
+                "school"
+              ],
+              "correct": [
+                "The",
+                "hospital",
+                "is",
+                "behind",
+                "the",
+                "school"
+              ]
+            },
+            {
+              "id": "ex_794",
+              "type": "pronunciation",
+              "question": "Hãy đọc to câu này thật chuẩn:",
+              "target": "The hospital is behind the school"
+            },
+            {
+              "id": "ex_795",
+              "type": "translate",
+              "source": "Rẽ trái ở góc đường",
+              "target": "Turn left at the corner",
+              "options": [
+                "never",
+                "quickly",
+                "at",
+                "Turn",
+                "left",
+                "corner",
+                "the"
+              ],
+              "correct": [
+                "Turn",
+                "left",
+                "at",
+                "the",
+                "corner"
+              ]
+            },
+            {
+              "id": "ex_796",
+              "type": "ordering",
+              "source": "Rẽ trái ở góc đường",
+              "sentence": "Turn left at the corner",
+              "shuffled": [
+                "at",
+                "Turn",
+                "left",
+                "the",
+                "corner"
+              ],
+              "correct": [
+                "Turn",
+                "left",
+                "at",
+                "the",
+                "corner"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "lesson_24_9",
+          "title": "Thành phố & Địa điểm - Câu 4",
+          "type": "interactive",
+          "exercises": [
+            {
+              "id": "ex_797",
+              "type": "translate",
+              "source": "Hôm nay khu chợ rất đông đúc",
+              "target": "The market is very crowded today",
+              "options": [
+                "blue",
+                "is",
+                "The",
+                "today",
+                "crowded",
+                "market",
+                "always",
+                "very"
+              ],
+              "correct": [
+                "The",
+                "market",
+                "is",
+                "very",
+                "crowded",
+                "today"
+              ]
+            },
+            {
+              "id": "ex_798",
+              "type": "ordering",
+              "source": "Hôm nay khu chợ rất đông đúc",
+              "sentence": "The market is very crowded today",
+              "shuffled": [
+                "The",
+                "very",
+                "today",
+                "is",
+                "market",
+                "crowded"
+              ],
+              "correct": [
+                "The",
+                "market",
+                "is",
+                "very",
+                "crowded",
+                "today"
+              ]
+            },
+            {
+              "id": "ex_799",
+              "type": "pronunciation",
+              "question": "Hãy đọc to câu này thật chuẩn:",
+              "target": "The market is very crowded today"
+            },
+            {
+              "id": "ex_800",
+              "type": "translate",
+              "source": "Tôi đang đợi ở trạm xe buýt",
+              "target": "I am waiting at the bus stop",
+              "options": [
+                "always",
+                "am",
+                "bus",
+                "yesterday",
+                "at",
+                "stop",
+                "waiting",
+                "the",
+                "I"
+              ],
+              "correct": [
+                "I",
+                "am",
+                "waiting",
+                "at",
+                "the",
+                "bus",
+                "stop"
+              ]
+            },
+            {
+              "id": "ex_801",
+              "type": "ordering",
+              "source": "Tôi đang đợi ở trạm xe buýt",
+              "sentence": "I am waiting at the bus stop",
+              "shuffled": [
+                "at",
+                "the",
+                "waiting",
+                "I",
+                "am",
+                "stop",
+                "bus"
+              ],
+              "correct": [
+                "I",
+                "am",
+                "waiting",
+                "at",
+                "the",
+                "bus",
+                "stop"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "lesson_24_10",
+          "title": "Thành phố & Địa điểm - Câu 5",
+          "type": "interactive",
+          "exercises": [
+            {
+              "id": "ex_802",
+              "type": "translate",
+              "source": "Cây cầu bắc qua con sông",
+              "target": "The bridge crosses the river",
+              "options": [
+                "The",
+                "bridge",
+                "small",
+                "crosses",
+                "happy",
+                "the",
+                "river"
+              ],
+              "correct": [
+                "The",
+                "bridge",
+                "crosses",
+                "the",
+                "river"
+              ]
+            },
+            {
+              "id": "ex_803",
+              "type": "ordering",
+              "source": "Cây cầu bắc qua con sông",
+              "sentence": "The bridge crosses the river",
+              "shuffled": [
+                "bridge",
+                "river",
+                "crosses",
+                "The",
+                "the"
+              ],
+              "correct": [
+                "The",
+                "bridge",
+                "crosses",
+                "the",
+                "river"
+              ]
+            },
+            {
+              "id": "ex_804",
+              "type": "pronunciation",
+              "question": "Hãy đọc to câu này thật chuẩn:",
+              "target": "The bridge crosses the river"
+            },
+            {
+              "id": "ex_805",
+              "type": "translate",
+              "source": "Thành phố của chúng tôi có nhiều tòa nhà cao",
+              "target": "Our city has many tall buildings",
+              "options": [
+                "small",
+                "under",
+                "many",
+                "city",
+                "Our",
+                "tall",
+                "buildings",
+                "has"
+              ],
+              "correct": [
+                "Our",
+                "city",
+                "has",
+                "many",
+                "tall",
+                "buildings"
+              ]
+            },
+            {
+              "id": "ex_806",
+              "type": "ordering",
+              "source": "Thành phố của chúng tôi có nhiều tòa nhà cao",
+              "sentence": "Our city has many tall buildings",
+              "shuffled": [
+                "buildings",
+                "has",
+                "city",
+                "many",
+                "tall",
+                "Our"
+              ],
+              "correct": [
+                "Our",
+                "city",
+                "has",
+                "many",
+                "tall",
+                "buildings"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "unit_25",
+      "title": "Trái cây & Rau củ",
+      "description": "Learn vocabulary about fruits and vegetables.",
+      "lessons": [
+        {
+          "id": "lesson_25_1",
+          "title": "Trái cây & Rau củ - Từ vựng 1",
+          "type": "interactive",
+          "exercises": [
+            {
+              "id": "ex_807",
+              "type": "multiple_choice",
+              "question": "How do you say 'Chanh xanh'?",
+              "options": [
+                "Lemon",
+                "Carrot",
+                "Durian",
+                "Lime"
+              ],
+              "correct": 3
+            },
+            {
+              "id": "ex_808",
+              "type": "listening",
+              "question": "Listen and choose the correct word",
+              "options": [
+                "Orange",
+                "Ginger",
+                "Onion",
+                "Pear"
+              ],
+              "correct": 3
+            },
+            {
+              "id": "ex_809",
+              "type": "pronunciation",
+              "question": "Hãy phát âm từ này thật chuẩn:",
+              "target": "Corn"
+            },
+            {
+              "id": "ex_810",
+              "type": "multiple_choice",
+              "question": "How do you say 'Đậu'?",
+              "options": [
+                "Mango",
+                "Coconut",
+                "Onion",
+                "Bean"
+              ],
+              "correct": 3
+            },
+            {
+              "id": "ex_811",
+              "type": "listening",
+              "question": "Listen and choose the correct word",
+              "options": [
+                "Grape",
+                "Ginger",
+                "Potato",
+                "Apple"
+              ],
+              "correct": 3
+            }
+          ]
+        },
+        {
+          "id": "lesson_25_2",
+          "title": "Trái cây & Rau củ - Từ vựng 2",
+          "type": "interactive",
+          "exercises": [
+            {
+              "id": "ex_812",
+              "type": "multiple_choice",
+              "question": "How do you say 'Nho'?",
+              "options": [
+                "Durian",
+                "Garlic",
+                "Papaya",
+                "Grape"
+              ],
+              "correct": 3
+            },
+            {
+              "id": "ex_813",
+              "type": "listening",
+              "question": "Listen and choose the correct word",
+              "options": [
+                "Mango",
+                "Apple",
+                "Pumpkin",
+                "Durian"
+              ],
+              "correct": 0
+            },
+            {
+              "id": "ex_814",
+              "type": "pronunciation",
+              "question": "Hãy phát âm từ này thật chuẩn:",
+              "target": "Lemon"
+            },
+            {
+              "id": "ex_815",
+              "type": "multiple_choice",
+              "question": "How do you say 'Hành tây'?",
+              "options": [
+                "Onion",
+                "Lime",
+                "Coconut",
+                "Potato"
+              ],
+              "correct": 0
+            },
+            {
+              "id": "ex_816",
+              "type": "listening",
+              "question": "Listen and choose the correct word",
+              "options": [
+                "Chili",
+                "Corn",
+                "Banana",
+                "Pear"
+              ],
+              "correct": 0
+            }
+          ]
+        },
+        {
+          "id": "lesson_25_3",
+          "title": "Trái cây & Rau củ - Từ vựng 3",
+          "type": "interactive",
+          "exercises": [
+            {
+              "id": "ex_817",
+              "type": "multiple_choice",
+              "question": "How do you say 'Chuối'?",
+              "options": [
+                "Banana",
+                "Lemon",
+                "Ginger",
+                "Tomato"
+              ],
+              "correct": 0
+            },
+            {
+              "id": "ex_818",
+              "type": "listening",
+              "question": "Listen and choose the correct word",
+              "options": [
+                "Chili",
+                "Orange",
+                "Lime",
+                "Lettuce"
+              ],
+              "correct": 1
+            },
+            {
+              "id": "ex_819",
+              "type": "pronunciation",
+              "question": "Hãy phát âm từ này thật chuẩn:",
+              "target": "Papaya"
+            },
+            {
+              "id": "ex_820",
+              "type": "multiple_choice",
+              "question": "How do you say 'Sầu riêng'?",
+              "options": [
+                "Durian",
+                "Lime",
+                "Lettuce",
+                "Lemon"
+              ],
+              "correct": 0
+            },
+            {
+              "id": "ex_821",
+              "type": "listening",
+              "question": "Listen and choose the correct word",
+              "options": [
+                "Potato",
+                "Pumpkin",
+                "Mushroom",
+                "Garlic"
+              ],
+              "correct": 0
+            }
+          ]
+        },
+        {
+          "id": "lesson_25_4",
+          "title": "Trái cây & Rau củ - Từ vựng 4",
+          "type": "interactive",
+          "exercises": [
+            {
+              "id": "ex_822",
+              "type": "multiple_choice",
+              "question": "How do you say 'Cà chua'?",
+              "options": [
+                "Cucumber",
+                "Mango",
+                "Tomato",
+                "Onion"
+              ],
+              "correct": 2
+            },
+            {
+              "id": "ex_823",
+              "type": "listening",
+              "question": "Listen and choose the correct word",
+              "options": [
+                "Pear",
+                "Lemon",
+                "Garlic",
+                "Cucumber"
+              ],
+              "correct": 2
+            },
+            {
+              "id": "ex_824",
+              "type": "pronunciation",
+              "question": "Hãy phát âm từ này thật chuẩn:",
+              "target": "Carrot"
+            },
+            {
+              "id": "ex_825",
+              "type": "multiple_choice",
+              "question": "How do you say 'Gừng'?",
+              "options": [
+                "Pumpkin",
+                "Ginger",
+                "Mushroom",
+                "Lemon"
+              ],
+              "correct": 1
+            },
+            {
+              "id": "ex_826",
+              "type": "listening",
+              "question": "Listen and choose the correct word",
+              "options": [
+                "Mango",
+                "Lime",
+                "Coconut",
+                "Corn"
+              ],
+              "correct": 2
+            }
+          ]
+        },
+        {
+          "id": "lesson_25_5",
+          "title": "Trái cây & Rau củ - Từ vựng 5",
+          "type": "interactive",
+          "exercises": [
+            {
+              "id": "ex_827",
+              "type": "multiple_choice",
+              "question": "How do you say 'Bắp cải'?",
+              "options": [
+                "Bean",
+                "Banana",
+                "Cabbage",
+                "Tomato"
+              ],
+              "correct": 2
+            },
+            {
+              "id": "ex_828",
+              "type": "listening",
+              "question": "Listen and choose the correct word",
+              "options": [
+                "Grape",
+                "Garlic",
+                "Lettuce",
+                "Onion"
+              ],
+              "correct": 2
+            },
+            {
+              "id": "ex_829",
+              "type": "pronunciation",
+              "question": "Hãy phát âm từ này thật chuẩn:",
+              "target": "Pumpkin"
+            },
+            {
+              "id": "ex_830",
+              "type": "multiple_choice",
+              "question": "How do you say 'Dưa chuột'?",
+              "options": [
+                "Cucumber",
+                "Grape",
+                "Potato",
+                "Mango"
+              ],
+              "correct": 0
+            },
+            {
+              "id": "ex_831",
+              "type": "listening",
+              "question": "Listen and choose the correct word",
+              "options": [
+                "Lemon",
+                "Papaya",
+                "Mushroom",
+                "Orange"
+              ],
+              "correct": 2
+            }
+          ]
+        },
+        {
+          "id": "lesson_25_6",
+          "title": "Trái cây & Rau củ - Câu 1",
+          "type": "interactive",
+          "exercises": [
+            {
+              "id": "ex_832",
+              "type": "translate",
+              "source": "Tôi ăn một quả táo mỗi ngày",
+              "target": "I eat an apple every day",
+              "options": [
+                "because",
+                "eat",
+                "many",
+                "every",
+                "apple",
+                "day",
+                "an",
+                "I"
+              ],
+              "correct": [
+                "I",
+                "eat",
+                "an",
+                "apple",
+                "every",
+                "day"
+              ]
+            },
+            {
+              "id": "ex_833",
+              "type": "ordering",
+              "source": "Tôi ăn một quả táo mỗi ngày",
+              "sentence": "I eat an apple every day",
+              "shuffled": [
+                "eat",
+                "every",
+                "day",
+                "I",
+                "an",
+                "apple"
+              ],
+              "correct": [
+                "I",
+                "eat",
+                "an",
+                "apple",
+                "every",
+                "day"
+              ]
+            },
+            {
+              "id": "ex_834",
+              "type": "pronunciation",
+              "question": "Hãy đọc to câu này thật chuẩn:",
+              "target": "I eat an apple every day"
+            },
+            {
+              "id": "ex_835",
+              "type": "translate",
+              "source": "Chuối là loại quả tôi thích nhất",
+              "target": "Bananas are my favorite fruit",
+              "options": [
+                "fruit",
+                "blue",
+                "because",
+                "favorite",
+                "my",
+                "are",
+                "Bananas"
+              ],
+              "correct": [
+                "Bananas",
+                "are",
+                "my",
+                "favorite",
+                "fruit"
+              ]
+            },
+            {
+              "id": "ex_836",
+              "type": "ordering",
+              "source": "Chuối là loại quả tôi thích nhất",
+              "sentence": "Bananas are my favorite fruit",
+              "shuffled": [
+                "my",
+                "are",
+                "fruit",
+                "favorite",
+                "Bananas"
+              ],
+              "correct": [
+                "Bananas",
+                "are",
+                "my",
+                "favorite",
+                "fruit"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "lesson_25_7",
+          "title": "Trái cây & Rau củ - Câu 2",
+          "type": "interactive",
+          "exercises": [
+            {
+              "id": "ex_837",
+              "type": "translate",
+              "source": "Quả dưa hấu rất ngọt",
+              "target": "The watermelon is very sweet",
+              "options": [
+                "yesterday",
+                "watermelon",
+                "is",
+                "sweet",
+                "The",
+                "happy",
+                "very"
+              ],
+              "correct": [
+                "The",
+                "watermelon",
+                "is",
+                "very",
+                "sweet"
+              ]
+            },
+            {
+              "id": "ex_838",
+              "type": "ordering",
+              "source": "Quả dưa hấu rất ngọt",
+              "sentence": "The watermelon is very sweet",
+              "shuffled": [
+                "very",
+                "is",
+                "watermelon",
+                "The",
+                "sweet"
+              ],
+              "correct": [
+                "The",
+                "watermelon",
+                "is",
+                "very",
+                "sweet"
+              ]
+            },
+            {
+              "id": "ex_839",
+              "type": "pronunciation",
+              "question": "Hãy đọc to câu này thật chuẩn:",
+              "target": "The watermelon is very sweet"
+            },
+            {
+              "id": "ex_840",
+              "type": "translate",
+              "source": "Mẹ đã mua rau củ tươi",
+              "target": "Mom bought fresh vegetables",
+              "options": [
+                "bought",
+                "vegetables",
+                "fresh",
+                "Mom",
+                "never",
+                "small"
+              ],
+              "correct": [
+                "Mom",
+                "bought",
+                "fresh",
+                "vegetables"
+              ]
+            },
+            {
+              "id": "ex_841",
+              "type": "ordering",
+              "source": "Mẹ đã mua rau củ tươi",
+              "sentence": "Mom bought fresh vegetables",
+              "shuffled": [
+                "fresh",
+                "bought",
+                "vegetables",
+                "Mom"
+              ],
+              "correct": [
+                "Mom",
+                "bought",
+                "fresh",
+                "vegetables"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "lesson_25_8",
+          "title": "Trái cây & Rau củ - Câu 3",
+          "type": "interactive",
+          "exercises": [
+            {
+              "id": "ex_842",
+              "type": "translate",
+              "source": "Cà rốt tốt cho đôi mắt của bạn",
+              "target": "Carrots are good for your eyes",
+              "options": [
+                "are",
+                "for",
+                "good",
+                "eyes",
+                "Carrots",
+                "always",
+                "your",
+                "because"
+              ],
+              "correct": [
+                "Carrots",
+                "are",
+                "good",
+                "for",
+                "your",
+                "eyes"
+              ]
+            },
+            {
+              "id": "ex_843",
+              "type": "ordering",
+              "source": "Cà rốt tốt cho đôi mắt của bạn",
+              "sentence": "Carrots are good for your eyes",
+              "shuffled": [
+                "eyes",
+                "good",
+                "are",
+                "Carrots",
+                "for",
+                "your"
+              ],
+              "correct": [
+                "Carrots",
+                "are",
+                "good",
+                "for",
+                "your",
+                "eyes"
+              ]
+            },
+            {
+              "id": "ex_844",
+              "type": "pronunciation",
+              "question": "Hãy đọc to câu này thật chuẩn:",
+              "target": "Carrots are good for your eyes"
+            },
+            {
+              "id": "ex_845",
+              "type": "translate",
+              "source": "Anh ấy đang gọt một quả dứa",
+              "target": "He is cutting a pineapple",
+              "options": [
+                "He",
+                "under",
+                "pineapple",
+                "cutting",
+                "always",
+                "a",
+                "is"
+              ],
+              "correct": [
+                "He",
+                "is",
+                "cutting",
+                "a",
+                "pineapple"
+              ]
+            },
+            {
+              "id": "ex_846",
+              "type": "ordering",
+              "source": "Anh ấy đang gọt một quả dứa",
+              "sentence": "He is cutting a pineapple",
+              "shuffled": [
+                "is",
+                "He",
+                "pineapple",
+                "a",
+                "cutting"
+              ],
+              "correct": [
+                "He",
+                "is",
+                "cutting",
+                "a",
+                "pineapple"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "lesson_25_9",
+          "title": "Trái cây & Rau củ - Câu 4",
+          "type": "interactive",
+          "exercises": [
+            {
+              "id": "ex_847",
+              "type": "translate",
+              "source": "Chúng tôi trồng cà chua trong vườn",
+              "target": "We grow tomatoes in the garden",
+              "options": [
+                "happy",
+                "the",
+                "under",
+                "garden",
+                "tomatoes",
+                "grow",
+                "in",
+                "We"
+              ],
+              "correct": [
+                "We",
+                "grow",
+                "tomatoes",
+                "in",
+                "the",
+                "garden"
+              ]
+            },
+            {
+              "id": "ex_848",
+              "type": "ordering",
+              "source": "Chúng tôi trồng cà chua trong vườn",
+              "sentence": "We grow tomatoes in the garden",
+              "shuffled": [
+                "grow",
+                "the",
+                "We",
+                "garden",
+                "in",
+                "tomatoes"
+              ],
+              "correct": [
+                "We",
+                "grow",
+                "tomatoes",
+                "in",
+                "the",
+                "garden"
+              ]
+            },
+            {
+              "id": "ex_849",
+              "type": "pronunciation",
+              "question": "Hãy đọc to câu này thật chuẩn:",
+              "target": "We grow tomatoes in the garden"
+            },
+            {
+              "id": "ex_850",
+              "type": "translate",
+              "source": "Ly nước cam này rất ngon",
+              "target": "This orange juice is delicious",
+              "options": [
+                "delicious",
+                "orange",
+                "This",
+                "is",
+                "never",
+                "juice",
+                "because"
+              ],
+              "correct": [
+                "This",
+                "orange",
+                "juice",
+                "is",
+                "delicious"
+              ]
+            },
+            {
+              "id": "ex_851",
+              "type": "ordering",
+              "source": "Ly nước cam này rất ngon",
+              "sentence": "This orange juice is delicious",
+              "shuffled": [
+                "juice",
+                "orange",
+                "delicious",
+                "is",
+                "This"
+              ],
+              "correct": [
+                "This",
+                "orange",
+                "juice",
+                "is",
+                "delicious"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "lesson_25_10",
+          "title": "Trái cây & Rau củ - Câu 5",
+          "type": "interactive",
+          "exercises": [
+            {
+              "id": "ex_852",
+              "type": "translate",
+              "source": "Nho mọc trên giàn dây leo",
+              "target": "Grapes grow on vines",
+              "options": [
+                "under",
+                "grow",
+                "never",
+                "Grapes",
+                "vines",
+                "on"
+              ],
+              "correct": [
+                "Grapes",
+                "grow",
+                "on",
+                "vines"
+              ]
+            },
+            {
+              "id": "ex_853",
+              "type": "ordering",
+              "source": "Nho mọc trên giàn dây leo",
+              "sentence": "Grapes grow on vines",
+              "shuffled": [
+                "vines",
+                "on",
+                "Grapes",
+                "grow"
+              ],
+              "correct": [
+                "Grapes",
+                "grow",
+                "on",
+                "vines"
+              ]
+            },
+            {
+              "id": "ex_854",
+              "type": "pronunciation",
+              "question": "Hãy đọc to câu này thật chuẩn:",
+              "target": "Grapes grow on vines"
+            },
+            {
+              "id": "ex_855",
+              "type": "translate",
+              "source": "Vui lòng rửa những quả dâu tây",
+              "target": "Please wash the strawberries",
+              "options": [
+                "always",
+                "never",
+                "strawberries",
+                "Please",
+                "the",
+                "wash"
+              ],
+              "correct": [
+                "Please",
+                "wash",
+                "the",
+                "strawberries"
+              ]
+            },
+            {
+              "id": "ex_856",
+              "type": "ordering",
+              "source": "Vui lòng rửa những quả dâu tây",
+              "sentence": "Please wash the strawberries",
+              "shuffled": [
+                "Please",
+                "wash",
+                "strawberries",
+                "the"
+              ],
+              "correct": [
+                "Please",
+                "wash",
+                "the",
+                "strawberries"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "unit_26",
+      "title": "Du lịch & Kỳ nghỉ",
+      "description": "Learn vocabulary about travel and holidays.",
+      "lessons": [
+        {
+          "id": "lesson_26_1",
+          "title": "Du lịch & Kỳ nghỉ - Từ vựng 1",
+          "type": "interactive",
+          "exercises": [
+            {
+              "id": "ex_857",
+              "type": "multiple_choice",
+              "question": "How do you say 'Bản đồ'?",
+              "options": [
+                "Vacation",
+                "Camera",
+                "Resort",
+                "Map"
+              ],
+              "correct": 3
+            },
+            {
+              "id": "ex_858",
+              "type": "listening",
+              "question": "Listen and choose the correct word",
+              "options": [
+                "Island",
+                "Souvenir",
+                "Trip",
+                "Luggage"
+              ],
+              "correct": 2
+            },
+            {
+              "id": "ex_859",
+              "type": "pronunciation",
+              "question": "Hãy phát âm từ này thật chuẩn:",
+              "target": "Tent"
+            },
+            {
+              "id": "ex_860",
+              "type": "multiple_choice",
+              "question": "How do you say 'Khách sạn'?",
+              "options": [
+                "Hotel",
+                "Destination",
+                "Luggage",
+                "Passport control"
+              ],
+              "correct": 0
+            },
+            {
+              "id": "ex_861",
+              "type": "listening",
+              "question": "Listen and choose the correct word",
+              "options": [
+                "Sightseeing",
+                "Destination",
+                "Tourist",
+                "Beach"
+              ],
+              "correct": 2
+            }
+          ]
+        },
+        {
+          "id": "lesson_26_2",
+          "title": "Du lịch & Kỳ nghỉ - Từ vựng 2",
+          "type": "interactive",
+          "exercises": [
+            {
+              "id": "ex_862",
+              "type": "multiple_choice",
+              "question": "How do you say 'Hành lý'?",
+              "options": [
+                "Postcard",
+                "Map",
+                "Luggage",
+                "Journey"
+              ],
+              "correct": 2
+            },
+            {
+              "id": "ex_863",
+              "type": "listening",
+              "question": "Listen and choose the correct word",
+              "options": [
+                "Tent",
+                "Trip",
+                "Camping",
+                "Hotel"
+              ],
+              "correct": 2
+            },
+            {
+              "id": "ex_864",
+              "type": "pronunciation",
+              "question": "Hãy phát âm từ này thật chuẩn:",
+              "target": "Vacation"
+            },
+            {
+              "id": "ex_865",
+              "type": "multiple_choice",
+              "question": "How do you say 'Va li'?",
+              "options": [
+                "Camera",
+                "Hotel",
+                "Backpack",
+                "Suitcase"
+              ],
+              "correct": 3
+            },
+            {
+              "id": "ex_866",
+              "type": "listening",
+              "question": "Listen and choose the correct word",
+              "options": [
+                "Map",
+                "Itinerary",
+                "Guide",
+                "Resort"
+              ],
+              "correct": 2
+            }
+          ]
+        },
+        {
+          "id": "lesson_26_3",
+          "title": "Du lịch & Kỳ nghỉ - Từ vựng 3",
+          "type": "interactive",
+          "exercises": [
+            {
+              "id": "ex_867",
+              "type": "multiple_choice",
+              "question": "How do you say 'Bãi biển'?",
+              "options": [
+                "Camping",
+                "Tourist",
+                "Beach",
+                "Luggage"
+              ],
+              "correct": 2
+            },
+            {
+              "id": "ex_868",
+              "type": "listening",
+              "question": "Listen and choose the correct word",
+              "options": [
+                "Destination",
+                "Tent",
+                "Passport control",
+                "Resort"
+              ],
+              "correct": 3
+            },
+            {
+              "id": "ex_869",
+              "type": "pronunciation",
+              "question": "Hãy phát âm từ này thật chuẩn:",
+              "target": "Camera"
+            },
+            {
+              "id": "ex_870",
+              "type": "multiple_choice",
+              "question": "How do you say 'Hòn đảo'?",
+              "options": [
+                "Hotel",
+                "Camping",
+                "Island",
+                "Passport control"
+              ],
+              "correct": 2
+            },
+            {
+              "id": "ex_871",
+              "type": "listening",
+              "question": "Listen and choose the correct word",
+              "options": [
+                "Itinerary",
+                "Journey",
+                "Vacation",
+                "Souvenir"
+              ],
+              "correct": 1
+            }
+          ]
+        },
+        {
+          "id": "lesson_26_4",
+          "title": "Du lịch & Kỳ nghỉ - Từ vựng 4",
+          "type": "interactive",
+          "exercises": [
+            {
+              "id": "ex_872",
+              "type": "multiple_choice",
+              "question": "How do you say 'Quà lưu niệm'?",
+              "options": [
+                "Boarding pass",
+                "Sightseeing",
+                "Souvenir",
+                "Island"
+              ],
+              "correct": 2
+            },
+            {
+              "id": "ex_873",
+              "type": "listening",
+              "question": "Listen and choose the correct word",
+              "options": [
+                "Map",
+                "Camera",
+                "Backpack",
+                "Guide"
+              ],
+              "correct": 2
+            },
+            {
+              "id": "ex_874",
+              "type": "pronunciation",
+              "question": "Hãy phát âm từ này thật chuẩn:",
+              "target": "Postcard"
+            },
+            {
+              "id": "ex_875",
+              "type": "multiple_choice",
+              "question": "How do you say 'Cuộc phiêu lưu'?",
+              "options": [
+                "Sightseeing",
+                "Hotel",
+                "Beach",
+                "Adventure"
+              ],
+              "correct": 3
+            },
+            {
+              "id": "ex_876",
+              "type": "listening",
+              "question": "Listen and choose the correct word",
+              "options": [
+                "Guide",
+                "Resort",
+                "Suitcase",
+                "Reservation"
+              ],
+              "correct": 3
+            }
+          ]
+        },
+        {
+          "id": "lesson_26_5",
+          "title": "Du lịch & Kỳ nghỉ - Từ vựng 5",
+          "type": "interactive",
+          "exercises": [
+            {
+              "id": "ex_877",
+              "type": "multiple_choice",
+              "question": "How do you say 'Tham quan'?",
+              "options": [
+                "Guide",
+                "Reservation",
+                "Journey",
+                "Sightseeing"
+              ],
+              "correct": 3
+            },
+            {
+              "id": "ex_878",
+              "type": "listening",
+              "question": "Listen and choose the correct word",
+              "options": [
+                "Destination",
+                "Postcard",
+                "Backpack",
+                "Suitcase"
+              ],
+              "correct": 0
+            },
+            {
+              "id": "ex_879",
+              "type": "pronunciation",
+              "question": "Hãy phát âm từ này thật chuẩn:",
+              "target": "Boarding pass"
+            },
+            {
+              "id": "ex_880",
+              "type": "multiple_choice",
+              "question": "How do you say 'Kiểm soát hộ chiếu'?",
+              "options": [
+                "Journey",
+                "Reservation",
+                "Luggage",
+                "Passport control"
+              ],
+              "correct": 3
+            },
+            {
+              "id": "ex_881",
+              "type": "listening",
+              "question": "Listen and choose the correct word",
+              "options": [
+                "Resort",
+                "Itinerary",
+                "Tent",
+                "Vacation"
+              ],
+              "correct": 1
+            }
+          ]
+        },
+        {
+          "id": "lesson_26_6",
+          "title": "Du lịch & Kỳ nghỉ - Câu 1",
+          "type": "interactive",
+          "exercises": [
+            {
+              "id": "ex_882",
+              "type": "translate",
+              "source": "Chúng tôi đang xếp hành lý",
+              "target": "We are packing our suitcases",
+              "options": [
+                "are",
+                "We",
+                "packing",
+                "quickly",
+                "suitcases",
+                "our",
+                "blue"
+              ],
+              "correct": [
+                "We",
+                "are",
+                "packing",
+                "our",
+                "suitcases"
+              ]
+            },
+            {
+              "id": "ex_883",
+              "type": "ordering",
+              "source": "Chúng tôi đang xếp hành lý",
+              "sentence": "We are packing our suitcases",
+              "shuffled": [
+                "We",
+                "packing",
+                "suitcases",
+                "our",
+                "are"
+              ],
+              "correct": [
+                "We",
+                "are",
+                "packing",
+                "our",
+                "suitcases"
+              ]
+            },
+            {
+              "id": "ex_884",
+              "type": "pronunciation",
+              "question": "Hãy đọc to câu này thật chuẩn:",
+              "target": "We are packing our suitcases"
+            },
+            {
+              "id": "ex_885",
+              "type": "translate",
+              "source": "Khách sạn có bể bơi",
+              "target": "The hotel has a swimming pool",
+              "options": [
+                "has",
+                "pool",
+                "a",
+                "The",
+                "hotel",
+                "blue",
+                "many",
+                "swimming"
+              ],
+              "correct": [
+                "The",
+                "hotel",
+                "has",
+                "a",
+                "swimming",
+                "pool"
+              ]
+            },
+            {
+              "id": "ex_886",
+              "type": "ordering",
+              "source": "Khách sạn có bể bơi",
+              "sentence": "The hotel has a swimming pool",
+              "shuffled": [
+                "The",
+                "has",
+                "swimming",
+                "a",
+                "hotel",
+                "pool"
+              ],
+              "correct": [
+                "The",
+                "hotel",
+                "has",
+                "a",
+                "swimming",
+                "pool"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "lesson_26_7",
+          "title": "Du lịch & Kỳ nghỉ - Câu 2",
+          "type": "interactive",
+          "exercises": [
+            {
+              "id": "ex_887",
+              "type": "translate",
+              "source": "Hôm qua tôi làm mất hộ chiếu",
+              "target": "I lost my passport yesterday",
+              "options": [
+                "lost",
+                "I",
+                "never",
+                "blue",
+                "my",
+                "passport",
+                "yesterday"
+              ],
+              "correct": [
+                "I",
+                "lost",
+                "my",
+                "passport",
+                "yesterday"
+              ]
+            },
+            {
+              "id": "ex_888",
+              "type": "ordering",
+              "source": "Hôm qua tôi làm mất hộ chiếu",
+              "sentence": "I lost my passport yesterday",
+              "shuffled": [
+                "yesterday",
+                "I",
+                "lost",
+                "passport",
+                "my"
+              ],
+              "correct": [
+                "I",
+                "lost",
+                "my",
+                "passport",
+                "yesterday"
+              ]
+            },
+            {
+              "id": "ex_889",
+              "type": "pronunciation",
+              "question": "Hãy đọc to câu này thật chuẩn:",
+              "target": "I lost my passport yesterday"
+            },
+            {
+              "id": "ex_890",
+              "type": "translate",
+              "source": "Bãi biển rất đẹp vào mùa hè",
+              "target": "The beach is beautiful in summer",
+              "options": [
+                "in",
+                "under",
+                "beach",
+                "summer",
+                "is",
+                "blue",
+                "The",
+                "beautiful"
+              ],
+              "correct": [
+                "The",
+                "beach",
+                "is",
+                "beautiful",
+                "in",
+                "summer"
+              ]
+            },
+            {
+              "id": "ex_891",
+              "type": "ordering",
+              "source": "Bãi biển rất đẹp vào mùa hè",
+              "sentence": "The beach is beautiful in summer",
+              "shuffled": [
+                "beach",
+                "summer",
+                "is",
+                "beautiful",
+                "The",
+                "in"
+              ],
+              "correct": [
+                "The",
+                "beach",
+                "is",
+                "beautiful",
+                "in",
+                "summer"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "lesson_26_8",
+          "title": "Du lịch & Kỳ nghỉ - Câu 3",
+          "type": "interactive",
+          "exercises": [
+            {
+              "id": "ex_892",
+              "type": "translate",
+              "source": "Chúng tôi chụp nhiều ảnh trong chuyến đi",
+              "target": "We took many photos on the trip",
+              "options": [
+                "small",
+                "took",
+                "photos",
+                "We",
+                "on",
+                "trip",
+                "many",
+                "the"
+              ],
+              "correct": [
+                "We",
+                "took",
+                "many",
+                "photos",
+                "on",
+                "the",
+                "trip"
+              ]
+            },
+            {
+              "id": "ex_893",
+              "type": "ordering",
+              "source": "Chúng tôi chụp nhiều ảnh trong chuyến đi",
+              "sentence": "We took many photos on the trip",
+              "shuffled": [
+                "trip",
+                "We",
+                "many",
+                "took",
+                "the",
+                "photos",
+                "on"
+              ],
+              "correct": [
+                "We",
+                "took",
+                "many",
+                "photos",
+                "on",
+                "the",
+                "trip"
+              ]
+            },
+            {
+              "id": "ex_894",
+              "type": "pronunciation",
+              "question": "Hãy đọc to câu này thật chuẩn:",
+              "target": "We took many photos on the trip"
+            },
+            {
+              "id": "ex_895",
+              "type": "translate",
+              "source": "Hướng dẫn viên nói tiếng Anh giỏi",
+              "target": "The tour guide speaks English well",
+              "options": [
+                "The",
+                "well",
+                "tour",
+                "guide",
+                "because",
+                "never",
+                "speaks",
+                "English"
+              ],
+              "correct": [
+                "The",
+                "tour",
+                "guide",
+                "speaks",
+                "English",
+                "well"
+              ]
+            },
+            {
+              "id": "ex_896",
+              "type": "ordering",
+              "source": "Hướng dẫn viên nói tiếng Anh giỏi",
+              "sentence": "The tour guide speaks English well",
+              "shuffled": [
+                "well",
+                "The",
+                "speaks",
+                "tour",
+                "English",
+                "guide"
+              ],
+              "correct": [
+                "The",
+                "tour",
+                "guide",
+                "speaks",
+                "English",
+                "well"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "lesson_26_9",
+          "title": "Du lịch & Kỳ nghỉ - Câu 4",
+          "type": "interactive",
+          "exercises": [
+            {
+              "id": "ex_897",
+              "type": "translate",
+              "source": "Tôi muốn thăm ngôi đền cổ",
+              "target": "I want to visit the ancient temple",
+              "options": [
+                "blue",
+                "I",
+                "ancient",
+                "to",
+                "visit",
+                "always",
+                "want",
+                "temple",
+                "the"
+              ],
+              "correct": [
+                "I",
+                "want",
+                "to",
+                "visit",
+                "the",
+                "ancient",
+                "temple"
+              ]
+            },
+            {
+              "id": "ex_898",
+              "type": "ordering",
+              "source": "Tôi muốn thăm ngôi đền cổ",
+              "sentence": "I want to visit the ancient temple",
+              "shuffled": [
+                "visit",
+                "want",
+                "I",
+                "the",
+                "temple",
+                "to",
+                "ancient"
+              ],
+              "correct": [
+                "I",
+                "want",
+                "to",
+                "visit",
+                "the",
+                "ancient",
+                "temple"
+              ]
+            },
+            {
+              "id": "ex_899",
+              "type": "pronunciation",
+              "question": "Hãy đọc to câu này thật chuẩn:",
+              "target": "I want to visit the ancient temple"
+            },
+            {
+              "id": "ex_900",
+              "type": "translate",
+              "source": "Kỳ nghỉ của chúng tôi bắt đầu vào tuần sau",
+              "target": "Our vacation starts next week",
+              "options": [
+                "starts",
+                "Our",
+                "week",
+                "blue",
+                "vacation",
+                "many",
+                "next"
+              ],
+              "correct": [
+                "Our",
+                "vacation",
+                "starts",
+                "next",
+                "week"
+              ]
+            },
+            {
+              "id": "ex_901",
+              "type": "ordering",
+              "source": "Kỳ nghỉ của chúng tôi bắt đầu vào tuần sau",
+              "sentence": "Our vacation starts next week",
+              "shuffled": [
+                "week",
+                "vacation",
+                "starts",
+                "next",
+                "Our"
+              ],
+              "correct": [
+                "Our",
+                "vacation",
+                "starts",
+                "next",
+                "week"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "lesson_26_10",
+          "title": "Du lịch & Kỳ nghỉ - Câu 5",
+          "type": "interactive",
+          "exercises": [
+            {
+              "id": "ex_902",
+              "type": "translate",
+              "source": "Chuyến tàu khởi hành lúc buổi trưa",
+              "target": "The train leaves at noon",
+              "options": [
+                "The",
+                "train",
+                "leaves",
+                "small",
+                "yesterday",
+                "noon",
+                "at"
+              ],
+              "correct": [
+                "The",
+                "train",
+                "leaves",
+                "at",
+                "noon"
+              ]
+            },
+            {
+              "id": "ex_903",
+              "type": "ordering",
+              "source": "Chuyến tàu khởi hành lúc buổi trưa",
+              "sentence": "The train leaves at noon",
+              "shuffled": [
+                "The",
+                "at",
+                "noon",
+                "train",
+                "leaves"
+              ],
+              "correct": [
+                "The",
+                "train",
+                "leaves",
+                "at",
+                "noon"
+              ]
+            },
+            {
+              "id": "ex_904",
+              "type": "pronunciation",
+              "question": "Hãy đọc to câu này thật chuẩn:",
+              "target": "The train leaves at noon"
+            },
+            {
+              "id": "ex_905",
+              "type": "translate",
+              "source": "Nhớ đặt vé sớm nhé",
+              "target": "Remember to book the tickets early",
+              "options": [
+                "many",
+                "tickets",
+                "book",
+                "to",
+                "small",
+                "the",
+                "early",
+                "Remember"
+              ],
+              "correct": [
+                "Remember",
+                "to",
+                "book",
+                "the",
+                "tickets",
+                "early"
+              ]
+            },
+            {
+              "id": "ex_906",
+              "type": "ordering",
+              "source": "Nhớ đặt vé sớm nhé",
+              "sentence": "Remember to book the tickets early",
+              "shuffled": [
+                "Remember",
+                "book",
+                "early",
+                "tickets",
+                "to",
+                "the"
+              ],
+              "correct": [
+                "Remember",
+                "to",
+                "book",
+                "the",
+                "tickets",
+                "early"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "unit_27",
+      "title": "Âm nhạc & Nghệ thuật",
+      "description": "Learn vocabulary about music and the arts.",
+      "lessons": [
+        {
+          "id": "lesson_27_1",
+          "title": "Âm nhạc & Nghệ thuật - Từ vựng 1",
+          "type": "interactive",
+          "exercises": [
+            {
+              "id": "ex_907",
+              "type": "multiple_choice",
+              "question": "How do you say 'Bài hát'?",
+              "options": [
+                "Album",
+                "Violin",
+                "Song",
+                "Flute"
+              ],
+              "correct": 2
+            },
+            {
+              "id": "ex_908",
+              "type": "listening",
+              "question": "Listen and choose the correct word",
+              "options": [
+                "Rhythm",
+                "Concert",
+                "Artist",
+                "Drum"
+              ],
+              "correct": 3
+            },
+            {
+              "id": "ex_909",
+              "type": "pronunciation",
+              "question": "Hãy phát âm từ này thật chuẩn:",
+              "target": "Band"
+            },
+            {
+              "id": "ex_910",
+              "type": "multiple_choice",
+              "question": "How do you say 'Âm nhạc'?",
+              "options": [
+                "Music",
+                "Rhythm",
+                "Painting",
+                "Microphone"
+              ],
+              "correct": 0
+            },
+            {
+              "id": "ex_911",
+              "type": "listening",
+              "question": "Listen and choose the correct word",
+              "options": [
+                "Piano",
+                "Album",
+                "Concert",
+                "Audience"
+              ],
+              "correct": 0
+            }
+          ]
+        },
+        {
+          "id": "lesson_27_2",
+          "title": "Âm nhạc & Nghệ thuật - Từ vựng 2",
+          "type": "interactive",
+          "exercises": [
+            {
+              "id": "ex_912",
+              "type": "multiple_choice",
+              "question": "How do you say 'Đàn ghi ta'?",
+              "options": [
+                "Piano",
+                "Guitar",
+                "Choir",
+                "Drum"
+              ],
+              "correct": 1
+            },
+            {
+              "id": "ex_913",
+              "type": "listening",
+              "question": "Listen and choose the correct word",
+              "options": [
+                "Speaker",
+                "Piano",
+                "Drum",
+                "Painting"
+              ],
+              "correct": 0
+            },
+            {
+              "id": "ex_914",
+              "type": "pronunciation",
+              "question": "Hãy phát âm từ này thật chuẩn:",
+              "target": "Concert"
+            },
+            {
+              "id": "ex_915",
+              "type": "multiple_choice",
+              "question": "How do you say 'Micro'?",
+              "options": [
+                "Microphone",
+                "Audience",
+                "Theater",
+                "Artist"
+              ],
+              "correct": 0
+            },
+            {
+              "id": "ex_916",
+              "type": "listening",
+              "question": "Listen and choose the correct word",
+              "options": [
+                "Note",
+                "Music",
+                "Drum",
+                "Trumpet"
+              ],
+              "correct": 0
+            }
+          ]
+        },
+        {
+          "id": "lesson_27_3",
+          "title": "Âm nhạc & Nghệ thuật - Từ vựng 3",
+          "type": "interactive",
+          "exercises": [
+            {
+              "id": "ex_917",
+              "type": "multiple_choice",
+              "question": "How do you say 'Sáo'?",
+              "options": [
+                "Note",
+                "Flute",
+                "Singer",
+                "Theater"
+              ],
+              "correct": 1
+            },
+            {
+              "id": "ex_918",
+              "type": "listening",
+              "question": "Listen and choose the correct word",
+              "options": [
+                "Band",
+                "Audience",
+                "Album",
+                "Violin"
+              ],
+              "correct": 2
+            },
+            {
+              "id": "ex_919",
+              "type": "pronunciation",
+              "question": "Hãy phát âm từ này thật chuẩn:",
+              "target": "Stage"
+            },
+            {
+              "id": "ex_920",
+              "type": "multiple_choice",
+              "question": "How do you say 'Giai điệu'?",
+              "options": [
+                "Instrument",
+                "Speaker",
+                "Theater",
+                "Melody"
+              ],
+              "correct": 3
+            },
+            {
+              "id": "ex_921",
+              "type": "listening",
+              "question": "Listen and choose the correct word",
+              "options": [
+                "Rhythm",
+                "Artist",
+                "Guitar",
+                "Note"
+              ],
+              "correct": 0
+            }
+          ]
+        },
+        {
+          "id": "lesson_27_4",
+          "title": "Âm nhạc & Nghệ thuật - Từ vựng 4",
+          "type": "interactive",
+          "exercises": [
+            {
+              "id": "ex_922",
+              "type": "multiple_choice",
+              "question": "How do you say 'Đàn vi-ô-lông'?",
+              "options": [
+                "Band",
+                "Melody",
+                "Piano",
+                "Violin"
+              ],
+              "correct": 3
+            },
+            {
+              "id": "ex_923",
+              "type": "listening",
+              "question": "Listen and choose the correct word",
+              "options": [
+                "Flute",
+                "Drum",
+                "Microphone",
+                "Lyrics"
+              ],
+              "correct": 3
+            },
+            {
+              "id": "ex_924",
+              "type": "pronunciation",
+              "question": "Hãy phát âm từ này thật chuẩn:",
+              "target": "Singer"
+            },
+            {
+              "id": "ex_925",
+              "type": "multiple_choice",
+              "question": "How do you say 'Nghệ sĩ'?",
+              "options": [
+                "Concert",
+                "Note",
+                "Theater",
+                "Artist"
+              ],
+              "correct": 3
+            },
+            {
+              "id": "ex_926",
+              "type": "listening",
+              "question": "Listen and choose the correct word",
+              "options": [
+                "Flute",
+                "Theater",
+                "Piano",
+                "Trumpet"
+              ],
+              "correct": 3
+            }
+          ]
+        },
+        {
+          "id": "lesson_27_5",
+          "title": "Âm nhạc & Nghệ thuật - Từ vựng 5",
+          "type": "interactive",
+          "exercises": [
+            {
+              "id": "ex_927",
+              "type": "multiple_choice",
+              "question": "How do you say 'Nhà hát'?",
+              "options": [
+                "Speaker",
+                "Drum",
+                "Stage",
+                "Theater"
+              ],
+              "correct": 3
+            },
+            {
+              "id": "ex_928",
+              "type": "listening",
+              "question": "Listen and choose the correct word",
+              "options": [
+                "Audience",
+                "Violin",
+                "Album",
+                "Trumpet"
+              ],
+              "correct": 0
+            },
+            {
+              "id": "ex_929",
+              "type": "pronunciation",
+              "question": "Hãy phát âm từ này thật chuẩn:",
+              "target": "Painting"
+            },
+            {
+              "id": "ex_930",
+              "type": "multiple_choice",
+              "question": "How do you say 'Nhạc cụ'?",
+              "options": [
+                "Drum",
+                "Rhythm",
+                "Instrument",
+                "Singer"
+              ],
+              "correct": 2
+            },
+            {
+              "id": "ex_931",
+              "type": "listening",
+              "question": "Listen and choose the correct word",
+              "options": [
+                "Note",
+                "Band",
+                "Choir",
+                "Singer"
+              ],
+              "correct": 2
+            }
+          ]
+        },
+        {
+          "id": "lesson_27_6",
+          "title": "Âm nhạc & Nghệ thuật - Câu 1",
+          "type": "interactive",
+          "exercises": [
+            {
+              "id": "ex_932",
+              "type": "translate",
+              "source": "Cô ấy chơi đàn piano rất hay",
+              "target": "She plays the piano beautifully",
+              "options": [
+                "beautifully",
+                "piano",
+                "plays",
+                "She",
+                "the",
+                "because",
+                "small"
+              ],
+              "correct": [
+                "She",
+                "plays",
+                "the",
+                "piano",
+                "beautifully"
+              ]
+            },
+            {
+              "id": "ex_933",
+              "type": "ordering",
+              "source": "Cô ấy chơi đàn piano rất hay",
+              "sentence": "She plays the piano beautifully",
+              "shuffled": [
+                "piano",
+                "plays",
+                "She",
+                "beautifully",
+                "the"
+              ],
+              "correct": [
+                "She",
+                "plays",
+                "the",
+                "piano",
+                "beautifully"
+              ]
+            },
+            {
+              "id": "ex_934",
+              "type": "pronunciation",
+              "question": "Hãy đọc to câu này thật chuẩn:",
+              "target": "She plays the piano beautifully"
+            },
+            {
+              "id": "ex_935",
+              "type": "translate",
+              "source": "Buổi hòa nhạc bắt đầu lúc tám giờ",
+              "target": "The concert starts at eight",
+              "options": [
+                "always",
+                "The",
+                "concert",
+                "at",
+                "starts",
+                "eight",
+                "small"
+              ],
+              "correct": [
+                "The",
+                "concert",
+                "starts",
+                "at",
+                "eight"
+              ]
+            },
+            {
+              "id": "ex_936",
+              "type": "ordering",
+              "source": "Buổi hòa nhạc bắt đầu lúc tám giờ",
+              "sentence": "The concert starts at eight",
+              "shuffled": [
+                "The",
+                "eight",
+                "concert",
+                "at",
+                "starts"
+              ],
+              "correct": [
+                "The",
+                "concert",
+                "starts",
+                "at",
+                "eight"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "lesson_27_7",
+          "title": "Âm nhạc & Nghệ thuật - Câu 2",
+          "type": "interactive",
+          "exercises": [
+            {
+              "id": "ex_937",
+              "type": "translate",
+              "source": "Anh ấy đang học chơi đàn ghi-ta",
+              "target": "He is learning to play the guitar",
+              "options": [
+                "never",
+                "to",
+                "is",
+                "play",
+                "under",
+                "He",
+                "learning",
+                "guitar",
+                "the"
+              ],
+              "correct": [
+                "He",
+                "is",
+                "learning",
+                "to",
+                "play",
+                "the",
+                "guitar"
+              ]
+            },
+            {
+              "id": "ex_938",
+              "type": "ordering",
+              "source": "Anh ấy đang học chơi đàn ghi-ta",
+              "sentence": "He is learning to play the guitar",
+              "shuffled": [
+                "learning",
+                "He",
+                "play",
+                "the",
+                "to",
+                "is",
+                "guitar"
+              ],
+              "correct": [
+                "He",
+                "is",
+                "learning",
+                "to",
+                "play",
+                "the",
+                "guitar"
+              ]
+            },
+            {
+              "id": "ex_939",
+              "type": "pronunciation",
+              "question": "Hãy đọc to câu này thật chuẩn:",
+              "target": "He is learning to play the guitar"
+            },
+            {
+              "id": "ex_940",
+              "type": "translate",
+              "source": "Bức tranh này rất nổi tiếng",
+              "target": "This painting is very famous",
+              "options": [
+                "very",
+                "painting",
+                "This",
+                "is",
+                "yesterday",
+                "under",
+                "famous"
+              ],
+              "correct": [
+                "This",
+                "painting",
+                "is",
+                "very",
+                "famous"
+              ]
+            },
+            {
+              "id": "ex_941",
+              "type": "ordering",
+              "source": "Bức tranh này rất nổi tiếng",
+              "sentence": "This painting is very famous",
+              "shuffled": [
+                "famous",
+                "is",
+                "This",
+                "painting",
+                "very"
+              ],
+              "correct": [
+                "This",
+                "painting",
+                "is",
+                "very",
+                "famous"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "lesson_27_8",
+          "title": "Âm nhạc & Nghệ thuật - Câu 3",
+          "type": "interactive",
+          "exercises": [
+            {
+              "id": "ex_942",
+              "type": "translate",
+              "source": "Ban nhạc có năm thành viên",
+              "target": "The band has five members",
+              "options": [
+                "quickly",
+                "The",
+                "five",
+                "has",
+                "members",
+                "band",
+                "yesterday"
+              ],
+              "correct": [
+                "The",
+                "band",
+                "has",
+                "five",
+                "members"
+              ]
+            },
+            {
+              "id": "ex_943",
+              "type": "ordering",
+              "source": "Ban nhạc có năm thành viên",
+              "sentence": "The band has five members",
+              "shuffled": [
+                "members",
+                "band",
+                "The",
+                "has",
+                "five"
+              ],
+              "correct": [
+                "The",
+                "band",
+                "has",
+                "five",
+                "members"
+              ]
+            },
+            {
+              "id": "ex_944",
+              "type": "pronunciation",
+              "question": "Hãy đọc to câu này thật chuẩn:",
+              "target": "The band has five members"
+            },
+            {
+              "id": "ex_945",
+              "type": "translate",
+              "source": "Tôi nghe nhạc mỗi tối",
+              "target": "I listen to music every night",
+              "options": [
+                "I",
+                "small",
+                "quickly",
+                "music",
+                "listen",
+                "night",
+                "every",
+                "to"
+              ],
+              "correct": [
+                "I",
+                "listen",
+                "to",
+                "music",
+                "every",
+                "night"
+              ]
+            },
+            {
+              "id": "ex_946",
+              "type": "ordering",
+              "source": "Tôi nghe nhạc mỗi tối",
+              "sentence": "I listen to music every night",
+              "shuffled": [
+                "to",
+                "music",
+                "every",
+                "listen",
+                "I",
+                "night"
+              ],
+              "correct": [
+                "I",
+                "listen",
+                "to",
+                "music",
+                "every",
+                "night"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "lesson_27_9",
+          "title": "Âm nhạc & Nghệ thuật - Câu 4",
+          "type": "interactive",
+          "exercises": [
+            {
+              "id": "ex_947",
+              "type": "translate",
+              "source": "Người họa sĩ vẽ bằng bút chì",
+              "target": "The artist draws with a pencil",
+              "options": [
+                "under",
+                "The",
+                "artist",
+                "draws",
+                "pencil",
+                "with",
+                "happy",
+                "a"
+              ],
+              "correct": [
+                "The",
+                "artist",
+                "draws",
+                "with",
+                "a",
+                "pencil"
+              ]
+            },
+            {
+              "id": "ex_948",
+              "type": "ordering",
+              "source": "Người họa sĩ vẽ bằng bút chì",
+              "sentence": "The artist draws with a pencil",
+              "shuffled": [
+                "The",
+                "draws",
+                "pencil",
+                "with",
+                "a",
+                "artist"
+              ],
+              "correct": [
+                "The",
+                "artist",
+                "draws",
+                "with",
+                "a",
+                "pencil"
+              ]
+            },
+            {
+              "id": "ex_949",
+              "type": "pronunciation",
+              "question": "Hãy đọc to câu này thật chuẩn:",
+              "target": "The artist draws with a pencil"
+            },
+            {
+              "id": "ex_950",
+              "type": "translate",
+              "source": "Giọng hát cô ấy nhẹ nhàng và trong trẻo",
+              "target": "Her voice is soft and clear",
+              "options": [
+                "clear",
+                "soft",
+                "happy",
+                "Her",
+                "and",
+                "yesterday",
+                "is",
+                "voice"
+              ],
+              "correct": [
+                "Her",
+                "voice",
+                "is",
+                "soft",
+                "and",
+                "clear"
+              ]
+            },
+            {
+              "id": "ex_951",
+              "type": "ordering",
+              "source": "Giọng hát cô ấy nhẹ nhàng và trong trẻo",
+              "sentence": "Her voice is soft and clear",
+              "shuffled": [
+                "clear",
+                "Her",
+                "soft",
+                "voice",
+                "is",
+                "and"
+              ],
+              "correct": [
+                "Her",
+                "voice",
+                "is",
+                "soft",
+                "and",
+                "clear"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "lesson_27_10",
+          "title": "Âm nhạc & Nghệ thuật - Câu 5",
+          "type": "interactive",
+          "exercises": [
+            {
+              "id": "ex_952",
+              "type": "translate",
+              "source": "Chúng tôi nhảy múa suốt đêm ở bữa tiệc",
+              "target": "We danced all night at the party",
+              "options": [
+                "at",
+                "night",
+                "yesterday",
+                "danced",
+                "blue",
+                "all",
+                "the",
+                "We",
+                "party"
+              ],
+              "correct": [
+                "We",
+                "danced",
+                "all",
+                "night",
+                "at",
+                "the",
+                "party"
+              ]
+            },
+            {
+              "id": "ex_953",
+              "type": "ordering",
+              "source": "Chúng tôi nhảy múa suốt đêm ở bữa tiệc",
+              "sentence": "We danced all night at the party",
+              "shuffled": [
+                "at",
+                "danced",
+                "We",
+                "the",
+                "party",
+                "night",
+                "all"
+              ],
+              "correct": [
+                "We",
+                "danced",
+                "all",
+                "night",
+                "at",
+                "the",
+                "party"
+              ]
+            },
+            {
+              "id": "ex_954",
+              "type": "pronunciation",
+              "question": "Hãy đọc to câu này thật chuẩn:",
+              "target": "We danced all night at the party"
+            },
+            {
+              "id": "ex_955",
+              "type": "translate",
+              "source": "Nhà hát chật kín người",
+              "target": "The theater was full of people",
+              "options": [
+                "because",
+                "people",
+                "was",
+                "full",
+                "The",
+                "under",
+                "of",
+                "theater"
+              ],
+              "correct": [
+                "The",
+                "theater",
+                "was",
+                "full",
+                "of",
+                "people"
+              ]
+            },
+            {
+              "id": "ex_956",
+              "type": "ordering",
+              "source": "Nhà hát chật kín người",
+              "sentence": "The theater was full of people",
+              "shuffled": [
+                "The",
+                "of",
+                "full",
+                "was",
+                "theater",
+                "people"
+              ],
+              "correct": [
+                "The",
+                "theater",
+                "was",
+                "full",
+                "of",
+                "people"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "unit_28",
+      "title": "Lễ hội & Ngày đặc biệt",
+      "description": "Learn vocabulary about holidays and celebrations.",
+      "lessons": [
+        {
+          "id": "lesson_28_1",
+          "title": "Lễ hội & Ngày đặc biệt - Từ vựng 1",
+          "type": "interactive",
+          "exercises": [
+            {
+              "id": "ex_957",
+              "type": "multiple_choice",
+              "question": "How do you say 'Món quà'?",
+              "options": [
+                "Present",
+                "Gift",
+                "Festival",
+                "Feast"
+              ],
+              "correct": 1
+            },
+            {
+              "id": "ex_958",
+              "type": "listening",
+              "question": "Listen and choose the correct word",
+              "options": [
+                "Card",
+                "New Year",
+                "Present",
+                "Guest"
+              ],
+              "correct": 0
+            },
+            {
+              "id": "ex_959",
+              "type": "pronunciation",
+              "question": "Hãy phát âm từ này thật chuẩn:",
+              "target": "Party"
+            },
+            {
+              "id": "ex_960",
+              "type": "multiple_choice",
+              "question": "How do you say 'Ngày lễ'?",
+              "options": [
+                "Halloween",
+                "Birthday",
+                "Holiday",
+                "Thanksgiving"
+              ],
+              "correct": 2
+            },
+            {
+              "id": "ex_961",
+              "type": "listening",
+              "question": "Listen and choose the correct word",
+              "options": [
+                "Birthday",
+                "Guest",
+                "Wedding",
+                "Feast"
+              ],
+              "correct": 2
+            }
+          ]
+        },
+        {
+          "id": "lesson_28_2",
+          "title": "Lễ hội & Ngày đặc biệt - Từ vựng 2",
+          "type": "interactive",
+          "exercises": [
+            {
+              "id": "ex_962",
+              "type": "multiple_choice",
+              "question": "How do you say 'Quà tặng'?",
+              "options": [
+                "Card",
+                "Present",
+                "Invitation",
+                "Holiday"
+              ],
+              "correct": 1
+            },
+            {
+              "id": "ex_963",
+              "type": "listening",
+              "question": "Listen and choose the correct word",
+              "options": [
+                "Balloon",
+                "Halloween",
+                "Fireworks",
+                "Christmas"
+              ],
+              "correct": 0
+            },
+            {
+              "id": "ex_964",
+              "type": "pronunciation",
+              "question": "Hãy phát âm từ này thật chuẩn:",
+              "target": "Birthday"
+            },
+            {
+              "id": "ex_965",
+              "type": "multiple_choice",
+              "question": "How do you say 'Lễ hội'?",
+              "options": [
+                "Festival",
+                "Fireworks",
+                "Decoration",
+                "Parade"
+              ],
+              "correct": 0
+            },
+            {
+              "id": "ex_966",
+              "type": "listening",
+              "question": "Listen and choose the correct word",
+              "options": [
+                "Invitation",
+                "Halloween",
+                "Holiday",
+                "New Year"
+              ],
+              "correct": 3
+            }
+          ]
+        },
+        {
+          "id": "lesson_28_3",
+          "title": "Lễ hội & Ngày đặc biệt - Từ vựng 3",
+          "type": "interactive",
+          "exercises": [
+            {
+              "id": "ex_967",
+              "type": "multiple_choice",
+              "question": "How do you say 'Pháo hoa'?",
+              "options": [
+                "Present",
+                "New Year",
+                "Fireworks",
+                "Anniversary"
+              ],
+              "correct": 2
+            },
+            {
+              "id": "ex_968",
+              "type": "listening",
+              "question": "Listen and choose the correct word",
+              "options": [
+                "Candle",
+                "Balloon",
+                "Invitation",
+                "Christmas"
+              ],
+              "correct": 3
+            },
+            {
+              "id": "ex_969",
+              "type": "pronunciation",
+              "question": "Hãy phát âm từ này thật chuẩn:",
+              "target": "Feast"
+            },
+            {
+              "id": "ex_970",
+              "type": "multiple_choice",
+              "question": "How do you say 'Vị khách'?",
+              "options": [
+                "Card",
+                "Wedding",
+                "Guest",
+                "New Year"
+              ],
+              "correct": 2
+            },
+            {
+              "id": "ex_971",
+              "type": "listening",
+              "question": "Listen and choose the correct word",
+              "options": [
+                "Parade",
+                "New Year",
+                "Invitation",
+                "Card"
+              ],
+              "correct": 0
+            }
+          ]
+        },
+        {
+          "id": "lesson_28_4",
+          "title": "Lễ hội & Ngày đặc biệt - Từ vựng 4",
+          "type": "interactive",
+          "exercises": [
+            {
+              "id": "ex_972",
+              "type": "multiple_choice",
+              "question": "How do you say 'Ngọn nến'?",
+              "options": [
+                "Thanksgiving",
+                "Candle",
+                "Fireworks",
+                "Present"
+              ],
+              "correct": 1
+            },
+            {
+              "id": "ex_973",
+              "type": "listening",
+              "question": "Listen and choose the correct word",
+              "options": [
+                "Lantern",
+                "Birthday",
+                "Thanksgiving",
+                "Fireworks"
+              ],
+              "correct": 0
+            },
+            {
+              "id": "ex_974",
+              "type": "pronunciation",
+              "question": "Hãy phát âm từ này thật chuẩn:",
+              "target": "Ceremony"
+            },
+            {
+              "id": "ex_975",
+              "type": "multiple_choice",
+              "question": "How do you say 'Halloween'?",
+              "options": [
+                "Halloween",
+                "Invitation",
+                "Birthday",
+                "Feast"
+              ],
+              "correct": 0
+            },
+            {
+              "id": "ex_976",
+              "type": "listening",
+              "question": "Listen and choose the correct word",
+              "options": [
+                "New Year",
+                "Fireworks",
+                "Tradition",
+                "Holiday"
+              ],
+              "correct": 2
+            }
+          ]
+        },
+        {
+          "id": "lesson_28_5",
+          "title": "Lễ hội & Ngày đặc biệt - Từ vựng 5",
+          "type": "interactive",
+          "exercises": [
+            {
+              "id": "ex_977",
+              "type": "multiple_choice",
+              "question": "How do you say 'Đồ trang trí'?",
+              "options": [
+                "New Year",
+                "Decoration",
+                "Fireworks",
+                "Feast"
+              ],
+              "correct": 1
+            },
+            {
+              "id": "ex_978",
+              "type": "listening",
+              "question": "Listen and choose the correct word",
+              "options": [
+                "Tradition",
+                "Christmas",
+                "Invitation",
+                "Lantern"
+              ],
+              "correct": 2
+            },
+            {
+              "id": "ex_979",
+              "type": "pronunciation",
+              "question": "Hãy phát âm từ này thật chuẩn:",
+              "target": "Anniversary"
+            },
+            {
+              "id": "ex_980",
+              "type": "multiple_choice",
+              "question": "How do you say 'Buổi lễ mừng'?",
+              "options": [
+                "Celebration",
+                "Wedding",
+                "New Year",
+                "Party"
+              ],
+              "correct": 0
+            },
+            {
+              "id": "ex_981",
+              "type": "listening",
+              "question": "Listen and choose the correct word",
+              "options": [
+                "Festival",
+                "Party",
+                "New Year",
+                "Thanksgiving"
+              ],
+              "correct": 3
+            }
+          ]
+        },
+        {
+          "id": "lesson_28_6",
+          "title": "Lễ hội & Ngày đặc biệt - Câu 1",
+          "type": "interactive",
+          "exercises": [
+            {
+              "id": "ex_982",
+              "type": "translate",
+              "source": "Chúng tôi trang trí nhà để đón Tết",
+              "target": "We decorate the house for Tet",
+              "options": [
+                "decorate",
+                "We",
+                "never",
+                "Tet",
+                "the",
+                "house",
+                "for",
+                "happy"
+              ],
+              "correct": [
+                "We",
+                "decorate",
+                "the",
+                "house",
+                "for",
+                "Tet"
+              ]
+            },
+            {
+              "id": "ex_983",
+              "type": "ordering",
+              "source": "Chúng tôi trang trí nhà để đón Tết",
+              "sentence": "We decorate the house for Tet",
+              "shuffled": [
+                "decorate",
+                "the",
+                "Tet",
+                "house",
+                "for",
+                "We"
+              ],
+              "correct": [
+                "We",
+                "decorate",
+                "the",
+                "house",
+                "for",
+                "Tet"
+              ]
+            },
+            {
+              "id": "ex_984",
+              "type": "pronunciation",
+              "question": "Hãy đọc to câu này thật chuẩn:",
+              "target": "We decorate the house for Tet"
+            },
+            {
+              "id": "ex_985",
+              "type": "translate",
+              "source": "Trẻ em nhận tiền lì xì",
+              "target": "Children receive lucky money",
+              "options": [
+                "money",
+                "happy",
+                "Children",
+                "yesterday",
+                "receive",
+                "lucky"
+              ],
+              "correct": [
+                "Children",
+                "receive",
+                "lucky",
+                "money"
+              ]
+            },
+            {
+              "id": "ex_986",
+              "type": "ordering",
+              "source": "Trẻ em nhận tiền lì xì",
+              "sentence": "Children receive lucky money",
+              "shuffled": [
+                "money",
+                "receive",
+                "lucky",
+                "Children"
+              ],
+              "correct": [
+                "Children",
+                "receive",
+                "lucky",
+                "money"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "lesson_28_7",
+          "title": "Lễ hội & Ngày đặc biệt - Câu 2",
+          "type": "interactive",
+          "exercises": [
+            {
+              "id": "ex_987",
+              "type": "translate",
+              "source": "Pháo hoa thắp sáng bầu trời",
+              "target": "The fireworks light up the sky",
+              "options": [
+                "The",
+                "up",
+                "light",
+                "the",
+                "because",
+                "small",
+                "fireworks",
+                "sky"
+              ],
+              "correct": [
+                "The",
+                "fireworks",
+                "light",
+                "up",
+                "the",
+                "sky"
+              ]
+            },
+            {
+              "id": "ex_988",
+              "type": "ordering",
+              "source": "Pháo hoa thắp sáng bầu trời",
+              "sentence": "The fireworks light up the sky",
+              "shuffled": [
+                "light",
+                "fireworks",
+                "The",
+                "the",
+                "up",
+                "sky"
+              ],
+              "correct": [
+                "The",
+                "fireworks",
+                "light",
+                "up",
+                "the",
+                "sky"
+              ]
+            },
+            {
+              "id": "ex_989",
+              "type": "pronunciation",
+              "question": "Hãy đọc to câu này thật chuẩn:",
+              "target": "The fireworks light up the sky"
+            },
+            {
+              "id": "ex_990",
+              "type": "translate",
+              "source": "Sinh nhật của tôi vào tháng Mười Hai",
+              "target": "My birthday is in December",
+              "options": [
+                "blue",
+                "in",
+                "quickly",
+                "My",
+                "December",
+                "is",
+                "birthday"
+              ],
+              "correct": [
+                "My",
+                "birthday",
+                "is",
+                "in",
+                "December"
+              ]
+            },
+            {
+              "id": "ex_991",
+              "type": "ordering",
+              "source": "Sinh nhật của tôi vào tháng Mười Hai",
+              "sentence": "My birthday is in December",
+              "shuffled": [
+                "December",
+                "My",
+                "is",
+                "in",
+                "birthday"
+              ],
+              "correct": [
+                "My",
+                "birthday",
+                "is",
+                "in",
+                "December"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "lesson_28_8",
+          "title": "Lễ hội & Ngày đặc biệt - Câu 3",
+          "type": "interactive",
+          "exercises": [
+            {
+              "id": "ex_992",
+              "type": "translate",
+              "source": "Chúng tôi tặng quà cho nhau",
+              "target": "We give gifts to each other",
+              "options": [
+                "to",
+                "We",
+                "each",
+                "happy",
+                "give",
+                "other",
+                "because",
+                "gifts"
+              ],
+              "correct": [
+                "We",
+                "give",
+                "gifts",
+                "to",
+                "each",
+                "other"
+              ]
+            },
+            {
+              "id": "ex_993",
+              "type": "ordering",
+              "source": "Chúng tôi tặng quà cho nhau",
+              "sentence": "We give gifts to each other",
+              "shuffled": [
+                "to",
+                "gifts",
+                "each",
+                "other",
+                "We",
+                "give"
+              ],
+              "correct": [
+                "We",
+                "give",
+                "gifts",
+                "to",
+                "each",
+                "other"
+              ]
+            },
+            {
+              "id": "ex_994",
+              "type": "pronunciation",
+              "question": "Hãy đọc to câu này thật chuẩn:",
+              "target": "We give gifts to each other"
+            },
+            {
+              "id": "ex_995",
+              "type": "translate",
+              "source": "Lễ hội kéo dài ba ngày",
+              "target": "The festival lasts three days",
+              "options": [
+                "yesterday",
+                "festival",
+                "many",
+                "The",
+                "days",
+                "three",
+                "lasts"
+              ],
+              "correct": [
+                "The",
+                "festival",
+                "lasts",
+                "three",
+                "days"
+              ]
+            },
+            {
+              "id": "ex_996",
+              "type": "ordering",
+              "source": "Lễ hội kéo dài ba ngày",
+              "sentence": "The festival lasts three days",
+              "shuffled": [
+                "three",
+                "days",
+                "lasts",
+                "festival",
+                "The"
+              ],
+              "correct": [
+                "The",
+                "festival",
+                "lasts",
+                "three",
+                "days"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "lesson_28_9",
+          "title": "Lễ hội & Ngày đặc biệt - Câu 4",
+          "type": "interactive",
+          "exercises": [
+            {
+              "id": "ex_997",
+              "type": "translate",
+              "source": "Mọi người hát một bài ca vui vẻ",
+              "target": "Everyone sings a happy song",
+              "options": [
+                "a",
+                "sings",
+                "happy",
+                "Everyone",
+                "small",
+                "yesterday",
+                "song"
+              ],
+              "correct": [
+                "Everyone",
+                "sings",
+                "a",
+                "happy",
+                "song"
+              ]
+            },
+            {
+              "id": "ex_998",
+              "type": "ordering",
+              "source": "Mọi người hát một bài ca vui vẻ",
+              "sentence": "Everyone sings a happy song",
+              "shuffled": [
+                "sings",
+                "a",
+                "happy",
+                "Everyone",
+                "song"
+              ],
+              "correct": [
+                "Everyone",
+                "sings",
+                "a",
+                "happy",
+                "song"
+              ]
+            },
+            {
+              "id": "ex_999",
+              "type": "pronunciation",
+              "question": "Hãy đọc to câu này thật chuẩn:",
+              "target": "Everyone sings a happy song"
+            },
+            {
+              "id": "ex_1000",
+              "type": "translate",
+              "source": "Chúng tôi nấu món ăn đặc biệt cho ngày lễ",
+              "target": "We cook special food for the holiday",
+              "options": [
+                "under",
+                "holiday",
+                "for",
+                "the",
+                "cook",
+                "We",
+                "quickly",
+                "special",
+                "food"
+              ],
+              "correct": [
+                "We",
+                "cook",
+                "special",
+                "food",
+                "for",
+                "the",
+                "holiday"
+              ]
+            },
+            {
+              "id": "ex_1001",
+              "type": "ordering",
+              "source": "Chúng tôi nấu món ăn đặc biệt cho ngày lễ",
+              "sentence": "We cook special food for the holiday",
+              "shuffled": [
+                "holiday",
+                "the",
+                "We",
+                "cook",
+                "for",
+                "special",
+                "food"
+              ],
+              "correct": [
+                "We",
+                "cook",
+                "special",
+                "food",
+                "for",
+                "the",
+                "holiday"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "lesson_28_10",
+          "title": "Lễ hội & Ngày đặc biệt - Câu 5",
+          "type": "interactive",
+          "exercises": [
+            {
+              "id": "ex_1002",
+              "type": "translate",
+              "source": "Đoàn diễu hành đi qua thành phố",
+              "target": "The parade goes through the city",
+              "options": [
+                "parade",
+                "city",
+                "goes",
+                "the",
+                "small",
+                "The",
+                "through",
+                "never"
+              ],
+              "correct": [
+                "The",
+                "parade",
+                "goes",
+                "through",
+                "the",
+                "city"
+              ]
+            },
+            {
+              "id": "ex_1003",
+              "type": "ordering",
+              "source": "Đoàn diễu hành đi qua thành phố",
+              "sentence": "The parade goes through the city",
+              "shuffled": [
+                "the",
+                "through",
+                "goes",
+                "The",
+                "parade",
+                "city"
+              ],
+              "correct": [
+                "The",
+                "parade",
+                "goes",
+                "through",
+                "the",
+                "city"
+              ]
+            },
+            {
+              "id": "ex_1004",
+              "type": "pronunciation",
+              "question": "Hãy đọc to câu này thật chuẩn:",
+              "target": "The parade goes through the city"
+            },
+            {
+              "id": "ex_1005",
+              "type": "translate",
+              "source": "Các thành viên gia đình sum họp ở nhà",
+              "target": "Family members gather at home",
+              "options": [
+                "members",
+                "at",
+                "yesterday",
+                "happy",
+                "Family",
+                "home",
+                "gather"
+              ],
+              "correct": [
+                "Family",
+                "members",
+                "gather",
+                "at",
+                "home"
+              ]
+            },
+            {
+              "id": "ex_1006",
+              "type": "ordering",
+              "source": "Các thành viên gia đình sum họp ở nhà",
+              "sentence": "Family members gather at home",
+              "shuffled": [
+                "members",
+                "home",
+                "Family",
+                "at",
+                "gather"
+              ],
+              "correct": [
+                "Family",
+                "members",
+                "gather",
+                "at",
+                "home"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "unit_29",
+      "title": "Quốc gia & Văn hóa",
+      "description": "Learn vocabulary about countries and cultures.",
+      "lessons": [
+        {
+          "id": "lesson_29_1",
+          "title": "Quốc gia & Văn hóa - Từ vựng 1",
+          "type": "interactive",
+          "exercises": [
+            {
+              "id": "ex_1007",
+              "type": "multiple_choice",
+              "question": "How do you say 'Nhật Bản'?",
+              "options": [
+                "Japan",
+                "Nation",
+                "Russia",
+                "Immigration"
+              ],
+              "correct": 0
+            },
+            {
+              "id": "ex_1008",
+              "type": "listening",
+              "question": "Listen and choose the correct word",
+              "options": [
+                "Thailand",
+                "Nation",
+                "Australia",
+                "Korea"
+              ],
+              "correct": 3
+            },
+            {
+              "id": "ex_1009",
+              "type": "pronunciation",
+              "question": "Hãy phát âm từ này thật chuẩn:",
+              "target": "China"
+            },
+            {
+              "id": "ex_1010",
+              "type": "multiple_choice",
+              "question": "How do you say 'Ấn Độ'?",
+              "options": [
+                "France",
+                "India",
+                "Culture",
+                "Russia"
+              ],
+              "correct": 1
+            },
+            {
+              "id": "ex_1011",
+              "type": "listening",
+              "question": "Listen and choose the correct word",
+              "options": [
+                "Thailand",
+                "Immigration",
+                "Italy",
+                "America"
+              ],
+              "correct": 2
+            }
+          ]
+        },
+        {
+          "id": "lesson_29_2",
+          "title": "Quốc gia & Văn hóa - Từ vựng 2",
+          "type": "interactive",
+          "exercises": [
+            {
+              "id": "ex_1012",
+              "type": "multiple_choice",
+              "question": "How do you say 'Tây Ban Nha'?",
+              "options": [
+                "America",
+                "Passport",
+                "Visa",
+                "Spain"
+              ],
+              "correct": 3
+            },
+            {
+              "id": "ex_1013",
+              "type": "listening",
+              "question": "Listen and choose the correct word",
+              "options": [
+                "Nation",
+                "France",
+                "England",
+                "Australia"
+              ],
+              "correct": 1
+            },
+            {
+              "id": "ex_1014",
+              "type": "pronunciation",
+              "question": "Hãy phát âm từ này thật chuẩn:",
+              "target": "Canada"
+            },
+            {
+              "id": "ex_1015",
+              "type": "multiple_choice",
+              "question": "How do you say 'Nga'?",
+              "options": [
+                "Singapore",
+                "Germany",
+                "Thailand",
+                "Russia"
+              ],
+              "correct": 3
+            },
+            {
+              "id": "ex_1016",
+              "type": "listening",
+              "question": "Listen and choose the correct word",
+              "options": [
+                "America",
+                "Brazil",
+                "Singapore",
+                "Korea"
+              ],
+              "correct": 1
+            }
+          ]
+        },
+        {
+          "id": "lesson_29_3",
+          "title": "Quốc gia & Văn hóa - Từ vựng 3",
+          "type": "interactive",
+          "exercises": [
+            {
+              "id": "ex_1017",
+              "type": "multiple_choice",
+              "question": "How do you say 'Việt Nam'?",
+              "options": [
+                "Citizen",
+                "Immigration",
+                "Vietnam",
+                "India"
+              ],
+              "correct": 2
+            },
+            {
+              "id": "ex_1018",
+              "type": "listening",
+              "question": "Listen and choose the correct word",
+              "options": [
+                "Canada",
+                "Italy",
+                "China",
+                "America"
+              ],
+              "correct": 3
+            },
+            {
+              "id": "ex_1019",
+              "type": "pronunciation",
+              "question": "Hãy phát âm từ này thật chuẩn:",
+              "target": "England"
+            },
+            {
+              "id": "ex_1020",
+              "type": "multiple_choice",
+              "question": "How do you say 'Đức'?",
+              "options": [
+                "Culture",
+                "Singapore",
+                "Germany",
+                "Korea"
+              ],
+              "correct": 2
+            },
+            {
+              "id": "ex_1021",
+              "type": "listening",
+              "question": "Listen and choose the correct word",
+              "options": [
+                "China",
+                "Thailand",
+                "Canada",
+                "France"
+              ],
+              "correct": 1
+            }
+          ]
+        },
+        {
+          "id": "lesson_29_4",
+          "title": "Quốc gia & Văn hóa - Từ vựng 4",
+          "type": "interactive",
+          "exercises": [
+            {
+              "id": "ex_1022",
+              "type": "multiple_choice",
+              "question": "How do you say 'Hộ chiếu'?",
+              "options": [
+                "Germany",
+                "Tradition",
+                "Passport",
+                "China"
+              ],
+              "correct": 2
+            },
+            {
+              "id": "ex_1023",
+              "type": "listening",
+              "question": "Listen and choose the correct word",
+              "options": [
+                "Tradition",
+                "Australia",
+                "India",
+                "Japan"
+              ],
+              "correct": 1
+            },
+            {
+              "id": "ex_1024",
+              "type": "pronunciation",
+              "question": "Hãy phát âm từ này thật chuẩn:",
+              "target": "Singapore"
+            },
+            {
+              "id": "ex_1025",
+              "type": "multiple_choice",
+              "question": "How do you say 'Thị thực'?",
+              "options": [
+                "Custom",
+                "Visa",
+                "America",
+                "India"
+              ],
+              "correct": 1
+            },
+            {
+              "id": "ex_1026",
+              "type": "listening",
+              "question": "Listen and choose the correct word",
+              "options": [
+                "India",
+                "Vietnam",
+                "Custom",
+                "Nation"
+              ],
+              "correct": 3
+            }
+          ]
+        },
+        {
+          "id": "lesson_29_5",
+          "title": "Quốc gia & Văn hóa - Từ vựng 5",
+          "type": "interactive",
+          "exercises": [
+            {
+              "id": "ex_1027",
+              "type": "multiple_choice",
+              "question": "How do you say 'Phong tục'?",
+              "options": [
+                "Spain",
+                "Russia",
+                "Brazil",
+                "Custom"
+              ],
+              "correct": 3
+            },
+            {
+              "id": "ex_1028",
+              "type": "listening",
+              "question": "Listen and choose the correct word",
+              "options": [
+                "India",
+                "Citizen",
+                "America",
+                "Passport"
+              ],
+              "correct": 1
+            },
+            {
+              "id": "ex_1029",
+              "type": "pronunciation",
+              "question": "Hãy phát âm từ này thật chuẩn:",
+              "target": "Culture"
+            },
+            {
+              "id": "ex_1030",
+              "type": "multiple_choice",
+              "question": "How do you say 'Truyền thống'?",
+              "options": [
+                "Brazil",
+                "America",
+                "Thailand",
+                "Tradition"
+              ],
+              "correct": 3
+            },
+            {
+              "id": "ex_1031",
+              "type": "listening",
+              "question": "Listen and choose the correct word",
+              "options": [
+                "Immigration",
+                "Russia",
+                "America",
+                "Australia"
+              ],
+              "correct": 0
+            }
+          ]
+        },
+        {
+          "id": "lesson_29_6",
+          "title": "Quốc gia & Văn hóa - Câu 1",
+          "type": "interactive",
+          "exercises": [
+            {
+              "id": "ex_1032",
+              "type": "translate",
+              "source": "Việt Nam là một đất nước xinh đẹp",
+              "target": "Vietnam is a beautiful country",
+              "options": [
+                "quickly",
+                "Vietnam",
+                "country",
+                "a",
+                "is",
+                "beautiful",
+                "many"
+              ],
+              "correct": [
+                "Vietnam",
+                "is",
+                "a",
+                "beautiful",
+                "country"
+              ]
+            },
+            {
+              "id": "ex_1033",
+              "type": "ordering",
+              "source": "Việt Nam là một đất nước xinh đẹp",
+              "sentence": "Vietnam is a beautiful country",
+              "shuffled": [
+                "beautiful",
+                "is",
+                "country",
+                "Vietnam",
+                "a"
+              ],
+              "correct": [
+                "Vietnam",
+                "is",
+                "a",
+                "beautiful",
+                "country"
+              ]
+            },
+            {
+              "id": "ex_1034",
+              "type": "pronunciation",
+              "question": "Hãy đọc to câu này thật chuẩn:",
+              "target": "Vietnam is a beautiful country"
+            },
+            {
+              "id": "ex_1035",
+              "type": "translate",
+              "source": "Cô ấy đến từ Nhật Bản",
+              "target": "She comes from Japan",
+              "options": [
+                "Japan",
+                "quickly",
+                "because",
+                "comes",
+                "She",
+                "from"
+              ],
+              "correct": [
+                "She",
+                "comes",
+                "from",
+                "Japan"
+              ]
+            },
+            {
+              "id": "ex_1036",
+              "type": "ordering",
+              "source": "Cô ấy đến từ Nhật Bản",
+              "sentence": "She comes from Japan",
+              "shuffled": [
+                "Japan",
+                "comes",
+                "from",
+                "She"
+              ],
+              "correct": [
+                "She",
+                "comes",
+                "from",
+                "Japan"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "lesson_29_7",
+          "title": "Quốc gia & Văn hóa - Câu 2",
+          "type": "interactive",
+          "exercises": [
+            {
+              "id": "ex_1037",
+              "type": "translate",
+              "source": "Người dân ở Pháp nói tiếng Pháp",
+              "target": "People in France speak French",
+              "options": [
+                "many",
+                "France",
+                "People",
+                "French",
+                "speak",
+                "always",
+                "in"
+              ],
+              "correct": [
+                "People",
+                "in",
+                "France",
+                "speak",
+                "French"
+              ]
+            },
+            {
+              "id": "ex_1038",
+              "type": "ordering",
+              "source": "Người dân ở Pháp nói tiếng Pháp",
+              "sentence": "People in France speak French",
+              "shuffled": [
+                "French",
+                "People",
+                "in",
+                "France",
+                "speak"
+              ],
+              "correct": [
+                "People",
+                "in",
+                "France",
+                "speak",
+                "French"
+              ]
+            },
+            {
+              "id": "ex_1039",
+              "type": "pronunciation",
+              "question": "Hãy đọc to câu này thật chuẩn:",
+              "target": "People in France speak French"
+            },
+            {
+              "id": "ex_1040",
+              "type": "translate",
+              "source": "Tôi có một người bạn đến từ Canada",
+              "target": "I have a friend from Canada",
+              "options": [
+                "Canada",
+                "a",
+                "happy",
+                "from",
+                "friend",
+                "I",
+                "have",
+                "under"
+              ],
+              "correct": [
+                "I",
+                "have",
+                "a",
+                "friend",
+                "from",
+                "Canada"
+              ]
+            },
+            {
+              "id": "ex_1041",
+              "type": "ordering",
+              "source": "Tôi có một người bạn đến từ Canada",
+              "sentence": "I have a friend from Canada",
+              "shuffled": [
+                "I",
+                "from",
+                "have",
+                "a",
+                "Canada",
+                "friend"
+              ],
+              "correct": [
+                "I",
+                "have",
+                "a",
+                "friend",
+                "from",
+                "Canada"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "lesson_29_8",
+          "title": "Quốc gia & Văn hóa - Câu 3",
+          "type": "interactive",
+          "exercises": [
+            {
+              "id": "ex_1042",
+              "type": "translate",
+              "source": "Nước Ý nổi tiếng với món pizza",
+              "target": "Italy is famous for pizza",
+              "options": [
+                "Italy",
+                "for",
+                "famous",
+                "yesterday",
+                "never",
+                "is",
+                "pizza"
+              ],
+              "correct": [
+                "Italy",
+                "is",
+                "famous",
+                "for",
+                "pizza"
+              ]
+            },
+            {
+              "id": "ex_1043",
+              "type": "ordering",
+              "source": "Nước Ý nổi tiếng với món pizza",
+              "sentence": "Italy is famous for pizza",
+              "shuffled": [
+                "famous",
+                "Italy",
+                "pizza",
+                "is",
+                "for"
+              ],
+              "correct": [
+                "Italy",
+                "is",
+                "famous",
+                "for",
+                "pizza"
+              ]
+            },
+            {
+              "id": "ex_1044",
+              "type": "pronunciation",
+              "question": "Hãy đọc to câu này thật chuẩn:",
+              "target": "Italy is famous for pizza"
+            },
+            {
+              "id": "ex_1045",
+              "type": "translate",
+              "source": "Anh ấy muốn đi du học ở Úc",
+              "target": "He wants to study in Australia",
+              "options": [
+                "to",
+                "happy",
+                "Australia",
+                "He",
+                "study",
+                "wants",
+                "because",
+                "in"
+              ],
+              "correct": [
+                "He",
+                "wants",
+                "to",
+                "study",
+                "in",
+                "Australia"
+              ]
+            },
+            {
+              "id": "ex_1046",
+              "type": "ordering",
+              "source": "Anh ấy muốn đi du học ở Úc",
+              "sentence": "He wants to study in Australia",
+              "shuffled": [
+                "in",
+                "He",
+                "to",
+                "wants",
+                "Australia",
+                "study"
+              ],
+              "correct": [
+                "He",
+                "wants",
+                "to",
+                "study",
+                "in",
+                "Australia"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "lesson_29_9",
+          "title": "Quốc gia & Văn hóa - Câu 4",
+          "type": "interactive",
+          "exercises": [
+            {
+              "id": "ex_1047",
+              "type": "translate",
+              "source": "Tấm bản đồ hiển thị nhiều quốc gia",
+              "target": "The map shows many countries",
+              "options": [
+                "The",
+                "shows",
+                "map",
+                "under",
+                "many",
+                "blue",
+                "countries"
+              ],
+              "correct": [
+                "The",
+                "map",
+                "shows",
+                "many",
+                "countries"
+              ]
+            },
+            {
+              "id": "ex_1048",
+              "type": "ordering",
+              "source": "Tấm bản đồ hiển thị nhiều quốc gia",
+              "sentence": "The map shows many countries",
+              "shuffled": [
+                "shows",
+                "countries",
+                "map",
+                "many",
+                "The"
+              ],
+              "correct": [
+                "The",
+                "map",
+                "shows",
+                "many",
+                "countries"
+              ]
+            },
+            {
+              "id": "ex_1049",
+              "type": "pronunciation",
+              "question": "Hãy đọc to câu này thật chuẩn:",
+              "target": "The map shows many countries"
+            },
+            {
+              "id": "ex_1050",
+              "type": "translate",
+              "source": "Hàn Quốc có bốn mùa",
+              "target": "Korea has four seasons",
+              "options": [
+                "never",
+                "has",
+                "Korea",
+                "four",
+                "quickly",
+                "seasons"
+              ],
+              "correct": [
+                "Korea",
+                "has",
+                "four",
+                "seasons"
+              ]
+            },
+            {
+              "id": "ex_1051",
+              "type": "ordering",
+              "source": "Hàn Quốc có bốn mùa",
+              "sentence": "Korea has four seasons",
+              "shuffled": [
+                "four",
+                "Korea",
+                "has",
+                "seasons"
+              ],
+              "correct": [
+                "Korea",
+                "has",
+                "four",
+                "seasons"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "lesson_29_10",
+          "title": "Quốc gia & Văn hóa - Câu 5",
+          "type": "interactive",
+          "exercises": [
+            {
+              "id": "ex_1052",
+              "type": "translate",
+              "source": "Hàng xóm của tôi đến từ nước Đức",
+              "target": "My neighbor is from Germany",
+              "options": [
+                "My",
+                "because",
+                "from",
+                "neighbor",
+                "Germany",
+                "is",
+                "yesterday"
+              ],
+              "correct": [
+                "My",
+                "neighbor",
+                "is",
+                "from",
+                "Germany"
+              ]
+            },
+            {
+              "id": "ex_1053",
+              "type": "ordering",
+              "source": "Hàng xóm của tôi đến từ nước Đức",
+              "sentence": "My neighbor is from Germany",
+              "shuffled": [
+                "Germany",
+                "My",
+                "from",
+                "is",
+                "neighbor"
+              ],
+              "correct": [
+                "My",
+                "neighbor",
+                "is",
+                "from",
+                "Germany"
+              ]
+            },
+            {
+              "id": "ex_1054",
+              "type": "pronunciation",
+              "question": "Hãy đọc to câu này thật chuẩn:",
+              "target": "My neighbor is from Germany"
+            },
+            {
+              "id": "ex_1055",
+              "type": "translate",
+              "source": "Chúng tôi học về các nền văn hóa thế giới",
+              "target": "We learn about world cultures",
+              "options": [
+                "about",
+                "learn",
+                "yesterday",
+                "under",
+                "world",
+                "cultures",
+                "We"
+              ],
+              "correct": [
+                "We",
+                "learn",
+                "about",
+                "world",
+                "cultures"
+              ]
+            },
+            {
+              "id": "ex_1056",
+              "type": "ordering",
+              "source": "Chúng tôi học về các nền văn hóa thế giới",
+              "sentence": "We learn about world cultures",
+              "shuffled": [
+                "world",
+                "We",
+                "about",
+                "cultures",
+                "learn"
+              ],
+              "correct": [
+                "We",
+                "learn",
+                "about",
+                "world",
+                "cultures"
+              ]
             },
             {
               "id": "ex_25_hour",
