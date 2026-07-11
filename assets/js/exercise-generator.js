@@ -1046,8 +1046,12 @@ const ExerciseGenerator = (() => {
 
     function buildOrdering(instance) {
         const words = instance.en.split(' ');
+        // source (the Vietnamese meaning) is what renderLesson() shows as the prompt -
+        // without it the prompt falls back to `sentence`, i.e. the English ANSWER
+        // itself, letting users re-assemble by sight with zero learning value (same
+        // answer-leak fixed across the curriculum data in data.js).
         return {
-            id: genId(), type: 'ordering', sentence: instance.en,
+            id: genId(), type: 'ordering', sentence: instance.en, source: instance.vi,
             shuffled: shuffleDifferent(words), correct: words,
             meta: { grammarPoint: instance.grammarPoint, difficulty: instance.difficulty }
         };
