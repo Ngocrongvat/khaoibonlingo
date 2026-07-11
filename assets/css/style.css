@@ -2486,3 +2486,50 @@ body {
     display: block;
     margin-top: 8px;
 }
+
+/* ===================== Fuzzy search suggestions ===================== */
+
+.suggest-box {
+    max-width: 300px;
+    width: 80%;
+    margin: -6px auto 10px;
+    border: 2px solid var(--duo-border);
+    border-radius: 12px;
+    background: var(--duo-white);
+    overflow: hidden;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+}
+
+.suggest-box.hidden {
+    display: none;
+}
+
+.suggest-item {
+    display: block;
+    width: 100%;
+    padding: 10px 14px;
+    border: none;
+    background: none;
+    text-align: left;
+    font-weight: 700;
+    color: var(--duo-text);
+    cursor: pointer;
+}
+
+.suggest-item:hover {
+    background: #f2fbea;
+}
+
+.suggest-item + .suggest-item {
+    border-top: 1px solid var(--duo-border);
+}
+
+/* ===================== Group browse list meta line ===================== */
+
+.group-row-meta {
+    display: block;
+    color: #999;
+    font-weight: 600;
+    font-size: 12px;
+    margin-top: 2px;
+}

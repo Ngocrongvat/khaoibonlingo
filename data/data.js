@@ -4446,10 +4446,12 @@ const COURSE_DATA = {
               "source": "Tôi sống ở Hà Nội",
               "target": "I live in Hanoi",
               "options": [
-                "in",
                 "Hanoi",
+                "live",
                 "I",
-                "live"
+                "always",
+                "under",
+                "in"
               ],
               "correct": [
                 "I",
@@ -4520,12 +4522,14 @@ const COURSE_DATA = {
               "source": "Cuốn sách ở trên bàn",
               "target": "The book is on the table",
               "options": [
-                "The",
-                "is",
-                "table",
-                "the",
                 "book",
-                "on"
+                "the",
+                "many",
+                "table",
+                "always",
+                "is",
+                "on",
+                "The"
               ],
               "correct": [
                 "The",
@@ -4602,11 +4606,13 @@ const COURSE_DATA = {
               "source": "Chúng tôi gặp nhau lúc bảy giờ",
               "target": "We meet at seven o'clock",
               "options": [
-                "We",
-                "o'clock",
+                "yesterday",
                 "seven",
+                "never",
+                "We",
+                "meet",
                 "at",
-                "meet"
+                "o'clock"
               ],
               "correct": [
                 "We",
@@ -4680,11 +4686,13 @@ const COURSE_DATA = {
               "source": "Cô ấy sinh vào tháng Năm",
               "target": "She was born in May",
               "options": [
-                "in",
-                "born",
-                "She",
                 "May",
-                "was"
+                "born",
+                "many",
+                "She",
+                "was",
+                "early",
+                "in"
               ],
               "correct": [
                 "She",
@@ -4759,11 +4767,13 @@ const COURSE_DATA = {
               "target": "The picture hangs on the wall",
               "options": [
                 "wall",
-                "picture",
-                "on",
-                "the",
                 "The",
-                "hangs"
+                "hangs",
+                "the",
+                "running",
+                "blue",
+                "picture",
+                "on"
               ],
               "correct": [
                 "The",
@@ -4840,13 +4850,15 @@ const COURSE_DATA = {
               "source": "Chúng tôi sẽ đi chơi vào cuối tuần",
               "target": "We will go out on the weekend",
               "options": [
-                "out",
+                "go",
+                "many",
                 "will",
                 "on",
-                "the",
+                "under",
                 "weekend",
-                "We",
-                "go"
+                "out",
+                "the",
+                "We"
               ],
               "correct": [
                 "We",
@@ -4926,11 +4938,13 @@ const COURSE_DATA = {
               "source": "Bữa tiệc diễn ra vào buổi tối",
               "target": "The party is in the evening",
               "options": [
-                "evening",
-                "in",
                 "party",
                 "The",
                 "is",
+                "evening",
+                "in",
+                "under",
+                "yesterday",
                 "the"
               ],
               "correct": [
@@ -5008,11 +5022,13 @@ const COURSE_DATA = {
               "source": "Anh ấy làm việc ở công ty này",
               "target": "He works at this company",
               "options": [
+                "company",
                 "at",
-                "He",
                 "this",
-                "works",
-                "company"
+                "together",
+                "under",
+                "He",
+                "works"
               ],
               "correct": [
                 "He",
@@ -5086,12 +5102,14 @@ const COURSE_DATA = {
               "source": "Chúng tôi sống ở tầng ba",
               "target": "We live on the third floor",
               "options": [
-                "floor",
-                "We",
-                "the",
-                "third",
                 "live",
-                "on"
+                "floor",
+                "under",
+                "third",
+                "We",
+                "on",
+                "the",
+                "sometimes"
               ],
               "correct": [
                 "We",
@@ -5168,12 +5186,14 @@ const COURSE_DATA = {
               "source": "Tôi thức dậy vào buổi sáng",
               "target": "I wake up in the morning",
               "options": [
-                "I",
-                "wake",
                 "the",
+                "in",
+                "happy",
+                "I",
+                "quickly",
                 "morning",
                 "up",
-                "in"
+                "wake"
               ],
               "correct": [
                 "I",
@@ -5257,10 +5277,12 @@ const COURSE_DATA = {
               "source": "Tôi đi bộ đến trường mỗi ngày",
               "target": "I walk to school every day",
               "options": [
-                "every",
-                "day",
-                "school",
+                "many",
                 "to",
+                "running",
+                "school",
+                "day",
+                "every",
                 "I",
                 "walk"
               ],
@@ -5339,10 +5361,12 @@ const COURSE_DATA = {
               "source": "Cô ấy đến từ Nhật Bản",
               "target": "She comes from Japan",
               "options": [
-                "She",
-                "comes",
                 "from",
-                "Japan"
+                "small",
+                "She",
+                "Japan",
+                "blue",
+                "comes"
               ],
               "correct": [
                 "She",
@@ -5414,11 +5438,13 @@ const COURSE_DATA = {
               "target": "The cat jumped into the box",
               "options": [
                 "jumped",
-                "cat",
-                "box",
-                "The",
+                "early",
                 "the",
-                "into"
+                "always",
+                "box",
+                "into",
+                "cat",
+                "The"
               ],
               "correct": [
                 "The",
@@ -5495,13 +5521,15 @@ const COURSE_DATA = {
               "source": "Anh ấy đặt cuốn sách lên bàn",
               "target": "He put the book onto the table",
               "options": [
-                "table",
+                "running",
                 "book",
-                "the",
-                "He",
                 "onto",
+                "yesterday",
                 "the",
-                "put"
+                "table",
+                "put",
+                "the",
+                "He"
               ],
               "correct": [
                 "He",
@@ -5581,11 +5609,13 @@ const COURSE_DATA = {
               "source": "Chúng tôi lái xe qua đường hầm",
               "target": "We drove through the tunnel",
               "options": [
+                "sometimes",
+                "drove",
+                "because",
+                "through",
                 "the",
                 "tunnel",
-                "We",
-                "drove",
-                "through"
+                "We"
               ],
               "correct": [
                 "We",
@@ -5659,11 +5689,13 @@ const COURSE_DATA = {
               "source": "Cô ấy bơi qua con sông",
               "target": "She swam across the river",
               "options": [
-                "swam",
-                "the",
-                "across",
                 "She",
-                "river"
+                "swam",
+                "river",
+                "the",
+                "early",
+                "across",
+                "together"
               ],
               "correct": [
                 "She",
@@ -5737,12 +5769,14 @@ const COURSE_DATA = {
               "source": "Anh ấy bước ra khỏi căn phòng",
               "target": "He walked out of the room",
               "options": [
-                "of",
-                "He",
                 "the",
-                "walked",
+                "He",
+                "room",
+                "blue",
                 "out",
-                "room"
+                "because",
+                "walked",
+                "of"
               ],
               "correct": [
                 "He",
@@ -5819,12 +5853,14 @@ const COURSE_DATA = {
               "source": "Chiếc xe buýt đi đến sân bay",
               "target": "The bus goes to the airport",
               "options": [
-                "goes",
-                "bus",
-                "airport",
-                "The",
                 "to",
-                "the"
+                "the",
+                "under",
+                "goes",
+                "sometimes",
+                "bus",
+                "The",
+                "airport"
               ],
               "correct": [
                 "The",
@@ -5901,11 +5937,13 @@ const COURSE_DATA = {
               "source": "Nước chảy vào trong bồn",
               "target": "Water flows into the tub",
               "options": [
-                "into",
                 "flows",
+                "early",
+                "never",
+                "tub",
                 "Water",
                 "the",
-                "tub"
+                "into"
               ],
               "correct": [
                 "Water",
@@ -5979,11 +6017,13 @@ const COURSE_DATA = {
               "source": "Họ chuyển đến một thành phố khác",
               "target": "They moved to another city",
               "options": [
-                "moved",
+                "They",
+                "city",
+                "quickly",
                 "another",
                 "to",
-                "They",
-                "city"
+                "running",
+                "moved"
               ],
               "correct": [
                 "They",
@@ -6064,10 +6104,12 @@ const COURSE_DATA = {
               "source": "Đừng nói chuyện trong lúc xem phim",
               "target": "Don't talk during the movie",
               "options": [
+                "Don't",
                 "talk",
                 "the",
+                "happy",
+                "always",
                 "movie",
-                "Don't",
                 "during"
               ],
               "correct": [
@@ -6142,12 +6184,14 @@ const COURSE_DATA = {
               "source": "Tôi sẽ gọi bạn trước bữa trưa",
               "target": "I will call you before lunch",
               "options": [
-                "call",
+                "I",
+                "never",
                 "lunch",
+                "blue",
+                "call",
                 "before",
                 "you",
-                "will",
-                "I"
+                "will"
               ],
               "correct": [
                 "I",
@@ -6224,12 +6268,14 @@ const COURSE_DATA = {
               "source": "Chúng tôi đi dạo sau bữa tối",
               "target": "We take a walk after dinner",
               "options": [
+                "take",
+                "We",
+                "walk",
+                "a",
+                "blue",
                 "dinner",
                 "after",
-                "walk",
-                "take",
-                "a",
-                "We"
+                "quickly"
               ],
               "correct": [
                 "We",
@@ -6307,11 +6353,13 @@ const COURSE_DATA = {
               "target": "She has lived here since 2010",
               "options": [
                 "lived",
-                "She",
+                "under",
+                "beautiful",
+                "2010",
                 "here",
-                "has",
                 "since",
-                "2010"
+                "She",
+                "has"
               ],
               "correct": [
                 "She",
@@ -6385,14 +6433,16 @@ const COURSE_DATA = {
             {
               "id": "ex_345",
               "type": "translate",
-              "source": "Tôi đã đợi bạn trong hai giờ",
+              "source": "Tôi đã đợi trong hai giờ",
               "target": "I have waited for two hours",
               "options": [
-                "I",
+                "waited",
+                "blue",
                 "hours",
                 "two",
+                "together",
+                "I",
                 "for",
-                "waited",
                 "have"
               ],
               "correct": [
@@ -6424,7 +6474,7 @@ const COURSE_DATA = {
                 "two",
                 "hours"
               ],
-              "source": "Tôi đã đợi bạn trong hai giờ"
+              "source": "Tôi đã đợi trong hai giờ"
             },
             {
               "id": "ex_347",
@@ -6471,11 +6521,13 @@ const COURSE_DATA = {
               "target": "Please finish the homework by Friday",
               "options": [
                 "by",
-                "Friday",
+                "the",
+                "under",
+                "Please",
                 "finish",
                 "homework",
-                "the",
-                "Please"
+                "Friday",
+                "together"
               ],
               "correct": [
                 "Please",
@@ -6552,12 +6604,14 @@ const COURSE_DATA = {
               "source": "Chúng tôi sẽ ở đây cho đến khi trời tối",
               "target": "We will stay here until dark",
               "options": [
-                "We",
                 "here",
-                "dark",
-                "will",
+                "blue",
+                "until",
                 "stay",
-                "until"
+                "We",
+                "will",
+                "dark",
+                "happy"
               ],
               "correct": [
                 "We",
@@ -6634,11 +6688,13 @@ const COURSE_DATA = {
               "source": "Anh ấy ngủ trong suốt chuyến bay",
               "target": "He slept during the flight",
               "options": [
-                "the",
                 "during",
+                "the",
                 "flight",
                 "He",
-                "slept"
+                "slept",
+                "sometimes",
+                "blue"
               ],
               "correct": [
                 "He",
@@ -6712,13 +6768,15 @@ const COURSE_DATA = {
               "source": "Tôi đã học tiếng Anh được ba năm",
               "target": "I have studied English for three years",
               "options": [
-                "for",
-                "three",
-                "have",
-                "years",
-                "I",
                 "English",
-                "studied"
+                "three",
+                "studied",
+                "for",
+                "beautiful",
+                "under",
+                "I",
+                "have",
+                "years"
               ],
               "correct": [
                 "I",
@@ -6798,15 +6856,17 @@ const COURSE_DATA = {
               "source": "Hãy nộp báo cáo trước cuối tháng",
               "target": "Submit the report by the end of the month",
               "options": [
-                "by",
-                "the",
-                "of",
-                "end",
-                "the",
-                "report",
                 "Submit",
+                "of",
+                "report",
                 "the",
-                "month"
+                "the",
+                "under",
+                "month",
+                "end",
+                "by",
+                "early",
+                "the"
               ],
               "correct": [
                 "Submit",
@@ -6899,13 +6959,15 @@ const COURSE_DATA = {
               "source": "Con mèo đang ngủ dưới gầm bàn",
               "target": "The cat is sleeping under the table",
               "options": [
-                "cat",
-                "table",
-                "sleeping",
-                "The",
                 "under",
+                "always",
+                "sleeping",
                 "is",
-                "the"
+                "yesterday",
+                "the",
+                "The",
+                "cat",
+                "table"
               ],
               "correct": [
                 "The",
@@ -6985,12 +7047,14 @@ const COURSE_DATA = {
               "source": "Một chiếc máy bay bay qua thành phố",
               "target": "A plane flew over the city",
               "options": [
-                "the",
-                "flew",
                 "plane",
-                "A",
+                "happy",
+                "always",
+                "the",
                 "city",
-                "over"
+                "flew",
+                "over",
+                "A"
               ],
               "correct": [
                 "A",
@@ -7068,11 +7132,13 @@ const COURSE_DATA = {
               "target": "The lamp hangs above the desk",
               "options": [
                 "desk",
-                "lamp",
-                "the",
-                "hangs",
                 "The",
-                "above"
+                "hangs",
+                "happy",
+                "the",
+                "beautiful",
+                "above",
+                "lamp"
               ],
               "correct": [
                 "The",
@@ -7149,11 +7215,13 @@ const COURSE_DATA = {
               "source": "Nhiệt độ đang dưới mức không độ",
               "target": "The temperature is below zero",
               "options": [
-                "zero",
-                "temperature",
+                "always",
+                "is",
                 "The",
                 "below",
-                "is"
+                "temperature",
+                "because",
+                "zero"
               ],
               "correct": [
                 "The",
@@ -7227,15 +7295,17 @@ const COURSE_DATA = {
               "source": "Cửa hàng nằm giữa ngân hàng và quán cà phê",
               "target": "The store is between the bank and the cafe",
               "options": [
-                "between",
+                "always",
+                "small",
                 "bank",
-                "is",
-                "cafe",
-                "the",
-                "and",
                 "The",
+                "is",
+                "and",
                 "the",
-                "store"
+                "the",
+                "store",
+                "between",
+                "cafe"
               ],
               "correct": [
                 "The",
@@ -7321,12 +7391,14 @@ const COURSE_DATA = {
               "source": "Cô ấy rất nổi tiếng trong đám bạn của mình",
               "target": "She is popular among her classmates",
               "options": [
-                "classmates",
-                "is",
+                "She",
+                "popular",
+                "early",
+                "because",
                 "her",
                 "among",
-                "She",
-                "popular"
+                "classmates",
+                "is"
               ],
               "correct": [
                 "She",
@@ -7403,13 +7475,15 @@ const COURSE_DATA = {
               "source": "Chiếc xe đậu phía sau ngôi nhà",
               "target": "The car is parked behind the house",
               "options": [
-                "house",
                 "parked",
-                "is",
-                "the",
-                "The",
+                "early",
                 "behind",
-                "car"
+                "is",
+                "The",
+                "many",
+                "the",
+                "car",
+                "house"
               ],
               "correct": [
                 "The",
@@ -7489,15 +7563,17 @@ const COURSE_DATA = {
               "source": "Có một khu vườn phía trước tòa nhà",
               "target": "There is a garden in front of the building",
               "options": [
-                "garden",
-                "of",
-                "the",
-                "is",
                 "front",
+                "of",
+                "a",
                 "in",
-                "building",
+                "because",
+                "garden",
                 "There",
-                "a"
+                "is",
+                "the",
+                "always",
+                "building"
               ],
               "correct": [
                 "There",
@@ -7583,13 +7659,15 @@ const COURSE_DATA = {
               "source": "Anh ấy ngồi cạnh tôi trong cuộc họp",
               "target": "He sat next to me during the meeting",
               "options": [
-                "He",
+                "next",
+                "sometimes",
+                "to",
+                "together",
                 "me",
                 "sat",
-                "to",
-                "the",
                 "during",
-                "next",
+                "He",
+                "the",
                 "meeting"
               ],
               "correct": [
@@ -7673,11 +7751,13 @@ const COURSE_DATA = {
               "source": "Họ sống gần trường học",
               "target": "They live near the school",
               "options": [
-                "live",
                 "They",
-                "near",
                 "school",
-                "the"
+                "the",
+                "live",
+                "never",
+                "near",
+                "small"
               ],
               "correct": [
                 "They",
@@ -7758,12 +7838,14 @@ const COURSE_DATA = {
               "source": "Tôi quan tâm đến việc học tiếng Anh",
               "target": "I am interested in learning English",
               "options": [
+                "blue",
+                "interested",
                 "in",
-                "learning",
                 "am",
                 "I",
+                "under",
                 "English",
-                "interested"
+                "learning"
               ],
               "correct": [
                 "I",
@@ -7840,13 +7922,15 @@ const COURSE_DATA = {
               "source": "Cô ấy chơi piano rất giỏi",
               "target": "She is good at playing the piano",
               "options": [
-                "good",
                 "is",
-                "the",
-                "piano",
                 "She",
-                "at",
-                "playing"
+                "never",
+                "playing",
+                "many",
+                "piano",
+                "good",
+                "the",
+                "at"
               ],
               "correct": [
                 "She",
@@ -7926,11 +8010,13 @@ const COURSE_DATA = {
               "source": "Anh ấy sợ nhện",
               "target": "He is afraid of spiders",
               "options": [
-                "of",
-                "is",
                 "He",
+                "afraid",
+                "of",
+                "quickly",
+                "is",
                 "spiders",
-                "afraid"
+                "happy"
               ],
               "correct": [
                 "He",
@@ -8004,11 +8090,13 @@ const COURSE_DATA = {
               "source": "Chúng tôi phụ thuộc vào nhau",
               "target": "We depend on each other",
               "options": [
+                "each",
+                "never",
+                "We",
+                "happy",
                 "on",
                 "depend",
-                "other",
-                "each",
-                "We"
+                "other"
               ],
               "correct": [
                 "We",
@@ -8082,13 +8170,15 @@ const COURSE_DATA = {
               "source": "Tôi rất mong chờ phản hồi của bạn",
               "target": "I am looking forward to your reply",
               "options": [
-                "your",
                 "reply",
-                "I",
-                "forward",
-                "am",
+                "to",
+                "beautiful",
                 "looking",
-                "to"
+                "your",
+                "forward",
+                "I",
+                "am",
+                "blue"
               ],
               "correct": [
                 "I",
@@ -8168,11 +8258,13 @@ const COURSE_DATA = {
               "source": "Cô ấy xin lỗi vì đã đến muộn",
               "target": "She apologized for being late",
               "options": [
-                "late",
                 "for",
                 "She",
-                "being",
-                "apologized"
+                "happy",
+                "late",
+                "never",
+                "apologized",
+                "being"
               ],
               "correct": [
                 "She",
@@ -8246,14 +8338,16 @@ const COURSE_DATA = {
               "source": "Kết quả này khác với những gì chúng tôi mong đợi",
               "target": "This result is different from what we expected",
               "options": [
-                "what",
-                "This",
-                "we",
                 "result",
                 "different",
-                "is",
+                "This",
+                "together",
+                "from",
                 "expected",
-                "from"
+                "is",
+                "what",
+                "we",
+                "under"
               ],
               "correct": [
                 "This",
@@ -8336,12 +8430,14 @@ const COURSE_DATA = {
               "source": "Anh ấy đã kết hôn với một bác sĩ",
               "target": "He is married to a doctor",
               "options": [
+                "a",
+                "under",
                 "is",
-                "married",
                 "He",
-                "to",
                 "doctor",
-                "a"
+                "beautiful",
+                "married",
+                "to"
               ],
               "correct": [
                 "He",
@@ -8418,10 +8514,12 @@ const COURSE_DATA = {
               "source": "Tôi tin tưởng bạn",
               "target": "I believe in you",
               "options": [
-                "in",
                 "believe",
+                "you",
+                "small",
                 "I",
-                "you"
+                "running",
+                "in"
               ],
               "correct": [
                 "I",
@@ -8492,12 +8590,14 @@ const COURSE_DATA = {
               "source": "Họ đã chúc mừng anh ấy vì thành công",
               "target": "They congratulated him on his success",
               "options": [
+                "quickly",
+                "on",
                 "congratulated",
-                "They",
-                "his",
+                "under",
                 "success",
+                "They",
                 "him",
-                "on"
+                "his"
               ],
               "correct": [
                 "They",
@@ -15337,7 +15437,7 @@ const COURSE_DATA = {
             {
               "id": "ex_975",
               "type": "multiple_choice",
-              "question": "How do you say 'Halloween'?",
+              "question": "How do you say 'Lễ hội hóa trang (31/10)'?",
               "options": [
                 "Halloween",
                 "Invitation",

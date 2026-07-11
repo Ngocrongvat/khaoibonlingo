@@ -90,10 +90,40 @@
         try {
             const { data, error } = await client.from('groups').select('*').ilike('name', name.trim()).maybeSingle();
             if (error) throw error;
-            return data || null;
+            if (data) return data;
+            // Fuzzy fallback: an UNAMBIGUOUS substring match still resolves ("Rồng"
+            // finds "Nhóm Rồng Lửa"), but two candidates means the caller's input was
+            // too vague - return null rather than guessing which group they meant.
+            const { data: near } = await client
+                .from('groups')
+                .select('*')
+                .ilike('name', `%${name.trim()}%`)
+                .limit(2);
+            return (near && near.length === 1) ? near[0] : null;
         } catch (e) {
             console.error('Failed to search group by name:', e);
             return null;
+        }
+    }
+
+    // Active-member counts for a batch of groups in ONE query (group_members active
+    // rows are world-readable - see group_members_select_active_public) - powers the
+    // member column on the group browse list without an N+1 per group.
+    async function getMemberCounts(groupIds) {
+        if (!client || !groupIds || !groupIds.length) return {};
+        try {
+            const { data, error } = await client
+                .from('group_members')
+                .select('group_id')
+                .eq('status', 'active')
+                .in('group_id', groupIds);
+            if (error) throw error;
+            const counts = {};
+            (data || []).forEach(r => { counts[r.group_id] = (counts[r.group_id] || 0) + 1; });
+            return counts;
+        } catch (e) {
+            console.error('Failed to count group members:', e);
+            return {};
         }
     }
 
@@ -660,6 +690,7 @@
         MAX_MEMBERS,
         createGroup,
         searchGroups,
+        getMemberCounts,
         getGroupById,
         updateGroupAvatar,
         searchGroupByName,

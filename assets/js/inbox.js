@@ -18,7 +18,15 @@
                 .eq('username', username)
                 .maybeSingle();
             if (error) throw error;
-            return data || null;
+            if (data) return data;
+            // Case-insensitive fallback, same as friends.js/duel.js - messaging
+            // "tester" still reaches "Tester".
+            const { data: ciData } = await client
+                .from('profile_usernames')
+                .select('id, username')
+                .ilike('username', username)
+                .maybeSingle();
+            return ciData || null;
         } catch (e) {
             console.error('Failed to search user by username:', e);
             return null;

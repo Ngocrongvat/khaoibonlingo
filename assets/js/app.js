@@ -1375,6 +1375,52 @@ class DuoClone {
         return `<span class="user-clickable" data-user-id="${userId || ''}" data-username="${safeName}">${safeName}</span>`;
     }
 
+    // Shared fuzzy-suggestion dropdown for any text input that expects a name
+    // (username or group name). fetcher(query) -> [{label, value}]. Suggestions render
+    // in a box right under the input; clicking one fills the input. Debounced so it
+    // fires between keystrokes, not on every one.
+    attachSuggestions(input, fetcher, onPick = null) {
+        if (!input) return;
+        const box = document.createElement('div');
+        box.className = 'suggest-box hidden';
+        input.insertAdjacentElement('afterend', box);
+        let debounce = null;
+        const close = () => { box.classList.add('hidden'); box.innerHTML = ''; };
+        input.addEventListener('input', () => {
+            clearTimeout(debounce);
+            const q = input.value.trim();
+            if (q.length < 2) { close(); return; }
+            debounce = setTimeout(async () => {
+                const items = await fetcher(q);
+                if (!items.length || document.activeElement !== input) { close(); return; }
+                box.innerHTML = items.map((it, i) => `<button type="button" class="suggest-item" data-idx="${i}">${this.escapeHtml(it.label)}</button>`).join('');
+                box.classList.remove('hidden');
+                box.querySelectorAll('.suggest-item').forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        const item = items[parseInt(btn.dataset.idx, 10)];
+                        input.value = item.value;
+                        close();
+                        if (onPick) onPick(item);
+                    });
+                });
+            }, 250);
+        });
+        // mousedown fires before the input's blur, so a click on a suggestion always
+        // lands before this closes the box.
+        input.addEventListener('blur', () => setTimeout(close, 200));
+    }
+
+    // Username flavor of attachSuggestions() - used by every "nhập tên người dùng"
+    // form (duel challenge, new message, add friend).
+    attachUserSuggestions(input, onPick = null) {
+        if (!window.Friends || !window.Friends.searchUsers) return;
+        const myName = this.state.currentUser;
+        this.attachSuggestions(input, async (q) => {
+            const users = await window.Friends.searchUsers(q, 8);
+            return users.filter(u => u.username !== myName).map(u => ({ label: `👤 ${u.username}`, value: u.username, id: u.id }));
+        }, onPick);
+    }
+
     closeUserActionMenu() {
         const existing = document.getElementById('user-action-menu');
         if (existing) existing.remove();
@@ -3736,6 +3782,7 @@ class DuoClone {
         this.ui.checkBtn.disabled = true;
         this.ui.checkBtn.classList.remove('active');
         document.getElementById('duel-back').addEventListener('click', () => this.renderHomeDashboard());
+        this.attachUserSuggestions(document.getElementById('duel-target-input'));
         document.getElementById('duel-send-challenge').addEventListener('click', async () => {
             const target = document.getElementById('duel-target-input').value.trim();
             const errorEl = document.getElementById('duel-challenge-error');
@@ -4286,6 +4333,7 @@ class DuoClone {
         this.ui.checkBtn.disabled = true;
         this.ui.checkBtn.classList.remove('active');
         document.getElementById('friend-add-back').addEventListener('click', () => this.renderHomeDashboard());
+        this.attachUserSuggestions(document.getElementById('friend-target-input'));
         document.getElementById('friend-send-request').addEventListener('click', async () => {
             const target = document.getElementById('friend-target-input').value.trim();
             const errorEl = document.getElementById('friend-add-error');
@@ -4339,30 +4387,16 @@ class DuoClone {
             return;
         }
 
-        const groups = await window.Groups.searchGroups(searchQuery, 30);
-        const listHtml = groups.length
-            ? groups.map(g => {
-                const info = getGroupLevelInfo(g.vibrancy_score);
-                return `
-                    <div class="friend-row">
-                        <span class="friend-row-name">🏰 ${this.escapeHtml(g.name)} <span style="color:#999; font-weight:400;">(${info.label})</span></span>
-                        <span class="friend-row-actions">
-                            <button class="btn-primary group-join-btn" data-group-id="${g.id}" style="padding:5px 12px; font-size:12px;">Xin gia nhập</button>
-                        </span>
-                    </div>
-                `;
-            }).join('')
-            : `<p style="text-align:center; color:#777;">Chưa có group nào${searchQuery ? ' khớp tìm kiếm' : ''}. Hãy là người đầu tiên tạo group!</p>`;
-
         this.ui.container.innerHTML = `
             <div class="welcome-screen">
                 <div class="duo-character">🏰</div>
                 <h1 style="text-align: center;">Group</h1>
                 <p style="text-align: center; color: #777;">Bạn chưa ở trong group nào. Tham gia hoặc tạo group mới!</p>
-                <input type="text" id="group-search-input" class="input-field" style="display:block; width:80%; max-width:300px; margin:10px auto; padding:12px; text-align:center;" placeholder="Tìm group theo tên..." value="${this.escapeHtml(searchQuery)}">
+                <input type="text" id="group-search-input" class="input-field" style="display:block; width:80%; max-width:300px; margin:10px auto; padding:12px; text-align:center;" placeholder="Tìm group theo tên (gõ gần đúng)..." value="${this.escapeHtml(searchQuery)}">
                 <button class="btn-primary" id="group-create-btn" style="display: block; margin: 10px auto; padding: 15px 30px;">+ TẠO GROUP</button>
                 <button class="btn-secondary" id="group-leaderboards-btn" style="display: block; margin: 10px auto; padding: 12px 30px;">🏆 BẢNG XẾP HẠNG GROUP</button>
-                <div class="friends-list" style="margin-top:15px;">${listHtml}</div>
+                <h3 id="group-list-heading" style="text-align:center; margin:15px 0 5px;">🔥 Group sôi nổi nhất</h3>
+                <div class="friends-list" id="group-browse-list" style="margin-top:5px;"><p style="text-align:center; color:#777;">Đang tải...</p></div>
                 <button class="btn-secondary" id="groups-close" style="display: block; margin: 15px auto; padding: 15px 30px;">QUAY LẠI</button>
             </div>
         `;
@@ -4372,16 +4406,51 @@ class DuoClone {
         document.getElementById('group-create-btn').addEventListener('click', () => this.renderCreateGroupForm());
         document.getElementById('group-leaderboards-btn').addEventListener('click', () => this.renderGroupLeaderboards());
         document.getElementById('groups-close').addEventListener('click', () => this.renderHomeDashboard());
-        const searchInput = document.getElementById('group-search-input');
-        searchInput.addEventListener('keydown', (e) => { if (e.key === 'Enter') this.renderGroupsMenu(searchInput.value.trim()); });
-        this.ui.container.querySelectorAll('.group-join-btn').forEach(btn => {
-            btn.addEventListener('click', async () => {
-                btn.disabled = true;
-                const result = await window.Groups.requestJoin(this.state.profile, btn.dataset.groupId);
-                if (result.error) { alert(result.error); btn.disabled = false; return; }
-                alert('Đã gửi yêu cầu tham gia! Chờ Chủ nhóm duyệt nhé.');
-                this.renderGroupsMenu(searchQuery);
+
+        // Refreshes ONLY the list (not the whole screen) so live search-as-you-type
+        // never steals focus from the input mid-word.
+        const refreshList = async (query) => {
+            const listEl = document.getElementById('group-browse-list');
+            const headingEl = document.getElementById('group-list-heading');
+            if (!listEl) return;
+            const groups = await window.Groups.searchGroups(query, 30);
+            const counts = await window.Groups.getMemberCounts(groups.map(g => g.id));
+            if (headingEl) headingEl.textContent = query ? `🔎 Kết quả cho "${query}"` : '🔥 Group sôi nổi nhất';
+            listEl.innerHTML = groups.length
+                ? groups.map(g => {
+                    const info = getGroupLevelInfo(g.vibrancy_score);
+                    return `
+                        <div class="friend-row">
+                            <span class="friend-row-name">🏰 ${this.escapeHtml(g.name)}
+                                <span class="group-row-meta">${info.label} · ⭐ ${g.vibrancy_score} sôi nổi · 👥 ${counts[g.id] || 0}/${window.Groups.MAX_MEMBERS} thành viên</span>
+                            </span>
+                            <span class="friend-row-actions">
+                                <button class="btn-primary group-join-btn" data-group-id="${g.id}" style="padding:5px 12px; font-size:12px;">Xin gia nhập</button>
+                            </span>
+                        </div>
+                    `;
+                }).join('')
+                : `<p style="text-align:center; color:#777;">Chưa có group nào${query ? ' gần khớp với tìm kiếm' : ''}. Hãy là người đầu tiên tạo group!</p>`;
+            listEl.querySelectorAll('.group-join-btn').forEach(btn => {
+                btn.addEventListener('click', async () => {
+                    btn.disabled = true;
+                    const result = await window.Groups.requestJoin(this.state.profile, btn.dataset.groupId);
+                    if (result.error) { alert(result.error); btn.disabled = false; return; }
+                    alert('Đã gửi yêu cầu tham gia! Chờ Chủ nhóm duyệt nhé.');
+                    refreshList(query);
+                });
             });
+        };
+        await refreshList(searchQuery);
+
+        const searchInput = document.getElementById('group-search-input');
+        let searchDebounce = null;
+        searchInput.addEventListener('input', () => {
+            clearTimeout(searchDebounce);
+            searchDebounce = setTimeout(() => refreshList(searchInput.value.trim()), 300);
+        });
+        searchInput.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') { clearTimeout(searchDebounce); refreshList(searchInput.value.trim()); }
         });
     }
 
@@ -4793,6 +4862,15 @@ class DuoClone {
         });
         const challengeBtn = document.getElementById('group-battle-challenge-btn');
         if (challengeBtn) {
+            // Group-name suggestions (excluding our own group) so admins don't need
+            // the exact name to send a battle challenge.
+            this.attachSuggestions(document.getElementById('group-battle-target-input'), async (q) => {
+                const found = await window.Groups.searchGroups(q, 8);
+                return found.filter(g => g.id !== groupId).map(g => ({
+                    label: `🏰 ${g.name} (${getGroupLevelInfo(g.vibrancy_score).label})`,
+                    value: g.name
+                }));
+            });
             challengeBtn.addEventListener('click', async () => {
                 const target = document.getElementById('group-battle-target-input').value.trim();
                 const errorEl = document.getElementById('group-battle-error');
@@ -4982,6 +5060,7 @@ class DuoClone {
         this.ui.checkBtn.disabled = true;
         this.ui.checkBtn.classList.remove('active');
         document.getElementById('dm-target-back').addEventListener('click', () => this.renderHomeDashboard());
+        this.attachUserSuggestions(document.getElementById('dm-target-input'));
         document.getElementById('dm-target-next').addEventListener('click', async () => {
             const target = document.getElementById('dm-target-input').value.trim();
             const errorEl = document.getElementById('dm-target-error');

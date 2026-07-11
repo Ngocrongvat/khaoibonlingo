@@ -20,7 +20,16 @@
                 .eq('username', username)
                 .maybeSingle();
             if (error) throw error;
-            return data || null;
+            if (data) return data;
+            // Case-insensitive fallback (ilike with no wildcards): challenging
+            // "tester" still finds "Tester". Ambiguity (two names differing only by
+            // case) resolves as no-match instead of guessing.
+            const { data: ciData } = await client
+                .from('profile_usernames')
+                .select('id, username')
+                .ilike('username', username)
+                .maybeSingle();
+            return ciData || null;
         } catch (e) {
             console.error('Failed to look up profile by username:', e);
             return null;

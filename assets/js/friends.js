@@ -17,10 +17,40 @@
                 .eq('username', username)
                 .maybeSingle();
             if (error) throw error;
-            return data || null;
+            if (data) return data;
+            // Case-insensitive fallback: typing "tester" should still find "Tester".
+            // ilike with no wildcards is an exact match ignoring case; maybeSingle()
+            // errors if several usernames differ only by case - treat that as no match
+            // rather than guessing between them.
+            const { data: ciData } = await client
+                .from('profile_usernames')
+                .select('id, username')
+                .ilike('username', username)
+                .maybeSingle();
+            return ciData || null;
         } catch (e) {
             console.error('Failed to search user by username:', e);
             return null;
+        }
+    }
+
+    // Fuzzy username search for autocomplete suggestions ("gõ gần đúng vẫn ra") -
+    // substring match, case-insensitive, capped small since it runs on every few
+    // keystrokes. Exact-prefix matches naturally sort first via the order clause.
+    async function searchUsers(query, limit = 8) {
+        if (!client || !query || query.trim().length < 2) return [];
+        try {
+            const { data, error } = await client
+                .from('profile_usernames')
+                .select('id, username')
+                .ilike('username', `%${query.trim()}%`)
+                .order('username', { ascending: true })
+                .limit(limit);
+            if (error) throw error;
+            return data || [];
+        } catch (e) {
+            console.error('Failed to fuzzy-search users:', e);
+            return [];
         }
     }
 
@@ -293,6 +323,7 @@
     window.Friends = {
         isConfigured,
         searchUserByUsername,
+        searchUsers,
         getUserInfo,
         getOnlineMembers,
         sendFriendRequest,
