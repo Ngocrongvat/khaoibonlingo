@@ -2639,6 +2639,13 @@ class DuoClone {
         if (!this.state.currentUser || !points) return;
         this.state.vibrancy = (this.state.vibrancy || 0) + points;
         this.state.stats.vibrancy = this.state.vibrancy;
+        // Push straight to the leaderboard row (fire-and-forget): practice, games and
+        // chat award points WITHOUT going through syncLeaderboardScore(), so without
+        // this the public "Sôi nổi" board lagged behind until the next lesson
+        // completion or re-login - which read as "points never credited".
+        if (window.Leaderboard) {
+            window.Leaderboard.submitScore(this.state.currentUser, this.state.xp, this.state.streak, this.state.vibrancy);
+        }
     }
 
     // Ranks by cumulative xp, not a resetting weekly counter - a leader nobody catches
