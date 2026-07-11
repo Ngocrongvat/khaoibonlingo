@@ -196,7 +196,17 @@
             // member rather than a recurring multiplier, so it never needs recomputing.
             // Called by the approver (owner/admin, already an active member), which
             // satisfies increment_group_vibrancy()'s own membership check.
-            await client.rpc('increment_group_vibrancy', { p_group_id: groupId, p_amount: 20 }).catch(() => {});
+            // Bug fix: this used to call .catch() directly on the query builder, which
+            // is a thenable WITHOUT a .catch method in this supabase-js version - the
+            // TypeError aborted approveJoinRequest() AFTER the member row was already
+            // activated, so every approval reported failure to the approver and the
+            // +20 vibrancy bonus was never credited. Own try/catch keeps the original
+            // intent: a vibrancy hiccup must not fail the approval itself.
+            try {
+                await client.rpc('increment_group_vibrancy', { p_group_id: groupId, p_amount: 20 });
+            } catch (rpcErr) {
+                console.error('Failed to credit new-member vibrancy bonus:', rpcErr);
+            }
             return {};
         } catch (e) {
             console.error('Failed to approve join request:', e);
