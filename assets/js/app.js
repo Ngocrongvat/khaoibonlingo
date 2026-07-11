@@ -1908,10 +1908,37 @@ class DuoClone {
         recognition.start();
     }
 
+    // Spells out a number (0-9999) in English words, matching how course targets are
+    // written - used to reconcile speech-recognition output with the expected text.
+    numberToEnglishWords(n) {
+        const ones = ['zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten',
+            'eleven', 'twelve', 'thirteen', 'fourteen', 'fifteen', 'sixteen', 'seventeen', 'eighteen', 'nineteen'];
+        const tens = ['', '', 'twenty', 'thirty', 'forty', 'fifty', 'sixty', 'seventy', 'eighty', 'ninety'];
+        if (n < 0 || n > 9999 || !Number.isInteger(n)) return String(n);
+        if (n < 20) return ones[n];
+        if (n < 100) return tens[Math.floor(n / 10)] + (n % 10 ? ' ' + ones[n % 10] : '');
+        if (n < 1000) return ones[Math.floor(n / 100)] + ' hundred' + (n % 100 ? ' ' + this.numberToEnglishWords(n % 100) : '');
+        return this.numberToEnglishWords(Math.floor(n / 1000)) + ' thousand' + (n % 1000 ? ' ' + this.numberToEnglishWords(n % 1000) : '');
+    }
+
+    // Bug fix: speech recognition returns DIGITS for spoken numbers ("seven o'clock"
+    // comes back as "7 o'clock" or even "7:00"), while course targets are written in
+    // words - a correct reading of a short target like "Three" scored 20% and was
+    // marked wrong. Normalization now (1) drops apostrophes so o'clock == oclock,
+    // (2) expands H:MM clock times, and (3) spells out standalone digits, so both
+    // sides of the comparison land on the same word form. Also applies to dictation
+    // and spoken comprehension answers, which share this normalizer.
     normalizeSpeech(text) {
         return (text || '')
             .toLowerCase()
-            .replace(/[^\w\s']/g, '')
+            .replace(/['’]/g, '')
+            .replace(/(\d{1,2}):(\d{2})\b/g, (m, h, mm) => {
+                const hour = this.numberToEnglishWords(parseInt(h, 10));
+                const mins = parseInt(mm, 10);
+                return mins === 0 ? `${hour} oclock` : `${hour} ${this.numberToEnglishWords(mins)}`;
+            })
+            .replace(/[^\w\s]/g, ' ')
+            .replace(/\d+/g, (m) => this.numberToEnglishWords(parseInt(m, 10)))
             .replace(/\s+/g, ' ')
             .trim();
     }
