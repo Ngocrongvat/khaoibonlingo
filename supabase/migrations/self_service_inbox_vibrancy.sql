@@ -43,6 +43,13 @@ begin
     raise exception 'Tên hiển thị này đã có người dùng khác sử dụng.';
   end if;
 
+  -- Transaction-local flag read by direct_messages_guard_update() below: the guard
+  -- trigger normally rejects ANY change to the username copies on messages ("sent
+  -- messages are immutable"), which would otherwise abort this rename's legitimate
+  -- fan-out the moment the account has a single DM. set_config(..., true) scopes the
+  -- flag to this transaction only - it can't leak into other statements.
+  perform set_config('app.rename_in_progress', '1', true);
+
   update public.profiles set username = v_new where id = v_uid;
 
   -- The leaderboard is keyed by username (no id column), so move the row over.
@@ -136,6 +143,13 @@ declare
   v_uid uuid := auth.uid();
 begin
   if v_uid is null then
+    return new;
+  end if;
+
+  -- rename_own_account() legitimately rewrites the denormalized username copies on
+  -- every message of the renaming user - it marks its transaction with this flag
+  -- (see its set_config call). Everything else stays locked down.
+  if current_setting('app.rename_in_progress', true) = '1' then
     return new;
   end if;
 
