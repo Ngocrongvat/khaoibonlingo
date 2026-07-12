@@ -2633,28 +2633,125 @@ class DuoClone {
     }
 
     // ============== Ôn luyện củng cố (post-lesson review round) ==============
-    // Same STRUCTURES, different content: pulls one same-type exercise per slot of the
-    // completed lesson from the unit's OTHER lessons - guaranteed same quality (it's
-    // vetted course data, not generated on the fly) and never a question the learner
-    // just answered.
+    // SAME core content, NEW question forms: every word/sentence the lesson just
+    // taught comes back once more, but transformed into a DIFFERENT exercise type
+    // (taught by multiple-choice -> reviewed by listening; taught by translate ->
+    // reviewed by word-ordering; pronunciation sentence -> dictation...). The learner
+    // re-retrieves the exact core one extra time through a fresh angle - which is
+    // what makes it stick - instead of being quizzed on unrelated sibling content.
     buildLessonReviewQueue(unit, lessonIdx) {
-        const lesson = unit.lessons[lessonIdx];
-        if (!unit || !lesson) return [];
-        const poolByType = {};
-        unit.lessons.forEach((l, li) => {
-            if (li === lessonIdx) return;
-            l.exercises.forEach(e => {
-                (poolByType[e.type] = poolByType[e.type] || []).push(e);
-            });
-        });
-        const used = new Set();
+        const lesson = unit && unit.lessons[lessonIdx];
+        if (!lesson) return [];
+        let seq = 0;
+        const rid = () => `rev_${Date.now()}_${seq++}`;
+
+        // distractor pool: every word answer appearing anywhere in this unit
+        const wordPool = [];
+        unit.lessons.forEach(l => l.exercises.forEach(e => {
+            if ((e.type === 'multiple_choice' || e.type === 'listening') && Array.isArray(e.options)) {
+                const ans = String(e.options[e.correct]);
+                if (!wordPool.some(w => w.toLowerCase() === ans.toLowerCase())) wordPool.push(ans);
+            }
+        }));
+        const distractors = (word, n) => {
+            const out = [];
+            for (const c of shuffleArray(wordPool)) {
+                if (out.length >= n) break;
+                if (c.toLowerCase() === word.toLowerCase()) continue;
+                if (out.some(o => o.toLowerCase() === c.toLowerCase())) continue;
+                out.push(c);
+            }
+            return out.length >= n ? out : null;
+        };
+        // Vietnamese gloss for a word (needed when flipping listening -> MC): the word
+        // came from the curated vocab bank, so an unambiguous entry exists there.
+        const viFor = (en) => {
+            if (typeof VOCAB_BANK === 'undefined') return null;
+            for (const cat of ['nouns', 'verbs', 'adjectives', 'adverbs']) {
+                const hit = (VOCAB_BANK[cat] || []).find(w =>
+                    w.en && w.en.toLowerCase() === en.toLowerCase() && w.vi && !/[(),\/;]/.test(w.vi));
+                if (hit) return hit.vi;
+            }
+            return null;
+        };
+        const reshuffledDifferent = (words) => {
+            let sh = shuffleArray(words);
+            for (let t = 0; t < 10 && sh.join('') === words.join(''); t++) sh = shuffleArray(words);
+            return sh.join('') === words.join('') ? [...words].reverse() : sh;
+        };
+
+        const mkListening = (word) => {
+            const d = distractors(word, 3);
+            if (!d) return null;
+            const options = shuffleArray([word, ...d]);
+            return { id: rid(), type: 'listening', question: 'Listen and choose the correct word', options, correct: options.indexOf(word) };
+        };
+        const mkMc = (word) => {
+            const vi = viFor(word);
+            const d = distractors(word, 3);
+            if (!vi || !d) return null;
+            const options = shuffleArray([word, ...d]);
+            return { id: rid(), type: 'multiple_choice', question: `How do you say '${vi}'?`, options, correct: options.indexOf(word) };
+        };
+        const mkOrdering = (sentence, vi) => {
+            const words = (sentence || '').split(' ');
+            if (words.length < 3 || !vi) return null;
+            return { id: rid(), type: 'ordering', source: vi, sentence, shuffled: reshuffledDifferent(words), correct: words };
+        };
+        const mkTranslate = (sentence, vi) => {
+            const words = (sentence || '').split(' ');
+            if (words.length < 3 || !vi) return null;
+            const lower = words.map(w => w.toLowerCase());
+            const extras = shuffleArray(['yesterday', 'always', 'because', 'quickly', 'many', 'blue', 'never', 'small'].filter(d => !lower.includes(d))).slice(0, 2);
+            return { id: rid(), type: 'translate', source: vi, target: sentence, options: shuffleArray([...words, ...extras]), correct: words };
+        };
+        const mkDictation = (sentence) => ({ id: rid(), type: 'dictation', question: 'Nghe và gõ lại câu:', target: sentence });
+        const mkPronSent = (sentence) => ({ id: rid(), type: 'pronunciation', question: 'Hãy đọc to câu này thật chuẩn:', target: sentence });
+        const mkPronWord = (word) => ({ id: rid(), type: 'pronunciation', question: 'Hãy phát âm từ này thật chuẩn:', target: word });
+
+        // A review form only counts as "new" if the lesson didn't ALREADY quiz this
+        // exact content in that form (e.g. a word taught by BOTH multiple-choice and
+        // listening must come back as pronunciation, not as either of those again) -
+        // and if the review round itself hasn't claimed that form for it yet.
+        const contentOf = (ex) => ((ex.target || ex.sentence || (Array.isArray(ex.options) ? String(ex.options[ex.correct]) : '')) + '').toLowerCase().trim();
+        const takenPairs = new Set(lesson.exercises.map(e => e.type + '|' + contentOf(e)));
+        const pickForm = (builders) => {
+            for (const build of builders) {
+                const alt = build();
+                if (!alt) continue;
+                const key = alt.type + '|' + contentOf(alt);
+                if (takenPairs.has(key)) continue;
+                takenPairs.add(key);
+                return alt;
+            }
+            return null;
+        };
+
         const queue = [];
         lesson.exercises.forEach(e => {
-            const pool = (poolByType[e.type] || []).filter(c => !used.has(c.id));
-            if (!pool.length) return;
-            const pick = pool[Math.floor(Math.random() * pool.length)];
-            used.add(pick.id);
-            queue.push(pick);
+            let alt = null;
+            if ((e.type === 'multiple_choice' || e.type === 'listening') && Array.isArray(e.options)) {
+                const w = String(e.options[e.correct]);
+                const order = e.type === 'multiple_choice'
+                    ? [() => mkListening(w), () => mkMc(w), () => mkPronWord(w)]
+                    : [() => mkMc(w), () => mkListening(w), () => mkPronWord(w)];
+                alt = pickForm(order);
+            } else if (e.type === 'pronunciation') {
+                const t = e.target || '';
+                alt = t.split(' ').length === 1
+                    ? pickForm([() => mkMc(t), () => mkListening(t)])
+                    : pickForm([() => mkDictation(t), () => mkTranslate(t, null)]);
+            } else if (e.type === 'translate') {
+                alt = pickForm([() => mkOrdering(e.target, e.source), () => mkDictation(e.target), () => mkPronSent(e.target)]);
+            } else if (e.type === 'ordering') {
+                alt = pickForm([() => mkTranslate(e.sentence, e.source), () => mkDictation(e.sentence), () => mkPronSent(e.sentence)]);
+            } else if (e.type === 'dictation') {
+                alt = pickForm([() => mkPronSent(e.target), () => mkOrdering(e.target, e.source)]);
+            } else if (e.type === 'preposition' && Array.isArray(e.options)) {
+                const filled = (e.sentence || '').replace('___', String(e.options[e.correct]));
+                alt = pickForm([() => mkDictation(filled), () => mkPronSent(filled)]);
+            }
+            if (alt) queue.push(alt);
         });
         return queue;
     }
@@ -2719,7 +2816,7 @@ class DuoClone {
             <div class="welcome-screen">
                 <div class="duo-character mascot-cheer">🎓</div>
                 <h1 style="text-align: center;">Ôn luyện hoàn tất!</h1>
-                <p style="text-align: center; color: #777;">Bạn vừa luyện lại cấu trúc của bài với những câu hoàn toàn mới - cách tốt nhất để nhớ lâu.</p>
+                <p style="text-align: center; color: #777;">Bạn vừa ôn lại đúng phần cốt lõi của bài dưới những dạng câu hỏi mới - cách tốt nhất để nhớ lâu.</p>
                 ${this.sessionSummaryHtml()}
                 ${this.lessonCoreSummaryHtml(core)}
                 <button class="btn-primary" id="review-done-continue" style="display: block; margin: 20px auto 10px; padding: 15px 30px;">TIẾP TỤC HỌC</button>
@@ -2768,8 +2865,8 @@ class DuoClone {
                 ${this.sessionSummaryHtml()}
                 ${this.lessonCoreSummaryHtml(coreItems)}
                 ${reviewQueue.length >= 3 ? `
-                    <button class="btn-primary" id="lesson-review-btn" style="display: block; margin: 20px auto 0; padding: 15px 30px;">🔄 ÔN LUYỆN CỦNG CỐ (${reviewQueue.length} câu tương tự)</button>
-                    <p style="text-align:center; color:#999; font-size:12.5px; margin:6px 0 0;">Câu hỏi mới cùng cấu trúc - không tốn tim, giúp nhớ lâu hơn</p>
+                    <button class="btn-primary" id="lesson-review-btn" style="display: block; margin: 20px auto 0; padding: 15px 30px;">🔄 ÔN LUYỆN CỦNG CỐ (${reviewQueue.length} câu)</button>
+                    <p style="text-align:center; color:#999; font-size:12.5px; margin:6px 0 0;">Hỏi lại đúng cốt lõi vừa học dưới dạng câu hỏi mới - không tốn tim, giúp nhớ lâu hơn</p>
                 ` : ''}
                 <button class="${reviewQueue.length >= 3 ? 'btn-secondary' : 'btn-primary'}" id="lesson-summary-continue" style="display: block; margin: 15px auto; padding: 15px 30px;">TIẾP TỤC</button>
             </div>
