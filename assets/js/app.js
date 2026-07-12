@@ -645,6 +645,10 @@ class DuoClone {
         // "Sôi nổi" activity score - persisted inside the stats jsonb (no new profiles
         // column) and mirrored to the world-readable leaderboard table for ranking.
         this.state.vibrancy = this.state.stats.vibrancy || 0;
+        // AFTER stats hydration on purpose: this may call saveUserProgress(), which
+        // writes the whole stats blob - running it earlier would persist the default
+        // stats over the user's real badges/certificates/history.
+        this.normalizeStreakOnLoad();
 
         if (this.ui.userBadgeName) this.ui.userBadgeName.innerText = this.state.currentUser;
         this.updateAvatarDisplay();
@@ -2765,6 +2769,24 @@ class DuoClone {
             this.state.teddyBears = fresh.teddy_bears;
             this.checkBadges();
         }
+    }
+
+    // Bug fix: a BROKEN streak used to keep displaying (and re-syncing to the
+    // leaderboard) at its old value after login - updateStreak() only corrects it on
+    // the next lesson completion, so someone who quit at 🔥30 kept showing 30 and
+    // could keep topping the streak board. Called from completeLogin() right after
+    // the profile loads: if the last activity day is neither today nor yesterday, the
+    // chain is already dead - zero it now and persist, so every later display/sync
+    // (nav, home greeting, leaderboard submit) uses the truth.
+    normalizeStreakOnLoad() {
+        if (!this.state.streak) return;
+        const todayStr = new Date().toDateString();
+        const yesterday = new Date();
+        yesterday.setDate(yesterday.getDate() - 1);
+        const last = this.state.lastActivityDate;
+        if (last === todayStr || last === yesterday.toDateString()) return;
+        this.state.streak = 0;
+        this.saveUserProgress();
     }
 
     updateStreak() {

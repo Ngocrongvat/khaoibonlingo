@@ -143,8 +143,20 @@ async function checkAndAwardWeeklyPrize() {
     }
 }
 
+// A streak only survives with DAILY activity, and every active day re-syncs the row
+// (lesson completions and logins both call submitScore; login also zeroes a broken
+// streak via normalizeStreakOnLoad in app.js). So a row not updated for over 48h
+// belongs to someone who hasn't even opened the app - their chain is dead by
+// definition, whatever stale number the row still holds.
+const STREAK_FRESHNESS_MS = 48 * 60 * 60 * 1000;
+function isStreakRowFresh(row) {
+    if (!row.updated_at) return false;
+    return Date.now() - new Date(row.updated_at).getTime() <= STREAK_FRESHNESS_MS;
+}
+
 // Same `leaderboard` table already used for the XP board - just sorted by streak instead,
-// no separate table needed for the ranking itself.
+// no separate table needed for the ranking itself. Stale rows (see isStreakRowFresh)
+// are dropped so long-gone users can't squat the top with a broken chain.
 async function getStreakLeaderboard(count = 50) {
     if (!client) return { configured: false, entries: [] };
     try {
@@ -152,9 +164,10 @@ async function getStreakLeaderboard(count = 50) {
             .from('leaderboard')
             .select('*')
             .order('streak', { ascending: false })
-            .limit(count);
+            .limit(count * 3);
         if (error) throw error;
-        return { configured: true, entries: data || [] };
+        const entries = (data || []).filter(r => (r.streak || 0) > 0 && isStreakRowFresh(r)).slice(0, count);
+        return { configured: true, entries };
     } catch (e) {
         console.error('Failed to fetch streak leaderboard:', e);
         return { configured: true, entries: [], error: true };
@@ -182,13 +195,17 @@ async function checkAndAwardStreakPrize() {
             .maybeSingle();
         if (existing) return null;
 
+        // Fetch a batch and take the best FRESH row - the weekly teddy bear must go to
+        // a living streak, not to a stale row left behind by someone who quit months
+        // ago (same freshness rule as getStreakLeaderboard).
         const { data: top, error: topError } = await client
             .from('leaderboard')
             .select('*')
             .order('streak', { ascending: false })
-            .limit(1);
-        if (topError || !top || !top.length || top[0].streak <= 0) return null;
-        const winner = top[0];
+            .limit(25);
+        if (topError || !top || !top.length) return null;
+        const winner = top.find(r => (r.streak || 0) > 0 && isStreakRowFresh(r));
+        if (!winner) return null;
 
         const { error: insertError } = await client.from('streak_hall_of_fame').insert({
             week_id: weekId,
