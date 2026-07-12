@@ -734,6 +734,43 @@ class DuoClone {
         } else {
             this.state.lastHeartUpdate = Date.now();
         }
+
+        // Bug fix ("mất tiến trình khi đổi máy/mất localStorage"): the course position
+        // used to live ONLY in this device's localStorage - a new device, a cleared
+        // browser, or iOS's separate home-screen-app storage silently dropped the user
+        // back to unit 1 even though their XP/streak (stored in the profile) survived.
+        // The position now ALSO rides in profiles.stats.position (see
+        // saveUserProgress()); on login, whichever of local vs server is FURTHER wins.
+        // Adopting the further one is always safe - the path map has no replay, so a
+        // position only ever moves forward.
+        const server = this.state.stats && this.state.stats.position;
+        if (server && typeof server.u === 'number') {
+            const local = [this.state.currentUnitIdx, this.state.currentLessonIdx, this.state.currentExIdx];
+            const remote = [server.u || 0, server.l || 0, server.e || 0];
+            const serverFurther = remote[0] > local[0]
+                || (remote[0] === local[0] && remote[1] > local[1])
+                || (remote[0] === local[0] && remote[1] === local[1] && remote[2] > local[2]);
+            if (serverFurther) {
+                // clamp against the current course shape in case data evolved
+                const units = this.state.courseData.units;
+                this.state.currentUnitIdx = Math.min(remote[0], units.length);
+                if (this.state.currentUnitIdx < units.length) {
+                    const lessons = units[this.state.currentUnitIdx].lessons;
+                    this.state.currentLessonIdx = Math.min(remote[1], lessons.length - 1);
+                    this.state.currentExIdx = Math.min(remote[2], lessons[this.state.currentLessonIdx].exercises.length - 1);
+                } else {
+                    this.state.currentLessonIdx = 0;
+                    this.state.currentExIdx = 0;
+                }
+                // the local review queue belonged to the older position - drop it
+                this.state.reviewQueue = [];
+                this.state.reviewMode = false;
+            }
+        }
+        // From here on saveUserProgress() may write the position to the profile -
+        // never before, or a pre-load save would clobber the server copy with 0/0/0.
+        this.state.positionLoaded = true;
+        this.saveLocalPosition();
         this.updateNav();
     }
 
@@ -774,6 +811,19 @@ class DuoClone {
         this.saveLocalPosition();
 
         if (window.AuthService) {
+            // Course position rides in the same stats blob so a fresh device can
+            // restore it (see loadLocalPosition()'s reconcile). Only once the local
+            // position has actually been loaded - the whole stats blob is overwritten
+            // on every save, so writing earlier would clobber the server copy with
+            // the constructor's 0/0/0.
+            if (this.state.positionLoaded) {
+                this.state.stats.position = {
+                    u: this.state.currentUnitIdx,
+                    l: this.state.currentLessonIdx,
+                    e: this.state.currentExIdx,
+                    t: Date.now()
+                };
+            }
             // errorHistory rides along inside the same stats jsonb blob as earnedBadges/
             // certificates (no new SQL column) - piggybacking on this already-frequent
             // save path (called from ~18 sites across every mode) means the spaced-
