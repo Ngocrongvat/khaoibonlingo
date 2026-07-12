@@ -666,6 +666,10 @@ class DuoClone {
         }
 
         this.loadLocalPosition(profile.id);
+        // Grant any hearts that came due while the app was closed IMMEDIATELY -
+        // waiting for the interval's first tick meant a quick visit shorter than 60s
+        // never saw its regen at all.
+        this.applyHeartRegen();
         this.checkWeeklyReset();
         this.setupDuelInviteWatcher();
         this.setupFriendRequestWatcher();
@@ -767,6 +771,15 @@ class DuoClone {
                 this.state.reviewMode = false;
             }
         }
+        // Heart-regen clock survives storage loss the same way the position does:
+        // when this device has no local record, fall back to the server copy
+        // (stats.heartsT, saved alongside hearts) - otherwise a fresh device reset
+        // the 15-minute wait to zero and offline accrual was lost, which read as
+        // "tim không hồi" right after reinstalling the home-screen app.
+        if (!saved && this.state.stats && typeof this.state.stats.heartsT === 'number') {
+            this.state.lastHeartUpdate = this.state.stats.heartsT;
+        }
+
         // From here on saveUserProgress() may write the position to the profile -
         // never before, or a pre-load save would clobber the server copy with 0/0/0.
         this.state.positionLoaded = true;
@@ -823,6 +836,9 @@ class DuoClone {
                     e: this.state.currentExIdx,
                     t: Date.now()
                 };
+                // regen clock saved WITH the hearts value so a fresh device can
+                // resume accrual consistently (see loadLocalPosition()).
+                this.state.stats.heartsT = this.state.lastHeartUpdate || Date.now();
             }
             // errorHistory rides along inside the same stats jsonb blob as earnedBadges/
             // certificates (no new SQL column) - piggybacking on this already-frequent
@@ -859,21 +875,38 @@ class DuoClone {
         }
     }
 
+    // Single source of truth for heart-regen accounting. Called by the minute
+    // interval, once right after login, and on every out-of-hearts countdown tick -
+    // previously the ONLY grant point was the 60s interval, so a user opening the app
+    // for a quick look (or watching the countdown hit 0:00) could sit up to a minute
+    // with hearts visibly "not regenerating", and a sub-60s visit never regenerated
+    // at all.
+    applyHeartRegen() {
+        if (!this.state.profile) return false;
+        const now = Date.now();
+        if (this.state.hearts >= MAX_HEARTS) {
+            // Nothing accrues at/above the cap - re-anchor the clock so that when a
+            // heart IS lost later, the 15-minute wait starts from around now. The old
+            // code left the anchor wherever it last granted (possibly days old), which
+            // made the first loss refill instantly instead of regenerating honestly.
+            this.state.lastHeartUpdate = now;
+            return false;
+        }
+        const lastUpdate = this.state.lastHeartUpdate || now;
+        const elapsed = now - lastUpdate;
+        if (elapsed < HEART_REGEN_MS) return false;
+        const recovered = Math.floor(elapsed / HEART_REGEN_MS);
+        this.state.hearts = Math.min(MAX_HEARTS, this.state.hearts + recovered);
+        // Keep the remainder (old code reset to `now`, silently discarding up to
+        // 14m59s of progress toward the next heart on every grant).
+        this.state.lastHeartUpdate = now - (elapsed % HEART_REGEN_MS);
+        this.saveUserProgress();
+        this.updateNav();
+        return true;
+    }
+
     startEnergyRegeneration() {
-        setInterval(() => {
-            if (this.state.hearts < MAX_HEARTS && this.state.profile) {
-                const now = Date.now();
-                const lastUpdate = this.state.lastHeartUpdate || now;
-                const elapsed = now - lastUpdate;
-                if (elapsed >= HEART_REGEN_MS) {
-                    const recovered = Math.floor(elapsed / HEART_REGEN_MS);
-                    this.state.hearts = Math.min(MAX_HEARTS, this.state.hearts + recovered);
-                    this.state.lastHeartUpdate = now;
-                    this.saveUserProgress();
-                    this.updateNav();
-                }
-            }
-        }, 60000);
+        setInterval(() => this.applyHeartRegen(), 60000);
     }
 
     // Site-wide "online members" support - unlike Groups.sendHeartbeat() (which only runs
@@ -2187,6 +2220,23 @@ class DuoClone {
         this.ui.streak.innerText = this.state.streak;
         this.ui.xp.innerText = this.state.xp;
         this.updateRankBadge();
+        this.refreshHomeGreeting();
+    }
+
+    // The greeting line under the Home banner shows the same streak/XP/hearts as the
+    // top nav but used to be rendered ONCE - regen ticks, gift claims and badge
+    // bonuses updated the nav and left it stale. Every stat write now refreshes both.
+    refreshHomeGreeting() {
+        const el = document.querySelector('.home-streak-line');
+        if (!el) return;
+        el.innerHTML = `🔥 Chuỗi ${this.state.streak} ngày &nbsp;•&nbsp; ⭐ ${this.state.xp} XP &nbsp;•&nbsp; ❤️ ${this.state.hearts} tim`;
+    }
+
+    // Use for every direct hearts write outside updateNav() so the Home greeting can
+    // never drift from the nav counter again.
+    updateHeartsDisplay() {
+        if (this.ui.hearts) this.ui.hearts.innerText = this.state.hearts;
+        this.refreshHomeGreeting();
     }
 
     selectOption(idx, el) {
@@ -2389,7 +2439,7 @@ class DuoClone {
             this.playTone('cry');
             if (!noHeartCostModes.includes(this.state.mode)) {
                 this.state.hearts--;
-                this.ui.hearts.innerText = this.state.hearts;
+                this.updateHeartsDisplay();
             }
             if (this.state.mode === 'curriculum') {
                 this.state.stats.lessonWrongCount++;
@@ -3202,6 +3252,9 @@ class DuoClone {
             clearInterval(this.heartCountdownInterval);
             return;
         }
+        // Run the regen accounting on every countdown tick so the heart lands the
+        // second it is due - not up to 59s later when the minute interval fires.
+        this.applyHeartRegen();
         if (this.state.hearts > 0) {
             clearInterval(this.heartCountdownInterval);
             this.renderLesson();
@@ -3344,7 +3397,7 @@ class DuoClone {
             // already above it (achievement bonuses may have pushed them past MAX).
             this.state.hearts = Math.max(this.state.hearts, Math.min(MAX_HEARTS, this.state.hearts + reward));
             const actualGained = this.state.hearts - before;
-            this.ui.hearts.innerText = this.state.hearts;
+            this.updateHeartsDisplay();
             this.addVibrancy(3);
             this.saveUserProgress();
             if (actualGained > 0) {
@@ -5708,8 +5761,8 @@ class DuoClone {
                 window.ActivityFeed.postEvent('badge', this.state.profile.id, this.state.currentUser, `🏅 ${this.state.currentUser} vừa mở khóa huy hiệu "${b.name}"!`);
             }
         });
-        if (newBadges.length && this.ui.hearts) {
-            this.ui.hearts.innerText = this.state.hearts;
+        if (newBadges.length) {
+            this.updateHeartsDisplay();
         }
         if (newBadges.length) {
             // Persist to Supabase right away - some call sites (e.g. checkAnswer()) already
@@ -5835,7 +5888,7 @@ class DuoClone {
             totalGained += this.state.hearts - before;
             await window.Friends.claimGift(gift.id);
         }
-        if (this.ui.hearts) this.ui.hearts.innerText = this.state.hearts;
+        this.updateHeartsDisplay();
         this.saveUserProgress();
         const lastSender = gifts[gifts.length - 1].from_username;
         const label = gifts.length > 1
