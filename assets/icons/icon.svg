@@ -1,0 +1,42 @@
+<svg width="512" height="512" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+  <!-- App icon: the KhoaiBonlingo mascot (same art as getMascotSvg's happy mood in
+       app.js) on the brand green. Mascot sits inside the central ~62% so the icon
+       also works as an Android maskable icon (safe zone = center 80%). -->
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#6fdb0e"/>
+      <stop offset="1" stop-color="#58cc02"/>
+    </linearGradient>
+  </defs>
+  <rect width="512" height="512" fill="url(#bg)"/>
+  <circle cx="256" cy="272" r="172" fill="#ffffff" opacity="0.14"/>
+  <g transform="translate(96, 90) scale(1.6)">
+    <!-- happy arms -->
+    <ellipse cx="20" cy="65" rx="15" ry="21" fill="#E8935B" transform="rotate(55 20 65)"/>
+    <ellipse cx="180" cy="65" rx="15" ry="21" fill="#E8935B" transform="rotate(-55 180 65)"/>
+    <!-- feet -->
+    <ellipse cx="70" cy="174" rx="18" ry="9" fill="#C97A42"/>
+    <ellipse cx="130" cy="174" rx="18" ry="9" fill="#C97A42"/>
+    <!-- body -->
+    <path d="M100,15 C150,15 185,55 185,105 C185,150 148,172 100,172 C52,172 15,150 15,105 C15,55 50,15 100,15 Z" fill="#E8935B"/>
+    <ellipse cx="100" cy="118" rx="55" ry="36" fill="#F2A873" opacity="0.55"/>
+    <path d="M15,105 C15,150 52,172 100,172 C148,172 185,150 185,105 C185,133 155,156 100,156 C45,156 15,133 15,105 Z" fill="#C97A42" opacity="0.35"/>
+    <!-- sprout -->
+    <path d="M100,22 C92,6 76,0 66,4 C75,13 83,19 92,25 Z" fill="#3E8E41"/>
+    <path d="M100,22 C108,6 124,0 134,4 C125,13 117,19 108,25 Z" fill="#2F7A33"/>
+    <path d="M100,22 C99,8 100,2 101,2 C103,8 102,16 101,23 Z" fill="#2B6E2F"/>
+    <!-- cheeks -->
+    <ellipse cx="60" cy="115" rx="13" ry="9" fill="#FF9EB0" opacity="0.65"/>
+    <ellipse cx="140" cy="115" rx="13" ry="9" fill="#FF9EB0" opacity="0.65"/>
+    <!-- eyes -->
+    <ellipse cx="76" cy="95" rx="12" ry="15" fill="white"/>
+    <ellipse cx="124" cy="95" rx="12" ry="15" fill="white"/>
+    <circle cx="78" cy="99" r="6.5" fill="#3B2A22"/>
+    <circle cx="126" cy="99" r="6.5" fill="#3B2A22"/>
+    <circle cx="81" cy="94" r="2.2" fill="white"/>
+    <circle cx="129" cy="94" r="2.2" fill="white"/>
+    <!-- happy mouth -->
+    <path d="M75,126 Q100,158 125,126 Q100,144 75,126 Z" fill="#8B4A3A"/>
+    <path d="M85,136 Q100,144 115,136 Q100,140 85,136 Z" fill="#FF9EB0"/>
+  </g>
+</svg>
