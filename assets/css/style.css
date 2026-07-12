@@ -2533,3 +2533,35 @@ body {
     font-size: 12px;
     margin-top: 2px;
 }
+
+/* ===================== Lesson core takeaway ("Cốt lõi bài học") ===================== */
+
+.core-summary {
+    max-width: 560px;
+    margin: 18px auto 0;
+    text-align: left;
+    background: #fffbea;
+    border: 2px solid #ffe08a;
+    border-radius: 14px;
+    padding: 14px 18px;
+}
+
+.core-summary-title {
+    text-align: center;
+    margin: 0 0 10px;
+    color: #b8860b;
+}
+
+.core-summary-list {
+    margin: 0;
+    padding-left: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.core-summary-list li {
+    font-size: 14.5px;
+    color: var(--duo-text);
+    line-height: 1.45;
+}

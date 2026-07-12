@@ -1180,7 +1180,10 @@ class DuoClone {
         // Joined text is duplicated back-to-back so the CSS scroll loop has no visible
         // gap - once the first copy has fully scrolled past, the second is already lined
         // up to continue seamlessly (classic marquee technique).
-        const joined = events.map(e => this.escapeHtml(e.message)).join('&nbsp;&nbsp;&nbsp;•&nbsp;&nbsp;&nbsp;');
+        // Newest event FIRST: the marquee scrolls from its beginning after every
+        // (re)render, so fresh news must lead the strip - chronological order buried a
+        // just-arrived event behind up to 11 older ones for a whole scroll cycle.
+        const joined = [...events].reverse().map(e => this.escapeHtml(e.message)).join('&nbsp;&nbsp;&nbsp;•&nbsp;&nbsp;&nbsp;');
         track.innerHTML = `<span>${joined}</span><span aria-hidden="true">&nbsp;&nbsp;&nbsp;•&nbsp;&nbsp;&nbsp;${joined}</span>`;
         // Scroll speed scales with content length so a short list doesn't fly by too fast
         // and a long one doesn't crawl - restarting the animation (removing then
@@ -2600,7 +2603,8 @@ class DuoClone {
     // that last question was the actual condition for "completing" this lesson.
     finishLessonCompletion(skippedReward = false) {
         const unit = this.state.courseData.units[this.state.currentUnitIdx];
-        const completedLessonTitle = unit.lessons[this.state.currentLessonIdx] ? unit.lessons[this.state.currentLessonIdx].title : '';
+        const completedLessonIdx = this.state.currentLessonIdx;
+        const completedLessonTitle = unit.lessons[completedLessonIdx] ? unit.lessons[completedLessonIdx].title : '';
         if (!skippedReward) {
             if (window.confetti) {
                 confetti({
@@ -2625,7 +2629,116 @@ class DuoClone {
             this.state.currentLessonIdx = 0;
         }
         this.saveUserProgress();
-        this.renderLessonSummary(skippedReward, completedLessonTitle);
+        this.renderLessonSummary(skippedReward, completedLessonTitle, { unit, lessonIdx: completedLessonIdx });
+    }
+
+    // ============== Ôn luyện củng cố (post-lesson review round) ==============
+    // Same STRUCTURES, different content: pulls one same-type exercise per slot of the
+    // completed lesson from the unit's OTHER lessons - guaranteed same quality (it's
+    // vetted course data, not generated on the fly) and never a question the learner
+    // just answered.
+    buildLessonReviewQueue(unit, lessonIdx) {
+        const lesson = unit.lessons[lessonIdx];
+        if (!unit || !lesson) return [];
+        const poolByType = {};
+        unit.lessons.forEach((l, li) => {
+            if (li === lessonIdx) return;
+            l.exercises.forEach(e => {
+                (poolByType[e.type] = poolByType[e.type] || []).push(e);
+            });
+        });
+        const used = new Set();
+        const queue = [];
+        lesson.exercises.forEach(e => {
+            const pool = (poolByType[e.type] || []).filter(c => !used.has(c.id));
+            if (!pool.length) return;
+            const pick = pool[Math.floor(Math.random() * pool.length)];
+            used.add(pick.id);
+            queue.push(pick);
+        });
+        return queue;
+    }
+
+    // "Cốt lõi bài học": the concrete words/sentences this lesson taught, distilled
+    // from its own exercises (EN + VI where the exercise carries both).
+    buildLessonCoreSummary(lesson) {
+        if (!lesson) return [];
+        const items = [];
+        const seen = new Set();
+        const add = (en, vi) => {
+            const key = (en || '').toLowerCase().trim();
+            if (!key || seen.has(key)) return;
+            seen.add(key);
+            items.push({ en, vi: vi || '' });
+        };
+        lesson.exercises.forEach(e => {
+            if (e.type === 'multiple_choice' && Array.isArray(e.options)) {
+                const m = /How do you say '([^']+)'\?/.exec(e.question || '');
+                add(String(e.options[e.correct]), m ? m[1] : '');
+            } else if (e.type === 'listening' && Array.isArray(e.options)) {
+                add(String(e.options[e.correct]), '');
+            } else if (e.type === 'translate') add(e.target, e.source);
+            else if (e.type === 'ordering') add(e.sentence, e.source);
+            else if (e.type === 'pronunciation' || e.type === 'dictation') add(e.target, '');
+            else if (e.type === 'preposition' && Array.isArray(e.options)) {
+                add((e.sentence || '').replace('___', String(e.options[e.correct]).toUpperCase()), '');
+            }
+        });
+        return items.slice(0, 8);
+    }
+
+    lessonCoreSummaryHtml(coreItems) {
+        if (!coreItems || !coreItems.length) return '';
+        return `
+            <div class="core-summary">
+                <h3 class="core-summary-title">🌟 Cốt lõi bài học</h3>
+                <ul class="core-summary-list">
+                    ${coreItems.map(it => `<li><strong>${this.escapeHtml(it.en)}</strong>${it.vi ? ` — ${this.escapeHtml(it.vi)}` : ''}</li>`).join('')}
+                </ul>
+            </div>
+        `;
+    }
+
+    // Runs the review round through the EXISTING practice machinery (no hearts at
+    // stake, same render/check/skip flows) - only the finish line differs, routed to
+    // renderLessonReviewDone() by the lessonReviewCore flag in nextPracticeExercise().
+    startLessonReview(queue, coreItems) {
+        this.state.mode = 'practice';
+        this.state.practiceQueue = queue;
+        this.state.practiceIdx = 0;
+        this.state.lessonReviewCore = coreItems;
+        this.resetSessionAnswers();
+        this.renderLesson();
+    }
+
+    renderLessonReviewDone() {
+        const core = this.state.lessonReviewCore || [];
+        this.state.lessonReviewCore = null;
+        this.state.mode = 'curriculum';
+        this.ui.container.innerHTML = `
+            <div class="welcome-screen">
+                <div class="duo-character mascot-cheer">🎓</div>
+                <h1 style="text-align: center;">Ôn luyện hoàn tất!</h1>
+                <p style="text-align: center; color: #777;">Bạn vừa luyện lại cấu trúc của bài với những câu hoàn toàn mới - cách tốt nhất để nhớ lâu.</p>
+                ${this.sessionSummaryHtml()}
+                ${this.lessonCoreSummaryHtml(core)}
+                <button class="btn-primary" id="review-done-continue" style="display: block; margin: 20px auto 10px; padding: 15px 30px;">TIẾP TỤC HỌC</button>
+                <button class="btn-secondary" id="review-done-home" style="display: block; margin: 0 auto; padding: 12px 26px;">VỀ TRANG CHÍNH</button>
+            </div>
+        `;
+        this.ui.checkBtn.disabled = true;
+        this.ui.checkBtn.classList.remove('active');
+        if (this.ui.skipBtn) this.ui.skipBtn.style.display = 'none';
+        this.playTone('cheer');
+        document.getElementById('review-done-continue').addEventListener('click', () => {
+            this.resetSessionAnswers();
+            if (this.state.currentUnitIdx >= this.state.courseData.units.length) {
+                this.renderCourseComplete();
+            } else {
+                this.renderLesson();
+            }
+        });
+        document.getElementById('review-done-home').addEventListener('click', () => this.renderHomeDashboard());
     }
 
     // End-of-lesson "Tổng kết" screen (replaces the old blocking alert()): celebrates
@@ -2633,26 +2746,40 @@ class DuoClone {
     // the correct one, so mistakes are visible before moving on. The lesson indices were
     // already advanced by finishLessonCompletion() - the continue button just renders
     // whatever comes next.
-    renderLessonSummary(skippedReward, lessonTitle) {
+    renderLessonSummary(skippedReward, lessonTitle, completedCtx = null) {
         const headline = skippedReward
             ? 'Bài học kết thúc (đã bỏ qua câu điều kiện)'
             : 'Hoàn thành bài học!';
         const subtitle = skippedReward
             ? 'Bạn đã bỏ qua câu điều kiện của bài học nên không nhận được điểm thưởng lần này. Cố gắng hơn ở bài tiếp theo nhé!'
             : `Chúc mừng! Bạn đã hoàn thành "${lessonTitle}".`;
+
+        // Optional reinforcement round: same structures, brand-new questions pulled
+        // from the unit's sibling lessons (needs at least 3 to be worth offering).
+        const completedLesson = completedCtx ? completedCtx.unit.lessons[completedCtx.lessonIdx] : null;
+        const reviewQueue = completedCtx ? this.buildLessonReviewQueue(completedCtx.unit, completedCtx.lessonIdx) : [];
+        const coreItems = this.buildLessonCoreSummary(completedLesson);
+
         this.ui.container.innerHTML = `
             <div class="welcome-screen">
                 <div class="duo-character ${skippedReward ? 'mascot-cry' : 'mascot-cheer'}">${skippedReward ? '😅' : '🎉'}</div>
                 <h1 style="text-align: center;">${this.escapeHtml(headline)}</h1>
                 <p style="text-align: center; color: #777;">${this.escapeHtml(subtitle)}</p>
                 ${this.sessionSummaryHtml()}
-                <button class="btn-primary" id="lesson-summary-continue" style="display: block; margin: 20px auto; padding: 15px 30px;">TIẾP TỤC</button>
+                ${this.lessonCoreSummaryHtml(coreItems)}
+                ${reviewQueue.length >= 3 ? `
+                    <button class="btn-primary" id="lesson-review-btn" style="display: block; margin: 20px auto 0; padding: 15px 30px;">🔄 ÔN LUYỆN CỦNG CỐ (${reviewQueue.length} câu tương tự)</button>
+                    <p style="text-align:center; color:#999; font-size:12.5px; margin:6px 0 0;">Câu hỏi mới cùng cấu trúc - không tốn tim, giúp nhớ lâu hơn</p>
+                ` : ''}
+                <button class="${reviewQueue.length >= 3 ? 'btn-secondary' : 'btn-primary'}" id="lesson-summary-continue" style="display: block; margin: 15px auto; padding: 15px 30px;">TIẾP TỤC</button>
             </div>
         `;
         this.ui.checkBtn.disabled = true;
         this.ui.checkBtn.classList.remove('active');
         if (this.ui.skipBtn) this.ui.skipBtn.style.display = 'none';
         if (!skippedReward) this.playTone('cheer');
+        const reviewBtn = document.getElementById('lesson-review-btn');
+        if (reviewBtn) reviewBtn.addEventListener('click', () => this.startLessonReview(reviewQueue, coreItems));
         document.getElementById('lesson-summary-continue').addEventListener('click', () => {
             this.resetSessionAnswers();
             if (this.state.currentUnitIdx >= this.state.courseData.units.length) {
@@ -3123,7 +3250,14 @@ class DuoClone {
     nextPracticeExercise() {
         this.state.practiceIdx++;
         if (this.state.practiceIdx >= this.state.practiceQueue.length) {
-            this.renderPracticeSummary();
+            // A post-lesson reinforcement round rides the practice machinery but ends
+            // on its own recap screen (see startLessonReview()) - normal practice
+            // sessions are untouched.
+            if (this.state.lessonReviewCore) {
+                this.renderLessonReviewDone();
+            } else {
+                this.renderPracticeSummary();
+            }
         } else {
             this.renderLesson();
         }
