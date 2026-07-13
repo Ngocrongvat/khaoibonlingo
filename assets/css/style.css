@@ -2695,6 +2695,21 @@ body {
     94% { transform: translateY(0) rotate(3deg) scale(1.01); }
 }
 
+/* Blink: the always-visible mascots (home greeting + brand) briefly close their
+   eyes on a loop so they feel alive. Only applied where the eyes are the round
+   default set, so the squish always reads as a natural blink. */
+.home-greeting-mascot svg .m-eyes,
+.brand-mascot svg .m-eyes {
+    transform-box: fill-box;
+    transform-origin: center;
+    animation: mascotBlink 4.2s ease-in-out infinite;
+}
+@keyframes mascotBlink {
+    0%, 90%, 100% { transform: scaleY(1); }
+    94% { transform: scaleY(0.12); }
+    97% { transform: scaleY(1); }
+}
+
 /* .duo-character hosts particles too. */
 .duo-character { position: relative; }
 
@@ -2729,6 +2744,7 @@ body {
     .mascot-pop-happy, .mascot-wobble-sad, .duo-character.mascot-jump,
     .mascot-dance, .mascot-spin-pop, .mascot-cry-shake,
     .home-greeting-mascot svg, .brand-mascot svg,
+    .home-greeting-mascot svg .m-eyes, .brand-mascot svg .m-eyes,
     .mascot-particle { animation: none !important; }
     .mascot-particle { opacity: 0; }
 }

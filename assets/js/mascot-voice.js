@@ -241,6 +241,35 @@
             this.pitchMul = rand(0.9, 1.16);
             this.speak(buildPhrase(type));
         }
+
+        // A short, cheerful music-box jingle (~2.2s) played UNDER the fanfare
+        // voice on big completions - kept low in the mix so the voice sits on top.
+        jingle() {
+            const ctx = this.ensure();
+            if (!ctx) return;
+            const t0 = ctx.currentTime + 0.05;
+            const note = (freq, at, dur, gain, type) => {
+                const osc = ctx.createOscillator();
+                const g = ctx.createGain();
+                osc.type = type || 'triangle';
+                osc.frequency.value = freq;
+                const s = t0 + at;
+                g.gain.setValueAtTime(0.0001, s);
+                g.gain.exponentialRampToValueAtTime(gain, s + 0.02);
+                g.gain.exponentialRampToValueAtTime(0.0001, s + dur);
+                osc.connect(g); g.connect(this.master);
+                osc.start(s); osc.stop(s + dur + 0.03);
+            };
+            // A rising, bouncy motif in C major - two variants for variety.
+            const melodies = [
+                [[523.25, 0, 0.22], [659.25, 0.16, 0.22], [783.99, 0.32, 0.22], [1046.5, 0.48, 0.34], [1318.5, 0.72, 0.26], [1046.5, 0.96, 0.5]],
+                [[659.25, 0, 0.22], [783.99, 0.16, 0.22], [1046.5, 0.32, 0.34], [783.99, 0.56, 0.22], [1046.5, 0.72, 0.22], [1318.5, 0.88, 0.5]],
+            ];
+            pick(melodies).forEach(([f, at, d]) => note(f, at, d, 0.09, 'triangle'));
+            // warm sustained major chord pad underneath
+            [261.63, 329.63, 392.0].forEach((f) => note(f, 0, 2.0, 0.035, 'sine'));
+            this.twinkle(t0 + 1.2, [1568, 2093, 2637], 0.06);
+        }
     }
 
     // --- reusable phrase fragments (each returns {ev, end}) ------------------

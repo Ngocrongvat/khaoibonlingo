@@ -264,10 +264,28 @@ function getMascotSvg(mood, size) {
             <ellipse cx="60" cy="115" rx="13" ry="9" fill="#FF9EB0" opacity="0.65"/>
             <ellipse cx="140" cy="115" rx="13" ry="9" fill="#FF9EB0" opacity="0.65"/>
             ${eyebrows}
-            ${eyes}
+            <g class="m-eyes">${eyes}</g>
             ${mouth}
         </svg>
     `;
+}
+
+// Floating-particle emoji set that matches a mascot mood, so the burst of
+// particles reinforces the face (hearts for love, stars for starstruck, etc.)
+// instead of always being the same generic sparkles.
+function moodParticles(mood) {
+    const MAP = {
+        love: ['❤️', '💕', '💖', '💗', '😍'],
+        starstruck: ['⭐', '🌟', '✨', '💫', '🤩'],
+        laugh: ['😆', '😂', '🤣', '✨', '💛'],
+        cool: ['😎', '🕶️', '✨', '💫', '🔥'],
+        blush: ['☺️', '💗', '🌸', '✨', '💛'],
+        party: ['🎉', '🎊', '🥳', '⭐', '💛'],
+        giggle: ['😄', '✨', '💛', '🌟', '💫'],
+        wink: ['😉', '⭐', '✨', '💛', '🌟'],
+        excited: ['⭐', '🌟', '✨', '🎉', '💛'],
+    };
+    return MAP[mood] || ['⭐', '🌟', '✨', '🎉', '💛'];
 }
 
 // Rank/level system: XP (already tracked forever, see checkWeeklyReset()'s comment)
@@ -2879,7 +2897,7 @@ class DuoClone {
             if (mascot) {
                 mascot.className = 'mascot ' + pickRandom(happyAnims);
                 mascot.innerHTML = getMascotSvg(mood, 68) + `<span class="mascot-accessory">${pickRandom(accessories)}</span>`;
-                this.spawnMascotParticles(mascot, ['⭐', '🌟', '✨', '💛', '🎉'], 9);
+                this.spawnMascotParticles(mascot, moodParticles(mood), 9);
             }
             this.ui.modalIcon.innerText = "✅";
             this.ui.modalTitle.innerText = pickRandom(['Chính xác!', 'Tuyệt vời!', 'Giỏi quá!', 'Xuất sắc!']);
@@ -3191,9 +3209,11 @@ class DuoClone {
     playBigCelebration(happy = true) {
         if (!happy) { this.playTone('whimper'); return; }
         this.playTone('fanfare');
+        // Layer a short cheerful jingle under the fanfare voice for the big moment.
+        if (window.MascotVoice && window.MascotVoice.jingle) window.MascotVoice.jingle();
         if (window.confetti) confetti({ particleCount: 130, spread: 75, origin: { y: 0.6 } });
         const m = document.getElementById('celebrate-mascot');
-        if (m) this.spawnMascotParticles(m, ['⭐', '🌟', '✨', '🎉', '💛'], 12);
+        if (m) this.spawnMascotParticles(m, ['🎉', '🎊', '🥳', '⭐', '🌟', '✨', '💛'], 14);
     }
 
     // Runs the review round through the EXISTING practice machinery (no hearts at
