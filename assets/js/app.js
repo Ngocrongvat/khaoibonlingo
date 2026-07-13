@@ -185,6 +185,66 @@ function getMascotSvg(mood, size) {
             <path d="M136,84 L114,80" stroke="#3B2A22" stroke-width="3.5" stroke-linecap="round"/>
         `;
         mouth = `<path d="M88,138 Q100,130 112,138" stroke="#3B2A22" stroke-width="4.5" fill="none" stroke-linecap="round"/>`;
+    } else if (mood === 'laugh') {
+        // Belly laugh: squished ^_^ eyes, tears of joy, wide open guffaw.
+        arms = armHappy;
+        eyes = happyArcEyes + `
+            <path d="M58,99 C54,107 54,113 58,115 C62,113 62,107 58,99 Z" fill="#7FD0F5"/>
+            <path d="M142,99 C138,107 138,113 142,115 C146,113 146,107 142,99 Z" fill="#7FD0F5"/>
+        `;
+        mouth = `
+            <path d="M68,120 Q100,172 132,120 Q100,150 68,120 Z" fill="#8B4A3A"/>
+            <path d="M86,150 Q100,166 114,150 Q100,157 86,150 Z" fill="#FF7A93"/>
+        `;
+    } else if (mood === 'cool') {
+        // Too-cool sunglasses + a little smirk - a confident "nailed it".
+        arms = armHappy;
+        eyes = `
+            <path d="M52,88 L148,88" stroke="#2A2A2A" stroke-width="4" stroke-linecap="round"/>
+            <rect x="55" y="87" width="38" height="22" rx="10" fill="#2A2A2A"/>
+            <rect x="107" y="87" width="38" height="22" rx="10" fill="#2A2A2A"/>
+            <rect x="93" y="93" width="14" height="4" fill="#2A2A2A"/>
+            <path d="M61,92 L71,92" stroke="#7d7d7d" stroke-width="3" stroke-linecap="round"/>
+            <path d="M113,92 L123,92" stroke="#7d7d7d" stroke-width="3" stroke-linecap="round"/>
+        `;
+        mouth = `<path d="M80,130 Q100,143 122,127" stroke="#3B2A22" stroke-width="4.5" fill="none" stroke-linecap="round"/>`;
+    } else if (mood === 'blush') {
+        // Shy, bashful delight: big rosy cheeks and a tiny modest smile.
+        arms = armIdle;
+        eyes = defaultEyes + `
+            <ellipse cx="57" cy="121" rx="18" ry="12" fill="#FF7A93" opacity="0.75"/>
+            <ellipse cx="143" cy="121" rx="18" ry="12" fill="#FF7A93" opacity="0.75"/>
+        `;
+        mouth = `<path d="M87,133 Q100,141 113,133" stroke="#3B2A22" stroke-width="4.5" fill="none" stroke-linecap="round"/>`;
+    } else if (mood === 'starstruck') {
+        // Star-shaped eyes + jaw-drop awe - pure "WOW!".
+        arms = armCheer;
+        eyes = `
+            <path d="M76,82 L79.5,92.5 L90,96 L79.5,99.5 L76,110 L72.5,99.5 L62,96 L72.5,92.5 Z" fill="#FFD34E" stroke="#F5A623" stroke-width="1.2"/>
+            <path d="M124,82 L127.5,92.5 L138,96 L127.5,99.5 L124,110 L120.5,99.5 L110,96 L120.5,92.5 Z" fill="#FFD34E" stroke="#F5A623" stroke-width="1.2"/>
+        `;
+        mouth = bigOpenMouth;
+    } else if (mood === 'dizzy') {
+        // Comic "@_@" spiral-ish X eyes + wavy mouth - a funny, harmless stumble.
+        eyes = `
+            <path d="M68,88 L84,104 M84,88 L68,104" stroke="#3B2A22" stroke-width="4" stroke-linecap="round"/>
+            <path d="M116,88 L132,104 M132,88 L116,104" stroke="#3B2A22" stroke-width="4" stroke-linecap="round"/>
+        `;
+        mouth = `<path d="M80,134 q9,-9 18,0 q9,9 18,0" stroke="#3B2A22" stroke-width="4" fill="none" stroke-linecap="round"/>`;
+    } else if (mood === 'sob') {
+        // Heavy bawling: sad brows, long streaming tears, wide wailing mouth.
+        eyebrows = `
+            <path d="M66,80 L86,87" stroke="#3B2A22" stroke-width="3.5" stroke-linecap="round"/>
+            <path d="M134,80 L114,87" stroke="#3B2A22" stroke-width="3.5" stroke-linecap="round"/>
+        `;
+        eyes = defaultEyes + `
+            <path d="M61,104 C57,120 57,134 61,140 C65,134 65,120 61,104 Z" fill="#7FD0F5"/>
+            <path d="M139,104 C135,120 135,134 139,140 C143,134 143,120 139,104 Z" fill="#7FD0F5"/>
+        `;
+        mouth = `
+            <ellipse cx="100" cy="142" rx="15" ry="16" fill="#8B4A3A"/>
+            <path d="M87,142 Q100,152 113,142" stroke="#5a2f24" stroke-width="3" fill="none" stroke-linecap="round"/>
+        `;
     }
 
     return `
@@ -2812,9 +2872,9 @@ class DuoClone {
             // Rotate through a few delighted faces + reaction animations + accessories
             // so the reward never feels repetitive - each right answer is a small
             // "surprise & delight" for young learners.
-            const happyMoods = ['excited', 'giggle', 'love', 'wink', 'party'];
+            const happyMoods = ['excited', 'giggle', 'love', 'wink', 'party', 'laugh', 'cool', 'blush', 'starstruck'];
             const happyAnims = ['mascot-pop-happy', 'mascot-dance', 'mascot-spin-pop'];
-            const accessories = ['🌟', '✨', '💛', '🎉', '🥳', '😄'];
+            const accessories = ['🌟', '✨', '💛', '🎉', '🥳', '😄', '🤩', '💯'];
             const mood = pickRandom(happyMoods);
             if (mascot) {
                 mascot.className = 'mascot ' + pickRandom(happyAnims);
@@ -2827,12 +2887,12 @@ class DuoClone {
             this.ui.modalMsg.innerText = pickRandom(HAPPY_MESSAGES);
             this.ui.modalBtn.className = "btn-primary";
         } else {
-            const sadMoods = ['surprised', 'teary', 'pout'];
+            const sadMoods = ['surprised', 'teary', 'pout', 'dizzy', 'sob'];
             const sadAnims = ['mascot-wobble-sad', 'mascot-cry-shake'];
             const sadMood = pickRandom(sadMoods);
             if (mascot) {
                 mascot.className = 'mascot ' + pickRandom(sadAnims);
-                mascot.innerHTML = getMascotSvg(sadMood, 68) + `<span class="mascot-accessory">${pickRandom(['💫', '💧', '😢'])}</span>`;
+                mascot.innerHTML = getMascotSvg(sadMood, 68) + `<span class="mascot-accessory">${pickRandom(['💫', '💧', '😢', '😵', '🥺'])}</span>`;
             }
             this.ui.modalIcon.innerText = "❌";
             this.ui.modalTitle.innerText = pickRandom(['Ôi tiếc quá!', 'Suýt rồi!', 'Thử lại nhé!', 'Chưa đúng!']);

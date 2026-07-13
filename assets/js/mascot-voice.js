@@ -72,20 +72,30 @@
             const dur = o.dur;
             const end = start + dur;
             const peak = (o.gain != null ? o.gain : 0.7) * clampMul;
+            // Per-utterance "voice personality": a random pitch multiplier chosen
+            // in play() makes the mascot sometimes squeakier/cuter, sometimes a
+            // touch lower - so repeats of the same phrase still differ in colour.
+            const pm = this.pitchMul || 1;
+            const f0From = o.f0From * pm;
+            const f0To = (o.f0To || o.f0From) * pm;
+
+            // A leading consonant (plosive click / breath) makes syllables read as
+            // real words - "ta-da", "yip-pee", "boo-hoo" - instead of vowel drones.
+            if (o.cons) this.consonant(start, o.cons);
 
             // --- glottal source ---
             const osc = ctx.createOscillator();
             osc.type = o.wave || 'sawtooth';
-            osc.frequency.setValueAtTime(o.f0From, start);
-            if (o.f0To && o.f0To !== o.f0From) {
-                osc.frequency.exponentialRampToValueAtTime(Math.max(1, o.f0To), end);
+            osc.frequency.setValueAtTime(f0From, start);
+            if (f0To !== f0From) {
+                osc.frequency.exponentialRampToValueAtTime(Math.max(1, f0To), end);
             }
             // a soft sine sub-tone fattens the voice so it isn't thin/buzzy
             const sub = ctx.createOscillator();
             sub.type = 'sine';
-            sub.frequency.setValueAtTime(o.f0From, start);
-            if (o.f0To && o.f0To !== o.f0From) {
-                sub.frequency.exponentialRampToValueAtTime(Math.max(1, o.f0To), end);
+            sub.frequency.setValueAtTime(f0From, start);
+            if (f0To !== f0From) {
+                sub.frequency.exponentialRampToValueAtTime(Math.max(1, f0To), end);
             }
             const subGain = ctx.createGain();
             subGain.gain.value = 0.18;
@@ -171,6 +181,31 @@
             src.start(start); src.stop(start + dur + 0.02);
         }
 
+        // A very short consonant transient at a syllable onset. 'h' is an airy
+        // breath; the rest are plosive "clicks" at different spectral centres so
+        // t/p/k/d/b/g read distinctly and the speech sounds articulated.
+        consonant(start, type) {
+            if (type === 'h') { this.breath(Math.max(0, start - 0.015), 0.055, 0.045, 2200); return; }
+            const ctx = this.ctx;
+            const CENTRE = { t: 3200, k: 1900, p: 800, d: 1600, b: 500, g: 1200 };
+            const f = CENTRE[type] || 2200;
+            const dur = 0.014;
+            const frames = Math.floor(ctx.sampleRate * dur);
+            const buf = ctx.createBuffer(1, frames, ctx.sampleRate);
+            const d = buf.getChannelData(0);
+            for (let i = 0; i < frames; i++) d[i] = (Math.random() * 2 - 1) * (1 - i / frames);
+            const src = ctx.createBufferSource();
+            src.buffer = buf;
+            const bp = ctx.createBiquadFilter();
+            bp.type = 'bandpass';
+            bp.frequency.value = f;
+            bp.Q.value = 1.1;
+            const g = ctx.createGain();
+            g.gain.value = 0.09;
+            src.connect(bp); bp.connect(g); g.connect(this.master);
+            src.start(start); src.stop(start + dur + 0.01);
+        }
+
         // Pure-sine sparkle shimmer to sprinkle on top of celebratory voices.
         twinkle(start, freqs, gain) {
             const ctx = this.ctx;
@@ -202,20 +237,28 @@
         }
 
         play(type) {
+            // Roll a fresh "voice personality" (pitch colour) for this reaction.
+            this.pitchMul = rand(0.9, 1.16);
             this.speak(buildPhrase(type));
         }
     }
 
     // --- reusable phrase fragments (each returns {ev, end}) ------------------
 
-    // "hee-hee-hee(-haa)" giggle run, pitch drifting up per syllable.
+    // "hee-hee-hee(-haa)" giggle run - breathy 'h' onsets, pitch drifting up,
+    // and a chance of a cute nose-snort at the end.
     function giggle(start, f0, n) {
         const ev = []; let at = start;
         for (let i = 0; i < n; i++) {
             const p = f0 + i * rand(14, 38) + rand(-12, 12);
             const last = i === n - 1;
-            ev.push({ at, vowelFrom: 'i', vowelTo: last ? 'e' : 'i', f0From: p, f0To: p - rand(30, 60), dur: rand(0.12, 0.18), gain: rand(0.5, 0.68), vibrato: 6, vibratoHz: rand(5, 7) });
-            at += rand(0.15, 0.22);
+            ev.push({ at, cons: 'h', vowelFrom: 'i', vowelTo: last ? 'e' : 'i', f0From: p, f0To: p - rand(30, 60), dur: rand(0.11, 0.17), gain: rand(0.5, 0.68), vibrato: 6, vibratoHz: rand(5, 7) });
+            at += rand(0.14, 0.21);
+        }
+        if (Math.random() < 0.35) { // little "snrk!" snort
+            ev.push({ k: 'breath', at: at - 0.02, dur: 0.09, gain: 0.06, tone: rand(500, 800) });
+            ev.push({ at, vowelFrom: 'u', vowelTo: 'i', f0From: f0 * 0.8, f0To: f0 * 1.1, dur: 0.12, gain: 0.45, vibrato: 8 });
+            at += 0.16;
         }
         return { ev, end: at };
     }
@@ -226,10 +269,16 @@
         for (let i = 0; i < n; i++) {
             const p = f0 - i * rand(14, 34);
             ev.push({ k: 'breath', at: at - 0.03, dur: 0.08, gain: 0.05, tone: rand(900, 1300) });
-            ev.push({ at, vowelFrom: 'u', vowelTo: i % 2 ? 'o' : 'u', f0From: p, f0To: p - rand(30, 60), dur: rand(0.24, 0.34), gain: (gainBase || 0.55) + rand(-0.06, 0.06), vibrato: rand(10, 18), vibratoHz: rand(4.5, 6), tremolo: rand(0.4, 0.55), tremoloHz: rand(7, 9) });
+            ev.push({ at, cons: 'h', vowelFrom: 'u', vowelTo: i % 2 ? 'o' : 'u', f0From: p, f0To: p - rand(30, 60), dur: rand(0.24, 0.34), gain: (gainBase || 0.55) + rand(-0.06, 0.06), vibrato: rand(10, 18), vibratoHz: rand(4.5, 6), tremolo: rand(0.4, 0.55), tremoloHz: rand(7, 9) });
             at += rand(0.3, 0.44);
         }
         return { ev, end: at };
+    }
+
+    // A cute rubbery "boing" - a fast pitch spring, great after a bouncy win.
+    function boing(start, f0) {
+        return { ev: [{ at: start, vowelFrom: 'o', vowelTo: 'u', f0From: f0, f0To: f0 * 1.9, dur: 0.09, gain: 0.4 },
+                      { at: start + 0.09, vowelFrom: 'u', vowelTo: 'o', f0From: f0 * 1.9, f0To: f0 * 0.9, dur: 0.13, gain: 0.4, vibrato: 14, vibratoHz: 9 }], end: start + 0.24 };
     }
 
     // --- per-emotion phrase builders: each type has several variants so the
@@ -250,18 +299,27 @@
                     },
                     () => { // "woo-hoo!"
                         ev.push({ at: 0, vowelFrom: 'u', vowelTo: 'u', f0From: 360, f0To: 320, dur: 0.2, gain: 0.6 });
-                        ev.push({ at: 0.26, vowelFrom: 'u', vowelTo: 'i', f0From: 380, f0To: 640, dur: 0.4, gain: 0.78, vibrato: 10 });
+                        ev.push({ at: 0.26, cons: 'h', vowelFrom: 'u', vowelTo: 'i', f0From: 380, f0To: 640, dur: 0.4, gain: 0.78, vibrato: 10 });
                         ev.push({ k: 'tw', at: 0.5, freqs: [1568, 2093], gain: 0.08 });
                     },
                     () => { // "yip-pee!"
                         ev.push({ at: 0, vowelFrom: 'i', vowelTo: 'i', f0From: 520, f0To: 470, dur: 0.14, gain: 0.65 });
-                        ev.push({ at: 0.2, vowelFrom: 'i', vowelTo: 'e', f0From: 500, f0To: 700, dur: 0.4, gain: 0.8, vibrato: 10 });
+                        ev.push({ at: 0.2, cons: 'p', vowelFrom: 'i', vowelTo: 'e', f0From: 500, f0To: 700, dur: 0.4, gain: 0.8, vibrato: 10 });
                         ev.push({ k: 'tw', at: 0.4, freqs: [1760, 2093], gain: 0.08 });
                     },
                     () => { // "ta-daa!"
-                        ev.push({ at: 0, vowelFrom: 'a', vowelTo: 'a', f0From: 460, f0To: 470, dur: 0.13, gain: 0.66 });
-                        ev.push({ at: 0.17, vowelFrom: 'a', vowelTo: 'a', f0From: 470, f0To: 640, dur: 0.45, gain: 0.82, vibrato: 12, vibratoHz: 6 });
+                        ev.push({ at: 0, cons: 't', vowelFrom: 'a', vowelTo: 'a', f0From: 460, f0To: 470, dur: 0.13, gain: 0.66 });
+                        ev.push({ at: 0.17, cons: 'd', vowelFrom: 'a', vowelTo: 'a', f0From: 470, f0To: 640, dur: 0.45, gain: 0.82, vibrato: 12, vibratoHz: 6 });
                         ev.push({ k: 'tw', at: 0.4, freqs: [1568, 2093], gain: 0.09 });
+                    },
+                    () => { // "hoo-ray!"
+                        ev.push({ at: 0, cons: 'h', vowelFrom: 'u', vowelTo: 'u', f0From: 380, f0To: 420, dur: 0.18, gain: 0.68 });
+                        ev.push({ at: 0.22, vowelFrom: 'e', vowelTo: 'i', f0From: 440, f0To: 700, dur: 0.42, gain: 0.82, vibrato: 12, vibratoHz: 6 });
+                        ev.push({ k: 'tw', at: 0.45, freqs: [1568, 2093, 2637], gain: 0.09 });
+                    },
+                    () => { // "ta-da!" + a bouncy boing
+                        ev.push({ at: 0, cons: 't', vowelFrom: 'a', vowelTo: 'i', f0From: 470, f0To: 660, dur: 0.34, gain: 0.8, vibrato: 10 });
+                        add(boing(0.36, 480));
                     },
                 ])();
                 break;
@@ -285,6 +343,20 @@
                         ev.push({ at: 0, vowelFrom: 'u', vowelTo: 'i', f0From: 440, f0To: 780, dur: 0.6, gain: 0.85, vibrato: 16, vibratoHz: 6.5 });
                         add(giggle(0.75, 640, 4));
                         ev.push({ k: 'tw', at: 0.4, freqs: [1174, 1568, 2093], gain: 0.1 });
+                    },
+                    () => { // "hip-hip-hoo-ray!"
+                        ev.push({ at: 0, cons: 'h', vowelFrom: 'i', vowelTo: 'i', f0From: 520, f0To: 480, dur: 0.16, gain: 0.72 });
+                        ev.push({ at: 0.24, cons: 'h', vowelFrom: 'i', vowelTo: 'i', f0From: 540, f0To: 500, dur: 0.16, gain: 0.72 });
+                        ev.push({ at: 0.5, cons: 'h', vowelFrom: 'u', vowelTo: 'u', f0From: 460, f0To: 500, dur: 0.16, gain: 0.75 });
+                        ev.push({ at: 0.7, vowelFrom: 'e', vowelTo: 'i', f0From: 500, f0To: 760, dur: 0.52, gain: 0.88, vibrato: 16, vibratoHz: 6 });
+                        ev.push({ k: 'tw', at: 0.72, freqs: [1396, 1760, 2349], gain: 0.11 });
+                    },
+                    () => { // "ya-hoo!" long + giggle + boing
+                        ev.push({ at: 0, vowelFrom: 'a', vowelTo: 'u', f0From: 440, f0To: 560, dur: 0.24, gain: 0.8 });
+                        ev.push({ at: 0.26, cons: 'h', vowelFrom: 'u', vowelTo: 'i', f0From: 520, f0To: 760, dur: 0.5, gain: 0.88, vibrato: 16 });
+                        add(boing(0.8, 520));
+                        add(giggle(1.06, 620, 3));
+                        ev.push({ k: 'tw', at: 0.5, freqs: [1318, 1760, 2093], gain: 0.1 });
                     },
                 ])();
                 break;
@@ -333,6 +405,14 @@
                         ev.push({ at: 0, vowelFrom: 'o', vowelTo: 'u', f0From: 330, f0To: 300, dur: 0.22, gain: 0.5 });
                         ev.push({ at: 0.26, vowelFrom: 'o', vowelTo: 'e', f0From: 320, f0To: 430, dur: 0.34, gain: 0.55, vibrato: 6 });
                     },
+                    () => { // "whoops!"
+                        ev.push({ at: 0, cons: 'h', vowelFrom: 'u', vowelTo: 'o', f0From: 430, f0To: 340, dur: 0.36, gain: 0.6, vibrato: 7 });
+                        ev.push({ k: 'breath', at: 0.4, dur: 0.11, gain: 0.06, tone: 2600 });
+                    },
+                    () => { // "oh-no-oo"
+                        ev.push({ at: 0, vowelFrom: 'o', vowelTo: 'o', f0From: 400, f0To: 360, dur: 0.22, gain: 0.58 });
+                        ev.push({ at: 0.28, vowelFrom: 'o', vowelTo: 'u', f0From: 360, f0To: 290, dur: 0.4, gain: 0.58, vibrato: 8, vibratoHz: 5 });
+                    },
                 ])();
                 break;
             }
@@ -352,6 +432,12 @@
                         ev.push({ k: 'breath', at: 0, dur: 0.1, gain: 0.05, tone: 1000 });
                         ev.push({ at: 0.03, vowelFrom: 'i', vowelTo: 'u', f0From: 620, f0To: 360, dur: 0.9, gain: 0.8, vibrato: 22, vibratoHz: 5.5, tremolo: 0.45, tremoloHz: 8 });
                         add(sobs(1.05, 380, 3, 0.55));
+                    },
+                    () => { // hiccuppy cry: wail, *hic!*, then sobs
+                        ev.push({ at: 0, cons: 'h', vowelFrom: 'u', vowelTo: 'a', f0From: 520, f0To: 320, dur: 0.7, gain: 0.8, vibrato: 20, vibratoHz: 5, tremolo: 0.42, tremoloHz: 7.5 });
+                        ev.push({ k: 'breath', at: 0.78, dur: 0.05, gain: 0.07, tone: 1800 }); // sharp inhale
+                        ev.push({ at: 0.82, cons: 'k', vowelFrom: 'i', vowelTo: 'i', f0From: 560, f0To: 460, dur: 0.1, gain: 0.5 }); // *hic!*
+                        add(sobs(1.02, 400, 3, 0.55));
                     },
                 ])();
                 break;
