@@ -145,6 +145,46 @@ function getMascotSvg(mood, size) {
             <path d="M112,78 Q124,73 136,78" stroke="#3B2A22" stroke-width="3.5" fill="none" stroke-linecap="round"/>
         `;
         mouth = `<ellipse cx="100" cy="136" rx="9" ry="11" fill="#8B4A3A"/>`;
+    } else if (mood === 'wink') {
+        // Playful one-eye wink + happy arms - a cheeky "nice one!" reaction.
+        arms = armHappy;
+        eyes = `
+            <ellipse cx="76" cy="95" rx="12" ry="15" fill="white"/>
+            <circle cx="78" cy="99" r="6.5" fill="#3B2A22"/>
+            <circle cx="81" cy="94" r="2.2" fill="white"/>
+            <path d="M112,98 Q124,88 136,98" stroke="#3B2A22" stroke-width="5" fill="none" stroke-linecap="round"/>
+        `;
+        mouth = `
+            <path d="M78,128 Q100,152 122,128 Q100,143 78,128 Z" fill="#8B4A3A"/>
+            <path d="M88,136 Q100,143 112,136 Q100,140 88,136 Z" fill="#FF9EB0"/>
+        `;
+    } else if (mood === 'party') {
+        // Over-the-top joy: arms up, star eyes, big grin with a little tongue.
+        arms = armCheer;
+        eyes = starEyes;
+        mouth = `
+            <path d="M70,122 Q100,168 130,122 Q100,148 70,122 Z" fill="#8B4A3A"/>
+            <path d="M90,150 Q100,166 110,150 Q100,156 90,150 Z" fill="#FF7A93"/>
+            <path d="M84,132 Q100,150 116,132 Q100,140 84,132 Z" fill="#FF9EB0" opacity="0.7"/>
+        `;
+    } else if (mood === 'teary') {
+        // Full crying face: sad brows, welling tears, open wailing mouth.
+        eyebrows = `
+            <path d="M66,80 L86,87" stroke="#3B2A22" stroke-width="3.5" stroke-linecap="round"/>
+            <path d="M134,80 L114,87" stroke="#3B2A22" stroke-width="3.5" stroke-linecap="round"/>
+        `;
+        eyes = defaultEyes + `
+            <path d="M63,104 C59,112 59,118 63,120 C67,118 67,112 63,104 Z" fill="#7FD0F5"/>
+            <path d="M137,104 C133,112 133,118 137,120 C141,118 141,112 137,104 Z" fill="#7FD0F5"/>
+        `;
+        mouth = `<ellipse cx="100" cy="140" rx="12" ry="14" fill="#8B4A3A"/>`;
+    } else if (mood === 'pout') {
+        // Sulky self-pity: knitted brows, small pursed frown.
+        eyebrows = `
+            <path d="M64,84 L86,80" stroke="#3B2A22" stroke-width="3.5" stroke-linecap="round"/>
+            <path d="M136,84 L114,80" stroke="#3B2A22" stroke-width="3.5" stroke-linecap="round"/>
+        `;
+        mouth = `<path d="M88,138 Q100,130 112,138" stroke="#3B2A22" stroke-width="4.5" fill="none" stroke-linecap="round"/>`;
     }
 
     return `
@@ -2769,15 +2809,17 @@ class DuoClone {
         this.ui.modal.classList.remove('hidden');
         const mascot = this.ui.modalMascot;
         if (correct) {
-            // Rotate through a few delighted faces/accessories so the reward never feels
-            // repetitive - a small "surprise & delight" variety for young learners.
-            const happyMoods = ['excited', 'giggle', 'love'];
-            const accessories = ['🌟', '✨', '💛', '🎉'];
+            // Rotate through a few delighted faces + reaction animations + accessories
+            // so the reward never feels repetitive - each right answer is a small
+            // "surprise & delight" for young learners.
+            const happyMoods = ['excited', 'giggle', 'love', 'wink', 'party'];
+            const happyAnims = ['mascot-pop-happy', 'mascot-dance', 'mascot-spin-pop'];
+            const accessories = ['🌟', '✨', '💛', '🎉', '🥳', '😄'];
             const mood = pickRandom(happyMoods);
             if (mascot) {
-                mascot.className = 'mascot mascot-pop-happy';
+                mascot.className = 'mascot ' + pickRandom(happyAnims);
                 mascot.innerHTML = getMascotSvg(mood, 68) + `<span class="mascot-accessory">${pickRandom(accessories)}</span>`;
-                this.spawnMascotParticles(mascot, ['⭐', '🌟', '✨', '💛'], 7);
+                this.spawnMascotParticles(mascot, ['⭐', '🌟', '✨', '💛', '🎉'], 9);
             }
             this.ui.modalIcon.innerText = "✅";
             this.ui.modalTitle.innerText = pickRandom(['Chính xác!', 'Tuyệt vời!', 'Giỏi quá!', 'Xuất sắc!']);
@@ -2785,9 +2827,12 @@ class DuoClone {
             this.ui.modalMsg.innerText = pickRandom(HAPPY_MESSAGES);
             this.ui.modalBtn.className = "btn-primary";
         } else {
+            const sadMoods = ['surprised', 'teary', 'pout'];
+            const sadAnims = ['mascot-wobble-sad', 'mascot-cry-shake'];
+            const sadMood = pickRandom(sadMoods);
             if (mascot) {
-                mascot.className = 'mascot mascot-wobble-sad';
-                mascot.innerHTML = getMascotSvg('surprised', 68) + '<span class="mascot-accessory">💫</span>';
+                mascot.className = 'mascot ' + pickRandom(sadAnims);
+                mascot.innerHTML = getMascotSvg(sadMood, 68) + `<span class="mascot-accessory">${pickRandom(['💫', '💧', '😢'])}</span>`;
             }
             this.ui.modalIcon.innerText = "❌";
             this.ui.modalTitle.innerText = pickRandom(['Ôi tiếc quá!', 'Suýt rồi!', 'Thử lại nhé!', 'Chưa đúng!']);
