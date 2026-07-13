@@ -2184,6 +2184,18 @@ class DuoClone {
     }
 
     playTone(type) {
+        // Mascot reactions are now voiced (giggles/cheers/sobs/whimpers) by the
+        // MascotVoice engine instead of plain oscillator melodies. We keep the
+        // playTone(type) signature so every existing call site is unchanged, and
+        // fall back to the old synth tones only if the voice engine is missing.
+        if (window.MascotVoice) {
+            window.MascotVoice.play(type);
+            return;
+        }
+        this.playToneFallback(type);
+    }
+
+    playToneFallback(type) {
         const AudioCtx = window.AudioContext || window.webkitAudioContext;
         if (!AudioCtx) return;
         if (!this.audioCtx) this.audioCtx = new AudioCtx();
@@ -3072,7 +3084,7 @@ class DuoClone {
     // Fanfare + confetti + floating particles for a completion moment. `happy=false`
     // keeps a gentler sound for the "didn't quite make it" screens.
     playBigCelebration(happy = true) {
-        if (!happy) { this.playTone('cry'); return; }
+        if (!happy) { this.playTone('whimper'); return; }
         this.playTone('fanfare');
         if (window.confetti) confetti({ particleCount: 130, spread: 75, origin: { y: 0.6 } });
         const m = document.getElementById('celebrate-mascot');
@@ -3473,7 +3485,7 @@ class DuoClone {
         this.ui.checkBtn.disabled = true;
         this.ui.checkBtn.classList.remove('active');
         document.getElementById('out-of-hearts-games').addEventListener('click', () => this.renderGamePicker());
-        this.playTone('cry');
+        this.playTone('whimper');
 
         this.updateHeartCountdown();
         clearInterval(this.heartCountdownInterval);
