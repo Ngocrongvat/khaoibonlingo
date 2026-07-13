@@ -63,9 +63,50 @@ function getMascotSvg(mood, size) {
         <ellipse cx="20" cy="65" rx="15" ry="21" fill="#E8935B" transform="rotate(55 20 65)"/>
         <ellipse cx="180" cy="65" rx="15" ry="21" fill="#E8935B" transform="rotate(-55 180 65)"/>
     `;
+    // Both arms thrown straight up in a "yay!" — used by the celebratory moods.
+    const armCheer = `
+        <ellipse cx="30" cy="45" rx="14" ry="22" fill="#E8935B" transform="rotate(28 30 45)"/>
+        <ellipse cx="170" cy="45" rx="14" ry="22" fill="#E8935B" transform="rotate(-28 170 45)"/>
+    `;
+    // The standard round eyes (default for idle/happy/sad - unchanged from before).
+    const defaultEyes = `
+        <ellipse cx="76" cy="95" rx="12" ry="15" fill="white"/>
+        <ellipse cx="124" cy="95" rx="12" ry="15" fill="white"/>
+        <circle cx="78" cy="99" r="6.5" fill="#3B2A22"/>
+        <circle cx="126" cy="99" r="6.5" fill="#3B2A22"/>
+        <circle cx="81" cy="94" r="2.2" fill="white"/>
+        <circle cx="129" cy="94" r="2.2" fill="white"/>
+    `;
+    // Big sparkly eyes with a bright glint - reads as "wow / so happy".
+    const starEyes = `
+        <ellipse cx="76" cy="94" rx="13" ry="16" fill="white"/>
+        <ellipse cx="124" cy="94" rx="13" ry="16" fill="white"/>
+        <circle cx="77" cy="97" r="8" fill="#3B2A22"/>
+        <circle cx="125" cy="97" r="8" fill="#3B2A22"/>
+        <circle cx="80" cy="92" r="3.2" fill="white"/>
+        <circle cx="128" cy="92" r="3.2" fill="white"/>
+        <circle cx="74" cy="100" r="1.8" fill="white"/>
+        <circle cx="122" cy="100" r="1.8" fill="white"/>
+    `;
+    // Heart-shaped eyes for perfect/love moments.
+    const heartEyes = `
+        <path d="M76,88 C71,82 62,85 62,92 C62,99 76,106 76,106 C76,106 90,99 90,92 C90,85 81,82 76,88 Z" fill="#FF5A79"/>
+        <path d="M124,88 C119,82 110,85 110,92 C110,99 124,106 124,106 C124,106 138,99 138,92 C138,85 129,82 124,88 Z" fill="#FF5A79"/>
+    `;
+    // Happy closed "^_^" eyes for a giggling look.
+    const happyArcEyes = `
+        <path d="M64,96 Q76,84 88,96" stroke="#3B2A22" stroke-width="5" fill="none" stroke-linecap="round"/>
+        <path d="M112,96 Q124,84 136,96" stroke="#3B2A22" stroke-width="5" fill="none" stroke-linecap="round"/>
+    `;
+
     let arms = armIdle;
     let eyebrows = '';
+    let eyes = defaultEyes;
     let mouth = `<path d="M82,132 Q100,142 118,132" stroke="#3B2A22" stroke-width="4.5" fill="none" stroke-linecap="round"/>`;
+    const bigOpenMouth = `
+        <path d="M72,124 Q100,164 128,124 Q100,146 72,124 Z" fill="#8B4A3A"/>
+        <path d="M84,134 Q100,150 116,134 Q100,142 84,134 Z" fill="#FF9EB0"/>
+    `;
 
     if (mood === 'happy') {
         arms = armHappy;
@@ -79,6 +120,31 @@ function getMascotSvg(mood, size) {
             <path d="M134,80 L114,87" stroke="#3B2A22" stroke-width="3.5" stroke-linecap="round"/>
         `;
         mouth = `<path d="M82,140 Q100,127 118,140" stroke="#3B2A22" stroke-width="4.5" fill="none" stroke-linecap="round"/>`;
+    } else if (mood === 'excited') {
+        // Big open grin, star eyes, arms up - the "correct answer / celebrate" face.
+        arms = armCheer;
+        eyes = starEyes;
+        mouth = bigOpenMouth;
+    } else if (mood === 'love') {
+        // Heart eyes + happy arms - perfect lessons / streak milestones.
+        arms = armHappy;
+        eyes = heartEyes;
+        mouth = `
+            <path d="M75,126 Q100,158 125,126 Q100,144 75,126 Z" fill="#8B4A3A"/>
+            <path d="M85,136 Q100,144 115,136 Q100,140 85,136 Z" fill="#FF9EB0"/>
+        `;
+    } else if (mood === 'giggle') {
+        // Closed ^_^ eyes + open smile - a softer cheerful look.
+        arms = armHappy;
+        eyes = happyArcEyes;
+        mouth = bigOpenMouth;
+    } else if (mood === 'surprised') {
+        // Gentle "oops" for a wrong answer - small round mouth, raised brows.
+        eyebrows = `
+            <path d="M64,78 Q76,73 88,78" stroke="#3B2A22" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+            <path d="M112,78 Q124,73 136,78" stroke="#3B2A22" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+        `;
+        mouth = `<ellipse cx="100" cy="136" rx="9" ry="11" fill="#8B4A3A"/>`;
     }
 
     return `
@@ -98,12 +164,7 @@ function getMascotSvg(mood, size) {
             <ellipse cx="60" cy="115" rx="13" ry="9" fill="#FF9EB0" opacity="0.65"/>
             <ellipse cx="140" cy="115" rx="13" ry="9" fill="#FF9EB0" opacity="0.65"/>
             ${eyebrows}
-            <ellipse cx="76" cy="95" rx="12" ry="15" fill="white"/>
-            <ellipse cx="124" cy="95" rx="12" ry="15" fill="white"/>
-            <circle cx="78" cy="99" r="6.5" fill="#3B2A22"/>
-            <circle cx="126" cy="99" r="6.5" fill="#3B2A22"/>
-            <circle cx="81" cy="94" r="2.2" fill="white"/>
-            <circle cx="129" cy="94" r="2.2" fill="white"/>
+            ${eyes}
             ${mouth}
         </svg>
     `;
@@ -2185,6 +2246,80 @@ class DuoClone {
             lfo.start(now);
             osc.stop(now + 0.9);
             lfo.stop(now + 0.9);
+        } else if (type === 'ding') {
+            // Cute bright "boop-beep!" two-note for a correct answer - rounder and more
+            // playful than the old single chime, aimed at delighting young learners.
+            const notes = [659.25, 987.77]; // E5 -> B5
+            notes.forEach((freq, i) => {
+                const start = now + i * 0.09;
+                const osc = ctx.createOscillator();
+                const gain = ctx.createGain();
+                osc.connect(gain); gain.connect(ctx.destination);
+                osc.type = 'triangle';
+                osc.frequency.setValueAtTime(freq, start);
+                gain.gain.setValueAtTime(0.001, start);
+                gain.gain.exponentialRampToValueAtTime(0.22, start + 0.02);
+                gain.gain.exponentialRampToValueAtTime(0.001, start + 0.16);
+                osc.start(start); osc.stop(start + 0.18);
+            });
+        } else if (type === 'oops') {
+            // Gentle, friendly "aww" for a wrong answer - a soft two-note dip that
+            // sympathizes instead of the harsh buzzer, so mistakes never feel punishing.
+            const notes = [440, 349.23]; // A4 -> F4
+            notes.forEach((freq, i) => {
+                const start = now + i * 0.13;
+                const osc = ctx.createOscillator();
+                const gain = ctx.createGain();
+                osc.connect(gain); gain.connect(ctx.destination);
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(freq, start);
+                gain.gain.setValueAtTime(0.001, start);
+                gain.gain.exponentialRampToValueAtTime(0.16, start + 0.03);
+                gain.gain.exponentialRampToValueAtTime(0.001, start + 0.22);
+                osc.start(start); osc.stop(start + 0.24);
+            });
+        } else if (type === 'fanfare') {
+            // Bigger triumphant run for lesson/course/chapter completion - a rising
+            // major arpeggio finished with a sparkly top note + a soft chord underneath.
+            const seq = [523.25, 659.25, 783.99, 1046.50, 1318.51];
+            seq.forEach((freq, i) => {
+                const start = now + i * 0.12;
+                const osc = ctx.createOscillator();
+                const gain = ctx.createGain();
+                osc.connect(gain); gain.connect(ctx.destination);
+                osc.type = 'triangle';
+                osc.frequency.setValueAtTime(freq, start);
+                gain.gain.setValueAtTime(0.001, start);
+                gain.gain.exponentialRampToValueAtTime(0.24, start + 0.02);
+                gain.gain.exponentialRampToValueAtTime(0.001, start + 0.22);
+                osc.start(start); osc.stop(start + 0.24);
+            });
+            // warm sustained chord under the run
+            [261.63, 329.63, 392.00].forEach(freq => {
+                const osc = ctx.createOscillator();
+                const gain = ctx.createGain();
+                osc.connect(gain); gain.connect(ctx.destination);
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(freq, now);
+                gain.gain.setValueAtTime(0.001, now);
+                gain.gain.exponentialRampToValueAtTime(0.08, now + 0.05);
+                gain.gain.exponentialRampToValueAtTime(0.001, now + 0.75);
+                osc.start(now); osc.stop(now + 0.8);
+            });
+        } else if (type === 'sparkle') {
+            // Quick shimmering twinkle for badges/rewards.
+            [1046.50, 1396.91, 1760.00].forEach((freq, i) => {
+                const start = now + i * 0.06;
+                const osc = ctx.createOscillator();
+                const gain = ctx.createGain();
+                osc.connect(gain); gain.connect(ctx.destination);
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(freq, start);
+                gain.gain.setValueAtTime(0.001, start);
+                gain.gain.exponentialRampToValueAtTime(0.15, start + 0.01);
+                gain.gain.exponentialRampToValueAtTime(0.001, start + 0.14);
+                osc.start(start); osc.stop(start + 0.16);
+            });
         } else {
             const osc = ctx.createOscillator();
             const gain = ctx.createGain();
@@ -2198,6 +2333,32 @@ class DuoClone {
             osc.start(now);
             osc.stop(now + 0.25);
         }
+    }
+
+    // Spawns a burst of floating emoji particles (stars/hearts/confetti) that rise and
+    // fade around a target element - a cheap, dependency-free "juice" layer for the
+    // celebratory moments. Purely decorative: it never touches game state and cleans up
+    // its own nodes, so it can be sprinkled anywhere without side effects.
+    spawnMascotParticles(container, emojis, count) {
+        if (!container) return;
+        const host = document.createElement('div');
+        host.className = 'mascot-particles';
+        container.appendChild(host);
+        for (let i = 0; i < count; i++) {
+            const p = document.createElement('span');
+            p.className = 'mascot-particle';
+            p.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+            const angle = (Math.random() - 0.5) * 160;      // -80..80deg spread
+            const dist = 40 + Math.random() * 70;
+            p.style.setProperty('--dx', `${Math.sin(angle * Math.PI / 180) * dist}px`);
+            p.style.setProperty('--dy', `${-40 - Math.random() * 80}px`);
+            p.style.setProperty('--rot', `${(Math.random() - 0.5) * 120}deg`);
+            p.style.left = `${45 + Math.random() * 10}%`;
+            p.style.animationDelay = `${Math.random() * 0.15}s`;
+            p.style.fontSize = `${14 + Math.random() * 12}px`;
+            host.appendChild(p);
+        }
+        setTimeout(() => host.remove(), 1400);
     }
 
     updateNav() {
@@ -2433,10 +2594,10 @@ class DuoClone {
         }
 
         if (isCorrect) {
-            this.playTone('cheer');
+            this.playTone('ding');
             this.showResultModal(true);
         } else {
-            this.playTone('cry');
+            this.playTone('oops');
             if (!noHeartCostModes.includes(this.state.mode)) {
                 this.state.hearts--;
                 this.updateHeartsDisplay();
@@ -2596,22 +2757,28 @@ class DuoClone {
         this.ui.modal.classList.remove('hidden');
         const mascot = this.ui.modalMascot;
         if (correct) {
+            // Rotate through a few delighted faces/accessories so the reward never feels
+            // repetitive - a small "surprise & delight" variety for young learners.
+            const happyMoods = ['excited', 'giggle', 'love'];
+            const accessories = ['🌟', '✨', '💛', '🎉'];
+            const mood = pickRandom(happyMoods);
             if (mascot) {
-                mascot.className = 'mascot mascot-cheer';
-                mascot.innerHTML = getMascotSvg('happy', 64) + '<span class="mascot-accessory">✨</span>';
+                mascot.className = 'mascot mascot-pop-happy';
+                mascot.innerHTML = getMascotSvg(mood, 68) + `<span class="mascot-accessory">${pickRandom(accessories)}</span>`;
+                this.spawnMascotParticles(mascot, ['⭐', '🌟', '✨', '💛'], 7);
             }
             this.ui.modalIcon.innerText = "✅";
-            this.ui.modalTitle.innerText = "Chính xác!";
+            this.ui.modalTitle.innerText = pickRandom(['Chính xác!', 'Tuyệt vời!', 'Giỏi quá!', 'Xuất sắc!']);
             this.ui.modalTitle.style.color = "var(--duo-green)";
             this.ui.modalMsg.innerText = pickRandom(HAPPY_MESSAGES);
             this.ui.modalBtn.className = "btn-primary";
         } else {
             if (mascot) {
-                mascot.className = 'mascot mascot-cry';
-                mascot.innerHTML = getMascotSvg('sad', 64) + '<span class="mascot-accessory">💧</span>';
+                mascot.className = 'mascot mascot-wobble-sad';
+                mascot.innerHTML = getMascotSvg('surprised', 68) + '<span class="mascot-accessory">💫</span>';
             }
             this.ui.modalIcon.innerText = "❌";
-            this.ui.modalTitle.innerText = "Sai rồi!";
+            this.ui.modalTitle.innerText = pickRandom(['Ôi tiếc quá!', 'Suýt rồi!', 'Thử lại nhé!', 'Chưa đúng!']);
             this.ui.modalTitle.style.color = "var(--duo-red)";
             this.ui.modalMsg.innerText = pickRandom(SAD_MESSAGES);
             this.ui.modalBtn.className = "btn-secondary";
@@ -2896,6 +3063,22 @@ class DuoClone {
         `;
     }
 
+    // The Khoai mascot in a big celebratory pose for completion screens (replaces the
+    // old flat emoji). Call playBigCelebration() right after it lands in the DOM.
+    bigCelebrateMascotHtml(mood, size) {
+        return `<div class="duo-character mascot-jump" id="celebrate-mascot">${getMascotSvg(mood || 'excited', size || 96)}</div>`;
+    }
+
+    // Fanfare + confetti + floating particles for a completion moment. `happy=false`
+    // keeps a gentler sound for the "didn't quite make it" screens.
+    playBigCelebration(happy = true) {
+        if (!happy) { this.playTone('cry'); return; }
+        this.playTone('fanfare');
+        if (window.confetti) confetti({ particleCount: 130, spread: 75, origin: { y: 0.6 } });
+        const m = document.getElementById('celebrate-mascot');
+        if (m) this.spawnMascotParticles(m, ['⭐', '🌟', '✨', '🎉', '💛'], 12);
+    }
+
     // Runs the review round through the EXISTING practice machinery (no hearts at
     // stake, same render/check/skip flows) - only the finish line differs, routed to
     // renderLessonReviewDone() by the lessonReviewCore flag in nextPracticeExercise().
@@ -2914,7 +3097,7 @@ class DuoClone {
         this.state.mode = 'curriculum';
         this.ui.container.innerHTML = `
             <div class="welcome-screen">
-                <div class="duo-character mascot-cheer">🎓</div>
+                ${this.bigCelebrateMascotHtml('love', 96)}
                 <h1 style="text-align: center;">Ôn luyện hoàn tất!</h1>
                 <p style="text-align: center; color: #777;">Bạn vừa ôn lại đúng phần cốt lõi của bài dưới những dạng câu hỏi mới - cách tốt nhất để nhớ lâu.</p>
                 ${this.sessionSummaryHtml()}
@@ -2926,7 +3109,7 @@ class DuoClone {
         this.ui.checkBtn.disabled = true;
         this.ui.checkBtn.classList.remove('active');
         if (this.ui.skipBtn) this.ui.skipBtn.style.display = 'none';
-        this.playTone('cheer');
+        this.playBigCelebration();
         document.getElementById('review-done-continue').addEventListener('click', () => {
             this.resetSessionAnswers();
             if (this.state.currentUnitIdx >= this.state.courseData.units.length) {
@@ -2957,9 +3140,16 @@ class DuoClone {
         const reviewQueue = completedCtx ? this.buildLessonReviewQueue(completedCtx.unit, completedCtx.lessonIdx) : [];
         const coreItems = this.buildLessonCoreSummary(completedLesson);
 
+        // Perfect lesson (no wrong answers this session) gets the heart-eyed 'love'
+        // face; a normal clear gets 'excited'; a skipped-condition clear stays sheepish.
+        const perfect = (this.state.sessionAnswers || []).length > 0 && (this.state.sessionAnswers || []).every(r => r.isCorrect && !r.hadMistake);
+        const summaryMood = skippedReward ? 'surprised' : (perfect ? 'love' : 'excited');
+        const summaryMascot = skippedReward
+            ? `<div class="duo-character mascot-wobble-sad">${getMascotSvg('surprised', 88)}</div>`
+            : this.bigCelebrateMascotHtml(summaryMood, 96);
         this.ui.container.innerHTML = `
             <div class="welcome-screen">
-                <div class="duo-character ${skippedReward ? 'mascot-cry' : 'mascot-cheer'}">${skippedReward ? '😅' : '🎉'}</div>
+                ${summaryMascot}
                 <h1 style="text-align: center;">${this.escapeHtml(headline)}</h1>
                 <p style="text-align: center; color: #777;">${this.escapeHtml(subtitle)}</p>
                 ${this.sessionSummaryHtml()}
@@ -2974,7 +3164,7 @@ class DuoClone {
         this.ui.checkBtn.disabled = true;
         this.ui.checkBtn.classList.remove('active');
         if (this.ui.skipBtn) this.ui.skipBtn.style.display = 'none';
-        if (!skippedReward) this.playTone('cheer');
+        if (!skippedReward) this.playBigCelebration();
         const reviewBtn = document.getElementById('lesson-review-btn');
         if (reviewBtn) reviewBtn.addEventListener('click', () => this.startLessonReview(reviewQueue, coreItems));
         document.getElementById('lesson-summary-continue').addEventListener('click', () => {
@@ -3135,14 +3325,16 @@ class DuoClone {
         this.ui.progress.style.width = '100%';
         this.ui.container.innerHTML = `
             <div class="welcome-screen">
-                <div class="duo-character mascot-cheer">🎉</div>
+                ${this.bigCelebrateMascotHtml('love', 110)}
                 <h1 style="text-align: center;">Hoàn thành khóa học!</h1>
                 <p style="text-align: center; color: #777;">Bạn đã chinh phục toàn bộ bài học. Tuyệt vời lắm!</p>
             </div>
         `;
         this.ui.checkBtn.disabled = true;
         this.ui.checkBtn.classList.remove('active');
-        this.playTone('cheer');
+        this.playBigCelebration();
+        // an extra confetti wave for the biggest moment in the app
+        if (window.confetti) setTimeout(() => confetti({ particleCount: 160, spread: 100, origin: { y: 0.5 } }), 350);
     }
 
     // 3 user ranking tabs (XP / Chuỗi / Sôi nổi) sharing one screen, mirroring
@@ -3470,7 +3662,7 @@ class DuoClone {
         const stats = this.errorTracker ? this.errorTracker.getStats() : null;
         this.ui.container.innerHTML = `
             <div class="welcome-screen">
-                <div class="duo-character mascot-cheer">💪</div>
+                ${this.bigCelebrateMascotHtml('excited', 96)}
                 <h1 style="text-align: center;">Hoàn thành buổi luyện tập!</h1>
                 <p style="text-align: center; color: #777;">Bạn đã luyện ${this.state.practiceQueue.length} câu.</p>
                 ${stats ? `<p style="text-align: center; color: #777;">Độ chính xác tổng: ${Math.round(stats.accuracy * 100)}%</p>` : ''}
@@ -3481,7 +3673,7 @@ class DuoClone {
         `;
         this.ui.checkBtn.disabled = true;
         this.ui.checkBtn.classList.remove('active');
-        this.playTone('cheer');
+        this.playBigCelebration();
         document.getElementById('practice-again').addEventListener('click', () => this.startPracticeMode());
         document.getElementById('practice-exit').addEventListener('click', () => {
             this.state.mode = 'curriculum';
@@ -5919,6 +6111,7 @@ class DuoClone {
             toast.classList.remove('show');
             setTimeout(() => toast.remove(), 400);
         }, 3500);
+        this.playTone('sparkle');
         // Lighter than the signup/level-up confetti bursts below - a badge can be earned
         // fairly often, so a smaller/quicker burst keeps it celebratory without becoming
         // visual noise on every lesson.
