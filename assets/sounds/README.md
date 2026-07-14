@@ -1,23 +1,31 @@
 # Hiệu ứng âm thanh cho linh vật 🔊
 
-Thả các file âm thanh **dễ thương / vui nhộn** vào đúng thư mục này
-(`assets/sounds/`) với **đúng tên** dưới đây. App sẽ tự phát chúng khi linh vật
-biểu cảm — không cần sửa code gì thêm.
+Mỗi loại biểu cảm dùng **nhiều biến thể đánh số** (`correct1.mp3`, `correct2.mp3`,
+…). Mỗi lần phát app **chọn ngẫu nhiên một biến thể** (không lặp lại ngay biến thể
+vừa phát) nên nghe không nhàm. Chỉ cần đặt file đúng tên, không phải sửa code.
 
-- Ưu tiên định dạng **`.mp3`**. Nếu file của bạn là **`.wav`** thì cũng được:
-  cứ đặt tên `<tên>.wav`, app tự dò `.mp3` trước rồi `.wav`.
-- Tên file **không dấu, viết thường**, đúng y như bảng dưới.
-- Nên là hiệu ứng **ngắn** (0.3–2 giây), riêng `complete` có thể dài hơn một chút.
+- Định dạng **`.mp3`**, tên **không dấu, viết thường**, đánh số từ `1`.
+- Nên là hiệu ứng **ngắn** (0.3–2 giây), riêng `complete` có thể dài hơn chút.
 
-| Tên file cần đặt | Phát khi nào | Gợi ý chất âm |
+| Nhóm file (đánh số) | Số biến thể hiện có | Phát khi nào |
 |---|---|---|
-| `correct.mp3`  | Trả lời **đúng** một câu | "ting!" vui, dễ thương, ngắn |
-| `wrong.mp3`    | Trả lời **sai** một câu | "uh-oh" nhẹ nhàng, **không gắt** |
-| `cheer.mp3`    | **Thắng** bài luyện tập / trận đấu | reo hò, hoan hô vui |
-| `complete.mp3` | **Hoàn thành** bài học / chương / khóa | fanfare tưng bừng (dài hơn chút) |
-| `cry.mp3`      | **Thua** bài kiểm tra / trận đấu | tiếng khóc dễ thương |
-| `whimper.mp3`  | **Hết tim** / gần đạt mà chưa qua | tủi thân, sụt sịt nhẹ |
-| `sparkle.mp3`  | Nhận **huy hiệu** / phần thưởng | lấp lánh, "shiny" |
+| `correct1..N.mp3`  | 2 | Trả lời **đúng** một câu |
+| `wrong1..N.mp3`    | 4 | Trả lời **sai** một câu (nhẹ nhàng) |
+| `cheer1..N.mp3`    | 1 | **Thắng** bài luyện tập / trận đấu |
+| `complete1..N.mp3` | 3 | **Hoàn thành** bài học / chương / khóa |
+| `cry1..N.mp3`      | 3 | **Thua** bài kiểm tra / trận đấu |
+| `whimper1..N.mp3`  | 3 | **Hết tim** / gần đạt mà chưa qua |
+| `sparkle1..N.mp3`  | 2 | Nhận **huy hiệu** / phần thưởng |
+| `smile1..N.mp3`    | 9 | **Chạm vào linh vật** ở trang chính (cười đùa, hò reo) |
+
+> Thêm biến thể mới: thả `correct3.mp3` vào đây rồi **tăng số** trong bảng
+> `VARIANTS` ở đầu [`assets/js/mascot-voice.js`](../js/mascot-voice.js) (vd `correct: 3`).
+
+## Chức năng "chơi đùa" ở trang chính 🎉
+
+Chạm vào linh vật chào mừng ở trang chính → nó làm một **hành động ngẫu nhiên**
+(nhảy / xoay / lộn / chạy / lắc lư / gật gù), đổi **mặt vui ngẫu nhiên**, bắn hạt
+lấp lánh và **cười** bằng một file `smile*.mp3` ngẫu nhiên.
 
 ## Sau khi thả file vào
 

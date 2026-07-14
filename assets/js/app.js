@@ -1187,6 +1187,14 @@ class DuoClone {
         const continueBtn = document.getElementById('home-continue-btn');
         if (continueBtn) continueBtn.addEventListener('click', () => this.renderLesson());
 
+        // "Play with me": tapping the greeting mascot triggers a random cute action.
+        const greetMascot = document.querySelector('.home-greeting-mascot');
+        if (greetMascot) {
+            greetMascot.classList.add('mascot-tappable');
+            greetMascot.setAttribute('title', 'Chạm vào tớ để chơi nào! 🎉');
+            greetMascot.addEventListener('click', () => this.mascotPlay(greetMascot));
+        }
+
         this.renderUnitStrip();
         this.renderPathMap(this.state.currentUnitIdx);
         this.initGlobalChatWidget();
@@ -2335,6 +2343,29 @@ class DuoClone {
             host.appendChild(p);
         }
         setTimeout(() => host.remove(), 1400);
+    }
+
+    // Home-screen "play with me": tap the greeting mascot and it does a random
+    // cute action (jump/spin/wiggle/run/flip/bounce/nod), flashes a random happy
+    // face, tosses a little burst of mood-matched particles and giggles with a
+    // random "smile" sound. Fully repeatable - every tap re-rolls a fresh action.
+    mascotPlay(el) {
+        if (!el) return;
+        const actions = ['mascot-play-jump', 'mascot-play-spin', 'mascot-play-wiggle', 'mascot-play-bounce', 'mascot-play-flip', 'mascot-play-run', 'mascot-play-nod'];
+        const moods = ['wink', 'party', 'love', 'laugh', 'giggle', 'starstruck', 'excited', 'cool', 'blush'];
+        const action = pickRandom(actions);
+        const mood = pickRandom(moods);
+        el.innerHTML = getMascotSvg(mood, 64);
+        el.classList.remove(...actions, 'mascot-playing');
+        void el.offsetWidth;                       // restart the animation on repeat taps
+        el.classList.add(action, 'mascot-playing');
+        this.playTone('smile');
+        this.spawnMascotParticles(el, moodParticles(mood), 7);
+        clearTimeout(this._mascotPlayTimer);
+        this._mascotPlayTimer = setTimeout(() => {
+            el.classList.remove(action, 'mascot-playing');
+            el.innerHTML = getMascotSvg('happy', 64);
+        }, 1200);
     }
 
     updateNav() {

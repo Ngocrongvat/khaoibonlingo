@@ -2751,6 +2751,77 @@ body {
 .mascot-wobble-sad .m-arm, .mascot-cry-shake .m-arm { animation: armTremble 0.12s ease-in-out infinite; }
 @keyframes armTremble { 0%, 100% { transform: translate(0, 0); } 25% { transform: translate(-1.5px, 1px) rotate(-3deg); } 75% { transform: translate(1.5px, -1px) rotate(3deg); } }
 
+/* ============================================================================
+   "Play with me": the home greeting mascot is tappable. Each tap adds one of
+   these random action classes (plus .mascot-playing, which sets the arms/legs/
+   mouth going) for a burst of clearly-visible movement - jump, spin, backflip,
+   run, wiggle, bounce, nod - then reverts.
+   ========================================================================== */
+.mascot-tappable {
+    cursor: pointer;
+    display: inline-block;
+    transform-origin: center bottom;
+    -webkit-tap-highlight-color: transparent;
+}
+.mascot-tappable svg { pointer-events: none; }   /* taps always land on the box */
+
+.mascot-play-jump { animation: mPlayJump 0.7s cubic-bezier(0.28, 0.84, 0.42, 1); }
+@keyframes mPlayJump {
+    0% { transform: translateY(0) scale(1, 1); }
+    20% { transform: translateY(0) scale(1.16, 0.84); }
+    50% { transform: translateY(-42px) scale(0.9, 1.14); }
+    75% { transform: translateY(0) scale(1.16, 0.84); }
+    100% { transform: translateY(0) scale(1, 1); }
+}
+.mascot-play-spin { animation: mPlaySpin 0.8s ease-in-out; }
+@keyframes mPlaySpin {
+    0% { transform: translateY(0) rotate(0); }
+    30% { transform: translateY(-26px) rotate(0); }
+    70% { transform: translateY(-26px) rotate(360deg); }
+    100% { transform: translateY(0) rotate(360deg); }
+}
+.mascot-play-flip { animation: mPlayFlip 0.85s ease-in-out; }
+@keyframes mPlayFlip {
+    0% { transform: translateY(0) rotate(0); }
+    35% { transform: translateY(-48px) rotate(0); }
+    65% { transform: translateY(-48px) rotate(-360deg); }
+    100% { transform: translateY(0) rotate(-360deg); }
+}
+.mascot-play-wiggle { animation: mPlayWiggle 0.7s ease-in-out; }
+@keyframes mPlayWiggle {
+    0%, 100% { transform: rotate(0); }
+    15% { transform: rotate(-17deg); } 30% { transform: rotate(15deg); }
+    45% { transform: rotate(-12deg); } 60% { transform: rotate(9deg); } 75% { transform: rotate(-5deg); }
+}
+.mascot-play-bounce { animation: mPlayBounce 0.8s ease-in-out; }
+@keyframes mPlayBounce {
+    0%, 100% { transform: translateY(0) scale(1, 1); }
+    20% { transform: translateY(-20px) scale(0.95, 1.08); }
+    40% { transform: translateY(0) scale(1.12, 0.9); }
+    60% { transform: translateY(-11px) scale(0.97, 1.05); }
+    80% { transform: translateY(0) scale(1.05, 0.95); }
+}
+.mascot-play-run { animation: mPlayRun 0.9s ease-in-out; }
+@keyframes mPlayRun {
+    0%, 100% { transform: translateX(0) rotate(0); }
+    25% { transform: translateX(30px) rotate(9deg); }
+    50% { transform: translateX(0) rotate(0); }
+    75% { transform: translateX(-30px) rotate(-9deg); }
+}
+.mascot-play-nod { animation: mPlayNod 0.75s ease-in-out; }
+@keyframes mPlayNod {
+    0%, 100% { transform: translateY(0) rotate(0); }
+    25% { transform: translateY(5px) rotate(9deg); }
+    50% { transform: translateY(0) rotate(0); }
+    75% { transform: translateY(5px) rotate(7deg); }
+}
+/* While playing, the limbs and mouth come alive too (reuses the reaction keyframes). */
+.mascot-playing .m-arm-l { animation: armSwingL 0.4s ease-in-out infinite; }
+.mascot-playing .m-arm-r { animation: armSwingR 0.4s ease-in-out infinite; }
+.mascot-playing .m-leg-l { animation: legTapL 0.3s ease-in-out infinite; }
+.mascot-playing .m-leg-r { animation: legTapR 0.3s ease-in-out infinite; }
+.mascot-playing .m-mouth { animation: mouthTalk 0.24s ease-in-out infinite; }
+
 /* .duo-character hosts particles too. */
 .duo-character { position: relative; }
 
@@ -2787,6 +2858,9 @@ body {
     .home-greeting-mascot svg, .brand-mascot svg,
     .home-greeting-mascot svg .m-eyes, .brand-mascot svg .m-eyes,
     .m-arm, .m-leg, .m-mouth, .m-brow, .mascot .m-eyes,
+    .mascot-play-jump, .mascot-play-spin, .mascot-play-flip, .mascot-play-wiggle,
+    .mascot-play-bounce, .mascot-play-run, .mascot-play-nod, .mascot-playing .m-arm-l,
+    .mascot-playing .m-arm-r, .mascot-playing .m-leg-l, .mascot-playing .m-leg-r, .mascot-playing .m-mouth,
     .mascot-particle { animation: none !important; }
     .mascot-particle { opacity: 0; }
 }
