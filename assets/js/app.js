@@ -2316,7 +2316,9 @@ class DuoClone {
         // Mascot reactions play as real sound-effect FILES via MascotVoice
         // (assets/sounds/). The old oscillator "synth" sounds were removed; this
         // just forwards the reaction name and stays silent if a file is missing.
-        if (window.MascotVoice) window.MascotVoice.play(type);
+        // Returns the audio element (for callers that sync animation to playback).
+        if (window.MascotVoice) return window.MascotVoice.play(type);
+        return null;
     }
 
     // Spawns a burst of floating emoji particles (stars/hearts/confetti) that rise and
@@ -2345,27 +2347,62 @@ class DuoClone {
         setTimeout(() => host.remove(), 1400);
     }
 
-    // Home-screen "play with me": tap the greeting mascot and it does a random
-    // cute action (jump/spin/wiggle/run/flip/bounce/nod), flashes a random happy
-    // face, tosses a little burst of mood-matched particles and giggles with a
-    // random "smile" sound. Fully repeatable - every tap re-rolls a fresh action.
+    // Home-screen "play with me": tap the greeting mascot and it keeps doing cute
+    // actions (jump/spin/wiggle/run/flip/bounce/nod) - re-rolling a fresh action +
+    // happy face + particle burst every ~0.85s - for the WHOLE duration of the
+    // random "smile" sound, then settles back the instant the audio ends. So a
+    // short giggle is a quick hop and a long laugh is a full dance number.
     mascotPlay(el) {
         if (!el) return;
-        const actions = ['mascot-play-jump', 'mascot-play-spin', 'mascot-play-wiggle', 'mascot-play-bounce', 'mascot-play-flip', 'mascot-play-run', 'mascot-play-nod'];
-        const moods = ['wink', 'party', 'love', 'laugh', 'giggle', 'starstruck', 'excited', 'cool', 'blush'];
-        const action = pickRandom(actions);
-        const mood = pickRandom(moods);
-        el.innerHTML = getMascotSvg(mood, 64);
-        el.classList.remove(...actions, 'mascot-playing');
-        void el.offsetWidth;                       // restart the animation on repeat taps
-        el.classList.add(action, 'mascot-playing');
-        this.playTone('smile');
-        this.spawnMascotParticles(el, moodParticles(mood), 7);
+        const ACTIONS = ['mascot-play-jump', 'mascot-play-spin', 'mascot-play-wiggle', 'mascot-play-bounce', 'mascot-play-flip', 'mascot-play-run', 'mascot-play-nod'];
+        const MOODS = ['wink', 'party', 'love', 'laugh', 'giggle', 'starstruck', 'excited', 'cool', 'blush'];
+
+        // A fresh tap supersedes any play still in progress.
+        clearInterval(this._mascotPlayInterval);
         clearTimeout(this._mascotPlayTimer);
-        this._mascotPlayTimer = setTimeout(() => {
-            el.classList.remove(action, 'mascot-playing');
-            el.innerHTML = getMascotSvg('happy', 64);
-        }, 1200);
+        if (this._mascotAudio) { try { this._mascotAudio.pause(); } catch (e) { } this._mascotAudio = null; }
+        const gen = this._mascotGen = (this._mascotGen || 0) + 1;
+        const isCurrent = () => this._mascotGen === gen;
+
+        let first = true;
+        const doAction = () => {
+            const action = pickRandom(ACTIONS);
+            const mood = pickRandom(MOODS);
+            el.innerHTML = getMascotSvg(mood, 64);
+            el.classList.remove(...ACTIONS);
+            void el.offsetWidth;                   // retrigger the one-shot action
+            el.classList.add(action, 'mascot-playing');
+            if (first || Math.random() < 0.5) this.spawnMascotParticles(el, moodParticles(mood), first ? 7 : 5);
+            first = false;
+        };
+        const stop = () => {
+            if (!isCurrent()) return;
+            clearInterval(this._mascotPlayInterval);
+            clearTimeout(this._mascotPlayTimer);
+            if (this._mascotAudio) { try { this._mascotAudio.pause(); } catch (e) { } this._mascotAudio = null; }
+            el.classList.remove(...ACTIONS, 'mascot-playing');
+            if (document.body.contains(el)) el.innerHTML = getMascotSvg('happy', 64);
+        };
+
+        doAction();
+        const audio = this.playTone('smile');
+        this._mascotAudio = audio || null;
+
+        // Cycle actions until the sound ends; also bail if the user navigates away
+        // (the greeting mascot leaves the DOM) so audio/animation never linger.
+        this._mascotPlayInterval = setInterval(() => {
+            if (!isCurrent() || !document.body.contains(el)) { stop(); return; }
+            doAction();
+        }, 850);
+
+        if (audio && typeof audio.addEventListener === 'function') {
+            audio.addEventListener('ended', stop, { once: true });
+            audio.addEventListener('error', () => { this._mascotPlayTimer = setTimeout(stop, 900); }, { once: true });
+            this._mascotPlayTimer = setTimeout(stop, 65000);   // hard safety cap
+        } else {
+            // no audio (missing file / blocked) - fall back to a short one-off action
+            this._mascotPlayTimer = setTimeout(stop, 900);
+        }
     }
 
     updateNav() {

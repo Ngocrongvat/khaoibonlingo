@@ -69,8 +69,10 @@
             return i;
         }
 
+        // Returns the HTMLAudioElement for file-based sounds (so callers can sync
+        // animations to it via the 'ended' event), or null for UI blips / no sound.
         play(type) {
-            if (this.muted) return;
+            if (this.muted) return null;
             const r = REACTIONS[type];
             if (r) {
                 try {
@@ -79,11 +81,12 @@
                     a.volume = r.vol;
                     const p = a.play();
                     if (p && p.catch) p.catch(() => { });
-                } catch (e) { /* stay silent */ }
-                return;
+                    return a;
+                } catch (e) { return null; }
             }
             // non-mascot UI blips (e.g. card flip) - synthesized, no file needed
             if (UI_SOUNDS[type]) this._ui(UI_SOUNDS[type]);
+            return null;
         }
 
         // Lazily-created AudioContext for the tiny UI blips (mascot emotion sounds
