@@ -1439,14 +1439,17 @@ class DuoClone {
             track.style.animation = 'none';
             return;
         }
-        // Joined text is duplicated back-to-back so the CSS scroll loop has no visible
-        // gap - once the first copy has fully scrolled past, the second is already lined
-        // up to continue seamlessly (classic marquee technique).
-        // Newest event FIRST: the marquee scrolls from its beginning after every
-        // (re)render, so fresh news must lead the strip - chronological order buried a
-        // just-arrived event behind up to 11 older ones for a whole scroll cycle.
-        const joined = [...events].reverse().map(e => this.escapeHtml(e.message)).join('&nbsp;&nbsp;&nbsp;•&nbsp;&nbsp;&nbsp;');
-        track.innerHTML = `<span>${joined}</span><span aria-hidden="true">&nbsp;&nbsp;&nbsp;•&nbsp;&nbsp;&nbsp;${joined}</span>`;
+        // Two IDENTICAL copies back-to-back drive a seamless CSS loop: the track is
+        // animated translateX(0) -> -50%, and -50% of the track equals exactly one
+        // copy's width ONLY when the two copies are the same width. Each copy therefore
+        // ends with the same trailing separator (so the wrap-around join also shows a
+        // bullet), and the track must have NO left padding (see .activity-ticker-track)
+        // or -50% would no longer land on a copy boundary and the loop would jump.
+        // Newest event FIRST: the marquee restarts from its beginning on every
+        // (re)render, so fresh news must lead the strip.
+        const SEP = '&nbsp;&nbsp;&nbsp;•&nbsp;&nbsp;&nbsp;';
+        const copy = [...events].reverse().map(e => this.escapeHtml(e.message)).join(SEP) + SEP;
+        track.innerHTML = `<span>${copy}</span><span aria-hidden="true">${copy}</span>`;
         // Scroll speed scales with content length so a short list doesn't fly by too fast
         // and a long one doesn't crawl - restarting the animation (removing then
         // re-triggering) is a minor visual reset but happens rarely (a few events/session).
