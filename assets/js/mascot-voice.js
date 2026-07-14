@@ -43,8 +43,13 @@
         whimper: { file: 'whimper', vol: 0.8 },
         sparkle: { file: 'sparkle', vol: 0.85 },
         smile: { file: 'smile', vol: 0.9 },
-        // 'flip' (memory-game card flip) intentionally has no sound - a click on
-        // every card flip would be spammy. Drop a flip.mp3 + add it here to enable.
+    };
+
+    // Non-mascot UI sounds: short synthesized blips that aren't emotional mascot
+    // reactions (so they don't need audio files). 'flip' is the Memory game's
+    // card-flip click - deliberately neutral, not a "correct/wrong" judgement.
+    const UI_SOUNDS = {
+        flip: { freq: 440, dur: 0.08, gain: 0.08, wave: 'triangle' },
     };
 
     class MascotVoice {
@@ -67,13 +72,36 @@
         play(type) {
             if (this.muted) return;
             const r = REACTIONS[type];
-            if (!r) return;
+            if (r) {
+                try {
+                    const src = this.base + r.file + this._pick(r.file) + '.mp3';
+                    const a = new Audio(src);
+                    a.volume = r.vol;
+                    const p = a.play();
+                    if (p && p.catch) p.catch(() => { });
+                } catch (e) { /* stay silent */ }
+                return;
+            }
+            // non-mascot UI blips (e.g. card flip) - synthesized, no file needed
+            if (UI_SOUNDS[type]) this._ui(UI_SOUNDS[type]);
+        }
+
+        // Lazily-created AudioContext for the tiny UI blips (mascot emotion sounds
+        // use audio files, not this).
+        _ui(o) {
             try {
-                const src = this.base + r.file + this._pick(r.file) + '.mp3';
-                const a = new Audio(src);
-                a.volume = r.vol;
-                const p = a.play();
-                if (p && p.catch) p.catch(() => { });
+                const AC = window.AudioContext || window.webkitAudioContext;
+                if (!AC) return;
+                if (!this._ac) this._ac = new AC();
+                if (this._ac.state === 'suspended') this._ac.resume();
+                const ctx = this._ac, now = ctx.currentTime;
+                const osc = ctx.createOscillator(), g = ctx.createGain();
+                osc.connect(g); g.connect(ctx.destination);
+                osc.type = o.wave || 'triangle';
+                osc.frequency.setValueAtTime(o.freq, now);
+                g.gain.setValueAtTime(o.gain, now);
+                g.gain.exponentialRampToValueAtTime(0.0001, now + o.dur);
+                osc.start(now); osc.stop(now + o.dur);
             } catch (e) { /* stay silent */ }
         }
 
