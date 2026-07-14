@@ -2716,6 +2716,11 @@ class DuoClone {
         // questions.
         if (this.skipInFlight) return;
         const SKIP_XP_PENALTY = 5;
+        // The core-reinforcement round ("ôn luyện củng cố") is a free bonus round -
+        // it's announced as costing no hearts and no XP - so skipping there must NOT
+        // deduct XP nor warn about an XP penalty. (Bug: it still charged/warned XP.)
+        const isCoreReview = !!this.state.lessonReviewCore;
+        const skipPenalty = isCoreReview ? 0 : SKIP_XP_PENALTY;
 
         // Bug fix: skipping used to ALWAYS queue the skipped exercise into reviewQueue,
         // then advance - but if this was the lesson's last remaining question (nothing
@@ -2731,10 +2736,12 @@ class DuoClone {
             return this.state.currentExIdx === lesson.exercises.length - 1 && this.state.reviewQueue.length === 0;
         })();
 
-        const confirmMsg = isLastBeforeLessonComplete
-            ? `Đây là câu điều kiện để hoàn thành bài học! Nếu bỏ qua, bạn sẽ KHÔNG nhận được điểm thưởng hoàn thành bài (vẫn bị trừ ${SKIP_XP_PENALTY} XP). Bạn có chắc muốn bỏ qua không?`
-            : `Bỏ qua câu này sẽ bị trừ ${SKIP_XP_PENALTY} XP. Bạn có chắc muốn bỏ qua không?`;
-        this.showConfirmDialog(confirmMsg, () => this.performSkip(isLastBeforeLessonComplete, SKIP_XP_PENALTY), { okLabel: 'BỎ QUA' });
+        const confirmMsg = isCoreReview
+            ? 'Bỏ qua câu ôn luyện này? Vòng ôn luyện củng cố không tính tim hay XP - bạn sẽ không bị trừ gì cả.'
+            : (isLastBeforeLessonComplete
+                ? `Đây là câu điều kiện để hoàn thành bài học! Nếu bỏ qua, bạn sẽ KHÔNG nhận được điểm thưởng hoàn thành bài (vẫn bị trừ ${SKIP_XP_PENALTY} XP). Bạn có chắc muốn bỏ qua không?`
+                : `Bỏ qua câu này sẽ bị trừ ${SKIP_XP_PENALTY} XP. Bạn có chắc muốn bỏ qua không?`);
+        this.showConfirmDialog(confirmMsg, () => this.performSkip(isLastBeforeLessonComplete, skipPenalty), { okLabel: 'BỎ QUA' });
     }
 
     performSkip(isLastBeforeLessonComplete, SKIP_XP_PENALTY) {
