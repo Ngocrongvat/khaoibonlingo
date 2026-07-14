@@ -2710,6 +2710,48 @@ body {
     97% { transform: scaleY(1); }
 }
 
+/* ============================================================================
+   Body-part motion: arms, legs, mouth, eyebrows and eyes are their own SVG
+   groups (see getMascotSvg) so they can move independently during reactions -
+   waving arms, tapping feet, a "talking" mouth, bouncing brows. This is what
+   makes the mascot read as dancing and vocalising, not just sliding around.
+   ========================================================================== */
+.m-arm, .m-leg, .m-mouth, .m-brow, .m-eyes { transform-box: fill-box; }
+.m-arm { transform-origin: 50% 12%; }   /* pivot near the shoulder */
+.m-leg { transform-origin: 50% 0%; }    /* pivot at the hip */
+.m-mouth, .m-eyes { transform-origin: center; }
+.m-brow { transform-origin: 50% 100%; }
+
+/* Happy reactions: alternating arm swings, bouncing legs, joyful eye squish,
+   raised brows and a mouth that opens & closes as if singing along. */
+.mascot-pop-happy .m-arm-l, .mascot-dance .m-arm-l, .mascot-spin-pop .m-arm-l, .duo-character.mascot-jump .m-arm-l { animation: armSwingL 0.46s ease-in-out infinite; }
+.mascot-pop-happy .m-arm-r, .mascot-dance .m-arm-r, .mascot-spin-pop .m-arm-r, .duo-character.mascot-jump .m-arm-r { animation: armSwingR 0.46s ease-in-out infinite; }
+@keyframes armSwingL { 0%, 100% { transform: rotate(-18deg); } 50% { transform: rotate(20deg); } }
+@keyframes armSwingR { 0%, 100% { transform: rotate(18deg); } 50% { transform: rotate(-20deg); } }
+
+.mascot-dance .m-leg-l, .duo-character.mascot-jump .m-leg-l { animation: legTapL 0.34s ease-in-out infinite; }
+.mascot-dance .m-leg-r, .duo-character.mascot-jump .m-leg-r { animation: legTapR 0.34s ease-in-out infinite; }
+@keyframes legTapL { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-7px) rotate(-6deg); } }
+@keyframes legTapR { 0%, 100% { transform: translateY(-7px) rotate(6deg); } 50% { transform: translateY(0); } }
+
+.mascot-pop-happy .m-eyes, .mascot-dance .m-eyes, .mascot-spin-pop .m-eyes { animation: eyesJoy 0.4s ease-in-out infinite; }
+@keyframes eyesJoy { 0%, 100% { transform: scale(1, 1); } 50% { transform: scale(1.08, 0.86); } }
+
+.mascot-pop-happy .m-brow, .mascot-dance .m-brow, .mascot-spin-pop .m-brow { animation: browRaise 0.5s ease-in-out infinite; }
+@keyframes browRaise { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-3px); } }
+
+/* Mouth "talks" during every reaction (happy or sad) so the mascot looks like
+   it is actually making the sound the voice engine plays. */
+.mascot-pop-happy .m-mouth, .mascot-dance .m-mouth, .mascot-spin-pop .m-mouth,
+.duo-character.mascot-jump .m-mouth, .mascot-wobble-sad .m-mouth, .mascot-cry-shake .m-mouth {
+    animation: mouthTalk 0.26s ease-in-out infinite;
+}
+@keyframes mouthTalk { 0%, 100% { transform: scaleY(0.65); } 50% { transform: scaleY(1.3); } }
+
+/* Sad reactions: arms tremble and shoulders shake with the sobbing. */
+.mascot-wobble-sad .m-arm, .mascot-cry-shake .m-arm { animation: armTremble 0.12s ease-in-out infinite; }
+@keyframes armTremble { 0%, 100% { transform: translate(0, 0); } 25% { transform: translate(-1.5px, 1px) rotate(-3deg); } 75% { transform: translate(1.5px, -1px) rotate(3deg); } }
+
 /* .duo-character hosts particles too. */
 .duo-character { position: relative; }
 
@@ -2745,6 +2787,7 @@ body {
     .mascot-dance, .mascot-spin-pop, .mascot-cry-shake,
     .home-greeting-mascot svg, .brand-mascot svg,
     .home-greeting-mascot svg .m-eyes, .brand-mascot svg .m-eyes,
+    .m-arm, .m-leg, .m-mouth, .m-brow, .mascot .m-eyes,
     .mascot-particle { animation: none !important; }
     .mascot-particle { opacity: 0; }
 }

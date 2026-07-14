@@ -27,12 +27,14 @@
     // Vowel formant tables [F1, F2, F3] in Hz. Higher F1 => more "open" (ah),
     // higher F2 => more "front" (ee). These are nudged brighter than an adult
     // voice so the mascot reads as small and cute.
+    // Formants nudged up ~12% vs an adult voice: a small child's vocal tract sits
+    // higher, which is a big part of reading as "cute kid" rather than "grown-up".
     const VOWELS = {
-        a: [820, 1200, 2800], // "ah"  (father)
-        e: [500, 1900, 2600], // "eh"  (bed) -> leans to a smile
-        i: [320, 2500, 3200], // "ee"  (see) -> giggly, bright
-        o: [500, 900, 2500],  // "oh"  (go)
-        u: [330, 800, 2400],  // "oo"  (boot) -> pouty, sob
+        a: [920, 1400, 3100], // "ah"  (father)
+        e: [560, 2150, 2950], // "eh"  (bed) -> leans to a smile
+        i: [360, 2800, 3500], // "ee"  (see) -> giggly, bright
+        o: [560, 1010, 2800], // "oh"  (go)
+        u: [370, 900, 2700],  // "oo"  (boot) -> pouty, sob
     };
 
     const FORMANT_GAIN = [1.0, 0.55, 0.22]; // F1 loudest, F3 softest
@@ -65,76 +67,81 @@
             return this.ctx;
         }
 
+        // A block of white noise, `dur` seconds long (for breath/sniffle layers).
+        noiseBuf(dur) {
+            const ctx = this.ctx;
+            const n = Math.max(1, Math.floor(ctx.sampleRate * dur));
+            const b = ctx.createBuffer(1, n, ctx.sampleRate);
+            const d = b.getChannelData(0);
+            for (let i = 0; i < n; i++) d[i] = Math.random() * 2 - 1;
+            return b;
+        }
+
         // Schedule one voiced syllable. All timing is absolute (ctx time) so
-        // callers can lay syllables out on a timeline.
+        // callers can lay syllables out on a timeline. The voice is built to sound
+        // like a small child, not a beep:
+        //   - pitched up into a child register (CHILD);
+        //   - two DETUNED saws + a triangle (a chorused, living tone - never a pure
+        //     sine "beep");
+        //   - a formant bank that shapes it into an actual vowel;
+        //   - a breath-noise layer for airy softness;
+        //   - vibrato + fast micro-jitter so the pitch never sits dead-still.
         syllable(start, o) {
             const ctx = this.ctx;
             const dur = o.dur;
             const end = start + dur;
             const peak = (o.gain != null ? o.gain : 0.7) * clampMul;
-            // Per-utterance "voice personality": a random pitch multiplier chosen
-            // in play() makes the mascot sometimes squeakier/cuter, sometimes a
-            // touch lower - so repeats of the same phrase still differ in colour.
             const pm = this.pitchMul || 1;
-            const f0From = o.f0From * pm;
-            const f0To = (o.f0To || o.f0From) * pm;
+            const CHILD = 1.22;                                   // small-child register
+            const f0From = o.f0From * pm * CHILD;
+            const f0To = (o.f0To || o.f0From) * pm * CHILD;
 
-            // A leading consonant (plosive click / breath) makes syllables read as
-            // real words - "ta-da", "yip-pee", "boo-hoo" - instead of vowel drones.
             if (o.cons) this.consonant(start, o.cons);
 
-            // --- glottal source ---
-            const osc = ctx.createOscillator();
-            osc.type = o.wave || 'sawtooth';
-            osc.frequency.setValueAtTime(f0From, start);
-            if (f0To !== f0From) {
-                osc.frequency.exponentialRampToValueAtTime(Math.max(1, f0To), end);
-            }
-            // a soft sine sub-tone fattens the voice so it isn't thin/buzzy
-            const sub = ctx.createOscillator();
-            sub.type = 'sine';
-            sub.frequency.setValueAtTime(f0From, start);
-            if (f0To !== f0From) {
-                sub.frequency.exponentialRampToValueAtTime(Math.max(1, f0To), end);
-            }
-            const subGain = ctx.createGain();
-            subGain.gain.value = 0.18;
-            sub.connect(subGain);
-
-            // --- vibrato (keeps the voice alive/organic) ---
-            const vibDepth = o.vibrato || 0;
-            if (vibDepth) {
-                const lfo = ctx.createOscillator();
-                lfo.type = 'sine';
-                lfo.frequency.value = o.vibratoHz || 5.5;
-                const lfoGain = ctx.createGain();
-                lfoGain.gain.value = vibDepth;
-                lfo.connect(lfoGain);
-                lfoGain.connect(osc.frequency);
-                lfoGain.connect(sub.frequency);
-                lfo.start(start);
-                lfo.stop(end + 0.05);
-            }
-
-            // --- master envelope for this syllable ---
+            // --- per-syllable amplitude envelope ---
             const amp = ctx.createGain();
+            const atk = Math.min(0.05, dur * 0.28);
             amp.gain.setValueAtTime(0.0001, start);
-            amp.gain.exponentialRampToValueAtTime(peak, start + Math.min(0.05, dur * 0.3));
-            amp.gain.setValueAtTime(peak, Math.max(start + 0.06, end - dur * 0.4));
+            amp.gain.exponentialRampToValueAtTime(peak, start + atk);
+            amp.gain.setValueAtTime(peak, Math.max(start + atk + 0.01, end - dur * 0.4));
             amp.gain.exponentialRampToValueAtTime(0.0001, end);
-
-            // --- tremolo (the "shaky sob" wobble) modulates the envelope ---
             if (o.tremolo) {
-                const tlfo = ctx.createOscillator();
-                tlfo.type = 'sine';
+                const tlfo = ctx.createOscillator(); tlfo.type = 'sine';
                 tlfo.frequency.value = o.tremoloHz || 7;
-                const tgain = ctx.createGain();
-                tgain.gain.value = peak * o.tremolo;
-                tlfo.connect(tgain);
-                tgain.connect(amp.gain);
-                tlfo.start(start);
-                tlfo.stop(end + 0.05);
+                const tg = ctx.createGain(); tg.gain.value = peak * o.tremolo;
+                tlfo.connect(tg); tg.connect(amp.gain);
+                tlfo.start(start); tlfo.stop(end + 0.05);
             }
+
+            // --- pitch modulation hub: vibrato + organic jitter, fanned to all oscs ---
+            const mods = [];
+            if (o.vibrato) {
+                const lfo = ctx.createOscillator(); lfo.type = 'sine';
+                lfo.frequency.value = o.vibratoHz || 5.5;
+                const lg = ctx.createGain(); lg.gain.value = o.vibrato;
+                lfo.connect(lg); mods.push({ n: lfo, g: lg });
+            }
+            const jit = ctx.createOscillator(); jit.type = 'triangle';
+            jit.frequency.value = 10 + Math.random() * 7;
+            const jg = ctx.createGain(); jg.gain.value = f0From * 0.008 + 1;
+            jit.connect(jg); mods.push({ n: jit, g: jg });
+
+            // --- voiced source: two detuned saws (chorus) + a soft triangle body ---
+            const voice = ctx.createGain(); voice.gain.value = 1;
+            const mkOsc = (type, detune, g) => {
+                const osc = ctx.createOscillator(); osc.type = type;
+                osc.frequency.setValueAtTime(f0From, start);
+                if (f0To !== f0From) osc.frequency.exponentialRampToValueAtTime(Math.max(1, f0To), end);
+                osc.detune.value = detune;
+                for (const m of mods) m.g.connect(osc.frequency);
+                const og = ctx.createGain(); og.gain.value = g;
+                osc.connect(og); og.connect(voice);
+                osc.start(start); osc.stop(end + 0.05);
+            };
+            mkOsc('sawtooth', -7, 0.5);
+            mkOsc('sawtooth', 7, 0.5);
+            mkOsc('triangle', 0, 0.28);
+            for (const m of mods) { m.n.start(start); m.n.stop(end + 0.05); }
 
             // --- formant bank: morph vowelFrom -> vowelTo across the syllable ---
             const vFrom = VOWELS[o.vowelFrom] || VOWELS.a;
@@ -142,22 +149,23 @@
             for (let i = 0; i < 3; i++) {
                 const bp = ctx.createBiquadFilter();
                 bp.type = 'bandpass';
-                bp.Q.value = i === 0 ? 9 : 11;
+                bp.Q.value = i === 0 ? 6 : 8;                     // lower Q => vowel, not whistle
                 bp.frequency.setValueAtTime(vFrom[i], start);
                 if (vTo[i] !== vFrom[i]) bp.frequency.linearRampToValueAtTime(vTo[i], end);
                 const fg = ctx.createGain();
                 fg.gain.value = FORMANT_GAIN[i];
-                osc.connect(bp);
-                bp.connect(fg);
-                fg.connect(amp);
+                voice.connect(bp); bp.connect(fg); fg.connect(amp);
             }
-            subGain.connect(amp);
-            amp.connect(this.master);
 
-            osc.start(start);
-            sub.start(start);
-            osc.stop(end + 0.05);
-            sub.stop(end + 0.05);
+            // --- breathiness: a little airy noise shaped by the mouth (vowel F2) ---
+            const nsrc = ctx.createBufferSource(); nsrc.buffer = this.noiseBuf(dur + 0.05);
+            const nbp = ctx.createBiquadFilter(); nbp.type = 'bandpass';
+            nbp.frequency.value = (vFrom[1] + vTo[1]) / 2; nbp.Q.value = 1.4;
+            const ng = ctx.createGain(); ng.gain.value = 0.05;
+            nsrc.connect(nbp); nbp.connect(ng); ng.connect(amp);
+            nsrc.start(start); nsrc.stop(end + 0.05);
+
+            amp.connect(this.master);
         }
 
         // A short filtered-noise burst: breath for "h" onsets and wet sniffles.

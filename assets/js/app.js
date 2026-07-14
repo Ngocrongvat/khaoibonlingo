@@ -56,17 +56,17 @@ function shuffleArray(arr) {
 function getMascotSvg(mood, size) {
     size = size || 80;
     const armIdle = `
-        <ellipse cx="18" cy="118" rx="15" ry="21" fill="#E8935B" transform="rotate(18 18 118)"/>
-        <ellipse cx="182" cy="118" rx="15" ry="21" fill="#E8935B" transform="rotate(-18 182 118)"/>
+        <g class="m-arm m-arm-l"><ellipse cx="18" cy="118" rx="15" ry="21" fill="#E8935B" transform="rotate(18 18 118)"/></g>
+        <g class="m-arm m-arm-r"><ellipse cx="182" cy="118" rx="15" ry="21" fill="#E8935B" transform="rotate(-18 182 118)"/></g>
     `;
     const armHappy = `
-        <ellipse cx="20" cy="65" rx="15" ry="21" fill="#E8935B" transform="rotate(55 20 65)"/>
-        <ellipse cx="180" cy="65" rx="15" ry="21" fill="#E8935B" transform="rotate(-55 180 65)"/>
+        <g class="m-arm m-arm-l"><ellipse cx="20" cy="65" rx="15" ry="21" fill="#E8935B" transform="rotate(55 20 65)"/></g>
+        <g class="m-arm m-arm-r"><ellipse cx="180" cy="65" rx="15" ry="21" fill="#E8935B" transform="rotate(-55 180 65)"/></g>
     `;
     // Both arms thrown straight up in a "yay!" — used by the celebratory moods.
     const armCheer = `
-        <ellipse cx="30" cy="45" rx="14" ry="22" fill="#E8935B" transform="rotate(28 30 45)"/>
-        <ellipse cx="170" cy="45" rx="14" ry="22" fill="#E8935B" transform="rotate(-28 170 45)"/>
+        <g class="m-arm m-arm-l"><ellipse cx="30" cy="45" rx="14" ry="22" fill="#E8935B" transform="rotate(28 30 45)"/></g>
+        <g class="m-arm m-arm-r"><ellipse cx="170" cy="45" rx="14" ry="22" fill="#E8935B" transform="rotate(-28 170 45)"/></g>
     `;
     // The standard round eyes (default for idle/happy/sad - unchanged from before).
     const defaultEyes = `
@@ -251,8 +251,8 @@ function getMascotSvg(mood, size) {
         <svg width="${size}" height="${Math.round(size * 0.95)}" viewBox="0 0 200 190" xmlns="http://www.w3.org/2000/svg">
             <ellipse cx="100" cy="184" rx="60" ry="7" fill="rgba(0,0,0,0.08)"/>
             ${arms}
-            <ellipse cx="70" cy="174" rx="18" ry="9" fill="#C97A42"/>
-            <ellipse cx="130" cy="174" rx="18" ry="9" fill="#C97A42"/>
+            <g class="m-leg m-leg-l"><ellipse cx="70" cy="174" rx="18" ry="9" fill="#C97A42"/></g>
+            <g class="m-leg m-leg-r"><ellipse cx="130" cy="174" rx="18" ry="9" fill="#C97A42"/></g>
             <path d="M100,15 C150,15 185,55 185,105 C185,150 148,172 100,172 C52,172 15,150 15,105 C15,55 50,15 100,15 Z" fill="#E8935B"/>
             <ellipse cx="100" cy="118" rx="55" ry="36" fill="#F2A873" opacity="0.55"/>
             <path d="M15,105 C15,150 52,172 100,172 C148,172 185,150 185,105 C185,133 155,156 100,156 C45,156 15,133 15,105 Z" fill="#C97A42" opacity="0.35"/>
@@ -263,9 +263,9 @@ function getMascotSvg(mood, size) {
             <path d="M100,22 C99,8 100,2 101,2 C103,8 102,16 101,23 Z" fill="#57A75C"/>
             <ellipse cx="60" cy="115" rx="13" ry="9" fill="#FF9EB0" opacity="0.65"/>
             <ellipse cx="140" cy="115" rx="13" ry="9" fill="#FF9EB0" opacity="0.65"/>
-            ${eyebrows}
+            <g class="m-brow">${eyebrows}</g>
             <g class="m-eyes">${eyes}</g>
-            ${mouth}
+            <g class="m-mouth">${mouth}</g>
         </svg>
     `;
 }
