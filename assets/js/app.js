@@ -1417,8 +1417,12 @@ class DuoClone {
     // .js's cleanup window), but a marquee crowded with day-old news buries whatever
     // just happened, which defeats its purpose as a live ticker.
     pruneTickerEvents(events) {
-        const MAX_TICKER_AGE_MS = 12 * 60 * 60 * 1000;
-        const MAX_TICKER_ITEMS = 12;
+        // Show MORE news and keep it a bit longer than before (was 12 items / 12h):
+        // up to 20 items within 24h, so the strip carries enough activity without
+        // going stale. The DB retains 72h (see activity-feed.js), and newest-first
+        // ordering keeps fresh news leading regardless.
+        const MAX_TICKER_AGE_MS = 24 * 60 * 60 * 1000;
+        const MAX_TICKER_ITEMS = 20;
         const cutoff = Date.now() - MAX_TICKER_AGE_MS;
         return (events || [])
             .filter(e => !e.created_at || new Date(e.created_at).getTime() >= cutoff)
@@ -1427,7 +1431,7 @@ class DuoClone {
 
     async initActivityTicker() {
         if (!window.ActivityFeed) return;
-        this.state.activityTickerEvents = this.pruneTickerEvents(await window.ActivityFeed.getRecentEvents(30));
+        this.state.activityTickerEvents = this.pruneTickerEvents(await window.ActivityFeed.getRecentEvents(40));
         this.renderActivityTicker();
         this.cleanupActivityTicker();
         this.activityTickerUnsub = window.ActivityFeed.subscribeToNewEvents((event) => {
@@ -1461,7 +1465,8 @@ class DuoClone {
         // Scroll speed scales with content length so a short list doesn't fly by too fast
         // and a long one doesn't crawl - restarting the animation (removing then
         // re-triggering) is a minor visual reset but happens rarely (a few events/session).
-        const duration = Math.max(18, Math.min(90, events.length * 3.5));
+        // Faster than before (was *3.5, 18-90s) per request: snappier ticker.
+        const duration = Math.max(12, Math.min(58, events.length * 2.3));
         track.style.animation = 'none';
         void track.offsetWidth;
         track.style.animation = `activityTickerScroll ${duration}s linear infinite`;
@@ -3220,9 +3225,12 @@ class DuoClone {
         // Perfect lesson (no wrong answers this session) gets the heart-eyed 'love'
         // face; a normal clear gets 'excited'; a skipped-condition clear stays sheepish.
         const perfect = (this.state.sessionAnswers || []).length > 0 && (this.state.sessionAnswers || []).every(r => r.isCorrect && !r.hadMistake);
-        const summaryMood = skippedReward ? 'surprised' : (perfect ? 'love' : 'excited');
+        // Skipping the condition gets a sheepish, apologetic little face (varied so
+        // it isn't always identical) instead of the celebratory one.
+        const sheepishMood = pickRandom(['surprised', 'pout', 'dizzy']);
+        const summaryMood = skippedReward ? sheepishMood : (perfect ? 'love' : 'excited');
         const summaryMascot = skippedReward
-            ? `<div class="duo-character mascot-wobble-sad">${getMascotSvg('surprised', 88)}</div>`
+            ? `<div class="duo-character mascot-wobble-sad" id="skip-mascot">${getMascotSvg(summaryMood, 96)}<span class="mascot-accessory">${pickRandom(['💧', '😅', '🥺'])}</span></div>`
             : this.bigCelebrateMascotHtml(summaryMood, 96);
         this.ui.container.innerHTML = `
             <div class="welcome-screen">
@@ -3241,7 +3249,15 @@ class DuoClone {
         this.ui.checkBtn.disabled = true;
         this.ui.checkBtn.classList.remove('active');
         if (this.ui.skipBtn) this.ui.skipBtn.style.display = 'none';
-        if (!skippedReward) this.playBigCelebration();
+        if (!skippedReward) {
+            this.playBigCelebration();
+        } else {
+            // Was silent before: give the skip its own gentle, apologetic reaction -
+            // a soft "whimper" plus a small sympathetic particle puff on the mascot.
+            this.playTone('whimper');
+            const sm = document.getElementById('skip-mascot');
+            if (sm) this.spawnMascotParticles(sm, ['💧', '😅', '💦', '💫'], 6);
+        }
         const reviewBtn = document.getElementById('lesson-review-btn');
         if (reviewBtn) reviewBtn.addEventListener('click', () => this.startLessonReview(reviewQueue, coreItems));
         document.getElementById('lesson-summary-continue').addEventListener('click', () => {
