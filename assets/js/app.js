@@ -1143,7 +1143,7 @@ class DuoClone {
                 </div>
 
                 <div class="home-greeting-row">
-                    <div class="home-greeting-mascot">${getMascotSvg('happy', 64)}</div>
+                    <div class="home-greeting-mascot">${getMascotSvg('happy', 100)}</div>
                     <div>
                         <h1 class="home-greeting-text">${this.getGreeting()}, ${this.escapeHtml(this.state.currentUser)}!</h1>
                         <p class="home-streak-line">🔥 Chuỗi ${this.state.streak} ngày &nbsp;•&nbsp; ⭐ ${this.state.xp} XP &nbsp;•&nbsp; ❤️ ${this.state.hearts} tim</p>
@@ -2368,7 +2368,7 @@ class DuoClone {
         const doAction = () => {
             const action = pickRandom(ACTIONS);
             const mood = pickRandom(MOODS);
-            el.innerHTML = getMascotSvg(mood, 64);
+            el.innerHTML = getMascotSvg(mood, 100);
             el.classList.remove(...ACTIONS);
             void el.offsetWidth;                   // retrigger the one-shot action
             el.classList.add(action, 'mascot-playing');
@@ -2381,7 +2381,7 @@ class DuoClone {
             clearTimeout(this._mascotPlayTimer);
             if (this._mascotAudio) { try { this._mascotAudio.pause(); } catch (e) { } this._mascotAudio = null; }
             el.classList.remove(...ACTIONS, 'mascot-playing');
-            if (document.body.contains(el)) el.innerHTML = getMascotSvg('happy', 64);
+            if (document.body.contains(el)) el.innerHTML = getMascotSvg('happy', 100);
         };
 
         doAction();
@@ -2813,6 +2813,8 @@ class DuoClone {
                 mascot.innerHTML = getMascotSvg(mood, 68) + `<span class="mascot-accessory">${pickRandom(accessories)}</span>`;
                 this.spawnMascotParticles(mascot, moodParticles(mood), 9);
             }
+            // --- EXTRA "explosion" layer on top of the existing reward effects ---
+            this.burstCorrect(mascot);
             this.ui.modalIcon.innerText = "✅";
             this.ui.modalTitle.innerText = pickRandom(['Chính xác!', 'Tuyệt vời!', 'Giỏi quá!', 'Xuất sắc!']);
             this.ui.modalTitle.style.color = "var(--duo-green)";
@@ -2831,6 +2833,30 @@ class DuoClone {
             this.ui.modalTitle.style.color = "var(--duo-red)";
             this.ui.modalMsg.innerText = pickRandom(SAD_MESSAGES);
             this.ui.modalBtn.className = "btn-secondary";
+        }
+    }
+
+    // Extra "explosion" of juice layered ON TOP of the normal correct-answer
+    // reward (the modal mascot pop + particles are untouched): a confetti pop, a
+    // second louder burst of explosive emojis, an expanding shockwave ring around
+    // the mascot, and a shiny 'sparkle' sound stacked over the 'ding'.
+    burstCorrect(mascot) {
+        // layered sound: the shiny sparkle over the base ding = a fuller "pop"
+        this.playTone('sparkle');
+        // full-screen confetti pop (canvas-confetti, same lib the finale uses)
+        if (window.confetti) {
+            window.confetti({ particleCount: 70, spread: 80, startVelocity: 45, ticks: 120, origin: { y: 0.55 }, scalar: 0.9 });
+            window.confetti({ particleCount: 30, angle: 60, spread: 55, origin: { x: 0, y: 0.7 } });
+            window.confetti({ particleCount: 30, angle: 120, spread: 55, origin: { x: 1, y: 0.7 } });
+        }
+        if (mascot) {
+            // a bigger, more explosive emoji burst on top of the existing one
+            this.spawnMascotParticles(mascot, ['💥', '🎉', '✨', '⭐', '🌟', '🎊'], 12);
+            // expanding shockwave ring
+            const ring = document.createElement('span');
+            ring.className = 'correct-shockwave';
+            mascot.appendChild(ring);
+            setTimeout(() => ring.remove(), 700);
         }
     }
 
