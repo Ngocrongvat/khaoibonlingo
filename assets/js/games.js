@@ -23,97 +23,11 @@ const Games = (() => {
         return div.innerHTML;
     }
 
-    // Self-contained Web Audio tone player, mirroring the App class's own playTone() in
-    // app.js (same frequencies/envelopes, so the whole app has one consistent "sound
-    // language") - duplicated rather than reused because games.js is an independent IIFE
-    // module with no access to the App instance's `this`, matching how this file already
-    // duplicates pickRandom/shuffle instead of reaching into app.js's globals.
-    let gamesAudioCtx = null;
+    // Mini-game win/lose sounds now use the same shared sound-effect FILES as the
+    // rest of the app (assets/sounds/, via MascotVoice). The old duplicated
+    // oscillator synth was removed along with app.js's.
     function playTone(type) {
-        const AudioCtx = window.AudioContext || window.webkitAudioContext;
-        if (!AudioCtx) return;
-        if (!gamesAudioCtx) gamesAudioCtx = new AudioCtx();
-        if (gamesAudioCtx.state === 'suspended') gamesAudioCtx.resume();
-
-        const ctx = gamesAudioCtx;
-        const now = ctx.currentTime;
-
-        if (type === 'correct') {
-            const osc = ctx.createOscillator();
-            const gain = ctx.createGain();
-            osc.connect(gain);
-            gain.connect(ctx.destination);
-            osc.type = 'sine';
-            osc.frequency.setValueAtTime(523.25, now);
-            osc.frequency.setValueAtTime(783.99, now + 0.1);
-            gain.gain.setValueAtTime(0.2, now);
-            gain.gain.exponentialRampToValueAtTime(0.001, now + 0.3);
-            osc.start(now);
-            osc.stop(now + 0.3);
-        } else if (type === 'cheer') {
-            const notes = [523.25, 659.25, 783.99, 1046.50];
-            notes.forEach((freq, i) => {
-                const start = now + i * 0.11;
-                const osc = ctx.createOscillator();
-                const gain = ctx.createGain();
-                osc.connect(gain);
-                gain.connect(ctx.destination);
-                osc.type = 'sine';
-                osc.frequency.setValueAtTime(freq, start);
-                gain.gain.setValueAtTime(0.001, start);
-                gain.gain.exponentialRampToValueAtTime(0.22, start + 0.02);
-                gain.gain.exponentialRampToValueAtTime(0.001, start + 0.18);
-                osc.start(start);
-                osc.stop(start + 0.2);
-            });
-        } else if (type === 'cry') {
-            const osc = ctx.createOscillator();
-            const gain = ctx.createGain();
-            const lfo = ctx.createOscillator();
-            const lfoGain = ctx.createGain();
-            osc.connect(gain);
-            gain.connect(ctx.destination);
-            lfo.connect(lfoGain);
-            lfoGain.connect(gain.gain);
-            osc.type = 'sine';
-            osc.frequency.setValueAtTime(330, now);
-            osc.frequency.linearRampToValueAtTime(220, now + 0.9);
-            lfo.type = 'sine';
-            lfo.frequency.setValueAtTime(7, now);
-            lfoGain.gain.setValueAtTime(0.05, now);
-            gain.gain.setValueAtTime(0.12, now);
-            gain.gain.exponentialRampToValueAtTime(0.001, now + 0.9);
-            osc.start(now);
-            lfo.start(now);
-            osc.stop(now + 0.9);
-            lfo.stop(now + 0.9);
-        } else if (type === 'flip') {
-            // Quiet, neutral click for card-flip feedback (Memory game) - deliberately
-            // not "correct" or "wrong" sounding, since flipping a card isn't a judgment.
-            const osc = ctx.createOscillator();
-            const gain = ctx.createGain();
-            osc.connect(gain);
-            gain.connect(ctx.destination);
-            osc.type = 'triangle';
-            osc.frequency.setValueAtTime(440, now);
-            gain.gain.setValueAtTime(0.08, now);
-            gain.gain.exponentialRampToValueAtTime(0.001, now + 0.08);
-            osc.start(now);
-            osc.stop(now + 0.08);
-        } else {
-            // 'wrong' / default: same short buzz as a plain wrong answer elsewhere in the app.
-            const osc = ctx.createOscillator();
-            const gain = ctx.createGain();
-            osc.connect(gain);
-            gain.connect(ctx.destination);
-            osc.type = 'square';
-            osc.frequency.setValueAtTime(200, now);
-            osc.frequency.linearRampToValueAtTime(120, now + 0.25);
-            gain.gain.setValueAtTime(0.15, now);
-            gain.gain.exponentialRampToValueAtTime(0.001, now + 0.25);
-            osc.start(now);
-            osc.stop(now + 0.25);
-        }
+        if (window.MascotVoice) window.MascotVoice.play(type);
     }
 
     // Some early vocab-bank batches used working-title topic names (e.g. "Padding Batch
