@@ -1,6 +1,19 @@
 const MAX_HEARTS = 10;
 const HEART_REGEN_MS = 15 * 60 * 1000;
 
+// Streak milestones and their rewards. Reaching one refills hearts to full and
+// grants bonus XP (bigger streaks = bigger reward) with a celebratory overlay.
+const STREAK_MILESTONES = {
+    3: { xp: 20 },
+    7: { xp: 50 },
+    14: { xp: 80 },
+    30: { xp: 150 },
+    50: { xp: 250 },
+    100: { xp: 500 },
+    200: { xp: 1000 },
+    365: { xp: 2000 },
+};
+
 const HAPPY_MESSAGES = [
     "Bạn thật tuyệt vời!",
     "Chính xác luôn!",
@@ -1201,6 +1214,7 @@ class DuoClone {
         this.renderPathMap(this.state.currentUnitIdx);
         this.initGlobalChatWidget();
         this.initActivityTicker();
+        this.refreshStreakRank();
     }
 
     // Wires the toggle + send controls ONCE right after the widget's markup is created -
@@ -2517,7 +2531,37 @@ class DuoClone {
                     <div class="streak-card-count"><span class="streak-card-num">${s.count}</span> ${unit}</div>
                     <div class="streak-card-status">${this.escapeHtml(s.message)}</div>
                 </div>
+                <div class="streak-rank" id="streak-rank">${this.streakRankHtml()}</div>
             </div>`;
+    }
+
+    // The user's own position on the (fresh, alive-streak) leaderboard - cached in
+    // state so re-rendering the card doesn't re-hit the network. Only shown for a
+    // positive rank (motivating); an unranked/off-board user just sees no badge.
+    streakRankHtml() {
+        const rank = this.state.streakRank;
+        if (!rank || rank < 1) return '';
+        const medal = rank === 1 ? '🥇' : rank === 2 ? '🥈' : rank === 3 ? '🥉' : '🏅';
+        return `<span class="streak-rank-num">${medal} #${rank}</span><span class="streak-rank-label">bảng chuỗi</span>`;
+    }
+
+    updateStreakRankDom() {
+        const el = document.getElementById('streak-rank');
+        if (el) el.innerHTML = this.streakRankHtml();
+    }
+
+    async refreshStreakRank() {
+        if (!window.Leaderboard || !this.state.currentUser || !window.Leaderboard.getStreakLeaderboard) return;
+        if ((this.state.streak || 0) <= 0) { this.state.streakRank = null; this.updateStreakRankDom(); return; }
+        try {
+            const res = await window.Leaderboard.getStreakLeaderboard(100);
+            const entries = (res && res.entries) || [];
+            const idx = entries.findIndex(e => e.username === this.state.currentUser);
+            this.state.streakRank = idx >= 0 ? idx + 1 : null;
+        } catch (e) {
+            this.state.streakRank = null;
+        }
+        this.updateStreakRankDom();
     }
 
     // Use for every direct hearts write outside updateNav() so the Home greeting can
@@ -3353,6 +3397,48 @@ class DuoClone {
                 this.renderLesson();
             }
         });
+
+        // A streak milestone reached this lesson pops its celebration OVER the summary.
+        if (this.state.pendingStreakMilestone) {
+            const m = this.state.pendingStreakMilestone;
+            this.state.pendingStreakMilestone = null;
+            this.showStreakMilestone(m);
+        }
+    }
+
+    // Full-screen celebration for hitting a streak milestone (3/7/14/30/50/100/…): a
+    // jumping party mascot, a confetti storm, a fanfare, and the reward just granted
+    // (bonus XP + hearts refilled to full - see awardLessonCompletion()).
+    showStreakMilestone(m) {
+        if (window.confetti) {
+            window.confetti({ particleCount: 180, spread: 95, startVelocity: 52, ticks: 160, origin: { y: 0.5 }, scalar: 1.05 });
+            window.confetti({ particleCount: 60, angle: 60, spread: 60, origin: { x: 0, y: 0.7 } });
+            window.confetti({ particleCount: 60, angle: 120, spread: 60, origin: { x: 1, y: 0.7 } });
+        }
+        this.playTone('fanfare');
+        const heartLine = m.heartsRefilled > 0
+            ? `<div class="milestone-reward">❤️ Tim được nạp đầy (+${m.heartsRefilled})</div>`
+            : `<div class="milestone-reward">❤️ Tim đã đầy</div>`;
+        const overlay = document.createElement('div');
+        overlay.className = 'milestone-overlay';
+        overlay.innerHTML = `
+            <div class="milestone-card">
+                <div class="duo-character mascot-jump milestone-mascot">${getMascotSvg('party', 120)}</div>
+                <div class="milestone-flames">🔥 ${m.days} 🔥</div>
+                <h1 class="milestone-title">CHUỖI ${m.days} NGÀY!</h1>
+                <p class="milestone-sub">Bạn thật kiên trì - đây là phần thưởng xứng đáng!</p>
+                <div class="milestone-rewards">
+                    <div class="milestone-reward">⭐ +${m.xp} XP</div>
+                    ${heartLine}
+                </div>
+                <button class="btn-primary milestone-btn" id="milestone-btn">TUYỆT VỜI! 🎉</button>
+            </div>`;
+        document.body.appendChild(overlay);
+        const mascotEl = overlay.querySelector('.milestone-mascot');
+        if (mascotEl) this.spawnMascotParticles(mascotEl, ['🔥', '⭐', '🎉', '✨', '💛'], 14);
+        const close = () => overlay.remove();
+        overlay.querySelector('#milestone-btn').addEventListener('click', close);
+        overlay.addEventListener('click', (e) => { if (e.target === overlay) close(); });
     }
 
     awardLessonCompletion() {
@@ -3360,7 +3446,18 @@ class DuoClone {
         const xpGain = settings.xp_per_lesson || 0;
         const streakBonus = settings.streak_bonus || 0;
         const streakExtended = this.updateStreak();
-        const totalGain = xpGain + (streakExtended ? streakBonus : 0);
+        let totalGain = xpGain + (streakExtended ? streakBonus : 0);
+
+        // Streak milestone reward: hit a milestone day and get hearts refilled to full
+        // + bonus XP, with a celebration shown from renderLessonSummary().
+        const milestone = streakExtended ? STREAK_MILESTONES[this.state.streak] : null;
+        if (milestone) {
+            totalGain += milestone.xp;
+            const heartsBefore = this.state.hearts;
+            this.state.hearts = MAX_HEARTS;
+            this.updateHeartsDisplay();
+            this.state.pendingStreakMilestone = { days: this.state.streak, xp: milestone.xp, heartsRefilled: MAX_HEARTS - heartsBefore };
+        }
 
         this.state.xp += totalGain;
         this.addVibrancy(10);

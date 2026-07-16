@@ -1421,7 +1421,18 @@ body {
     line-height: 1;
     flex-shrink: 0;
 }
-.streak-card-body { min-width: 0; }
+.streak-card-body { min-width: 0; flex: 1; }
+.streak-rank {
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    line-height: 1.15;
+    padding-left: 8px;
+}
+.streak-rank:empty { display: none; }
+.streak-rank-num { font-size: 19px; font-weight: 900; color: #ff8c00; white-space: nowrap; }
+.streak-rank-label { font-size: 10px; font-weight: 700; color: #97a3ae; text-transform: uppercase; letter-spacing: 0.4px; }
 .streak-card-count {
     font-size: 15px;
     font-weight: 700;
@@ -1454,6 +1465,50 @@ body {
 @keyframes streakFlame {
     0%, 100% { transform: scale(1) rotate(-4deg); }
     50% { transform: scale(1.16) rotate(4deg); }
+}
+
+/* Streak-milestone celebration overlay (3/7/14/30/50/100/… days). */
+.milestone-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(22, 12, 42, 0.72);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10000;
+    padding: 20px;
+    animation: milestoneFadeIn 0.25s ease-out;
+}
+.milestone-card {
+    background: #fff;
+    border-radius: 24px;
+    padding: 22px 22px 26px;
+    max-width: 360px;
+    width: 100%;
+    text-align: center;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
+    animation: milestonePop 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.milestone-mascot { display: inline-block; }
+.milestone-flames { font-size: 22px; font-weight: 900; color: #ff8c00; margin-top: 2px; letter-spacing: 2px; }
+.milestone-title { font-size: 30px; margin: 4px 0; color: var(--duo-green, #58cc02); text-align: center; }
+.milestone-sub { font-size: 14px; color: #777; margin: 0 0 16px; }
+.milestone-rewards { display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px; }
+.milestone-reward {
+    background: #fff6df;
+    border: 2px solid #ffd45e;
+    border-radius: 14px;
+    padding: 12px;
+    font-size: 16px;
+    font-weight: 800;
+    color: #d98a00;
+}
+.milestone-btn { display: block; width: 100%; padding: 15px; }
+@keyframes milestoneFadeIn { from { opacity: 0; } to { opacity: 1; } }
+@keyframes milestonePop {
+    0% { transform: scale(0.7); opacity: 0; }
+    60% { transform: scale(1.05); }
+    100% { transform: scale(1); opacity: 1; }
 }
 
 .mentor-tip-card {
@@ -2931,6 +2986,7 @@ body {
     .mascot-play-bounce, .mascot-play-run, .mascot-play-nod, .mascot-playing .m-arm-l,
     .mascot-playing .m-arm-r, .mascot-playing .m-leg-l, .mascot-playing .m-leg-r, .mascot-playing .m-mouth,
     .streak-card-safe .streak-flame, .streak-card-risk .streak-flame,
+    .milestone-overlay, .milestone-card,
     .correct-shockwave, .mascot-particle { animation: none !important; }
     .mascot-particle, .correct-shockwave { opacity: 0; }
 }
