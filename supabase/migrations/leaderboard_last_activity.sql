@@ -1,0 +1,18 @@
+-- Streak-leaderboard accuracy: add last_activity_date so a broken streak drops off
+-- the board the moment a calendar day is missed.
+--
+-- Before this, the streak board judged "still alive" from a coarse 48h `updated_at`
+-- window. Two problems made stale streaks linger and unfairly top the board:
+--   1. A rolling 48h window can't model a calendar-day break (a streak dies if you
+--      miss a single day; 48h of grace is both too much and imprecise).
+--   2. `updated_at` is bumped by ANY sync - including a plain login or an XP/vibrancy
+--      update - so someone who opens the app daily but never does a lesson kept a
+--      fresh `updated_at` and squatted the streak board with a dead chain.
+--
+-- last_activity_date is the LOCAL day the user last EXTENDED their streak (only set by
+-- a real lesson completion, in app.js updateStreak()), mirroring the client's own
+-- streak rule. The streak board now shows a row only when last_activity_date is today
+-- or yesterday. Nullable + text so submitScore's graceful fallback keeps working on
+-- projects that haven't run this yet; old rows fall back to the 48h window until their
+-- owner next syncs and populates the column.
+alter table public.leaderboard add column if not exists last_activity_date text;

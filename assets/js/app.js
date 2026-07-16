@@ -3381,7 +3381,7 @@ class DuoClone {
         // this the public "Sôi nổi" board lagged behind until the next lesson
         // completion or re-login - which read as "points never credited".
         if (window.Leaderboard) {
-            window.Leaderboard.submitScore(this.state.currentUser, this.state.xp, this.state.streak, this.state.vibrancy);
+            window.Leaderboard.submitScore(this.state.currentUser, this.state.xp, this.state.streak, this.state.vibrancy, this.state.lastActivityDate);
         }
     }
 
@@ -3390,7 +3390,7 @@ class DuoClone {
     // checkWeeklyReset()'s comment for the full reasoning).
     syncLeaderboardScore() {
         if (window.Leaderboard && this.state.currentUser) {
-            window.Leaderboard.submitScore(this.state.currentUser, this.state.xp, this.state.streak, this.state.vibrancy || 0);
+            window.Leaderboard.submitScore(this.state.currentUser, this.state.xp, this.state.streak, this.state.vibrancy || 0, this.state.lastActivityDate);
             window.Leaderboard.checkAndAwardWeeklyPrize().then(() => this.refreshTeddyBears());
             // Parallel, independent weekly prize track for streak - does not touch or
             // interact with the XP prize above at all (see checkAndAwardStreakPrize()'s

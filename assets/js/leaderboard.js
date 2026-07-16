@@ -1,7 +1,7 @@
 const isConfigured = window.SupabaseClient ? window.SupabaseClient.isConfigured : false;
 const client = window.SupabaseClient ? window.SupabaseClient.client : null;
 
-async function submitScore(username, xp, streak, vibrancy = null) {
+async function submitScore(username, xp, streak, vibrancy = null, lastActivityDate = null) {
     if (!client || !username) return;
     const base = {
         username,
@@ -10,18 +10,18 @@ async function submitScore(username, xp, streak, vibrancy = null) {
         updated_at: new Date().toISOString()
     };
     try {
-        // vibrancy is a newer column (self_service_inbox_vibrancy.sql) - include it
-        // only when the caller tracks it, and fall back to the legacy payload if the
-        // column doesn't exist yet so the core XP/streak sync never breaks.
-        const payload = vibrancy != null ? { ...base, vibrancy } : base;
+        // vibrancy and last_activity_date are newer columns - include them when the
+        // caller has them, and fall back to the legacy payload if a column doesn't
+        // exist yet so the core XP/streak sync never breaks.
+        const payload = { ...base };
+        if (vibrancy != null) payload.vibrancy = vibrancy;
+        if (lastActivityDate) payload.last_activity_date = lastActivityDate;
         const { error } = await client.from('leaderboard').upsert(payload);
         if (error) {
-            if (vibrancy != null) {
-                const { error: retryError } = await client.from('leaderboard').upsert(base);
-                if (retryError) throw retryError;
-                return;
-            }
-            throw error;
+            // Retry with only the always-present columns (covers a missing vibrancy or
+            // last_activity_date column).
+            const { error: retryError } = await client.from('leaderboard').upsert(base);
+            if (retryError) throw retryError;
         }
     } catch (e) {
         console.error('Failed to submit score to leaderboard:', e);
@@ -143,13 +143,26 @@ async function checkAndAwardWeeklyPrize() {
     }
 }
 
-// A streak only survives with DAILY activity, and every active day re-syncs the row
-// (lesson completions and logins both call submitScore; login also zeroes a broken
-// streak via normalizeStreakOnLoad in app.js). So a row not updated for over 48h
-// belongs to someone who hasn't even opened the app - their chain is dead by
-// definition, whatever stale number the row still holds.
+// A streak is alive ONLY if the user extended it today or yesterday - miss a single
+// calendar day and the chain is broken. We judge that from `last_activity_date` (the
+// local day of the user's last real lesson completion, mirroring app.js's updateStreak
+// / normalizeStreakOnLoad), NOT from `updated_at`: updated_at is bumped by any sync
+// (a plain login, an XP/vibrancy update), so it would let someone who opens the app
+// daily but never practices squat the streak board with a dead chain.
+function streakDayLabels() {
+    const today = new Date().toDateString();
+    const y = new Date();
+    y.setDate(y.getDate() - 1);
+    return { today, yesterday: y.toDateString() };
+}
+// Backward-compat window for rows written before last_activity_date existed - once such
+// a user next syncs, the precise column takes over.
 const STREAK_FRESHNESS_MS = 48 * 60 * 60 * 1000;
 function isStreakRowFresh(row) {
+    if (row.last_activity_date) {
+        const { today, yesterday } = streakDayLabels();
+        return row.last_activity_date === today || row.last_activity_date === yesterday;
+    }
     if (!row.updated_at) return false;
     return Date.now() - new Date(row.updated_at).getTime() <= STREAK_FRESHNESS_MS;
 }
