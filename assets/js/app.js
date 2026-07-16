@@ -1146,9 +1146,11 @@ class DuoClone {
                     <div class="home-greeting-mascot">${getMascotSvg('happy', 100)}</div>
                     <div>
                         <h1 class="home-greeting-text">${this.getGreeting()}, ${this.escapeHtml(this.state.currentUser)}!</h1>
-                        <p class="home-streak-line">🔥 Chuỗi ${this.state.streak} ngày &nbsp;•&nbsp; ⭐ ${this.state.xp} XP &nbsp;•&nbsp; ❤️ ${this.state.hearts} tim</p>
+                        <p class="home-streak-line">⭐ ${this.state.xp} XP &nbsp;•&nbsp; ❤️ ${this.state.hearts} tim</p>
                     </div>
                 </div>
+
+                ${this.streakCardHtml()}
 
                 <div class="mentor-tip-card">
                     <div class="mentor-tip-icon">${getMascotSvg('idle', 44)}</div>
@@ -2484,8 +2486,38 @@ class DuoClone {
     // bonuses updated the nav and left it stale. Every stat write now refreshes both.
     refreshHomeGreeting() {
         const el = document.querySelector('.home-streak-line');
-        if (!el) return;
-        el.innerHTML = `🔥 Chuỗi ${this.state.streak} ngày &nbsp;•&nbsp; ⭐ ${this.state.xp} XP &nbsp;•&nbsp; ❤️ ${this.state.hearts} tim`;
+        if (el) el.innerHTML = `⭐ ${this.state.xp} XP &nbsp;•&nbsp; ❤️ ${this.state.hearts} tim`;
+        const card = document.getElementById('streak-card');
+        if (card) card.outerHTML = this.streakCardHtml();
+    }
+
+    // The streak's live status, so the UI can say clearly whether the chain is safe
+    // for today, at risk, or not started - not just a bare number.
+    //   safe: extended today already (nothing more needed today)
+    //   risk: alive but NOT practiced yet today (must do a lesson today to keep it)
+    //   none: no streak yet
+    streakInfo() {
+        const count = this.state.streak || 0;
+        if (count <= 0) return { count: 0, state: 'none', message: 'Bắt đầu chuỗi học mới ngay hôm nay nhé!' };
+        const practicedToday = this.state.lastActivityDate === new Date().toDateString();
+        return practicedToday
+            ? { count, state: 'safe', message: 'Tuyệt vời! Bạn đã giữ chuỗi hôm nay 🎉' }
+            : { count, state: 'risk', message: 'Học 1 bài hôm nay để không bị đứt chuỗi!' };
+    }
+
+    // Prominent streak card for the Home screen (replaces the old buried "🔥 Chuỗi N"
+    // text). Colour + status line make "safe today / about to break / start" obvious.
+    streakCardHtml() {
+        const s = this.streakInfo();
+        const unit = s.count === 1 ? 'ngày' : 'ngày liên tiếp';
+        return `
+            <div class="streak-card streak-card-${s.state}" id="streak-card">
+                <div class="streak-flame">🔥</div>
+                <div class="streak-card-body">
+                    <div class="streak-card-count"><span class="streak-card-num">${s.count}</span> ${unit}</div>
+                    <div class="streak-card-status">${this.escapeHtml(s.message)}</div>
+                </div>
+            </div>`;
     }
 
     // Use for every direct hearts write outside updateNav() so the Home greeting can
