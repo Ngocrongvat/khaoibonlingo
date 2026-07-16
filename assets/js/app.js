@@ -2191,16 +2191,56 @@ class DuoClone {
             return;
         }
 
+        // Tear the previous session down hard (abort, not stop) - iOS Safari can throw
+        // "recognition has already started" if a stale instance lingers.
         if (this.recognition) {
-            this.recognition.stop();
+            try { this.recognition.onresult = this.recognition.onend = this.recognition.onerror = null; this.recognition.abort(); } catch (e) { }
+            this.recognition = null;
         }
 
         const recognition = new SpeechRecognitionCtor();
         this.recognition = recognition;
         recognition.lang = 'en-US';
-        recognition.interimResults = false;
-        recognition.maxAlternatives = 1;
+        recognition.continuous = false;
+        // iOS FIX: iPhone Safari's speech recognition is far more reliable with interim
+        // results ON. With them OFF (the old setting) it frequently fires `onend` with NO
+        // `onresult` at all for short or quiet speech - which is exactly the "nói mãi
+        // không nhận được" iPhone users reported, while Android returned finals fine.
+        // We now keep the BEST transcript across every interim + final result AND across
+        // several alternatives, so quiet/near-miss readings still register and the
+        // candidate closest to the target wins (also fixes "nhận sai").
+        recognition.interimResults = true;
+        recognition.maxAlternatives = 5;
 
+        const ex = this.getCurrentExercise();
+        const target = (ex && ex.target) || '';
+        let best = { transcript: '', score: -1 };
+        const consider = (raw) => {
+            const transcript = (raw || '').trim();
+            if (!transcript) return;
+            const score = target ? this.pronunciationScore(transcript, target) : transcript.length;
+            if (score > best.score) best = { transcript, score };
+        };
+        const paint = () => {
+            this.state.recognizedSpeech = best.transcript;
+            if (!best.transcript) return;
+            this.ui.checkBtn.disabled = false;
+            this.ui.checkBtn.classList.add('active');
+            if (resultEl) {
+                let html = `Bạn nói: "${this.escapeHtml(best.transcript)}"`;
+                if (target) {
+                    const s = this.pronunciationScore(best.transcript, target);
+                    const color = s >= 80 ? 'var(--duo-green)' : (s >= 50 ? '#ffc800' : 'var(--duo-red)');
+                    html += `<br><span style="font-weight:800; color:${color};">Độ chính xác: ${s}%</span>`;
+                }
+                resultEl.innerHTML = html;
+            }
+        };
+
+        // Fresh attempt: clear the previous result so a failed re-record can't be checked.
+        this.state.recognizedSpeech = '';
+        this.ui.checkBtn.disabled = true;
+        this.ui.checkBtn.classList.remove('active');
         if (micBtn) {
             micBtn.classList.add('recording');
             micBtn.innerHTML = '<span style="font-size: 32px;">🎙️</span><br>Đang nghe...';
@@ -2208,25 +2248,22 @@ class DuoClone {
         if (resultEl) resultEl.innerText = '';
 
         recognition.onresult = (event) => {
-            const transcript = event.results[0][0].transcript;
-            this.state.recognizedSpeech = transcript;
-            if (resultEl) {
-                const ex = this.getCurrentExercise();
-                const target = ex && ex.target;
-                let html = `Bạn nói: "${this.escapeHtml(transcript)}"`;
-                if (target) {
-                    const score = this.pronunciationScore(transcript, target);
-                    const color = score >= 80 ? 'var(--duo-green)' : (score >= 50 ? '#ffc800' : 'var(--duo-red)');
-                    html += `<br><span style="font-weight:800; color:${color};">Độ chính xác: ${score}%</span>`;
-                }
-                resultEl.innerHTML = html;
+            for (let i = event.resultIndex; i < event.results.length; i++) {
+                const res = event.results[i];
+                for (let a = 0; a < res.length; a++) consider(res[a].transcript);
             }
-            this.ui.checkBtn.disabled = false;
-            this.ui.checkBtn.classList.add('active');
+            paint();
         };
 
-        recognition.onerror = () => {
-            if (resultEl) resultEl.innerText = 'Không nghe rõ, hãy thử lại.';
+        recognition.onerror = (e) => {
+            // 'no-speech'/'aborted' are common and harmless once we have a transcript;
+            // only surface a message when we truly captured nothing.
+            if (best.transcript) return;
+            if (resultEl) {
+                resultEl.innerText = (e && e.error === 'not-allowed')
+                    ? 'Hãy cho phép truy cập micro để chấm phát âm nhé.'
+                    : 'Không nghe rõ, hãy thử lại (nói to và gần micro hơn nhé).';
+            }
         };
 
         recognition.onend = () => {
@@ -2234,9 +2271,18 @@ class DuoClone {
                 micBtn.classList.remove('recording');
                 micBtn.innerHTML = '<span style="font-size: 32px;">🎤</span><br>Nhấn để nói';
             }
+            // iOS often delivers only interim results, so commit the best one here.
+            paint();
+            if (!best.transcript && resultEl && !resultEl.innerText) {
+                resultEl.innerText = 'Không nghe rõ, hãy thử lại.';
+            }
         };
 
-        recognition.start();
+        try {
+            recognition.start();
+        } catch (e) {
+            if (micBtn) { micBtn.classList.remove('recording'); micBtn.innerHTML = '<span style="font-size: 32px;">🎤</span><br>Nhấn để nói'; }
+        }
     }
 
     // Spells out a number (0-9999) in English words, matching how course targets are
