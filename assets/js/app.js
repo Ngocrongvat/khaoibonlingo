@@ -2198,6 +2198,11 @@ class DuoClone {
     }
 
     startRecording() {
+        // Tap-to-toggle: a second tap WHILE listening stops and scores. This is the fix
+        // for iPhone Safari where onend often never fires on its own, leaving the mic
+        // stuck on "Đang nghe..." with no way to stop.
+        if (this.recognitionActive) { this.stopRecording(); return; }
+
         const resultEl = document.getElementById('pronunciation-result');
         const micBtn = document.getElementById('mic-btn');
 
@@ -2218,87 +2223,107 @@ class DuoClone {
         this.recognition = recognition;
         recognition.lang = 'en-US';
         recognition.continuous = false;
-        // iOS FIX: iPhone Safari's speech recognition is far more reliable with interim
-        // results ON. With them OFF (the old setting) it frequently fires `onend` with NO
-        // `onresult` at all for short or quiet speech - which is exactly the "nói mãi
-        // không nhận được" iPhone users reported, while Android returned finals fine.
-        // We now keep the BEST transcript across every interim + final result AND across
-        // several alternatives, so quiet/near-miss readings still register and the
-        // candidate closest to the target wins (also fixes "nhận sai").
+        // interimResults ON keeps iPhone reliable (with them off it often returns nothing),
+        // and we keep the BEST transcript across every interim + final result and across
+        // alternatives - but we DON'T score/commit on interims (that made Android show a
+        // result "too early", before the user finished). Scoring happens only on finish.
         recognition.interimResults = true;
         recognition.maxAlternatives = 5;
 
         const ex = this.getCurrentExercise();
         const target = (ex && ex.target) || '';
         let best = { transcript: '', score: -1 };
+        let lastInterim = '';
         const consider = (raw) => {
             const transcript = (raw || '').trim();
             if (!transcript) return;
+            lastInterim = transcript;
             const score = target ? this.pronunciationScore(transcript, target) : transcript.length;
             if (score > best.score) best = { transcript, score };
         };
-        const paint = () => {
+        const idleMic = () => {
+            if (micBtn) { micBtn.classList.remove('recording'); micBtn.innerHTML = '<span style="font-size: 32px;">🎤</span><br>Nhấn để nói'; }
+        };
+
+        // Commit exactly once - on natural end, manual stop, error, or the safety timeout.
+        let finalized = false;
+        const finalize = () => {
+            if (finalized) return;
+            finalized = true;
+            this.recognitionActive = false;
+            clearTimeout(this._recTimeout);
+            clearTimeout(this._recStopFallback);
+            idleMic();
             this.state.recognizedSpeech = best.transcript;
-            if (!best.transcript) return;
-            this.ui.checkBtn.disabled = false;
-            this.ui.checkBtn.classList.add('active');
-            if (resultEl) {
-                let html = `Bạn nói: "${this.escapeHtml(best.transcript)}"`;
-                if (target) {
-                    const s = this.pronunciationScore(best.transcript, target);
-                    const color = s >= 80 ? 'var(--duo-green)' : (s >= 50 ? '#ffc800' : 'var(--duo-red)');
-                    html += `<br><span style="font-weight:800; color:${color};">Độ chính xác: ${s}%</span>`;
+            if (best.transcript) {
+                this.ui.checkBtn.disabled = false;
+                this.ui.checkBtn.classList.add('active');
+                if (resultEl) {
+                    let html = `Bạn nói: "${this.escapeHtml(best.transcript)}"`;
+                    if (target) {
+                        const s = this.pronunciationScore(best.transcript, target);
+                        const color = s >= 80 ? 'var(--duo-green)' : (s >= 50 ? '#ffc800' : 'var(--duo-red)');
+                        html += `<br><span style="font-weight:800; color:${color};">Độ chính xác: ${s}%</span>`;
+                    }
+                    resultEl.innerHTML = html;
                 }
-                resultEl.innerHTML = html;
+            } else if (resultEl && !resultEl.dataset.err) {
+                resultEl.innerText = 'Không nghe rõ, hãy thử lại (nói to và gần micro hơn nhé).';
             }
         };
+        this._recFinalize = finalize;
 
         // Fresh attempt: clear the previous result so a failed re-record can't be checked.
         this.state.recognizedSpeech = '';
         this.ui.checkBtn.disabled = true;
         this.ui.checkBtn.classList.remove('active');
+        this.recognitionActive = true;
         if (micBtn) {
             micBtn.classList.add('recording');
-            micBtn.innerHTML = '<span style="font-size: 32px;">🎙️</span><br>Đang nghe...';
+            micBtn.innerHTML = '<span style="font-size: 30px;">🎙️</span><br>Đang nghe... (chạm để dừng)';
         }
-        if (resultEl) resultEl.innerText = '';
+        if (resultEl) { resultEl.innerText = ''; delete resultEl.dataset.err; }
 
         recognition.onresult = (event) => {
             for (let i = event.resultIndex; i < event.results.length; i++) {
                 const res = event.results[i];
                 for (let a = 0; a < res.length; a++) consider(res[a].transcript);
             }
-            paint();
+            // Live interim preview ONLY (grey, no score, Check stays disabled) so the
+            // result isn't shown before the user has finished speaking.
+            if (resultEl && lastInterim) resultEl.innerHTML = `<span style="color:#999;">Đang nghe: "${this.escapeHtml(lastInterim)}"…</span>`;
         };
 
         recognition.onerror = (e) => {
-            // 'no-speech'/'aborted' are common and harmless once we have a transcript;
-            // only surface a message when we truly captured nothing.
-            if (best.transcript) return;
-            if (resultEl) {
-                resultEl.innerText = (e && e.error === 'not-allowed')
-                    ? 'Hãy cho phép truy cập micro để chấm phát âm nhé.'
-                    : 'Không nghe rõ, hãy thử lại (nói to và gần micro hơn nhé).';
+            const err = e && e.error;
+            if (err === 'not-allowed' || err === 'service-not-allowed' || err === 'audio-capture') {
+                if (resultEl) { resultEl.dataset.err = '1'; resultEl.innerText = 'Hãy cho phép truy cập micro (và có mạng) để chấm phát âm nhé.'; }
+                finalize();
             }
+            // no-speech / aborted / network: let onend commit whatever (if anything) we heard.
         };
 
-        recognition.onend = () => {
-            if (micBtn) {
-                micBtn.classList.remove('recording');
-                micBtn.innerHTML = '<span style="font-size: 32px;">🎤</span><br>Nhấn để nói';
-            }
-            // iOS often delivers only interim results, so commit the best one here.
-            paint();
-            if (!best.transcript && resultEl && !resultEl.innerText) {
-                resultEl.innerText = 'Không nghe rõ, hãy thử lại.';
-            }
-        };
+        recognition.onend = () => finalize();
+
+        // Safety: iPhone Safari can hang without ever firing onend - auto-stop after 12s.
+        this._recTimeout = setTimeout(() => this.stopRecording(), 12000);
 
         try {
             recognition.start();
         } catch (e) {
-            if (micBtn) { micBtn.classList.remove('recording'); micBtn.innerHTML = '<span style="font-size: 32px;">🎤</span><br>Nhấn để nói'; }
+            this.recognitionActive = false;
+            idleMic();
         }
+    }
+
+    // Stop listening and score. Called by the mic toggle and the safety timeout.
+    stopRecording() {
+        if (!this.recognitionActive) return;
+        try { if (this.recognition) this.recognition.stop(); } catch (e) { }
+        // iOS may never fire onend after stop(); force-commit shortly after so the mic
+        // button always returns to idle and the score is shown.
+        clearTimeout(this._recStopFallback);
+        this._recStopFallback = setTimeout(() => { if (this._recFinalize) this._recFinalize(); }, 1400);
     }
 
     // Spells out a number (0-9999) in English words, matching how course targets are
