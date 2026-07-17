@@ -2867,7 +2867,11 @@ class DuoClone {
         // it's announced as costing no hearts and no XP - so skipping there must NOT
         // deduct XP nor warn about an XP penalty. (Bug: it still charged/warned XP.)
         const isCoreReview = !!this.state.lessonReviewCore;
-        const skipPenalty = isCoreReview ? 0 : SKIP_XP_PENALTY;
+        // Free practice ("Luyện tập tự do", mode 'practice' without the reinforcement
+        // flag) is a low-stakes drill - skipping there costs no XP either (announced in
+        // its intro). Only the main curriculum keeps the skip penalty.
+        const isFreePractice = this.state.mode === 'practice' && !isCoreReview;
+        const skipPenalty = (isCoreReview || isFreePractice) ? 0 : SKIP_XP_PENALTY;
 
         // Bug fix: skipping used to ALWAYS queue the skipped exercise into reviewQueue,
         // then advance - but if this was the lesson's last remaining question (nothing
@@ -2885,9 +2889,11 @@ class DuoClone {
 
         const confirmMsg = isCoreReview
             ? 'Bỏ qua câu ôn luyện này? Vòng ôn luyện củng cố không tính tim hay XP - bạn sẽ không bị trừ gì cả.'
-            : (isLastBeforeLessonComplete
-                ? `Đây là câu điều kiện để hoàn thành bài học! Nếu bỏ qua, bạn sẽ KHÔNG nhận được điểm thưởng hoàn thành bài (vẫn bị trừ ${SKIP_XP_PENALTY} XP). Bạn có chắc muốn bỏ qua không?`
-                : `Bỏ qua câu này sẽ bị trừ ${SKIP_XP_PENALTY} XP. Bạn có chắc muốn bỏ qua không?`);
+            : isFreePractice
+                ? 'Bỏ qua câu luyện tập này? Luyện tập tự do không bị trừ tim hay XP nhé.'
+                : (isLastBeforeLessonComplete
+                    ? `Đây là câu điều kiện để hoàn thành bài học! Nếu bỏ qua, bạn sẽ KHÔNG nhận được điểm thưởng hoàn thành bài (vẫn bị trừ ${SKIP_XP_PENALTY} XP). Bạn có chắc muốn bỏ qua không?`
+                    : `Bỏ qua câu này sẽ bị trừ ${SKIP_XP_PENALTY} XP. Bạn có chắc muốn bỏ qua không?`);
         this.showConfirmDialog(confirmMsg, () => this.performSkip(isLastBeforeLessonComplete, skipPenalty), { okLabel: 'BỎ QUA' });
     }
 
@@ -3917,6 +3923,24 @@ class DuoClone {
         }
         if (!window.ExerciseGenerator) return;
 
+        // Tell the learner the rules once per session before the first drill, so the
+        // "no XP penalty on skip" and "need >55% to earn XP" are never a surprise.
+        if (!this.practiceIntroShown) {
+            this.practiceIntroShown = true;
+            const xp = (this.state.courseData.settings || {}).xp_per_lesson || 0;
+            this.showConfirmDialog(
+                `🏋️ Luyện tập tự do:\n• Bỏ qua câu KHÔNG bị trừ XP.\n• Trả lời đúng trên 55% số câu để được +${xp} XP (như một bài học).\n• Số câu nhiều hơn bài chính để bạn luyện sâu hơn.\nCùng luyện nào!`,
+                () => this.beginPracticeSession(),
+                { okLabel: 'BẮT ĐẦU', cancelLabel: 'ĐỂ SAU' }
+            );
+            return;
+        }
+        this.beginPracticeSession();
+    }
+
+    beginPracticeSession() {
+        if (!window.ExerciseGenerator) return;
+
         // Rank is the authoritative floor now (it supersedes placementLevel, which is
         // still kept around only as the "has this user ever been placed" flag - see
         // getRankInfo()'s comment) - recommendDifficulty() can still push it higher if
@@ -3958,14 +3982,34 @@ class DuoClone {
     renderPracticeSummary() {
         this.state.stats.practiceSessions++;
         this.addVibrancy(5);
+
+        // Reward: the SAME XP as a main lesson, but only when this session's accuracy is
+        // above 55% (announced in the intro). Skips count as wrong for the ratio, but
+        // cost no XP - so it's a pure upside that rewards consistent effort.
+        const PASS_PCT = 55;
+        const answers = this.state.sessionAnswers || [];
+        const total = this.state.practiceQueue.length || answers.length || 1;
+        const correct = answers.filter(r => r.isCorrect).length;
+        const pct = Math.round((correct / total) * 100);
+        const xpReward = (this.state.courseData.settings || {}).xp_per_lesson || 0;
+        const passed = pct > PASS_PCT;
+        if (passed && xpReward > 0) {
+            this.state.xp += xpReward;
+            this.ui.xp.innerText = this.state.xp;
+            this.syncLeaderboardScore();
+        }
         this.checkBadges();
-        const stats = this.errorTracker ? this.errorTracker.getStats() : null;
+
+        const rewardBanner = passed
+            ? `<div class="practice-reward practice-reward-win">🎉 Đúng ${correct}/${total} (${pct}%) — Thưởng +${xpReward} XP!</div>`
+            : `<div class="practice-reward practice-reward-miss">Đúng ${correct}/${total} (${pct}%) — Cần đúng trên ${PASS_PCT}% để nhận +${xpReward} XP. Luyện thêm nhé!</div>`;
+
         this.ui.container.innerHTML = `
             <div class="welcome-screen">
-                ${this.bigCelebrateMascotHtml('excited', 96)}
+                ${this.bigCelebrateMascotHtml(passed ? 'love' : 'excited', 96)}
                 <h1 style="text-align: center;">Hoàn thành buổi luyện tập!</h1>
-                <p style="text-align: center; color: #777;">Bạn đã luyện ${this.state.practiceQueue.length} câu.</p>
-                ${stats ? `<p style="text-align: center; color: #777;">Độ chính xác tổng: ${Math.round(stats.accuracy * 100)}%</p>` : ''}
+                <p style="text-align: center; color: #777;">Bạn đã luyện ${total} câu.</p>
+                ${rewardBanner}
                 ${this.sessionSummaryHtml()}
                 <button class="btn-primary" id="practice-again" style="display: block; margin: 20px auto; padding: 15px 30px;">LUYỆN THÊM</button>
                 <button class="btn-secondary" id="practice-exit" style="display: block; margin: 10px auto; padding: 15px 30px;">VỀ TRANG CHÍNH</button>
@@ -3973,7 +4017,7 @@ class DuoClone {
         `;
         this.ui.checkBtn.disabled = true;
         this.ui.checkBtn.classList.remove('active');
-        this.playBigCelebration();
+        this.playBigCelebration(passed);
         document.getElementById('practice-again').addEventListener('click', () => this.startPracticeMode());
         document.getElementById('practice-exit').addEventListener('click', () => {
             this.state.mode = 'curriculum';
