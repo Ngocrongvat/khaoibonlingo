@@ -677,6 +677,53 @@ const Games = (() => {
     // of an easy process-of-elimination-by-picture-type guess.
     const PICTURE_WORD_ROUNDS = 10;
 
+    // Clarity upgrade: the hand-drawn SVG icons were hard to recognise, so the picture
+    // is now shown as a big, crisp EMOJI whenever the word has a well-supported one -
+    // instantly recognisable and unambiguous. Words WITHOUT a good/standard emoji (rare
+    // fruits, colour-distinguished gems, newest-emoji items) keep their SVG so nothing
+    // ever renders blank. Only the CORRECT answer's picture is shown, so a shared emoji
+    // between same-category words (e.g. leafy greens) is deliberately left as SVG.
+    const PW_EMOJI = {
+        // animals
+        cat: '🐱', dog: '🐶', rabbit: '🐰', elephant: '🐘', lion: '🦁', bear: '🐻', monkey: '🐵',
+        cow: '🐮', pig: '🐷', sheep: '🐑', duck: '🦆', frog: '🐸', turtle: '🐢', horse: '🐴',
+        bird: '🐦', fish: '🐟', goat: '🐐', deer: '🦌', fox: '🦊', wolf: '🐺', tiger: '🐯',
+        zebra: '🦓', giraffe: '🦒', kangaroo: '🦘', koala: '🐨', panda: '🐼', squirrel: '🐿️',
+        hedgehog: '🦔', mouse: '🐭', snake: '🐍', owl: '🦉', parrot: '🦜', penguin: '🐧',
+        eagle: '🦅', peacock: '🦚', flamingo: '🦩', shark: '🦈', clownfish: '🐠', crab: '🦀', snail: '🐌',
+        // fruits
+        apple: '🍎', banana: '🍌', orange: '🍊', grape: '🍇', strawberry: '🍓', watermelon: '🍉',
+        pineapple: '🍍', cherry: '🍒', lemon: '🍋', mango: '🥭', peach: '🍑', kiwi: '🥝',
+        coconut: '🥥', blueberry: '🫐',
+        // vegetables
+        carrot: '🥕', tomato: '🍅', potato: '🥔', corn: '🌽', broccoli: '🥦', onion: '🧅',
+        pepper: '🫑', cucumber: '🥒', eggplant: '🍆', pumpkin: '🎃', garlic: '🧄', mushroom: '🍄',
+        // objects
+        book: '📖', chair: '🪑', cup: '☕', clock: '⏰', key: '🔑', umbrella: '☂️', ball: '⚽',
+        phone: '📱', lamp: '💡', bag: '👜', hat: '🎩', shoe: '👟', glasses: '👓', box: '📦',
+        jar: '🫙', basket: '🧺', hammer: '🔨', screwdriver: '🪛', wrench: '🔧', 'scissors tool': '✂️',
+        pencil: '✏️', brush: '🖌️', candle: '🕯️', bottle: '🧴', 'gift box': '🎁', suitcase: '🧳',
+        backpack: '🎒', wallet: '👛', mirror: '🪞',
+        // vehicles
+        car: '🚗', bus: '🚌', bicycle: '🚲', airplane: '✈️', boat: '⛵', train: '🚆', truck: '🚚',
+        motorcycle: '🏍️', van: '🚐', taxi: '🚕', ambulance: '🚑', scooter: '🛵', tractor: '🚜',
+        helicopter: '🚁', rocket: '🚀',
+        // weather
+        sun: '☀️', cloud: '☁️', rain: '🌧️', snow: '❄️', rainbow: '🌈', lightning: '⚡',
+        // shapes
+        circle: '🔵', square: '🟦', triangle: '🔺', star: '⭐', heart: '❤️', moon: '🌙', diamond: '🔷', crown: '👑',
+        // plants
+        tulip: '🌷', rose: '🌹', sunflower: '🌻', daisy: '🌼', lotus: '🪷', cactus: '🌵', tree: '🌳',
+        // clothing
+        't-shirt': '👕', dress: '👗', jacket: '🧥', jeans: '👖', shorts: '🩳', sock: '🧦', scarf: '🧣',
+        // buildings
+        house: '🏠', school: '🏫', hospital: '🏥', church: '⛪', castle: '🏰', tower: '🗼',
+    };
+    function pwPicture(entry) {
+        const emoji = PW_EMOJI[entry.en];
+        return emoji ? `<span class="pw-emoji" role="img" aria-label="${escapeHtml(entry.en)}">${emoji}</span>` : entry.svg;
+    }
+
     function buildPictureWordRound(usedIds) {
         const availablePool = PICTURE_WORD_BANK.filter(w => !usedIds.has(w.en));
         const pool = availablePool.length ? availablePool : PICTURE_WORD_BANK;
@@ -732,7 +779,7 @@ const Games = (() => {
                         <span>🎯 <span id="pw-round">${round}</span>/${totalRounds}</span>
                         <span>✅ <span id="pw-score">${correctCount}</span></span>
                     </div>
-                    <div class="picture-word-icon" id="pw-icon">${current.correct.svg}</div>
+                    <div class="picture-word-icon" id="pw-icon">${pwPicture(current.correct)}</div>
                     <div class="picture-word-options">
                         ${current.options.map(o => `<button class="picture-word-option-btn" data-en="${escapeHtml(o.en)}">${escapeHtml(o.en)}</button>`).join('')}
                     </div>

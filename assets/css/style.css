@@ -1303,6 +1303,15 @@ body {
     background: white;
     animation: fadeInUp 0.3s ease-out;
 }
+/* Big, crisp emoji picture - far clearer than the old hand-drawn SVG. */
+.picture-word-icon .pw-emoji {
+    display: block;
+    font-size: 110px;
+    line-height: 1.1;
+    text-align: center;
+    /* keep colour emoji from being tinted by inherited text color */
+    -webkit-text-fill-color: initial;
+}
 
 .picture-word-icon svg {
     width: 100%;
