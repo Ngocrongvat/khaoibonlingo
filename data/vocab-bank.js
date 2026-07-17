@@ -23403,7 +23403,7 @@ const VOCAB_BANK = {
         "thirdPerson": "begins",
         "past": "began",
         "pastParticiple": "begun",
-        "ing": "begining"
+        "ing": "beginning"
       },
       "difficulty": 2
     },
@@ -23724,7 +23724,7 @@ const VOCAB_BANK = {
         "thirdPerson": "forbids",
         "past": "forbade",
         "pastParticiple": "forbidden",
-        "ing": "forbiding"
+        "ing": "forbidding"
       },
       "difficulty": 2
     },
@@ -24269,7 +24269,7 @@ const VOCAB_BANK = {
         "thirdPerson": "splits",
         "past": "split",
         "pastParticiple": "split",
-        "ing": "spliting"
+        "ing": "splitting"
       },
       "difficulty": 2,
       "takesObject": false
@@ -24497,7 +24497,7 @@ const VOCAB_BANK = {
         "thirdPerson": "upsets",
         "past": "upset",
         "pastParticiple": "upset",
-        "ing": "upseting"
+        "ing": "upsetting"
       },
       "difficulty": 2
     },
@@ -25385,7 +25385,7 @@ const VOCAB_BANK = {
         "thirdPerson": "continues",
         "past": "continued",
         "pastParticiple": "continued",
-        "ing": "continueing"
+        "ing": "continuing"
       },
       "difficulty": 1
     },
@@ -27487,9 +27487,9 @@ const VOCAB_BANK = {
       "forms": {
         "base": "overlap",
         "thirdPerson": "overlaps",
-        "past": "overlaped",
-        "pastParticiple": "overlaped",
-        "ing": "overlaping"
+        "past": "overlapped",
+        "pastParticiple": "overlapped",
+        "ing": "overlapping"
       },
       "difficulty": 3,
       "takesObject": false
@@ -27941,7 +27941,7 @@ const VOCAB_BANK = {
         "thirdPerson": "pursues",
         "past": "pursued",
         "pastParticiple": "pursued",
-        "ing": "pursueing"
+        "ing": "pursuing"
       },
       "difficulty": 3
     },
@@ -28671,9 +28671,9 @@ const VOCAB_BANK = {
       "forms": {
         "base": "shrug",
         "thirdPerson": "shrugs",
-        "past": "shruged",
-        "pastParticiple": "shruged",
-        "ing": "shruging"
+        "past": "shrugged",
+        "pastParticiple": "shrugged",
+        "ing": "shrugging"
       },
       "difficulty": 2,
       "takesObject": false
@@ -29466,8 +29466,8 @@ const VOCAB_BANK = {
       "forms": {
         "base": "undergo",
         "thirdPerson": "undergoes",
-        "past": "undergoed",
-        "pastParticiple": "undergoed",
+        "past": "underwent",
+        "pastParticiple": "undergone",
         "ing": "undergoing"
       },
       "difficulty": 3
@@ -30033,9 +30033,9 @@ const VOCAB_BANK = {
       "forms": {
         "base": "annul",
         "thirdPerson": "annuls",
-        "past": "annuled",
-        "pastParticiple": "annuled",
-        "ing": "annuling"
+        "past": "annulled",
+        "pastParticiple": "annulled",
+        "ing": "annulling"
       },
       "difficulty": 3
     },
@@ -31516,9 +31516,9 @@ const VOCAB_BANK = {
       "forms": {
         "base": "defer",
         "thirdPerson": "defers",
-        "past": "defered",
-        "pastParticiple": "defered",
-        "ing": "defering"
+        "past": "deferred",
+        "pastParticiple": "deferred",
+        "ing": "deferring"
       },
       "difficulty": 3,
       "takesObject": false
@@ -31882,9 +31882,9 @@ const VOCAB_BANK = {
       "forms": {
         "base": "dispel",
         "thirdPerson": "dispels",
-        "past": "dispeled",
-        "pastParticiple": "dispeled",
-        "ing": "dispeling"
+        "past": "dispelled",
+        "pastParticiple": "dispelled",
+        "ing": "dispelling"
       },
       "difficulty": 3
     },
@@ -32365,9 +32365,9 @@ const VOCAB_BANK = {
       "forms": {
         "base": "embed",
         "thirdPerson": "embeds",
-        "past": "embeded",
-        "pastParticiple": "embeded",
-        "ing": "embeding"
+        "past": "embedded",
+        "pastParticiple": "embedded",
+        "ing": "embedding"
       },
       "difficulty": 3
     },
@@ -33119,7 +33119,7 @@ const VOCAB_BANK = {
         "thirdPerson": "fatigues",
         "past": "fatigued",
         "pastParticiple": "fatigued",
-        "ing": "fatigueing"
+        "ing": "fatiguing"
       },
       "difficulty": 3
     },
@@ -34168,9 +34168,9 @@ const VOCAB_BANK = {
       "forms": {
         "base": "infer",
         "thirdPerson": "infers",
-        "past": "infered",
-        "pastParticiple": "infered",
-        "ing": "infering"
+        "past": "inferred",
+        "pastParticiple": "inferred",
+        "ing": "inferring"
       },
       "difficulty": 3
     },
@@ -34562,7 +34562,7 @@ const VOCAB_BANK = {
         "thirdPerson": "intrigues",
         "past": "intrigued",
         "pastParticiple": "intrigued",
-        "ing": "intrigueing"
+        "ing": "intriguing"
       },
       "difficulty": 3
     },
