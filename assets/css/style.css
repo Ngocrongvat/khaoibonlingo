@@ -3005,3 +3005,13 @@ body {
     .correct-shockwave, .mascot-particle { animation: none !important; }
     .mascot-particle, .correct-shockwave { opacity: 0; }
 }
+
+/* Dictation 3-phase step indicator. */
+.dictation-steps {
+    text-align: center;
+    font-size: 12.5px;
+    font-weight: 800;
+    color: #ff8c00;
+    letter-spacing: 0.5px;
+    margin: -6px 0 14px;
+}

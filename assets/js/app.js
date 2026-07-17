@@ -1882,12 +1882,18 @@ class DuoClone {
     renderLesson() {
         const ex = this.getCurrentExercise();
 
+        // Dictation is a 3-phase reinforcement drill (assemble → type → read). The phase
+        // resets whenever we land on a DIFFERENT exercise instance; a phase transition
+        // re-renders the SAME instance (see checkAnswer) and keeps its phase.
+        if (this.state._dictExRef !== ex) { this.state._dictExRef = ex; this.state.dictationPhase = 0; }
+
         this.ensureSessionAnswerContext();
         this.updateNav();
 
         const progressLabel = this.getLessonProgressLabel();
         let html = progressLabel ? `<div class="lesson-progress-label">${progressLabel}</div>` : '';
-        if (ex.type !== 'reading' && ex.type !== 'dialogue' && ex.type !== 'listening_comprehension') {
+        // dictation renders its own phase-specific prompt inside its branch.
+        if (ex.type !== 'reading' && ex.type !== 'dialogue' && ex.type !== 'listening_comprehension' && ex.type !== 'dictation') {
             html += `<div class="exercise-title">${this.escapeHtml(ex.question || 'Dịch câu này')}</div>`;
         }
 
@@ -1941,15 +1947,37 @@ class DuoClone {
                      </div>`;
             html += `<div id="pronunciation-result" class="pronunciation-result"></div>`;
         } else if (ex.type === 'dictation') {
-            html += `<div class="pronunciation-controls">
-                        <button class="btn-listen" id="listen-btn">
-                            <span style="font-size: 32px;">🔊</span><br>Nghe lại
-                        </button>
-                        <button class="btn-listen" id="listen-slow-btn">
-                            <span style="font-size: 32px;">🐢</span><br>Nghe chậm
-                        </button>
+            const phase = this.state.dictationPhase || 0;
+            const audioBtns = `<div class="pronunciation-controls">
+                        <button class="btn-listen" id="listen-btn"><span style="font-size: 32px;">🔊</span><br>Nghe lại</button>
+                        <button class="btn-listen" id="listen-slow-btn"><span style="font-size: 32px;">🐢</span><br>Nghe chậm</button>
                      </div>`;
-            html += `<input type="text" id="dictation-input" class="input-field dictation-input" placeholder="Gõ lại câu bạn nghe được...">`;
+            const steps = `<div class="dictation-steps">Bước ${phase + 1}/3</div>`;
+            if (phase === 0) {
+                // Phase 1: hear it, then ASSEMBLE from a word bank (correct words shuffled
+                // in with a few distractors) - an easier on-ramp for new learners.
+                html += `<div class="exercise-title">🎧 Nghe rồi ghép lại câu (có sẵn từ gợi ý)</div>${steps}`;
+                html += audioBtns;
+                const bank = this.dictationWordBank(ex);
+                html += `<div class="word-bank">`;
+                bank.forEach((word, i) => { html += `<div class="word-chip" data-idx="${i}">${this.escapeHtml(word)}</div>`; });
+                html += `</div><div class="answer-slot" id="answer-slot"></div>`;
+            } else if (phase === 1) {
+                // Phase 2: type the SAME sentence from memory, no word bank - deepens recall.
+                html += `<div class="exercise-title">✍️ Giờ tự gõ lại câu đó từ trí nhớ (không còn gợi ý)</div>${steps}`;
+                html += audioBtns;
+                html += `<input type="text" id="dictation-input" class="input-field dictation-input" placeholder="Gõ lại câu bạn vừa ghép...">`;
+            } else {
+                // Phase 3: read the sentence aloud (≥70% = pass) to cement pronunciation.
+                html += `<div class="exercise-title">🗣️ Cuối cùng, đọc to câu này (đạt trên 70% là được)</div>${steps}`;
+                html += `<div class="exercise-prompt" style="font-size: 24px; margin-bottom: 16px; color: #333; font-weight: 700; text-align:center;">${this.escapeHtml(ex.target)}</div>`;
+                html += `<div class="pronunciation-controls">
+                            <button class="btn-listen" id="listen-btn"><span style="font-size: 32px;">🔊</span><br>Nghe mẫu</button>
+                            <button class="btn-listen" id="listen-slow-btn"><span style="font-size: 32px;">🐢</span><br>Nghe chậm</button>
+                            <button class="btn-listen" id="mic-btn"><span style="font-size: 32px;">🎤</span><br>Nhấn để nói</button>
+                         </div>`;
+                html += `<div id="pronunciation-result" class="pronunciation-result"></div>`;
+            }
         } else if (ex.type === 'reading') {
             html += `<div class="reading-passage">${this.escapeHtml(ex.passage)}</div>`;
             html += `<div class="exercise-title" style="margin-top: 20px;">${this.escapeHtml(ex.question)}</div>`;
@@ -2059,20 +2087,32 @@ class DuoClone {
             const micBtn = document.getElementById('mic-btn');
             if (micBtn) micBtn.addEventListener('click', () => this.startRecording());
         } else if (ex.type === 'dictation') {
+            const phase = this.state.dictationPhase || 0;
             const listenBtn = document.getElementById('listen-btn');
             if (listenBtn) listenBtn.addEventListener('click', () => this.playAudio(ex.target));
             const listenSlowBtn = document.getElementById('listen-slow-btn');
             if (listenSlowBtn) listenSlowBtn.addEventListener('click', () => this.playAudioSlow(ex.target));
-            const input = document.getElementById('dictation-input');
-            if (input) {
-                input.addEventListener('input', () => {
-                    this.state.dictationText = input.value;
-                    const hasText = input.value.trim().length > 0;
-                    this.ui.checkBtn.disabled = !hasText;
-                    this.ui.checkBtn.classList.toggle('active', hasText);
+            if (phase === 0) {
+                const bank = this.dictationWordBank(ex);
+                this.ui.container.querySelectorAll('.word-bank .word-chip').forEach((el, i) => {
+                    el.addEventListener('click', () => this.addWord(bank[i], el));
                 });
+                this.playAudio(ex.target);
+            } else if (phase === 1) {
+                const input = document.getElementById('dictation-input');
+                if (input) {
+                    input.addEventListener('input', () => {
+                        this.state.dictationText = input.value;
+                        const hasText = input.value.trim().length > 0;
+                        this.ui.checkBtn.disabled = !hasText;
+                        this.ui.checkBtn.classList.toggle('active', hasText);
+                    });
+                }
+                this.playAudio(ex.target);
+            } else {
+                const micBtn = document.getElementById('mic-btn');
+                if (micBtn) micBtn.addEventListener('click', () => this.startRecording());
             }
-            this.playAudio(ex.target);
         } else if (ex.type === 'matching') {
             this.ui.container.querySelectorAll('#match-left .match-card').forEach(el => {
                 el.addEventListener('click', () => this.onMatchLeftClick(el));
@@ -2623,6 +2663,21 @@ class DuoClone {
         originalEl.classList.remove('used');
     }
 
+    // Builds (and caches) the phase-0 word bank for a dictation sentence: the correct
+    // words shuffled together with a few common-word distractors, so new learners
+    // assemble the sentence rather than type it cold. Cached on the exercise so the
+    // bank stays stable within an attempt (chip indices must keep matching the words).
+    dictationWordBank(ex) {
+        if (ex._dictBank) return ex._dictBank;
+        const words = (ex.target || '').split(' ').filter(Boolean);
+        const inSentence = new Set(words.map(w => w.toLowerCase()));
+        const POOL = ['the', 'a', 'an', 'is', 'are', 'was', 'were', 'you', 'we', 'they', 'and', 'very', 'today', 'not', 'do', 'have', 'his', 'her', 'this', 'that', 'can', 'will', 'my'];
+        const n = Math.min(3, Math.max(1, Math.floor(words.length / 2)));
+        const distractors = shuffleArray(POOL.filter(w => !inSentence.has(w))).slice(0, n);
+        ex._dictBank = shuffleArray([...words, ...distractors]);
+        return ex._dictBank;
+    }
+
     // ============== Session answer log (powers the "Tổng kết" summary screens) ==============
     // One record per distinct question answered in the current session (lesson, practice,
     // assessment, placement or lesson-duel). A question re-answered during review updates
@@ -2684,7 +2739,12 @@ class DuoClone {
         }
         if (ex.type === 'translate' || ex.type === 'ordering') return (this.state.currentAnswer || []).join(' ');
         if (ex.type === 'pronunciation') return this.state.recognizedSpeech || '';
-        if (ex.type === 'dictation') return this.state.dictationText || '';
+        if (ex.type === 'dictation') {
+            const phase = this.state.dictationPhase || 0;
+            if (phase === 0) return (this.state.currentAnswer || []).join(' ');
+            if (phase === 1) return this.state.dictationText || '';
+            return this.state.recognizedSpeech || '';
+        }
         if (ex.type === 'matching') {
             const ms = this.state.matchingState;
             return ms && ms.mistakenIds.size === 0 ? 'Nối đúng tất cả' : 'Có lần nối sai';
@@ -2756,7 +2816,14 @@ class DuoClone {
         } else if (ex.type === 'pronunciation') {
             isCorrect = this.comparePronunciation(this.state.recognizedSpeech, ex.target);
         } else if (ex.type === 'dictation') {
-            isCorrect = this.comparePronunciation(this.state.dictationText, ex.target);
+            const phase = this.state.dictationPhase || 0;
+            if (phase === 0) {
+                isCorrect = JSON.stringify(this.state.currentAnswer) === JSON.stringify((ex.target || '').split(' '));
+            } else if (phase === 1) {
+                isCorrect = this.comparePronunciation(this.state.dictationText, ex.target);
+            } else {
+                isCorrect = this.pronunciationScore(this.state.recognizedSpeech, ex.target) >= 70;
+            }
         } else if (ex.type === 'matching') {
             const ms = this.state.matchingState;
             isCorrect = !!ms && ms.mistakenIds.size === 0;
@@ -2765,6 +2832,16 @@ class DuoClone {
                 ? this.state.recognizedSpeech
                 : this.state.comprehensionText;
             isCorrect = this.checkComprehensionAnswer(answerText, ex.acceptedAnswers);
+        }
+
+        // Dictation 3-phase: a correct NON-final phase advances to the next phase in
+        // place (light chime, fresh inputs, no heart/modal/queue). Only the final phase
+        // (or any wrong answer) falls through to the normal correct/wrong flow below.
+        if (ex.type === 'dictation' && isCorrect && (this.state.dictationPhase || 0) < 2) {
+            this.state.dictationPhase = (this.state.dictationPhase || 0) + 1;
+            this.playTone('correct');
+            this.renderLesson();
+            return;
         }
 
         this.recordSessionAnswer(ex, isCorrect, this.captureUserAnswerForSummary(ex));
