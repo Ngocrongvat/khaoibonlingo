@@ -142,15 +142,53 @@ const Scenarios = (() => {
         return { sents, vocab };
     }
 
-    // Assemble a playable scenario object (same schema as SCENARIO_BANK) for a chapter.
-    function buildFromUnit(unit, index) {
-        if (!unit) return null;
-        const { sents, vocab } = collectUnit(unit);
-        if (!sents.length && !vocab.length) return null;
+    // ---- Advanced/expansion chapters -----------------------------------------------
+    // The machine-expanded "(mở rộng)" drill chapters have real, useful VOCABULARY but
+    // odd drill SENTENCES ("Hug the soap"). For those, we skip the sentences and stage a
+    // natural, warm "two friends learning words together" chat built from the chapter's
+    // own vocab via hand-written conversation frames — grammatical for any word/POS.
+    const cap = w => (w ? w.charAt(0).toUpperCase() + w.slice(1) : w);
 
-        // Prefer natural, conversational, speakable lines for kids. Sentences with a
-        // pronoun/common verb or a question read like real talk; odd drill imperatives
-        // ("Hug the soap") sink to the bottom. Then keep them short-to-medium.
+    // Frames for TWO vocab words. Each returns 4 alternating lines (A/B). EN lines are kept
+    // pure English so TTS stays clean; the Vietnamese meanings ride in the VI subtitle.
+    const TWO_WORD_FRAMES = [
+        (B, e1, v1, e2, v2) => [
+            { who: 'A', mood: 'happy', en: `Hi ${B}! I learned a new word: ${e1}.`, vi: `Chào ${B}! Mình vừa học một từ mới: ${e1}.` },
+            { who: 'B', mood: 'excited', en: `Ooh, ${e1}! What does it mean?`, vi: `Ồ, ${e1}! Nó nghĩa là “${v1}” đúng không?` },
+            { who: 'A', mood: 'giggle', en: `Yes! And here is another one: ${e2}.`, vi: `Đúng rồi! Và đây là một từ nữa: ${e2}.` },
+            { who: 'B', mood: 'love', en: `${cap(e2)}! I like these new words.`, vi: `${e2} nghĩa là “${v2}”! Mình thích mấy từ mới này.` },
+        ],
+        (B, e1, v1, e2, v2) => [
+            { who: 'A', mood: 'happy', en: `Let's play a word game, ${B}!`, vi: `Cùng chơi trò đố từ nào, ${B}!` },
+            { who: 'B', mood: 'excited', en: `Okay! Teach me the word ${e1}.`, vi: `Được! Dạy mình từ ${e1} (“${v1}”) đi.` },
+            { who: 'A', mood: 'giggle', en: `Sure! And this one too: ${e2}.`, vi: `Chắc rồi! Còn từ này nữa: ${e2}.` },
+            { who: 'B', mood: 'love', en: `Nice, ${e1} and ${e2}! I remember now.`, vi: `Hay ghê, ${e1} và ${e2} (“${v2}”)! Mình nhớ rồi.` },
+        ],
+        (B, e1, v1, e2, v2) => [
+            { who: 'A', mood: 'happy', en: `Look ${B}, my new words: ${e1} and ${e2}.`, vi: `Nhìn nè ${B}, từ mới của mình: ${e1} và ${e2}.` },
+            { who: 'B', mood: 'excited', en: `Wow! Say ${e1} again, please.`, vi: `Ồ! Nói lại ${e1} (“${v1}”) đi.` },
+            { who: 'A', mood: 'giggle', en: `${cap(e1)}! And do not forget ${e2}.`, vi: `${e1}! Và đừng quên ${e2} (“${v2}”) nhé.` },
+            { who: 'B', mood: 'love', en: `Got it! ${cap(e1)} and ${e2}.`, vi: `Hiểu rồi! ${e1} và ${e2}.` },
+        ],
+    ];
+    const ONE_WORD_FRAME = (B, e1, v1) => [
+        { who: 'A', mood: 'happy', en: `Hi ${B}! I have a new word: ${e1}.`, vi: `Chào ${B}! Mình có một từ mới: ${e1}.` },
+        { who: 'B', mood: 'excited', en: `Ooh, ${e1}! What does it mean?`, vi: `Ồ, ${e1}! Nó nghĩa là gì?` },
+        { who: 'A', mood: 'giggle', en: `Let me show you what ${e1} is!`, vi: `Để mình chỉ cho bạn ${e1} (“${v1}”) là gì!` },
+        { who: 'B', mood: 'love', en: `Thank you! Now I know ${e1}.`, vi: `Cảm ơn nhé! Giờ mình biết ${e1} rồi.` },
+    ];
+
+    function dialogueFromVocab(vocab, friendName, index) {
+        if (vocab.length >= 2) {
+            const frame = TWO_WORD_FRAMES[index % TWO_WORD_FRAMES.length];
+            return frame(friendName, vocab[0].en, vocab[0].vi, vocab[1].en, vocab[1].vi);
+        }
+        if (vocab.length === 1) return ONE_WORD_FRAME(friendName, vocab[0].en, vocab[0].vi);
+        return [];
+    }
+
+    // Pick the most natural, speakable curriculum sentences for a normal chapter.
+    function dialogueFromSentences(sents) {
         const PRON = /\b(i|you|we|he|she|they|it|my|your|our|his|her)\b/i;
         const VERB = /\b(is|are|am|like|likes|want|wants|have|has|love|loves|can|do|does|need|would|let)\b/i;
         const score = s => {
@@ -166,14 +204,32 @@ const Scenarios = (() => {
             .filter(s => s.en.split(' ').length <= 10)
             .sort((a, b) => score(b) - score(a) || a.en.length - b.en.length)
             .slice(0, 4);
-        const lines = (chosen.length ? chosen : sents.slice(0, 4));
-        if (!lines.length) return null;
-
+        const picked = chosen.length ? chosen : sents.slice(0, 4);
         const moods = ['happy', 'excited', 'giggle', 'love'];
-        const dialogue = lines.map((s, i) => ({
-            who: i % 2 === 0 ? 'A' : 'B',
-            en: s.en, vi: s.vi, mood: moods[i % moods.length],
-        }));
+        return picked.map((s, i) => ({ who: i % 2 === 0 ? 'A' : 'B', en: s.en, vi: s.vi, mood: moods[i % moods.length] }));
+    }
+
+    // Assemble a playable scenario object (same schema as SCENARIO_BANK) for a chapter.
+    function buildFromUnit(unit, index) {
+        if (!unit) return null;
+        const { sents, vocab } = collectUnit(unit);
+        if (!sents.length && !vocab.length) return null;
+
+        const shortName = KID_NAMES[index % KID_NAMES.length]; // bare name for clean English/TTS
+        const friendName = 'Bạn ' + shortName;                 // friendly label under the avatar
+        // "(mở rộng)" chapters are the machine-expanded vocab drills — stage a vocab chat
+        // instead of surfacing their odd drill sentences. Everything else uses its real
+        // (vetted) curriculum sentences, which read naturally as-is.
+        const isExpansion = /mở rộng|bậc thầy|thành thạo/i.test(unit.title || '');
+        let dialogue;
+        if (isExpansion && vocab.length >= 1) {
+            dialogue = dialogueFromVocab(vocab, shortName, index);
+        } else if (sents.length) {
+            dialogue = dialogueFromSentences(sents);
+        } else {
+            dialogue = dialogueFromVocab(vocab, shortName, index);
+        }
+        if (!dialogue.length) return null;
 
         const bhue = (index * 53 + 40) % 360;
         return {
@@ -182,7 +238,7 @@ const Scenarios = (() => {
             bg: pickBg(unit, index),
             cast: {
                 A: { name: 'Khoai', hue: 0, badge: '' },
-                B: { name: 'Bạn ' + KID_NAMES[index % KID_NAMES.length], hue: bhue, badge: BADGES[index % BADGES.length] },
+                B: { name: friendName, hue: bhue, badge: BADGES[index % BADGES.length] },
             },
             lines: dialogue,
             vocab: vocab.slice(0, 4),
