@@ -1146,6 +1146,9 @@ class DuoClone {
         this.cleanupActivityTicker();
         this.state.mode = 'curriculum';
         this.updateNav();
+        // Fire-and-forget: keeps the reigning king's exclusive nav-avatar frame current
+        // without ever blocking the dashboard render.
+        this.refreshWeeklyKing();
         const unit = this.state.courseData.units[this.state.currentUnitIdx];
         const lesson = unit ? unit.lessons[this.state.currentLessonIdx] : null;
 
@@ -1835,12 +1838,15 @@ class DuoClone {
         }
 
         const rank = getRankInfo(info.xp || 0);
+        const isWeeklyKing = !!(this.state.weeklyKing && this.state.weeklyKing.username === info.username);
+        const infoAvatarHtml = info.avatar_url
+            ? `<img src="${info.avatar_url}" alt="" style="width:88px; height:88px; border-radius:50%; display:block; margin:0 auto; object-fit:cover;">`
+            : `<div class="duo-character">👤</div>`;
         this.ui.container.innerHTML = `
             <div class="welcome-screen">
-                ${info.avatar_url
-                    ? `<img src="${info.avatar_url}" alt="" style="width:88px; height:88px; border-radius:50%; display:block; margin:0 auto; object-fit:cover;">`
-                    : `<div class="duo-character">👤</div>`}
+                ${isWeeklyKing ? `<div class="king-frame king-frame-info">${infoAvatarHtml}</div>` : infoAvatarHtml}
                 <h1 style="text-align: center;">${this.escapeHtml(info.username)}</h1>
+                ${isWeeklyKing ? `<p class="king-info-title">👑 Vị Vua Của Tuần</p>` : ''}
                 <p style="text-align: center; color: #777;">${rank.label}</p>
                 <div class="user-info-stats">
                     <div class="user-info-stat"><span class="user-info-stat-value">⭐ ${info.xp || 0}</span><span class="user-info-stat-label">XP</span></div>
@@ -3734,6 +3740,30 @@ class DuoClone {
 
     // 3 user ranking tabs (XP / Chuỗi / Sôi nổi) sharing one screen, mirroring
     // renderGroupLeaderboards()'s tab pattern, plus a shortcut to the group boards.
+    // ---- "Vị Vua Của Tuần" (latest weekly XP teddy-bear winner, hall_of_fame) --------
+    // The reigning king wears an exclusive golden crown frame on their nav avatar for
+    // the whole week. Cached in state.weeklyKing; purely decorative, so every failure
+    // path just means "no frame" - never blocks anything else.
+    async refreshWeeklyKing() {
+        if (!window.Leaderboard || !this.state.currentUser) return;
+        try {
+            this.state.weeklyKing = await window.Leaderboard.getLatestKing();
+        } catch (e) {
+            this.state.weeklyKing = null;
+        }
+        this.applyKingFrameToNav();
+    }
+
+    applyKingFrameToNav() {
+        const wrap = document.querySelector('.user-badge-avatar-wrap');
+        if (!wrap) return;
+        const isKing = !!(this.state.weeklyKing && this.state.currentUser
+            && this.state.weeklyKing.username === this.state.currentUser);
+        wrap.classList.toggle('king-frame-nav', isKing);
+        if (isKing) wrap.setAttribute('title', '👑 Vị Vua Của Tuần');
+        else if (wrap.getAttribute('title') === '👑 Vị Vua Của Tuần') wrap.removeAttribute('title');
+    }
+
     async renderLeaderboard(sortBy = 'xp') {
         if (!this.state.currentUser) {
             alert("Vui lòng đăng nhập trước khi xem bảng xếp hạng!");
@@ -3742,7 +3772,8 @@ class DuoClone {
         const tabs = [
             { key: 'xp', label: '⭐ XP' },
             { key: 'streak', label: '🔥 Chuỗi ngày' },
-            { key: 'vibrancy', label: '⚡ Sôi nổi' }
+            { key: 'vibrancy', label: '⚡ Sôi nổi' },
+            { key: 'teddy', label: '🧸 Gấu bông' }
         ];
         this.ui.container.innerHTML = `
             <div class="leaderboard-screen">
@@ -3754,15 +3785,24 @@ class DuoClone {
         this.ui.checkBtn.classList.remove('active');
 
         let result = { configured: false, entries: [] };
+        let king = null;
         if (window.Leaderboard) {
+            // The king lookup rides along on every tab (cheap, 1-row) so the 👑 marker on
+            // rows stays consistent; the big honor banner itself only shows on the XP tab.
+            const kingPromise = window.Leaderboard.getLatestKing().catch(() => null);
             if (sortBy === 'streak') result = await window.Leaderboard.getStreakLeaderboard(50);
             else if (sortBy === 'vibrancy') result = await window.Leaderboard.getVibrancyLeaderboard(50);
+            else if (sortBy === 'teddy') result = await window.Leaderboard.getTeddyLeaderboard(50);
             else result = await window.Leaderboard.fetchTop(50);
+            king = await kingPromise;
+            this.state.weeklyKing = king; // cache for the nav-avatar frame + user info card
+            this.applyKingFrameToNav();
         }
 
         const valueLabel = (entry) => {
             if (sortBy === 'streak') return `🔥 ${entry.streak || 0} ngày`;
             if (sortBy === 'vibrancy') return `⚡ ${entry.vibrancy || 0} điểm`;
+            if (sortBy === 'teddy') return `🧸 ${entry.teddy_bears || 0} gấu bông`;
             return `⭐ ${entry.xp || 0} XP`;
         };
 
@@ -3774,30 +3814,56 @@ class DuoClone {
                 ? `<p style="text-align: center; color: #777;">Bảng Sôi nổi chưa sẵn sàng - quản trị viên cần chạy migration "self_service_inbox_vibrancy.sql" trên Supabase.</p>`
                 : `<p style="text-align: center; color: #777;">Không thể tải bảng xếp hạng lúc này. Vui lòng thử lại sau.</p>`;
         } else if (!result.entries.length) {
-            bodyHtml = `<p style="text-align: center; color: #777;">Chưa có ai trên bảng xếp hạng. Hãy là người đầu tiên!</p>`;
+            bodyHtml = sortBy === 'teddy'
+                ? `<p style="text-align: center; color: #777;">Chưa ai có gấu bông. Dẫn đầu bảng XP hoặc Chuỗi ngày vào 19h thứ Bảy để nhận 🧸 đầu tiên!</p>`
+                : `<p style="text-align: center; color: #777;">Chưa có ai trên bảng xếp hạng. Hãy là người đầu tiên!</p>`;
         } else {
             bodyHtml = `<div class="leaderboard-list">` + result.entries.map((entry, idx) => {
                 const rank = idx + 1;
                 const medal = rank === 1 ? '🥇' : rank === 2 ? '🥈' : rank === 3 ? '🥉' : `#${rank}`;
                 const isMe = entry.username === this.state.currentUser;
-                return `<div class="leaderboard-row ${isMe ? 'me' : ''}">
+                const isKing = king && entry.username === king.username;
+                return `<div class="leaderboard-row ${isMe ? 'me' : ''} ${isKing ? 'lb-king-row' : ''}">
                             <span class="lb-rank">${medal}</span>
-                            <span class="lb-name">${isMe ? this.escapeHtml(entry.username) : this.clickableUsername(null, entry.username)}</span>
+                            <span class="lb-name">${isKing ? '<span class="lb-king-crown" title="Vị Vua Của Tuần">👑</span>' : ''}${isMe ? this.escapeHtml(entry.username) : this.clickableUsername(null, entry.username)}</span>
                             <span class="lb-xp">${valueLabel(entry)}</span>
                         </div>`;
             }).join('') + `</div>`;
         }
 
+        // Honor banner - only on the XP tab (the king IS the weekly XP teddy winner).
+        // The crown avatar frame in the banner is the same exclusive .king-frame the
+        // winner wears on their nav avatar all week.
+        let kingBannerHtml = '';
+        if (sortBy === 'xp' && king) {
+            const kingAvatar = king.avatarUrl
+                ? `<img src="${king.avatarUrl}" alt="">`
+                : `<span class="king-banner-fallback">🙂</span>`;
+            kingBannerHtml = `
+                <div class="king-banner">
+                    <div class="king-banner-frame king-frame">${kingAvatar}</div>
+                    <div class="king-banner-text">
+                        <div class="king-banner-title">👑 VỊ VUA CỦA TUẦN</div>
+                        <div class="king-banner-name">${this.clickableUsername(null, king.username)}</div>
+                        <div class="king-banner-meta">🧸 ${this.escapeHtml(window.Leaderboard.formatWeekLabel(king.weekId))} · ${king.weeklyXp} XP</div>
+                        <div class="king-banner-perk">Đặc quyền: khung avatar vua trong suốt tuần trị vì</div>
+                    </div>
+                </div>`;
+        }
+
         const footNote = sortBy === 'vibrancy'
             ? '⚡ Điểm Sôi nổi tăng khi bạn hoạt động: học bài, luyện tập, thách đấu, chơi game và trò chuyện cùng cộng đồng.'
-            : '🧸 Người dẫn đầu lúc 19h thứ Bảy sẽ được tặng gấu bông! Điểm không bị reset - nếu không ai vượt qua, người dẫn đầu vẫn tiếp tục được thưởng vào tuần sau.';
+            : sortBy === 'teddy'
+                ? '🧸 Gấu bông là phần thưởng vinh danh mỗi tuần: dẫn đầu bảng XP hoặc bảng Chuỗi ngày lúc 19h thứ Bảy để nhận. Tích lũy mãi mãi, không bị reset!'
+                : '🧸 Người dẫn đầu lúc 19h thứ Bảy sẽ được tặng gấu bông và trở thành 👑 Vị Vua Của Tuần với khung avatar đặc quyền! Điểm không bị reset - nếu không ai vượt qua, người dẫn đầu vẫn tiếp tục được thưởng vào tuần sau.';
 
         this.ui.container.innerHTML = `
             <div class="leaderboard-screen">
                 <h2 style="text-align: center;">🏆 Bảng Xếp Hạng</h2>
-                <div class="game-picker-list" style="flex-direction:row; justify-content:center; gap:8px; max-width:500px; margin:10px auto;">
+                <div class="game-picker-list" style="flex-direction:row; flex-wrap:wrap; justify-content:center; gap:8px; max-width:500px; margin:10px auto;">
                     ${tabs.map(t => `<button class="btn-secondary user-lb-tab-btn ${t.key === sortBy ? 'group-lb-tab-active' : ''}" data-sort="${t.key}" style="padding:8px 14px; font-size:13px;">${t.label}</button>`).join('')}
                 </div>
+                ${kingBannerHtml}
                 ${bodyHtml}
                 <p style="text-align: center; color: #999; font-size: 13px; margin-top: 15px;">${footNote}</p>
                 <button class="btn-secondary" id="user-lb-groups-btn" style="display:block; margin: 10px auto 0; padding: 12px 24px;">🏰 BẢNG XẾP HẠNG GROUP</button>

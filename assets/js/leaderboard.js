@@ -261,6 +261,55 @@ async function getStreakHallOfFame(limit = 20) {
     }
 }
 
+// Teddy-bear leaderboard - ranks by lifetime teddy_bears from the same world-readable
+// profile_usernames view the friends/user-info cards already use (leaderboard table has
+// no teddy column). Zero-bear users are dropped: an all-zero board reads as broken.
+async function getTeddyLeaderboard(count = 50) {
+    if (!client) return { configured: false, entries: [] };
+    try {
+        const { data, error } = await client
+            .from('profile_usernames')
+            .select('username, teddy_bears, avatar_url')
+            .order('teddy_bears', { ascending: false })
+            .limit(count);
+        if (error) throw error;
+        const entries = (data || []).filter(r => (r.teddy_bears || 0) > 0);
+        return { configured: true, entries };
+    } catch (e) {
+        console.error('Failed to fetch teddy leaderboard:', e);
+        return { configured: true, entries: [], error: true };
+    }
+}
+
+// "Vị Vua Của Tuần" - the most recent weekly XP teddy-bear winner (latest hall_of_fame
+// row). Resolves the avatar for the honor banner via profile_usernames; every lookup is
+// optional-graceful so a missing table/row just means "no king yet".
+async function getLatestKing() {
+    if (!client) return null;
+    try {
+        const { data, error } = await client
+            .from('hall_of_fame')
+            .select('*')
+            .order('week_id', { ascending: false })
+            .limit(1);
+        if (error || !data || !data.length) return null;
+        const king = data[0];
+        let avatarUrl = null;
+        try {
+            const { data: prof } = await client
+                .from('profile_usernames')
+                .select('avatar_url')
+                .eq('username', king.username)
+                .maybeSingle();
+            if (prof) avatarUrl = prof.avatar_url || null;
+        } catch (e) { /* avatar is a nice-to-have */ }
+        return { username: king.username, weekId: king.week_id, weeklyXp: king.weekly_xp, avatarUrl };
+    } catch (e) {
+        console.error('Failed to fetch weekly king:', e);
+        return null;
+    }
+}
+
 async function getHallOfFame(limit = 20) {
     if (!client) return [];
     try {
@@ -324,5 +373,7 @@ window.Leaderboard = {
     getStreakLeaderboard,
     getVibrancyLeaderboard,
     checkAndAwardStreakPrize,
-    getStreakHallOfFame
+    getStreakHallOfFame,
+    getTeddyLeaderboard,
+    getLatestKing
 };
