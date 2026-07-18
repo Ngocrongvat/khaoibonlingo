@@ -3024,3 +3024,199 @@ body {
     letter-spacing: 0.5px;
     margin: -6px 0 14px;
 }
+
+/* ================================================================
+   TÌNH HUỐNG GIAO TIẾP — animated communication scenes (scenarios.js)
+   Fully self-contained styles; all motion guarded for reduced-motion.
+   ================================================================ */
+
+/* ---- Menu ---- */
+.scn-menu { max-width: 620px; margin: 0 auto; padding: 8px 4px 24px; text-align: center; }
+.scn-menu-head { margin-bottom: 18px; }
+.scn-menu-emoji { font-size: 46px; animation: scnPop .5s ease; }
+.scn-menu-title { font-size: 26px; font-weight: 800; color: #3c3c3c; margin: 4px 0; }
+.scn-menu-desc { color: #777; font-size: 14px; max-width: 440px; margin: 0 auto; }
+.scn-menu-grid { display: grid; grid-template-columns: 1fr; gap: 14px; margin: 20px 0; }
+@media (min-width: 520px) { .scn-menu-grid { grid-template-columns: 1fr 1fr; } }
+.scn-card {
+    border: 3px solid #e5e5e5; border-radius: 20px; background: #fff; cursor: pointer;
+    padding: 0 0 14px; overflow: hidden; text-align: center; transition: transform .15s, box-shadow .15s, border-color .15s;
+    display: flex; flex-direction: column; align-items: center;
+}
+.scn-card:hover { transform: translateY(-4px); border-color: #58cc02; box-shadow: 0 10px 24px rgba(88,204,2,.18); }
+.scn-card-stage {
+    width: 100%; height: 108px; position: relative; display: block; margin-bottom: 10px;
+    background: linear-gradient(180deg, #bfe6ff 0%, #dff3d0 100%);
+}
+.scn-card--cafe .scn-card-stage { background: linear-gradient(180deg, #ffe9c7 0%, #f6dcc0 100%); }
+.scn-card--classroom .scn-card-stage { background: linear-gradient(180deg, #d6f3e6 0%, #fdf3c9 100%); }
+.scn-card-actor { position: absolute; bottom: 2px; left: 20%; width: 66px; }
+.scn-card-actor--b { left: auto; right: 20%; width: 60px; }
+.scn-card-actor svg { width: 100%; height: auto; }
+.scn-card-badge { position: absolute; top: 8px; right: 14%; font-size: 20px; }
+.scn-card-title { font-size: 17px; font-weight: 800; color: #3c3c3c; padding: 0 12px; }
+.scn-card-sub { font-size: 12px; color: #999; margin-top: 3px; }
+
+/* ---- Stage ---- */
+.scn-play { max-width: 620px; margin: 0 auto; }
+.scn-stage {
+    position: relative; width: 100%; aspect-ratio: 16 / 10; border-radius: 22px; overflow: hidden;
+    box-shadow: 0 12px 30px rgba(0,0,0,.18); --sky1: #bfe6ff; --sky2: #e8f7ff; --grd: #7bc86c;
+    transform-origin: center bottom; transition: transform .55s cubic-bezier(.16,1,.3,1);
+}
+.scn-bg--park { --sky1: #a9dbff; --sky2: #e9f8e2; --grd: #79c56a; }
+.scn-bg--cafe { --sky1: #ffdca8; --sky2: #fff2df; --grd: #d8a06a; }
+.scn-bg--classroom { --sky1: #cdeee0; --sky2: #fbf6d6; --grd: #9ccf8f; }
+.scn-sky { position: absolute; inset: 0; background: linear-gradient(180deg, var(--sky1) 0%, var(--sky2) 62%); }
+.scn-ground {
+    position: absolute; left: 0; right: 0; bottom: 0; height: 26%;
+    background: radial-gradient(120% 90% at 50% 120%, rgba(255,255,255,.35), transparent 60%), var(--grd);
+    border-top: 3px solid rgba(0,0,0,.06);
+}
+.scn-clouds { position: absolute; inset: 0; pointer-events: none; }
+.scn-cloud { position: absolute; font-size: 34px; opacity: .9; will-change: transform; }
+.scn-cloud--1 { top: 10%; left: -14%; animation: scnDrift 26s linear infinite; }
+.scn-cloud--2 { top: 22%; left: -30%; font-size: 26px; animation: scnDrift 34s linear infinite 4s; }
+.scn-cloud--3 { top: 6%; left: -50%; font-size: 30px; animation: scnDrift 42s linear infinite 10s; }
+.scn-props { position: absolute; inset: 0; pointer-events: none; }
+.scn-prop { position: absolute; font-size: 30px; will-change: transform; }
+.scn-prop--0 { left: 4%; bottom: 22%; font-size: 44px; animation: scnSway 4s ease-in-out infinite; }
+.scn-prop--1 { right: 5%; bottom: 24%; font-size: 40px; animation: scnSway 5s ease-in-out infinite .6s; }
+.scn-prop--2 { left: 30%; top: 14%; font-size: 22px; animation: scnFloat 6s ease-in-out infinite; }
+.scn-prop--3 { right: 30%; top: 20%; font-size: 22px; animation: scnFloat 7s ease-in-out infinite 1s; }
+.scn-prop--4 { left: 46%; bottom: 25%; font-size: 20px; animation: scnFloat 5.5s ease-in-out infinite .3s; }
+
+/* ---- Actors ---- */
+.scn-actor { position: absolute; bottom: 4%; width: 30%; max-width: 150px; text-align: center; z-index: 2; transition: transform .35s, opacity .3s; }
+.scn-actor--a { left: 6%; }
+.scn-actor--b { right: 6%; }
+.scn-actor-body { will-change: transform; animation: scnBreath 3.4s ease-in-out infinite; transform-origin: center bottom; }
+.scn-actor-body svg { width: 100%; height: auto; }
+.scn-actor-badge { font-size: 22px; margin-bottom: -6px; height: 24px; }
+.scn-actor-name {
+    display: inline-block; margin-top: 2px; font-size: 12px; font-weight: 800; color: #fff;
+    background: rgba(60,60,60,.55); padding: 2px 10px; border-radius: 999px;
+}
+.scn-actor:not(.speaking) { opacity: .82; transform: scale(.94); }
+.scn-actor.speaking { z-index: 4; }
+.scn-actor.speaking .scn-actor-body { animation: scnTalkBob .5s ease-in-out infinite; }
+.scn-actor.speaking .scn-actor-body .m-mouth { transform-box: fill-box; transform-origin: center; animation: scnTalk .24s ease-in-out infinite alternate; }
+
+/* ---- Speech bubble ---- */
+.scn-bubble {
+    position: absolute; top: 7%; max-width: 66%; background: #fff; border: 3px solid #3c3c3c;
+    border-radius: 16px; padding: 10px 14px; font-size: 15px; font-weight: 700; color: #3c3c3c; line-height: 1.35;
+    opacity: 0; transform: scale(.7) translateY(6px); transform-origin: bottom center; z-index: 6; box-shadow: 0 6px 14px rgba(0,0,0,.12);
+}
+.scn-bubble.show { animation: scnBubblePop .34s cubic-bezier(.16,1.4,.4,1) forwards; }
+.scn-bubble--a { left: 5%; }
+.scn-bubble--b { right: 5%; }
+.scn-bubble::after {
+    content: ''; position: absolute; bottom: -14px; width: 0; height: 0;
+    border: 8px solid transparent; border-top-color: #3c3c3c;
+}
+.scn-bubble--a::after { left: 26px; }
+.scn-bubble--b::after { right: 26px; }
+.scn-hl { color: #1899d6; }
+.scn-phase-tag {
+    position: absolute; top: 10px; left: 10px; z-index: 7; background: rgba(255,255,255,.9);
+    border-radius: 999px; padding: 4px 12px; font-size: 12px; font-weight: 800; color: #3c3c3c;
+}
+.scn-stage.celebrate { animation: scnCelebrate .8s ease; }
+
+/* ---- Panel (below stage) ---- */
+.scn-panel { margin-top: 16px; min-height: 150px; }
+.scn-line { text-align: center; }
+.scn-line-who { font-size: 12px; font-weight: 800; color: #999; text-transform: uppercase; letter-spacing: .5px; }
+.scn-line-en { font-size: 22px; font-weight: 800; color: #3c3c3c; margin: 4px 0; }
+.scn-line-vi { font-size: 15px; color: #777; }
+.scn-vocab-strip { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; justify-content: center; margin: 14px 0; }
+.scn-vocab-label { font-size: 13px; font-weight: 800; color: #999; }
+.scn-chip {
+    border: 2px solid #e5e5e5; background: #f7f7f7; border-radius: 999px; padding: 5px 12px;
+    font-size: 14px; font-weight: 700; color: #3c3c3c; cursor: pointer; transition: all .15s;
+}
+.scn-chip:hover { border-color: #1cb0f6; }
+.scn-chip.open { background: #ddf4ff; border-color: #1cb0f6; cursor: default; }
+.scn-chip.open em { font-style: normal; color: #1899d6; margin-left: 6px; font-weight: 800; }
+.scn-dots { display: flex; gap: 7px; justify-content: center; margin: 8px 0 14px; }
+.scn-dot { width: 9px; height: 9px; border-radius: 50%; background: #e5e5e5; transition: all .2s; }
+.scn-dot.done { background: #58cc02; }
+.scn-dot.on { background: #ffc800; transform: scale(1.35); }
+.scn-controls { display: flex; gap: 12px; justify-content: center; }
+.scn-controls .btn-primary, .scn-controls .btn-secondary { min-width: 140px; }
+
+/* ---- Quiz ---- */
+.scn-quiz { max-width: 460px; margin: 0 auto; text-align: center; }
+.scn-quiz-progress { font-size: 13px; font-weight: 800; color: #ffc800; margin-bottom: 8px; }
+.scn-quiz-q { font-size: 19px; font-weight: 800; color: #3c3c3c; margin-bottom: 18px; }
+.scn-fill { color: #1899d6; }
+.scn-quiz-opts { display: grid; gap: 10px; }
+.scn-opt {
+    border: 2px solid #e5e5e5; border-bottom-width: 4px; background: #fff; border-radius: 14px;
+    padding: 13px; font-size: 16px; font-weight: 700; color: #3c3c3c; cursor: pointer; transition: all .12s;
+}
+.scn-opt:hover:not(.locked) { border-color: #1cb0f6; background: #f0faff; }
+.scn-opt.locked { cursor: default; }
+.scn-opt.correct { border-color: #58cc02; background: #d7ffb8; color: #58a700; }
+.scn-opt.wrong { border-color: #ff4b4b; background: #ffdfe0; color: #ea2b2b; }
+.scn-quiz-feedback { margin-top: 16px; min-height: 30px; }
+.scn-fb-ok { color: #58a700; font-weight: 800; display: block; margin-bottom: 10px; }
+.scn-fb-no { color: #ea2b2b; font-weight: 800; display: block; margin-bottom: 10px; }
+.scn-quiz-next, .scn-rp-next { min-width: 160px; }
+.scn-quiz-done, .scn-summary { text-align: center; max-width: 440px; margin: 0 auto; }
+.scn-quiz-score { font-size: 40px; font-weight: 800; color: #58cc02; }
+.scn-quiz-msg { font-size: 16px; color: #555; margin: 8px 0 18px; }
+
+/* ---- Role-play ---- */
+.scn-rp { max-width: 480px; margin: 0 auto; text-align: center; }
+.scn-rp-who { font-size: 13px; font-weight: 800; color: #999; }
+.scn-rp-partner-line { font-size: 20px; font-weight: 800; color: #3c3c3c; margin: 6px 0; }
+.scn-rp-partner-vi { font-size: 14px; color: #888; margin-bottom: 14px; }
+.scn-rp-cue { font-size: 15px; font-weight: 800; color: #3c3c3c; margin-bottom: 4px; }
+.scn-rp-hint { font-size: 14px; color: #888; margin-bottom: 14px; font-style: italic; }
+.scn-rp-opts { display: grid; gap: 10px; }
+.scn-rp-opt {
+    border: 2px solid #e5e5e5; border-bottom-width: 4px; background: #fff; border-radius: 14px;
+    padding: 13px; font-size: 16px; font-weight: 700; color: #3c3c3c; cursor: pointer; transition: all .12s;
+}
+.scn-rp-opt:hover:not(.locked) { border-color: #ce82ff; background: #faf2ff; }
+.scn-rp-opt.correct { border-color: #58cc02; background: #d7ffb8; color: #58a700; }
+.scn-rp-opt.wrong { border-color: #ff4b4b; background: #ffdfe0; color: #ea2b2b; }
+.scn-rp-opt.locked { cursor: default; }
+.scn-rp-feedback { margin-top: 14px; min-height: 30px; }
+
+/* ---- Summary ---- */
+.scn-summary-emoji { font-size: 54px; animation: scnPop .5s ease; }
+.scn-summary-title { font-size: 24px; font-weight: 800; color: #3c3c3c; margin: 4px 0; }
+.scn-summary-line { color: #777; font-style: italic; margin-bottom: 16px; }
+.scn-summary-stats { display: flex; gap: 12px; justify-content: center; margin-bottom: 20px; }
+.scn-summary-stat {
+    background: #f7f7f7; border-radius: 16px; padding: 12px 16px; display: flex; flex-direction: column; align-items: center; min-width: 84px;
+}
+.scn-summary-stat span { font-size: 24px; }
+.scn-summary-stat b { font-size: 18px; color: #3c3c3c; }
+.scn-summary-stat em { font-style: normal; font-size: 12px; color: #999; }
+.scn-summary-btns { display: flex; gap: 12px; justify-content: center; }
+
+/* ---- Keyframes ---- */
+@keyframes scnDrift { from { transform: translateX(0); } to { transform: translateX(130vw); } }
+@keyframes scnSway { 0%,100% { transform: rotate(-4deg); } 50% { transform: rotate(4deg); } }
+@keyframes scnFloat { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+@keyframes scnBreath { 0%,100% { transform: scaleY(1) scaleX(1); } 50% { transform: scaleY(1.03) scaleX(.99); } }
+@keyframes scnTalkBob { 0%,100% { transform: translateY(0) scale(1.06); } 50% { transform: translateY(-8px) scale(1.06); } }
+@keyframes scnTalk { from { transform: scaleY(.35); } to { transform: scaleY(1); } }
+@keyframes scnBubblePop { from { opacity: 0; transform: scale(.7) translateY(6px); } to { opacity: 1; transform: scale(1) translateY(0); } }
+@keyframes scnPop { from { transform: scale(.4); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+@keyframes scnCelebrate { 0%,100% { transform: none; } 25% { transform: rotate(-1.5deg) scale(1.02); } 75% { transform: rotate(1.5deg) scale(1.02); } }
+.shake { animation: scnShake .4s; }
+@keyframes scnShake { 0%,100% { transform: translateX(0); } 20%,60% { transform: translateX(-6px); } 40%,80% { transform: translateX(6px); } }
+
+@media (prefers-reduced-motion: reduce) {
+    .scn-cloud, .scn-prop, .scn-actor-body, .scn-actor.speaking .scn-actor-body,
+    .scn-actor.speaking .scn-actor-body .m-mouth, .scn-stage, .scn-menu-emoji,
+    .scn-summary-emoji, .shake, .scn-bubble.show, .scn-stage.celebrate {
+        animation: none !important; transition: none !important;
+    }
+    .scn-bubble.show { opacity: 1; transform: none; }
+}

@@ -3892,6 +3892,9 @@ class DuoClone {
                         <button class="btn-primary game-pick-btn" id="pick-picture-word">🖼️ Nhìn Hình Chọn Từ</button>
                         <button class="btn-secondary game-pick-duel-btn" data-game-type="picture_word" title="Đấu 1v1">⚔️</button>
                     </div>
+                    <div class="game-picker-row">
+                        <button class="btn-primary game-pick-btn game-pick-btn--full" id="pick-scenarios">🎬 Tình Huống Giao Tiếp</button>
+                    </div>
                 </div>
                 <button class="btn-secondary" style="margin-top: 20px;" id="game-picker-close">QUAY LẠI</button>
             </div>
@@ -3904,6 +3907,7 @@ class DuoClone {
         document.getElementById('pick-odd-one-out').addEventListener('click', () => this.launchOddOneOutGame());
         document.getElementById('pick-reflex').addEventListener('click', () => this.launchReflexGame());
         document.getElementById('pick-picture-word').addEventListener('click', () => this.launchPictureWordGame());
+        document.getElementById('pick-scenarios').addEventListener('click', () => this.launchScenarios());
         document.getElementById('game-picker-close').addEventListener('click', () => this.renderHomeDashboard());
         this.ui.container.querySelectorAll('.game-pick-duel-btn').forEach(btn => {
             btn.addEventListener('click', (e) => {
@@ -3958,6 +3962,18 @@ class DuoClone {
                 onExit: () => this.renderGamePicker()
             });
         }
+    }
+
+    // Animated communication scenes — fully isolated additive feature (scenarios.js).
+    // Does not touch lesson / hearts / XP / progress; just borrows the container.
+    launchScenarios() {
+        if (!window.Scenarios) { alert('Tính năng đang tải, thử lại sau giây lát nhé!'); return; }
+        if (this.ui.checkBtn) { this.ui.checkBtn.style.display = 'none'; }
+        if (this.ui.skipBtn) { this.ui.skipBtn.style.display = 'none'; }
+        window.Scenarios.openMenu(this.ui.container, () => {
+            if (this.ui.checkBtn) { this.ui.checkBtn.style.display = ''; }
+            this.renderGamePicker();
+        });
     }
 
     applyGameReward(matched, total) {
