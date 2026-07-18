@@ -86,6 +86,110 @@ const Scenarios = (() => {
         BANK.forEach(s => (s.vocab || []).forEach(v => { vi.push(v.vi); en.push(v.en); }));
         return { vi: [...new Set(vi)], en: [...new Set(en)] };
     }
+    // A pool of English lines from the sample scenarios, used as role-play / quiz distractors.
+    function bankLinePool() {
+        const en = [];
+        BANK.forEach(s => s.lines.forEach(l => en.push(l.en)));
+        return [...new Set(en)];
+    }
+
+    // ================================================================================
+    // RUNTIME SCENE GENERATION — build one unique scene per course chapter (unit) from
+    // that chapter's OWN vetted content. Zero extra data weight; naturally non-duplicate.
+    // ================================================================================
+    const VIET_RE = /[ăâđêôơưàáảãạằắẳẵặầấẩẫậèéẻẽẹềếểễệìíỉĩịòóỏõọồốổỗộờớởỡợùúủũụừứửữựỳýỷỹỵ]/i;
+    const hasViet = s => VIET_RE.test(String(s || ''));
+
+    const KID_NAMES = ['Bi', 'Na', 'Bo', 'Ti', 'Mi', 'Su', 'Bơ', 'Nu', 'Kem', 'Tí', 'Bông', 'Cà'];
+    const BADGES = ['🎀', '🧢', '👓', '🎩', '🌟', '🍭', '🦕', '🐣', '🎈', '🧣', '👑', '🐥'];
+    const BG_POOL = ['park', 'cafe', 'classroom', 'home', 'market', 'playground'];
+    // Map chapter theme words to a fitting backdrop; fall back to a rotating pick.
+    function pickBg(unit, index) {
+        const t = ((unit.title || '') + ' ' + (unit.description || '')).toLowerCase();
+        const rules = [
+            [/food|eat|drink|fruit|restaurant|meal|cook|coffee|breakfast|lunch|dinner/, 'cafe'],
+            [/school|class|study|book|learn|lesson|teacher|student|grammar/, 'classroom'],
+            [/family|home|house|room|daily|routine|morning|clean/, 'home'],
+            [/shop|buy|market|money|store|price|clothes|sell/, 'market'],
+            [/play|sport|game|park|animal|travel|holiday|nature|weather|outdoor/, 'park'],
+            [/friend|hobby|fun|music|weekend|city|street/, 'playground'],
+        ];
+        for (const [re, bg] of rules) { if (re.test(t)) return bg; }
+        return BG_POOL[index % BG_POOL.length];
+    }
+
+    // Pull EN+VI sentence pairs and EN/VI vocab pairs out of a unit's exercises.
+    function collectUnit(unit) {
+        const sents = [], vocab = [];
+        const seenS = new Set(), seenV = new Set();
+        (unit.lessons || []).forEach(L => (L.exercises || []).forEach(x => {
+            if (x.type === 'translate' && x.target && x.source) {
+                if (!seenS.has(x.target)) { seenS.add(x.target); sents.push({ en: x.target, vi: x.source }); }
+            } else if (x.type === 'ordering' && x.sentence && x.source) {
+                if (!seenS.has(x.sentence)) { seenS.add(x.sentence); sents.push({ en: x.sentence, vi: x.source }); }
+            } else if (x.type === 'multiple_choice' && x.question && x.options) {
+                const m = x.question.match(/['"‘’“”]([^'"‘’“”]+)['"‘’“”]/);
+                const ans = x.options[x.correct];
+                if (m && ans) {
+                    const quoted = m[1].trim();
+                    let en = null, vi = null;
+                    if (!hasViet(quoted) && hasViet(ans)) { en = quoted; vi = ans; }      // "What does 'X' mean?"
+                    else if (hasViet(quoted) && !hasViet(ans)) { en = ans; vi = quoted; } // "How do you say 'X'?"
+                    if (en && vi && !seenV.has(en.toLowerCase())) { seenV.add(en.toLowerCase()); vocab.push({ en, vi }); }
+                }
+            }
+        }));
+        return { sents, vocab };
+    }
+
+    // Assemble a playable scenario object (same schema as SCENARIO_BANK) for a chapter.
+    function buildFromUnit(unit, index) {
+        if (!unit) return null;
+        const { sents, vocab } = collectUnit(unit);
+        if (!sents.length && !vocab.length) return null;
+
+        // Prefer natural, conversational, speakable lines for kids. Sentences with a
+        // pronoun/common verb or a question read like real talk; odd drill imperatives
+        // ("Hug the soap") sink to the bottom. Then keep them short-to-medium.
+        const PRON = /\b(i|you|we|he|she|they|it|my|your|our|his|her)\b/i;
+        const VERB = /\b(is|are|am|like|likes|want|wants|have|has|love|loves|can|do|does|need|would|let)\b/i;
+        const score = s => {
+            let n = 0;
+            if (PRON.test(s.en)) n += 2;
+            if (VERB.test(s.en)) n += 1;
+            if (/\?$/.test(s.en.trim())) n += 1;
+            const w = s.en.split(' ').length;
+            if (w >= 3 && w <= 7) n += 1;
+            return n;
+        };
+        const chosen = sents.slice()
+            .filter(s => s.en.split(' ').length <= 10)
+            .sort((a, b) => score(b) - score(a) || a.en.length - b.en.length)
+            .slice(0, 4);
+        const lines = (chosen.length ? chosen : sents.slice(0, 4));
+        if (!lines.length) return null;
+
+        const moods = ['happy', 'excited', 'giggle', 'love'];
+        const dialogue = lines.map((s, i) => ({
+            who: i % 2 === 0 ? 'A' : 'B',
+            en: s.en, vi: s.vi, mood: moods[i % moods.length],
+        }));
+
+        const bhue = (index * 53 + 40) % 360;
+        return {
+            id: 'unit_scene_' + (unit.id || index),
+            title: unit.title || ('Chương ' + (index + 1)),
+            bg: pickBg(unit, index),
+            cast: {
+                A: { name: 'Khoai', hue: 0, badge: '' },
+                B: { name: 'Bạn ' + KID_NAMES[index % KID_NAMES.length], hue: bhue, badge: BADGES[index % BADGES.length] },
+            },
+            lines: dialogue,
+            vocab: vocab.slice(0, 4),
+            playAs: 'A',
+            __generated: true,
+        };
+    }
 
     // ================================================================================
     // Session state
@@ -135,13 +239,33 @@ const Scenarios = (() => {
     // ================================================================================
     // STAGE — the animated set, shared by Watch & Role-play
     // ================================================================================
-    function startScenario(root, id, onExit) {
+    // Core runner: play any scenario object. `back` = the summary's secondary button
+    // ({label, fn}) so chapter scenes can return to the path and menu scenes to the menu.
+    function runScenario(root, scn, onExit, back) {
         cleanup();
-        const scn = BANK.find(x => x.id === id) || BANK[0];
         if (!scn) { if (onExit) onExit(); return; }
-        S = { scn, root, onExit, phase: 'watch', idx: 0, quiz: null, qIdx: 0, qScore: 0, rpIdx: 0 };
+        S = { scn, root, onExit, back: back || null, phase: 'watch', idx: 0, quiz: null, qIdx: 0, qScore: 0, rpIdx: 0 };
         buildStage();
         renderWatchStep();
+    }
+    function startScenario(root, id, onExit) {
+        const scn = BANK.find(x => x.id === id) || BANK[0];
+        runScenario(root, scn, onExit, { label: 'Tình huống khác ▶', fn: () => openMenu(root, onExit) });
+    }
+    // Entry point for chapter-integrated scenes (called from the path map in app.js).
+    function openUnit(root, unit, index, onExit) {
+        cleanup();
+        const scn = buildFromUnit(unit, index);
+        if (!scn) {
+            root.innerHTML = `<div class="scn-menu"><div class="scn-menu-head"><div class="scn-menu-emoji">🎬</div>
+              <h2 class="scn-menu-title">Chưa có tình huống</h2>
+              <p class="scn-menu-desc">Chương này chưa đủ nội dung để dựng hoạt cảnh. Thử chương khác nhé!</p></div>
+              <button class="btn-secondary scn-menu-back">QUAY LẠI</button></div>`;
+            const b = root.querySelector('.scn-menu-back');
+            if (b) b.addEventListener('click', () => { if (onExit) onExit(); });
+            return;
+        }
+        runScenario(root, scn, onExit, { label: '⬅ Quay lại lộ trình', fn: () => { if (onExit) onExit(); } });
     }
 
     function actorHtml(side, cast, mood) {
@@ -159,6 +283,9 @@ const Scenarios = (() => {
             park: ['🌳', '🌲', '🌸', '🦋', '🌻'],
             cafe: ['☕', '🥐', '🍎', '🧁', '🪴'],
             classroom: ['📚', '✏️', '🔤', '🎒', '🗺️'],
+            home: ['🪴', '🛋️', '🖼️', '🕰️', '🧸'],
+            market: ['🍎', '🥕', '🧺', '🍞', '🎈'],
+            playground: ['🛝', '🌳', '⚽', '🎈', '🪁'],
         };
         const props = map[bg] || ['⭐', '✨', '🎈'];
         return props.map((p, i) => `<span class="scn-prop scn-prop--${i}">${p}</span>`).join('');
@@ -273,11 +400,15 @@ const Scenarios = (() => {
     function buildQuiz() {
         const scn = S.scn;
         const p = pool();
+        const viPool = [...new Set([...p.vi, ...scn.vocab.map(v => v.vi)])];
+        const enPool = [...new Set([...p.en, ...scn.vocab.map(v => v.en)])];
+        const linePool = [...new Set([...bankLinePool(), ...scn.lines.map(l => l.en)])];
         const qs = [];
+        const esc = w => w.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 
-        // Vocabulary-meaning questions (up to 3)
+        // 1) Vocabulary-meaning questions (up to 3)
         shuffle(scn.vocab).slice(0, 3).forEach(v => {
-            const distract = shuffle(p.vi.filter(x => x !== v.vi)).slice(0, 3);
+            const distract = shuffle(viPool.filter(x => x !== v.vi)).slice(0, 3);
             const options = shuffle([v.vi, ...distract]);
             qs.push({
                 q: `Từ “<b>${escapeHtml(v.en)}</b>” nghĩa là gì?`,
@@ -286,14 +417,14 @@ const Scenarios = (() => {
             });
         });
 
-        // One fill-the-blank drawn from a real line that contains a vocab word
+        // 2) One fill-the-blank drawn from a real line that contains a vocab word
         const inLine = scn.vocab.filter(v =>
-            scn.lines.some(l => new RegExp('\\b' + v.en.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '\\b', 'i').test(l.en)));
+            scn.lines.some(l => new RegExp('\\b' + esc(v.en) + '\\b', 'i').test(l.en)));
         if (inLine.length) {
             const target = shuffle(inLine)[0];
-            const line = scn.lines.find(l => new RegExp('\\b' + target.en.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '\\b', 'i').test(l.en));
-            const blanked = line.en.replace(new RegExp('\\b' + target.en.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '\\b', 'i'), '____');
-            const distract = shuffle(p.en.filter(x => x.toLowerCase() !== target.en.toLowerCase())).slice(0, 3);
+            const line = scn.lines.find(l => new RegExp('\\b' + esc(target.en) + '\\b', 'i').test(l.en));
+            const blanked = line.en.replace(new RegExp('\\b' + esc(target.en) + '\\b', 'i'), '____');
+            const distract = shuffle(enPool.filter(x => x.toLowerCase() !== target.en.toLowerCase())).slice(0, 3);
             const options = shuffle([target.en, ...distract]);
             qs.push({
                 q: `Điền từ đúng:<br><span class="scn-fill">“${escapeHtml(blanked)}”</span>`,
@@ -301,6 +432,23 @@ const Scenarios = (() => {
                 correct: options.indexOf(target.en),
             });
         }
+
+        // 3) Pad with "which line means…" questions so every chapter gets a real quiz even
+        //    when vocab pairs are sparse (always derivable from the vetted dialogue lines).
+        const usedLines = new Set();
+        shuffle(scn.lines).forEach(l => {
+            if (qs.length >= 4 || usedLines.has(l.en)) return;
+            usedLines.add(l.en);
+            const distract = shuffle(linePool.filter(x => x !== l.en)).slice(0, 3);
+            if (distract.length < 2) return; // not enough to make a fair question
+            const options = shuffle([l.en, ...distract]);
+            qs.push({
+                q: `Câu nào có nghĩa:<br><span class="scn-fill">“${escapeHtml(l.vi)}”</span>`,
+                options,
+                correct: options.indexOf(l.en),
+            });
+        });
+
         return qs;
     }
 
@@ -493,13 +641,18 @@ const Scenarios = (() => {
             </div>
             <div class="scn-summary-btns">
               <button class="btn-secondary scn-again">🔁 Xem lại</button>
-              <button class="btn-primary scn-more">Tình huống khác ▶</button>
+              <button class="btn-primary scn-more">${escapeHtml(S.back ? S.back.label : 'Xong ✓')}</button>
             </div>
           </div>`;
-        S.panel.querySelector('.scn-again').addEventListener('click', () => startScenario(S.root, S.scn.id, S.onExit));
-        S.panel.querySelector('.scn-more').addEventListener('click', () => openMenu(S.root, S.onExit));
+        // "Xem lại" replays the SAME scene object (works for generated chapter scenes too,
+        // whose id is not in BANK).
+        S.panel.querySelector('.scn-again').addEventListener('click', () => runScenario(S.root, S.scn, S.onExit, S.back));
+        S.panel.querySelector('.scn-more').addEventListener('click', () => {
+            if (S.back && S.back.fn) S.back.fn();
+            else if (S.onExit) S.onExit();
+        });
     }
 
-    return { openMenu, list: () => BANK.slice() };
+    return { openMenu, openUnit, buildFromUnit, list: () => BANK.slice() };
 })();
 window.Scenarios = Scenarios;

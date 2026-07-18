@@ -3057,6 +3057,16 @@ body {
 .scn-card-title { font-size: 17px; font-weight: 800; color: #3c3c3c; padding: 0 12px; }
 .scn-card-sub { font-size: 12px; color: #999; margin-top: 3px; }
 
+/* ---- Chapter entry button (in the path map) ---- */
+.scn-unit-btn {
+    display: block; width: 100%; max-width: 340px; margin: 2px auto 16px; padding: 11px 16px;
+    border: none; border-radius: 14px; cursor: pointer; font-family: inherit; font-weight: 800; font-size: 15px;
+    color: #fff; background: linear-gradient(100deg, #ce82ff 0%, #a560ff 100%);
+    box-shadow: 0 4px 0 #8a42e0, 0 6px 14px rgba(138,66,224,.32); transition: transform .12s, box-shadow .12s;
+}
+.scn-unit-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 0 #8a42e0, 0 10px 18px rgba(138,66,224,.38); }
+.scn-unit-btn:active { transform: translateY(2px); box-shadow: 0 2px 0 #8a42e0; }
+
 /* ---- Stage ---- */
 .scn-play { max-width: 620px; margin: 0 auto; }
 .scn-stage {
@@ -3067,6 +3077,9 @@ body {
 .scn-bg--park { --sky1: #a9dbff; --sky2: #e9f8e2; --grd: #79c56a; }
 .scn-bg--cafe { --sky1: #ffdca8; --sky2: #fff2df; --grd: #d8a06a; }
 .scn-bg--classroom { --sky1: #cdeee0; --sky2: #fbf6d6; --grd: #9ccf8f; }
+.scn-bg--home { --sky1: #ffd9e6; --sky2: #fff0e8; --grd: #c99b7a; }
+.scn-bg--market { --sky1: #ffe1b0; --sky2: #fff6e0; --grd: #8fc873; }
+.scn-bg--playground { --sky1: #b7e6ff; --sky2: #fef6cf; --grd: #7ecb6a; }
 .scn-sky { position: absolute; inset: 0; background: linear-gradient(180deg, var(--sky1) 0%, var(--sky2) 62%); }
 .scn-ground {
     position: absolute; left: 0; right: 0; bottom: 0; height: 26%;

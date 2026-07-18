@@ -1577,12 +1577,16 @@ class DuoClone {
 
         map.innerHTML = `
             <h3 class="path-map-unit-title">${this.escapeHtml(unit.title)}</h3>
+            <button class="scn-unit-btn" id="scn-unit-btn">🎬 Xem tình huống giao tiếp</button>
             <div class="path-map-track">
                 <svg class="path-road-svg" id="path-road-svg"></svg>
                 ${nodesHtml}
             </div>
             ${fogHtml}
         `;
+
+        const scnUnitBtn = document.getElementById('scn-unit-btn');
+        if (scnUnitBtn) scnUnitBtn.addEventListener('click', () => this.launchUnitScenario(viewedUnitIdx));
 
         map.querySelectorAll('.path-node').forEach(nodeBtn => {
             nodeBtn.addEventListener('click', () => {
@@ -3973,6 +3977,20 @@ class DuoClone {
         window.Scenarios.openMenu(this.ui.container, () => {
             if (this.ui.checkBtn) { this.ui.checkBtn.style.display = ''; }
             this.renderGamePicker();
+        });
+    }
+
+    // Chapter-integrated scene: generated at runtime from the unit's own vetted content
+    // (scenarios.js buildFromUnit). Isolated — does not affect lesson/progress/hearts.
+    launchUnitScenario(unitIdx) {
+        if (!window.Scenarios) { alert('Tính năng đang tải, thử lại sau giây lát nhé!'); return; }
+        const unit = this.state.courseData.units[unitIdx];
+        if (!unit) return;
+        if (this.ui.checkBtn) { this.ui.checkBtn.style.display = 'none'; }
+        if (this.ui.skipBtn) { this.ui.skipBtn.style.display = 'none'; }
+        window.Scenarios.openUnit(this.ui.container, unit, unitIdx, () => {
+            if (this.ui.checkBtn) { this.ui.checkBtn.style.display = ''; }
+            this.renderHomeDashboard();
         });
     }
 
