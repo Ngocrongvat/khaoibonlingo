@@ -2049,6 +2049,11 @@ class DuoClone {
         this.ui.container.innerHTML = html;
         this.ui.checkBtn.disabled = true;
         this.ui.checkBtn.classList.remove('active');
+        // Self-heal: if any feature ever hid the check button (style.display) and its
+        // restore path was skipped, entering an exercise must always bring it back -
+        // without this, one missed restore would silently kill answering for the whole
+        // session (that exact bug shipped once via the scenario screens).
+        this.ui.checkBtn.style.display = '';
         // Not offered in duels - skipping mid-race would let you advance your own
         // progress bar without actually answering, which is unfair in a head-to-head
         // wager. Every other mode (including matching, which has no check-button step)
@@ -3970,14 +3975,16 @@ class DuoClone {
 
     // Animated communication scenes — fully isolated additive feature (scenarios.js).
     // Does not touch lesson / hearts / XP / progress; just borrows the container.
+    // IMPORTANT: never hide checkBtn via style.display here. The rest of the app only
+    // ever disables it (renderExercise re-enables per exercise), so a display:none that
+    // relied on our onExit to undo would stick forever if the user left through the home
+    // button or the nav menu instead — killing "KIỂM TRA" for every lesson afterwards.
     launchScenarios() {
         if (!window.Scenarios) { alert('Tính năng đang tải, thử lại sau giây lát nhé!'); return; }
-        if (this.ui.checkBtn) { this.ui.checkBtn.style.display = 'none'; }
-        if (this.ui.skipBtn) { this.ui.skipBtn.style.display = 'none'; }
-        window.Scenarios.openMenu(this.ui.container, () => {
-            if (this.ui.checkBtn) { this.ui.checkBtn.style.display = ''; }
-            this.renderGamePicker();
-        });
+        this.ui.checkBtn.disabled = true;
+        this.ui.checkBtn.classList.remove('active');
+        if (this.ui.skipBtn) this.ui.skipBtn.style.display = 'none';
+        window.Scenarios.openMenu(this.ui.container, () => this.renderGamePicker());
     }
 
     // Chapter-integrated scene: generated at runtime from the unit's own vetted content
@@ -3986,12 +3993,10 @@ class DuoClone {
         if (!window.Scenarios) { alert('Tính năng đang tải, thử lại sau giây lát nhé!'); return; }
         const unit = this.state.courseData.units[unitIdx];
         if (!unit) return;
-        if (this.ui.checkBtn) { this.ui.checkBtn.style.display = 'none'; }
-        if (this.ui.skipBtn) { this.ui.skipBtn.style.display = 'none'; }
-        window.Scenarios.openUnit(this.ui.container, unit, unitIdx, () => {
-            if (this.ui.checkBtn) { this.ui.checkBtn.style.display = ''; }
-            this.renderHomeDashboard();
-        });
+        this.ui.checkBtn.disabled = true;
+        this.ui.checkBtn.classList.remove('active');
+        if (this.ui.skipBtn) this.ui.skipBtn.style.display = 'none';
+        window.Scenarios.openUnit(this.ui.container, unit, unitIdx, () => this.renderHomeDashboard());
     }
 
     applyGameReward(matched, total) {
