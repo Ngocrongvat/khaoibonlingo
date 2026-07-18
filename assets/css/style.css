@@ -3066,6 +3066,8 @@ body {
 }
 .scn-unit-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 0 #8a42e0, 0 10px 18px rgba(138,66,224,.38); }
 .scn-unit-btn:active { transform: translateY(2px); box-shadow: 0 2px 0 #8a42e0; }
+.scn-unit-btn-main { display: block; }
+.scn-unit-btn-sub { display: block; margin-top: 2px; font-size: 12px; font-weight: 700; opacity: .85; }
 
 /* ---- Stage ---- */
 .scn-play { max-width: 620px; margin: 0 auto; }

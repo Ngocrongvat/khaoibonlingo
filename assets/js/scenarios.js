@@ -234,7 +234,7 @@ const Scenarios = (() => {
         const bhue = (index * 53 + 40) % 360;
         return {
             id: 'unit_scene_' + (unit.id || index),
-            title: unit.title || ('Chương ' + (index + 1)),
+            title: 'Chương ' + (index + 1) + (unit.title ? ': ' + unit.title : ''),
             bg: pickBg(unit, index),
             cast: {
                 A: { name: 'Khoai', hue: 0, badge: '' },

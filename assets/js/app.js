@@ -1577,7 +1577,10 @@ class DuoClone {
 
         map.innerHTML = `
             <h3 class="path-map-unit-title">${this.escapeHtml(unit.title)}</h3>
-            <button class="scn-unit-btn" id="scn-unit-btn">🎬 Xem tình huống giao tiếp</button>
+            <button class="scn-unit-btn" id="scn-unit-btn">
+                <span class="scn-unit-btn-main">🎬 Xem tình huống giao tiếp — Chương ${viewedUnitIdx + 1}</span>
+                <span class="scn-unit-btn-sub">Hoạt cảnh mới dành riêng cho chương này</span>
+            </button>
             <div class="path-map-track">
                 <svg class="path-road-svg" id="path-road-svg"></svg>
                 ${nodesHtml}
@@ -3901,9 +3904,6 @@ class DuoClone {
                         <button class="btn-primary game-pick-btn" id="pick-picture-word">🖼️ Nhìn Hình Chọn Từ</button>
                         <button class="btn-secondary game-pick-duel-btn" data-game-type="picture_word" title="Đấu 1v1">⚔️</button>
                     </div>
-                    <div class="game-picker-row">
-                        <button class="btn-primary game-pick-btn game-pick-btn--full" id="pick-scenarios">🎬 Tình Huống Giao Tiếp</button>
-                    </div>
                 </div>
                 <button class="btn-secondary" style="margin-top: 20px;" id="game-picker-close">QUAY LẠI</button>
             </div>
@@ -3916,7 +3916,6 @@ class DuoClone {
         document.getElementById('pick-odd-one-out').addEventListener('click', () => this.launchOddOneOutGame());
         document.getElementById('pick-reflex').addEventListener('click', () => this.launchReflexGame());
         document.getElementById('pick-picture-word').addEventListener('click', () => this.launchPictureWordGame());
-        document.getElementById('pick-scenarios').addEventListener('click', () => this.launchScenarios());
         document.getElementById('game-picker-close').addEventListener('click', () => this.renderHomeDashboard());
         this.ui.container.querySelectorAll('.game-pick-duel-btn').forEach(btn => {
             btn.addEventListener('click', (e) => {
@@ -3973,22 +3972,12 @@ class DuoClone {
         }
     }
 
-    // Animated communication scenes — fully isolated additive feature (scenarios.js).
-    // Does not touch lesson / hearts / XP / progress; just borrows the container.
-    // IMPORTANT: never hide checkBtn via style.display here. The rest of the app only
-    // ever disables it (renderExercise re-enables per exercise), so a display:none that
-    // relied on our onExit to undo would stick forever if the user left through the home
-    // button or the nav menu instead — killing "KIỂM TRA" for every lesson afterwards.
-    launchScenarios() {
-        if (!window.Scenarios) { alert('Tính năng đang tải, thử lại sau giây lát nhé!'); return; }
-        this.ui.checkBtn.disabled = true;
-        this.ui.checkBtn.classList.remove('active');
-        if (this.ui.skipBtn) this.ui.skipBtn.style.display = 'none';
-        window.Scenarios.openMenu(this.ui.container, () => this.renderGamePicker());
-    }
-
-    // Chapter-integrated scene: generated at runtime from the unit's own vetted content
-    // (scenarios.js buildFromUnit). Isolated — does not affect lesson/progress/hearts.
+    // Chapter-integrated communication scene: generated at runtime from the unit's own
+    // vetted content (scenarios.js buildFromUnit). Isolated — does not affect
+    // lesson/progress/hearts. Reached only from the path map, one unique scene per
+    // chapter. IMPORTANT: never hide checkBtn via style.display here — the rest of the
+    // app only ever disables it, and a display:none that relied on an exit callback to
+    // undo once stuck forever when users left via the home button (bug 0fcdd79).
     launchUnitScenario(unitIdx) {
         if (!window.Scenarios) { alert('Tính năng đang tải, thử lại sau giây lát nhé!'); return; }
         const unit = this.state.courseData.units[unitIdx];
