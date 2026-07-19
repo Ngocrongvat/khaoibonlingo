@@ -653,21 +653,27 @@ Object.assign(DuoClone.prototype, {
     // Lazily builds one lowercase EN -> VI map from VOCAB_BANK (all categories, plus every
     // conjugated verb form via `forms`) topped up with the closed set of function words
     // that grammar sentences are full of but a topical vocab bank never lists.
+    //
+    // Two accuracy rules (a user report caught misleading glosses on grammar words):
+    // 1. FUNCTION_GLOSS is AUTHORITATIVE - hand-written for how these words are used in
+    //    sentences, so bank homographs can never hijack them ("may" the modal must not
+    //    show the month "Tháng Năm"; "did" must read as an auxiliary, not "làm").
+    // 2. Bank homographs MERGE up to two distinct meanings like a real dictionary
+    //    ("saw" -> "Cưa / nhìn thấy") instead of first-entry-wins showing only the noun
+    //    when the sentence uses the verb (cooks/felt/rose/book/fly...).
     buildWordGlossMap() {
         const map = new Map();
+        const locked = new Set(); // FUNCTION_GLOSS keys - never merged over
         const put = (en, vi) => {
             if (typeof en !== 'string' || typeof vi !== 'string' || !en || !vi) return;
             const key = en.toLowerCase();
-            if (!map.has(key)) map.set(key, vi);
+            if (locked.has(key)) return;
+            const existing = map.get(key);
+            if (!existing) { map.set(key, vi); return; }
+            // merge a second distinct meaning; cap at 2 so the popup stays readable
+            if (existing === vi || existing.includes(' / ') || existing.toLowerCase() === vi.toLowerCase()) return;
+            map.set(key, existing + ' / ' + vi);
         };
-        try {
-            if (typeof VOCAB_BANK !== 'undefined') {
-                Object.values(VOCAB_BANK).forEach(list => (list || []).forEach(entry => {
-                    put(entry.en, entry.vi);
-                    if (entry.forms) Object.values(entry.forms).forEach(f => put(f, entry.vi));
-                }));
-            }
-        } catch (e) { /* gloss map is a nice-to-have */ }
         // Function words / high-frequency grammar words (never in the topical bank).
         const FUNCTION_GLOSS = {
             i: 'tôi', you: 'bạn', he: 'anh ấy', she: 'cô ấy', it: 'nó', we: 'chúng tôi', they: 'họ',
@@ -690,7 +696,28 @@ Object.assign(DuoClone.prototype, {
             many: 'nhiều (đếm được)', much: 'nhiều (không đếm được)', more: 'nhiều hơn', most: 'nhiều nhất',
             all: 'tất cả', every: 'mỗi, mọi', please: 'làm ơn', let: 'hãy, để cho',
         };
-        Object.entries(FUNCTION_GLOSS).forEach(([en, vi]) => put(en, vi));
+        // Hand-written glosses for high-frequency homographs the bank covers with only
+        // ONE sense (or the wrong-first sense) - course sentences use both, so show both.
+        const HOMOGRAPH_GLOSS = {
+            book: 'quyển sách / đặt (vé, phòng)', watch: 'xem / đồng hồ đeo tay',
+            left: 'bên trái / đã rời đi', right: 'bên phải / đúng',
+            light: 'ánh sáng / nhẹ', orange: 'quả cam / màu cam',
+            kind: 'tốt bụng / loại', close: 'đóng / gần', mean: 'có nghĩa là / xấu tính',
+            fly: 'bay / con ruồi', play: 'chơi / vở kịch', water: 'nước / tưới nước',
+            like: 'thích / giống như', back: 'lưng / quay lại / phía sau',
+        };
+        // Grammar words + curated homographs go in FIRST and are then locked - the
+        // topical bank can neither override nor merge into them.
+        Object.entries(FUNCTION_GLOSS).forEach(([en, vi]) => { put(en, vi); locked.add(en.toLowerCase()); });
+        Object.entries(HOMOGRAPH_GLOSS).forEach(([en, vi]) => { put(en, vi); locked.add(en.toLowerCase()); });
+        try {
+            if (typeof VOCAB_BANK !== 'undefined') {
+                Object.values(VOCAB_BANK).forEach(list => (list || []).forEach(entry => {
+                    put(entry.en, entry.vi);
+                    if (entry.forms) Object.values(entry.forms).forEach(f => put(f, entry.vi));
+                }));
+            }
+        } catch (e) { /* gloss map is a nice-to-have */ }
         return map;
     },
 
