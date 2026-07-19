@@ -1142,6 +1142,13 @@ Object.assign(DuoClone.prototype, {
         const batchSize = window.ExerciseGenerator.ALL_TYPES ? window.ExerciseGenerator.ALL_TYPES.length : 10;
 
         this.state.mode = 'practice';
+        // A FREE practice session must never inherit the core-review flag: if the user
+        // abandoned an "ôn luyện củng cố" round mid-way (home button, nav menu), a stale
+        // lessonReviewCore would make THIS session end on the review recap instead of
+        // renderPracticeSummary - mixing the two flows and silently skipping the
+        // practice XP reward. (User-reported: review and free practice jumping into
+        // each other.)
+        this.state.lessonReviewCore = null;
         this.state.practiceQueue = window.ExerciseGenerator.generateBatch(batchSize, difficulty, weakKeys);
         this.state.practiceIdx = 0;
         this.resetSessionAnswers();

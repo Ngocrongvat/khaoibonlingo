@@ -18,6 +18,10 @@ Object.assign(DuoClone.prototype, {
         this.cleanupGlobalChat();
         this.cleanupActivityTicker();
         this.state.mode = 'curriculum';
+        // Coming home ABANDONS any in-flight post-lesson review round - the flag must
+        // die with it, or the next free-practice session would end on the review recap
+        // instead of its own summary (stale-flag cross-contamination, user-reported).
+        this.state.lessonReviewCore = null;
         this.updateNav();
         // Fire-and-forget: keeps the reigning king's exclusive nav-avatar frame current
         // without ever blocking the dashboard render.
