@@ -1,8 +1,24 @@
 const isConfigured = window.SupabaseClient ? window.SupabaseClient.isConfigured : false;
 const client = window.SupabaseClient ? window.SupabaseClient.client : null;
 
+// Session-scoped TTL cache for read queries. Rankings don't change second-to-second,
+// but the UI refetches them on every tab switch / dashboard visit - a short TTL keeps
+// the screens snappy and cuts Supabase request volume without ever showing stale data
+// for long. Failures are cached too (same TTL) so a down endpoint isn't hammered.
+// submitScore() clears the cache: the user's own sync is the one moment fresh rows
+// genuinely matter.
+const _readCache = new Map();
+async function _cached(key, ttlMs, fn) {
+    const hit = _readCache.get(key);
+    if (hit && Date.now() - hit.t < ttlMs) return hit.v;
+    const v = await fn();
+    _readCache.set(key, { t: Date.now(), v });
+    return v;
+}
+
 async function submitScore(username, xp, streak, vibrancy = null, lastActivityDate = null) {
     if (!client || !username) return;
+    _readCache.clear();
     const base = {
         username,
         xp,
@@ -32,35 +48,39 @@ async function submitScore(username, xp, streak, vibrancy = null, lastActivityDa
 // vibrancy column instead of xp/streak. Returns error:true (rendered as a friendly
 // "not available" message) on projects that haven't added the column yet.
 async function getVibrancyLeaderboard(count = 50) {
-    if (!client) return { configured: false, entries: [] };
-    try {
-        const { data, error } = await client
-            .from('leaderboard')
-            .select('*')
-            .order('vibrancy', { ascending: false })
-            .limit(count);
-        if (error) throw error;
-        return { configured: true, entries: data || [] };
-    } catch (e) {
-        console.error('Failed to fetch vibrancy leaderboard:', e);
-        return { configured: true, entries: [], error: true };
-    }
+    return _cached('vibrancy:' + count, 30000, async () => {
+        if (!client) return { configured: false, entries: [] };
+        try {
+            const { data, error } = await client
+                .from('leaderboard')
+                .select('*')
+                .order('vibrancy', { ascending: false })
+                .limit(count);
+            if (error) throw error;
+            return { configured: true, entries: data || [] };
+        } catch (e) {
+            console.error('Failed to fetch vibrancy leaderboard:', e);
+            return { configured: true, entries: [], error: true };
+        }
+    });
 }
 
 async function fetchTop(count = 50) {
-    if (!client) return { configured: false, entries: [] };
-    try {
-        const { data, error } = await client
-            .from('leaderboard')
-            .select('*')
-            .order('xp', { ascending: false })
-            .limit(count);
-        if (error) throw error;
-        return { configured: true, entries: data || [] };
-    } catch (e) {
-        console.error('Failed to fetch leaderboard:', e);
-        return { configured: true, entries: [], error: true };
-    }
+    return _cached('top:' + count, 30000, async () => {
+        if (!client) return { configured: false, entries: [] };
+        try {
+            const { data, error } = await client
+                .from('leaderboard')
+                .select('*')
+                .order('xp', { ascending: false })
+                .limit(count);
+            if (error) throw error;
+            return { configured: true, entries: data || [] };
+        } catch (e) {
+            console.error('Failed to fetch leaderboard:', e);
+            return { configured: true, entries: [], error: true };
+        }
+    });
 }
 
 function getMonday(date) {
@@ -171,20 +191,22 @@ function isStreakRowFresh(row) {
 // no separate table needed for the ranking itself. Stale rows (see isStreakRowFresh)
 // are dropped so long-gone users can't squat the top with a broken chain.
 async function getStreakLeaderboard(count = 50) {
-    if (!client) return { configured: false, entries: [] };
-    try {
-        const { data, error } = await client
-            .from('leaderboard')
-            .select('*')
-            .order('streak', { ascending: false })
-            .limit(count * 3);
-        if (error) throw error;
-        const entries = (data || []).filter(r => (r.streak || 0) > 0 && isStreakRowFresh(r)).slice(0, count);
-        return { configured: true, entries };
-    } catch (e) {
-        console.error('Failed to fetch streak leaderboard:', e);
-        return { configured: true, entries: [], error: true };
-    }
+    return _cached('streak:' + count, 30000, async () => {
+        if (!client) return { configured: false, entries: [] };
+        try {
+            const { data, error } = await client
+                .from('leaderboard')
+                .select('*')
+                .order('streak', { ascending: false })
+                .limit(count * 3);
+            if (error) throw error;
+            const entries = (data || []).filter(r => (r.streak || 0) > 0 && isStreakRowFresh(r)).slice(0, count);
+            return { configured: true, entries };
+        } catch (e) {
+            console.error('Failed to fetch streak leaderboard:', e);
+            return { configured: true, entries: [], error: true };
+        }
+    });
 }
 
 // Mirrors checkAndAwardWeeklyPrize() exactly (same Saturday-19:00 cutoff, same
@@ -265,26 +287,33 @@ async function getStreakHallOfFame(limit = 20) {
 // profile_usernames view the friends/user-info cards already use (leaderboard table has
 // no teddy column). Zero-bear users are dropped: an all-zero board reads as broken.
 async function getTeddyLeaderboard(count = 50) {
-    if (!client) return { configured: false, entries: [] };
-    try {
-        const { data, error } = await client
-            .from('profile_usernames')
-            .select('username, teddy_bears, avatar_url')
-            .order('teddy_bears', { ascending: false })
-            .limit(count);
-        if (error) throw error;
-        const entries = (data || []).filter(r => (r.teddy_bears || 0) > 0);
-        return { configured: true, entries };
-    } catch (e) {
-        console.error('Failed to fetch teddy leaderboard:', e);
-        return { configured: true, entries: [], error: true };
-    }
+    return _cached('teddy:' + count, 30000, async () => {
+        if (!client) return { configured: false, entries: [] };
+        try {
+            const { data, error } = await client
+                .from('profile_usernames')
+                .select('username, teddy_bears, avatar_url')
+                .order('teddy_bears', { ascending: false })
+                .limit(count);
+            if (error) throw error;
+            const entries = (data || []).filter(r => (r.teddy_bears || 0) > 0);
+            return { configured: true, entries };
+        } catch (e) {
+            console.error('Failed to fetch teddy leaderboard:', e);
+            return { configured: true, entries: [], error: true };
+        }
+    });
 }
 
 // "Vị Vua Của Tuần" - the most recent weekly XP teddy-bear winner (latest hall_of_fame
 // row). Resolves the avatar for the honor banner via profile_usernames; every lookup is
 // optional-graceful so a missing table/row just means "no king yet".
 async function getLatestKing() {
+    // 10-minute TTL: long enough to spare the hall_of_fame table from every dashboard
+    // visit, short enough that a freshly crowned Saturday-evening king shows up soon.
+    return _cached('king', 10 * 60 * 1000, () => _getLatestKingRaw());
+}
+async function _getLatestKingRaw() {
     if (!client) return null;
     try {
         const { data, error } = await client

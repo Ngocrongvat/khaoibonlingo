@@ -57,6 +57,30 @@
             this.base = BASE;
             this.muted = false;
             this._last = {};   // last variant index played per file group (avoid repeats)
+            this._pool = new Map();   // src -> reusable Audio element (see play())
+            this._schedulePreload();
+        }
+
+        // Warm the cache for the handful of sounds a session hears FIRST (answer
+        // feedback), so the very first "Chính xác!" isn't silent for a beat while its
+        // mp3 downloads. Deferred until after window load + a settle delay so the
+        // preload never competes with the app's own (large) boot payload.
+        _schedulePreload() {
+            const warm = () => setTimeout(() => {
+                ['correct1', 'correct2', 'wrong1', 'wrong2', 'complete1', 'smile1'].forEach(name => {
+                    try {
+                        const src = this.base + name + '.mp3';
+                        if (this._pool.has(src)) return;
+                        const a = new Audio(src);
+                        a.preload = 'auto';
+                        this._pool.set(src, a);
+                    } catch (e) { /* preload is best-effort */ }
+                });
+            }, 2500);
+            try {
+                if (document.readyState === 'complete') warm();
+                else window.addEventListener('load', warm, { once: true });
+            } catch (e) { /* stay silent */ }
         }
 
         // Pick a random 1-based variant index for a group, avoiding an immediate repeat.
@@ -77,7 +101,18 @@
             if (r) {
                 try {
                     const src = this.base + r.file + this._pick(r.file) + '.mp3';
-                    const a = new Audio(src);
+                    // Reuse a pooled (already-downloaded/decoded) element when it's idle
+                    // so playback starts instantly; fall back to a fresh Audio when the
+                    // pooled one is mid-play (rapid reactions may overlap) or unseen.
+                    let a = this._pool.get(src);
+                    if (a && (a.paused || a.ended)) {
+                        try { a.currentTime = 0; } catch (e2) { /* not seekable yet */ }
+                    } else {
+                        a = new Audio(src);
+                        // Pool it for next time unless we're overlapping an active play
+                        // (keep the busy element pooled; the overlap copy is disposable).
+                        if (!this._pool.has(src)) this._pool.set(src, a);
+                    }
                     a.volume = r.vol;
                     const p = a.play();
                     if (p && p.catch) p.catch(() => { });
