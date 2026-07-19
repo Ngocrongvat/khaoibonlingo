@@ -7,7 +7,7 @@ Object.assign(DuoClone.prototype, {
         return `
             <div class="chat-bubble-row ${isMine ? 'mine' : 'theirs'}">
                 <div class="chat-bubble">
-                    ${isMine ? '' : `<span class="chat-bubble-sender">${this.clickableUsername(m.sender_id, m.sender_username)}</span>`}
+                    ${isMine ? '' : `<span class="chat-bubble-sender">${this.chatAvatarHtml(m.sender_username)}${this.clickableUsername(m.sender_id, m.sender_username)}</span>`}
                     ${this.escapeHtml(m.message)}
                 </div>
             </div>
@@ -848,11 +848,15 @@ Object.assign(DuoClone.prototype, {
                     <h1 style="text-align: center;">${this.escapeHtml(mine.group.name)}</h1>
                     <p style="text-align: center; color: #777;">${levelInfo.label} · ⭐ ${mine.group.vibrancy_score} điểm sôi nổi</p>
                     <button class="btn-primary" id="group-enter-btn" style="display: block; margin: 20px auto; padding: 15px 30px;">VÀO GROUP</button>
+                    <button class="btn-secondary" id="group-schedule-btn" style="display: block; margin: 10px auto; padding: 12px 30px;">📅 LỊCH THI ĐẤU</button>
+                    <button class="btn-secondary" id="group-directory-btn" style="display: block; margin: 10px auto; padding: 12px 30px;">🌍 DANH SÁCH GROUP</button>
                     <button class="btn-secondary" id="group-leaderboards-btn" style="display: block; margin: 10px auto; padding: 12px 30px;">🏆 BẢNG XẾP HẠNG GROUP</button>
                     <button class="btn-secondary" id="groups-close" style="display: block; margin: 10px auto; padding: 15px 30px;">QUAY LẠI</button>
                 </div>
             `;
             document.getElementById('group-enter-btn').addEventListener('click', () => this.renderGroupDetail(mine.group.id));
+            document.getElementById('group-schedule-btn').addEventListener('click', () => this.renderBattleScheduleBoard(mine.group.id));
+            document.getElementById('group-directory-btn').addEventListener('click', () => this.renderGroupDirectory());
             document.getElementById('group-leaderboards-btn').addEventListener('click', () => this.renderGroupLeaderboards());
             document.getElementById('groups-close').addEventListener('click', () => this.renderHomeDashboard());
             this.ui.checkBtn.disabled = true;
@@ -894,7 +898,7 @@ Object.assign(DuoClone.prototype, {
                     const info = getGroupLevelInfo(g.vibrancy_score);
                     return `
                         <div class="friend-row">
-                            <span class="friend-row-name">🏰 ${this.escapeHtml(g.name)}
+                            <span class="friend-row-name group-dir-name">${this.clickableGroupName(g.id, g.name)}
                                 <span class="group-row-meta">${info.label} · ⭐ ${g.vibrancy_score} sôi nổi · 👥 ${counts[g.id] || 0}/${window.Groups.MAX_MEMBERS} thành viên</span>
                             </span>
                             <span class="friend-row-actions">
@@ -1182,7 +1186,7 @@ Object.assign(DuoClone.prototype, {
         return `
             <div class="chat-bubble-row ${isMine ? 'mine' : 'theirs'}">
                 <div class="chat-bubble">
-                    ${isMine ? '' : `<span class="chat-bubble-sender">${this.clickableUsername(m.sender_id, m.sender_username)}</span>`}
+                    ${isMine ? '' : `<span class="chat-bubble-sender">${this.chatAvatarHtml(m.sender_username)}${this.clickableUsername(m.sender_id, m.sender_username)}</span>`}
                     ${this.escapeHtml(m.message)}
                 </div>
             </div>

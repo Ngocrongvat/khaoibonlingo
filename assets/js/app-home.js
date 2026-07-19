@@ -26,6 +26,9 @@ Object.assign(DuoClone.prototype, {
         // Fire-and-forget: keeps the reigning king's exclusive nav-avatar frame current
         // without ever blocking the dashboard render.
         this.refreshWeeklyKing();
+        // Fire-and-forget: surfaces the "đến giờ ghép đấu group" call-to-arms banner
+        // when a scheduled group battle is inside its play window (app-groups2.js).
+        this.checkScheduledBattleWindow();
         const unit = this.state.courseData.units[this.state.currentUnitIdx];
         const lesson = unit ? unit.lessons[this.state.currentLessonIdx] : null;
 
