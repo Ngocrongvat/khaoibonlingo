@@ -39,7 +39,7 @@ create policy group_battle_pairs_insert_by_admin on public.group_battle_pairs
       select 1 from public.group_battles b
       join public.group_members m on m.group_id in (b.group_a_id, b.group_b_id)
       where b.id = battle_id
-        and m.profile_id = auth.uid()
+        and m.user_id = auth.uid()
         and m.status = 'active'
         and m.role in ('owner', 'admin')
     )
@@ -54,7 +54,7 @@ create policy group_battle_pairs_update_participants on public.group_battle_pair
       select 1 from public.group_battles b
       join public.group_members m on m.group_id in (b.group_a_id, b.group_b_id)
       where b.id = battle_id
-        and m.profile_id = auth.uid()
+        and m.user_id = auth.uid()
         and m.status = 'active'
         and m.role in ('owner', 'admin')
     )

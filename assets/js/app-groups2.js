@@ -67,8 +67,10 @@
             for (let i = 0; i < n; i++) {
                 rows.push({
                     battle_id: battle.id,
-                    user_a_id: A[i].profile_id, username_a: A[i].username,
-                    user_b_id: B[i].profile_id, username_b: B[i].username,
+                    // group_members rows carry `user_id` (see groups_schema.sql) - NOT
+                    // profile_id; that mixup once broke the migration's policies too.
+                    user_a_id: A[i].user_id, username_a: A[i].username,
+                    user_b_id: B[i].user_id, username_b: B[i].username,
                 });
             }
             const { error: pairErr } = await client.from('group_battle_pairs').insert(rows);
