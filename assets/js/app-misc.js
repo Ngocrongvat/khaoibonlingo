@@ -633,12 +633,107 @@ Object.assign(DuoClone.prototype, {
         slot.appendChild(chip);
         this.ui.checkBtn.disabled = false;
         this.ui.checkBtn.classList.add('active');
+        // Incidental vocabulary learning: every word the learner picks up from the bank
+        // is spoken aloud and glossed in a small popup - assembling a sentence doubles
+        // as a pronunciation + meaning drill. Deliberately NOT done in removeWord():
+        // taking a word back is a correction, not a learning moment.
+        this.speakAndGlossWord(word, el);
     },
 
     removeWord(word, chip, originalEl) {
         this.state.currentAnswer = this.state.currentAnswer.filter(w => w !== word);
         chip.remove();
         originalEl.classList.remove('used');
+    },
+
+    // ============== Tap-a-word: pronunciation + meaning (word-bank exercises) ==============
+    // Used by every word-assembly exercise (translate, ordering, dictation phase 1) via
+    // addWord(). Fully additive: failures here can never block the answer flow.
+
+    // Lazily builds one lowercase EN -> VI map from VOCAB_BANK (all categories, plus every
+    // conjugated verb form via `forms`) topped up with the closed set of function words
+    // that grammar sentences are full of but a topical vocab bank never lists.
+    buildWordGlossMap() {
+        const map = new Map();
+        const put = (en, vi) => {
+            if (typeof en !== 'string' || typeof vi !== 'string' || !en || !vi) return;
+            const key = en.toLowerCase();
+            if (!map.has(key)) map.set(key, vi);
+        };
+        try {
+            if (typeof VOCAB_BANK !== 'undefined') {
+                Object.values(VOCAB_BANK).forEach(list => (list || []).forEach(entry => {
+                    put(entry.en, entry.vi);
+                    if (entry.forms) Object.values(entry.forms).forEach(f => put(f, entry.vi));
+                }));
+            }
+        } catch (e) { /* gloss map is a nice-to-have */ }
+        // Function words / high-frequency grammar words (never in the topical bank).
+        const FUNCTION_GLOSS = {
+            i: 'tôi', you: 'bạn', he: 'anh ấy', she: 'cô ấy', it: 'nó', we: 'chúng tôi', they: 'họ',
+            am: 'là (đi với I)', is: 'là (số ít)', are: 'là (số nhiều)', was: 'đã là', were: 'đã là',
+            a: 'một (mạo từ)', an: 'một (mạo từ)', the: '(mạo từ xác định)',
+            my: 'của tôi', your: 'của bạn', his: 'của anh ấy', her: 'của cô ấy', our: 'của chúng tôi', their: 'của họ', its: 'của nó',
+            me: 'tôi (tân ngữ)', him: 'anh ấy (tân ngữ)', us: 'chúng tôi (tân ngữ)', them: 'họ (tân ngữ)',
+            this: 'này, cái này', that: 'kia, cái đó', these: 'những cái này', those: 'những cái kia',
+            do: 'làm / trợ động từ', does: 'trợ động từ (số ít)', did: 'trợ động từ (quá khứ)',
+            not: 'không', no: 'không', yes: 'vâng, có',
+            and: 'và', or: 'hoặc', but: 'nhưng', so: 'vì vậy', because: 'bởi vì', if: 'nếu',
+            in: 'trong', on: 'trên', at: 'tại, ở', to: 'đến, để', of: 'của', for: 'cho, vì', with: 'với',
+            from: 'từ', by: 'bởi, bằng', about: 'về', under: 'dưới', over: 'phía trên', near: 'gần',
+            there: 'ở đó, có', here: 'ở đây', what: 'cái gì', who: 'ai', where: 'ở đâu', when: 'khi nào',
+            why: 'tại sao', how: 'như thế nào', which: 'cái nào',
+            can: 'có thể', could: 'có thể (quá khứ/lịch sự)', will: 'sẽ', would: 'sẽ (giả định)',
+            should: 'nên', must: 'phải', may: 'có lẽ, được phép',
+            have: 'có', has: 'có (số ít)', had: 'đã có',
+            very: 'rất', too: 'quá, cũng', also: 'cũng', some: 'một vài', any: 'bất kỳ',
+            many: 'nhiều (đếm được)', much: 'nhiều (không đếm được)', more: 'nhiều hơn', most: 'nhiều nhất',
+            all: 'tất cả', every: 'mỗi, mọi', please: 'làm ơn', let: 'hãy, để cho',
+        };
+        Object.entries(FUNCTION_GLOSS).forEach(([en, vi]) => put(en, vi));
+        return map;
+    },
+
+    // Exact lowercase lookup with light suffix-stripping fallbacks so plural nouns and
+    // conjugated verbs still hit their base entry (bakes -> bake, apples -> apple).
+    lookupWordGloss(word) {
+        if (!this._glossMap) this._glossMap = this.buildWordGlossMap();
+        const m = this._glossMap;
+        const w = word.toLowerCase();
+        if (m.has(w)) return m.get(w);
+        const candidates = [];
+        if (w.endsWith('ies')) candidates.push(w.slice(0, -3) + 'y');
+        if (w.endsWith('es')) candidates.push(w.slice(0, -2));
+        if (w.endsWith('s')) candidates.push(w.slice(0, -1));
+        if (w.endsWith('ing')) candidates.push(w.slice(0, -3), w.slice(0, -3) + 'e');
+        if (w.endsWith('ed')) candidates.push(w.slice(0, -2), w.slice(0, -1));
+        for (const c of candidates) { if (c.length >= 2 && m.has(c)) return m.get(c); }
+        return null;
+    },
+
+    speakAndGlossWord(word, anchorEl) {
+        try {
+            const clean = String(word).replace(/[^\p{L}\p{N}'’-]/gu, '');
+            if (!clean) return;
+            // Anchor position must be captured NOW - the chip gets restyled as "used".
+            const rect = anchorEl && anchorEl.getBoundingClientRect ? anchorEl.getBoundingClientRect() : null;
+            this.playAudio(clean, 0.95);
+            const gloss = this.lookupWordGloss(clean);
+            if (!rect) return;
+            // One popup at a time - a rapid assembly replaces, never stacks.
+            if (this._glossPop) this._glossPop.remove();
+            const pop = document.createElement('div');
+            pop.className = 'word-gloss-pop';
+            pop.innerHTML = `🔊 <b>${this.escapeHtml(clean)}</b>${gloss ? ` — ${this.escapeHtml(gloss)}` : ''}`;
+            document.body.appendChild(pop);
+            const half = pop.offsetWidth / 2;
+            const x = Math.min(Math.max(rect.left + rect.width / 2, half + 8), window.innerWidth - half - 8);
+            pop.style.left = x + 'px';
+            pop.style.top = (rect.top - 10) + 'px';
+            this._glossPop = pop;
+            setTimeout(() => { if (pop.isConnected) pop.classList.add('fade'); }, 1400);
+            setTimeout(() => { if (pop.isConnected) pop.remove(); if (this._glossPop === pop) this._glossPop = null; }, 1850);
+        } catch (e) { /* never let the learning popup break answering */ }
     },
 
     // ============== Session answer log (powers the "Tổng kết" summary screens) ==============

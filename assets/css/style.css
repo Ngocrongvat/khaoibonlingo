@@ -3015,6 +3015,23 @@ body {
     .mascot-particle, .correct-shockwave { opacity: 0; }
 }
 
+/* Tap-a-word gloss popup: shows "🔊 word — nghĩa" above a word-bank chip the moment the
+   learner picks it up (see app-misc.js speakAndGlossWord). Fixed-positioned so it never
+   shifts the exercise layout; pointer-events none so it can't swallow the next tap. */
+.word-gloss-pop {
+    position: fixed; transform: translate(-50%, -100%); z-index: 1200;
+    background: rgba(45, 45, 45, .95); color: #fff; padding: 7px 14px; border-radius: 12px;
+    font-size: 14px; font-weight: 700; white-space: nowrap; max-width: 88vw;
+    overflow: hidden; text-overflow: ellipsis; pointer-events: none;
+    box-shadow: 0 4px 12px rgba(0,0,0,.25);
+    animation: glossPopIn .18s cubic-bezier(.16,1.4,.4,1);
+    transition: opacity .4s ease;
+}
+.word-gloss-pop b { color: #ffd966; }
+.word-gloss-pop.fade { opacity: 0; }
+@keyframes glossPopIn { from { opacity: 0; transform: translate(-50%, -80%) scale(.8); } to { opacity: 1; transform: translate(-50%, -100%) scale(1); } }
+@media (prefers-reduced-motion: reduce) { .word-gloss-pop { animation: none; transition: none; } }
+
 /* Dictation 3-phase step indicator. */
 .dictation-steps {
     text-align: center;
