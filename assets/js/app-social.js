@@ -1053,6 +1053,7 @@ Object.assign(DuoClone.prototype, {
                 ` : ''}
 
                 <button class="btn-primary" id="group-battle-btn" style="display: block; margin: 15px auto; padding: 15px 30px;">⚔️ ĐẤU GROUP</button>
+                ${isAdmin ? `<button class="btn-secondary" id="group-schedule-btn" style="display: block; margin: 10px auto; padding: 13px 26px;">📅 Thách đấu có lịch & đặt cược</button>` : ''}
 
                 ${requestsHtml}
 
@@ -1082,6 +1083,8 @@ Object.assign(DuoClone.prototype, {
 
         document.getElementById('group-detail-back').addEventListener('click', () => this.renderHomeDashboard());
         document.getElementById('group-battle-btn').addEventListener('click', () => this.renderGroupBattleMenu(groupId));
+        const scheduleBtn = document.getElementById('group-schedule-btn');
+        if (scheduleBtn) scheduleBtn.addEventListener('click', () => this.renderBattleScheduleBoard(groupId));
 
         const avatarInput = document.getElementById('group-avatar-input');
         if (avatarInput) {
@@ -1240,9 +1243,9 @@ Object.assign(DuoClone.prototype, {
         const rowsHtml = entries.length ? entries.map((g, i) => {
             const medal = i === 0 ? '🥇' : i === 1 ? '🥈' : i === 2 ? '🥉' : `#${i + 1}`;
             return `
-                <div class="leaderboard-row">
+                <div class="leaderboard-row group-lb-row">
                     <span class="lb-rank">${medal}</span>
-                    <span class="lb-name">🏰 ${this.escapeHtml(g.name)}</span>
+                    <span class="lb-name group-lb-name">${this.clickableGroupName(g.id, g.name)}</span>
                     <span class="lb-xp">${valueLabel(g)}</span>
                 </div>
             `;

@@ -3057,6 +3057,23 @@ body {
 .sched-pair-status { display: flex; align-items: center; gap: 6px; flex-shrink: 0; font-weight: 700; }
 .sched-alert-banner { display: block; width: 100%; border: none; cursor: pointer; margin: 0 0 12px; padding: 14px; border-radius: 14px; font-weight: 800; font-size: 14px; color: #fff; background: linear-gradient(100deg, #ff4b4b, #ff9600); box-shadow: 0 4px 0 #d33; animation: schedPulse 1.6s ease-in-out infinite; font-family: inherit; }
 @keyframes schedPulse { 0%,100% { transform: scale(1); } 50% { transform: scale(1.015); } }
+.sched-card-finished { border-color: #d7d7d7; background: #fafafa; }
+
+/* Group leaderboard: let the full group name show (wrap) instead of the 4-column
+   .leaderboard-row grid clipping it with an ellipsis. */
+.leaderboard-row.group-lb-row { grid-template-columns: 44px 1fr auto; column-gap: 8px; }
+.group-lb-name { white-space: normal !important; overflow: visible !important; text-overflow: clip !important; overflow-wrap: anywhere; line-height: 1.25; }
+.group-lb-row .lb-xp { white-space: nowrap; }
+
+/* Owner-to-owner battle chat embedded on the schedule board */
+.bb-chat { margin-top: 10px; border-top: 1.5px dashed #e5e5e5; padding-top: 8px; }
+.bb-chat-list { display: flex; flex-direction: column; gap: 4px; max-height: 160px; overflow-y: auto; text-align: left; margin-bottom: 8px; }
+.bb-chat-msg { background: #f2f7fb; border-radius: 8px; padding: 5px 9px; font-size: 13px; color: #3c3c3c; overflow-wrap: anywhere; }
+.bb-chat-msg.mine { background: #e7f6ff; }
+.bb-chat-msg b { color: #1899d6; }
+.bb-chat-empty { color: #999; font-size: 12px; text-align: center; padding: 6px 0; }
+.bb-chat-input-row { display: flex; gap: 6px; align-items: center; }
+.bb-chat-input { flex: 1; padding: 8px 10px; border: 2px solid var(--duo-border); border-radius: 10px; font-family: inherit; font-size: 13px; }
 
 /* Chat avatars: small round avatar before every sender name; the weekly king's wears
    the golden ring + mini crown so their title stands out in every chat box. */
