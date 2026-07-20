@@ -10,6 +10,14 @@
     'use strict';
     const client = window.SupabaseClient ? window.SupabaseClient.client : null;
 
+    // A member counts as "online" if their heartbeat (group_members.last_active_at,
+    // refreshed on lessons / group visits) is within this window - same 3-minute rule the
+    // old live battle screen uses.
+    const ONLINE_WINDOW_MS = 3 * 60 * 1000;
+    function isMemberOnline(m) {
+        return !!(m && m.last_active_at && (Date.now() - new Date(m.last_active_at).getTime()) < ONLINE_WINDOW_MS);
+    }
+
     // Owner schedules a battle: normal challenge row + scheduled_at/window_min.
     async function challengeScheduled(myGroupId, targetGroupName, scheduledAtISO, windowMin) {
         if (!client) return { error: 'Chưa cấu hình.' };
@@ -200,13 +208,18 @@
             const target = await window.Groups.searchGroupByName(targetGroupName);
             if (!target) return { error: 'Không tìm thấy group này.' };
             if (target.id === myGroupId) return { error: 'Không thể tự thách đấu group của chính mình.' };
+            // Only a live NEW-flow letter (challenge_kind='letter') between THESE two
+            // groups blocks a re-challenge - the old "ĐẤU GROUP" battles that also live in
+            // group_battles (challenge_kind null) must NOT trip this guard (that false
+            // "đang trong thách đấu khác" block was the reported bug). A stuck letter can
+            // always be withdrawn from the board, so this never wedges permanently.
             const existing = await getBattlesFor(myGroupId);
-            if ((existing || []).some(b => b.group_a_id === target.id || b.group_b_id === target.id)) {
-                return { error: 'Đã có một trận thách đấu đang diễn ra với group này.' };
+            if ((existing || []).some(b => b.challenge_kind === 'letter' && (b.group_a_id === target.id || b.group_b_id === target.id))) {
+                return { error: 'Bạn đang có một lời thách đấu với group này. Vào "Lịch thi đấu" để tiếp tục hoặc hủy nó rồi gửi lại.' };
             }
             const { data, error } = await client.from('group_battles').insert({
                 group_a_id: myGroupId, group_b_id: target.id,
-                initiated_by_group_id: myGroupId, invite_accepted: false,
+                initiated_by_group_id: myGroupId, invite_accepted: false, challenge_kind: 'letter',
             }).select().single();
             if (error) throw error;
             // "Máu chiến" counter - counts battles STARTED regardless of outcome (same as
@@ -219,9 +232,84 @@
             return { data };
         } catch (e) {
             console.error('sendChallengeLetter failed:', e);
-            const missing = /invite_accepted|column|schema cache/i.test(e.message || '');
-            return { error: missing ? 'Tính năng thách đấu mới chưa sẵn sàng - quản trị viên cần chạy migration "group_battle_upgrades.sql".' : 'Không thể gửi thư thách đấu lúc này.' };
+            const missing = /invite_accepted|challenge_kind|column|schema cache/i.test(e.message || '');
+            return { error: missing ? 'Tính năng thách đấu mới chưa sẵn sàng - quản trị viên cần chạy các migration "group_battle_upgrades.sql" và "group_battle_realtime.sql".' : 'Không thể gửi thư thách đấu lúc này.' };
         }
+    }
+
+    // Challenger (or either admin, pre-battle) withdraws a letter/scheduling battle that
+    // hasn't started - deletes the row (cascades pairs/chat). Refuses on an active battle:
+    // once fighting has begun the only way out is a forfeit (a recorded loss).
+    async function withdrawBattle(battleId) {
+        if (!client) return { error: 'Chưa cấu hình.' };
+        try {
+            const { error } = await client.from('group_battles').delete().eq('id', battleId).neq('status', 'active');
+            if (error) throw error;
+            return {};
+        } catch (e) { return { error: 'Không thể hủy lúc này.' }; }
+    }
+
+    // Forfeit an ACTIVE battle: the caller's group concedes. Every still-open pair is
+    // awarded to the opponent, forfeited_by is recorded, then the finalizer runs (early,
+    // since no pair is left undecided) - the opponent wins outright + collects the wager.
+    async function forfeitBattle(battle, myGroupId, myProfile) {
+        if (!client || !battle) return { error: 'Chưa cấu hình.' };
+        try {
+            const winnerSide = (myGroupId === battle.group_a_id) ? 'b' : 'a';
+            await client.from('group_battle_pairs')
+                .update({ winner: winnerSide, decided_at: new Date().toISOString() })
+                .eq('battle_id', battle.id).is('winner', null);
+            await client.from('group_battles')
+                .update({ forfeited_by_group_id: myGroupId })
+                .eq('id', battle.id);
+            const fin = await finalizeScheduledBattle(battle.id);
+            return { forfeited: true, fin };
+        } catch (e) {
+            console.error('forfeitBattle failed:', e);
+            const missing = /forfeited_by|column|schema cache/i.test(e.message || '');
+            return { error: missing ? 'Cần chạy migration "group_battle_realtime.sql" trước.' : 'Không thể bỏ cuộc lúc này.' };
+        }
+    }
+
+    // Live progress engine (best-effort, any viewer can run it): resolve any undecided
+    // pair that already has a linked finished duel so the score moves the moment a 1v1
+    // ends; then finalize when the window has closed OR every pair is decided.
+    async function syncScheduledBattle(battle) {
+        if (!client || !battle || battle.status !== 'active' || !battle.scheduled_at) return;
+        try {
+            let pairs = await getPairs(battle.id);
+            const undecided = pairs.filter(p => !p.winner);
+            if (undecided.length) {
+                let duels = [];
+                try { duels = await window.Groups.getBattleDuels(battle.id); } catch (e) { /* none yet */ }
+                for (const p of undecided) {
+                    const duel = (duels || []).find(d => d.status === 'finished' && d.winner_id
+                        && [p.user_a_id, p.user_b_id].includes(d.challenger_id)
+                        && [p.user_a_id, p.user_b_id].includes(d.opponent_id));
+                    if (duel) {
+                        const w = duel.winner_id === p.user_a_id ? 'a' : 'b';
+                        await client.from('group_battle_pairs')
+                            .update({ winner: w, decided_at: new Date().toISOString() })
+                            .eq('id', p.id).is('winner', null);
+                    }
+                }
+                pairs = await getPairs(battle.id);
+            }
+            const windowEnd = new Date(battle.scheduled_at).getTime() + (battle.window_min || 30) * 60000;
+            if (Date.now() >= windowEnd || pairs.every(p => p.winner)) {
+                await finalizeScheduledBattle(battle.id);
+            }
+        } catch (e) { /* live sync is best-effort - never break the board */ }
+    }
+
+    // Broadcast a public battle headline to the community marquee (activity_feed) so every
+    // player sees it live on Home. Best-effort.
+    async function postBattleMarquee(userId, username, message) {
+        try {
+            if (window.ActivityFeed && message) {
+                await window.ActivityFeed.postEvent('group_battle', userId || null, username || 'Trọng tài', message);
+            }
+        } catch (e) { /* marquee is best-effort */ }
     }
 
     // Step 2: opponent owner/admin accepts the letter -> scheduling phase opens.
@@ -328,29 +416,47 @@
         if (!client || !battle || battle.status !== 'pending' || !battle.schedule_approved || !battle.scheduled_at) return { skipped: true };
         if (Date.now() < new Date(battle.scheduled_at).getTime()) return { skipped: true };
         try {
+            const [membersA, membersB] = await Promise.all([
+                window.Groups.getGroupMembers(battle.group_a_id),
+                window.Groups.getGroupMembers(battle.group_b_id),
+            ]);
+            const shuffle = a => { a = a.slice(); for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
+            // Online members go to the FRONT of each roster so, paired by index, online
+            // faces online first; the offline remainder pairs up after.
+            const onlineFirst = arr => shuffle((arr || []).filter(isMemberOnline)).concat(shuffle((arr || []).filter(m => !isMemberOnline(m))));
+            const A = onlineFirst(membersA), B = onlineFirst(membersB);
+            const n = Math.min(A.length, B.length);
+            if (n === 0) return { pairs: 0 }; // nobody to pair - leave pending, don't waste the battle
+            // Only claim (pending->active) once we know there ARE pairs to seed; exactly one
+            // racing viewer wins the claim, so pairs are seeded once.
             const { data: claimed, error: claimErr } = await client.from('group_battles')
                 .update({ status: 'active' })
                 .eq('id', battle.id).eq('status', 'pending').eq('schedule_approved', true)
                 .select().maybeSingle();
             if (claimErr) throw claimErr;
             if (!claimed) return { already: true };
-            const [membersA, membersB] = await Promise.all([
-                window.Groups.getGroupMembers(battle.group_a_id),
-                window.Groups.getGroupMembers(battle.group_b_id),
-            ]);
-            const shuffle = arr => { const a = arr.slice(); for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
-            const A = shuffle(membersA || []), B = shuffle(membersB || []);
-            const n = Math.min(A.length, B.length);
-            if (n === 0) return { pairs: 0 };
+            const nowIso = new Date().toISOString();
             const rows = [];
-            for (let i = 0; i < n; i++) rows.push({
-                battle_id: battle.id,
-                user_a_id: A[i].user_id, username_a: A[i].username,
-                user_b_id: B[i].user_id, username_b: B[i].username,
-            });
+            for (let i = 0; i < n; i++) {
+                const a = A[i], b = B[i];
+                const aOn = isMemberOnline(a), bOn = isMemberOnline(b);
+                // Kickoff rule: a pair with exactly ONE side online is decided 1-0 for the
+                // present member immediately (they "showed up" - joined stamp set so the
+                // reward-steal credits them), so a no-show can't hang that pair.
+                let winner = null, decided = null, ja = null, jb = null;
+                if (aOn && !bOn) { winner = 'a'; decided = nowIso; ja = nowIso; }
+                else if (bOn && !aOn) { winner = 'b'; decided = nowIso; jb = nowIso; }
+                rows.push({
+                    battle_id: battle.id,
+                    user_a_id: a.user_id, username_a: a.username,
+                    user_b_id: b.user_id, username_b: b.username,
+                    winner, decided_at: decided, joined_a_at: ja, joined_b_at: jb,
+                });
+            }
             const { error: pairErr } = await client.from('group_battle_pairs').insert(rows);
             if (pairErr) throw pairErr;
-            return { pairs: rows.length };
+            const decidedAtKickoff = rows.filter(r => r.winner).length;
+            return { pairs: rows.length, decidedAtKickoff };
         } catch (e) { console.error('ensurePairsAndActivate failed:', e); return { error: e.message }; }
     }
 
@@ -380,6 +486,7 @@
         getBattle, getBattlesFor, getRecentFinishedFor, sendChallengeLetter, acceptInvite, declineInvite,
         setSchedule, approveSchedule, getBattleChat, sendBattleChat,
         ensurePairsAndActivate, finalizeScheduledBattle,
+        withdrawBattle, forfeitBattle, syncScheduledBattle, postBattleMarquee, isMemberOnline,
     };
 })();
 
@@ -546,6 +653,141 @@ Object.assign(DuoClone.prototype, {
                 </div>`;
     },
 
+    // ===== Prominent battle notifications, realtime, countdown timers =====
+
+    // Bold, urgent, auto-dismissing banner - louder than showBriefToast, for battle
+    // milestones. kind: 'info' | 'success' | 'danger' | 'live' | 'gold'.
+    showBattleAlert(message, kind = 'info') {
+        let host = document.getElementById('battle-alert-host');
+        if (!host) { host = document.createElement('div'); host.id = 'battle-alert-host'; document.body.appendChild(host); }
+        const el = document.createElement('div');
+        el.className = `battle-alert battle-alert-${kind}`;
+        el.innerHTML = message;
+        host.appendChild(el);
+        setTimeout(() => { el.classList.add('out'); setTimeout(() => el.remove(), 400); }, 5400);
+    },
+
+    // Prominent local banner for the actor + a public marquee headline for everyone.
+    async broadcastBattleStage(localMsg, kind, marqueeMsg) {
+        if (localMsg) this.showBattleAlert(localMsg, kind);
+        if (marqueeMsg) {
+            const u = this.state.profile || {};
+            await window.GroupBattleSchedule.postBattleMarquee(u.id, u.username, marqueeMsg);
+        }
+    },
+
+    // One 1s ticker updates every countdown on screen ([data-countdown-to]=epoch ms).
+    startBattleTick() {
+        if (this._battleTick) return;
+        this._battleTick = setInterval(() => this.renderCountdowns(), 1000);
+        this.renderCountdowns();
+    },
+    stopBattleTick() {
+        if (this._battleTick) { clearInterval(this._battleTick); this._battleTick = null; }
+    },
+    renderCountdowns() {
+        const now = Date.now();
+        const pad = n => String(n).padStart(2, '0');
+        const nodes = document.querySelectorAll('[data-countdown-to]');
+        if (!nodes.length && !document.getElementById('battle-timer-widget')) { this.stopBattleTick(); return; }
+        nodes.forEach(el => {
+            const target = parseInt(el.getAttribute('data-countdown-to'), 10);
+            const left = target - now;
+            if (left <= 0) {
+                el.textContent = el.getAttribute('data-zero-text') || '00:00';
+                el.classList.add('cd-done');
+                if (el.hasAttribute('data-countdown-refresh') && !el._firedRefresh) {
+                    el._firedRefresh = true;
+                    if (this._battleBoardGroupId) setTimeout(() => this.renderBattleScheduleBoard(this._battleBoardGroupId), 800);
+                }
+                return;
+            }
+            const t = Math.floor(left / 1000), h = Math.floor(t / 3600), m = Math.floor((t % 3600) / 60), s = t % 60;
+            el.textContent = h > 0 ? `${h}:${pad(m)}:${pad(s)}` : `${pad(m)}:${pad(s)}`;
+            if (left < 60000) el.classList.add('cd-urgent');
+        });
+    },
+
+    // Realtime board: any change to battles / pairs (score) re-renders (debounced, and
+    // never while a chat box is focused); new chat messages append live without a reload.
+    startBattleBoardLive(viewGroupId) {
+        this.stopBattleBoardLive();
+        const sb = window.SupabaseClient && window.SupabaseClient.client;
+        if (!sb) return;
+        this._battleBoardGroupId = viewGroupId;
+        const reload = () => {
+            const ae = document.activeElement;
+            if (ae && ae.classList && ae.classList.contains('bb-chat-input')) { this._pendingBoardReload = true; return; }
+            clearTimeout(this._boardReloadT);
+            this._boardReloadT = setTimeout(() => this.renderBattleScheduleBoard(viewGroupId), 500);
+        };
+        this._battleBoardChannel = sb.channel('battle-board:' + viewGroupId)
+            .on('postgres_changes', { event: '*', schema: 'public', table: 'group_battles', filter: 'group_a_id=eq.' + viewGroupId }, reload)
+            .on('postgres_changes', { event: '*', schema: 'public', table: 'group_battles', filter: 'group_b_id=eq.' + viewGroupId }, reload)
+            .on('postgres_changes', { event: '*', schema: 'public', table: 'group_battle_pairs' }, reload)
+            .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'group_battle_chat' }, p => this.onBattleChatInsert(p.new))
+            .subscribe();
+    },
+    stopBattleBoardLive() {
+        const sb = window.SupabaseClient && window.SupabaseClient.client;
+        if (this._battleBoardChannel && sb) { try { sb.removeChannel(this._battleBoardChannel); } catch (e) { } }
+        this._battleBoardChannel = null;
+        clearTimeout(this._boardReloadT);
+    },
+    onBattleChatInsert(msg) {
+        if (!msg) return;
+        const list = document.querySelector(`.bb-chat-list[data-battle="${msg.battle_id}"]`);
+        if (!list) return;
+        const empty = list.querySelector('.bb-chat-empty'); if (empty) empty.remove();
+        const mine = this.state.profile && msg.sender_id === this.state.profile.id;
+        const div = document.createElement('div');
+        div.className = 'bb-chat-msg ' + (mine ? 'mine' : '');
+        div.innerHTML = `<b>${this.escapeHtml(msg.sender_username)}:</b> ${this.escapeHtml(msg.message)}`;
+        list.appendChild(div);
+        list.scrollTop = list.scrollHeight;
+    },
+
+    // Floating always-on countdown for the member's nearest imminent/active battle, on
+    // any screen; click to jump to the board. Polled every 60s, ticked every 1s.
+    async refreshBattleTimerWidget() {
+        try {
+            if (!this._battleTimerPoll) this._battleTimerPoll = setInterval(() => this.refreshBattleTimerWidget(), 60000);
+            if (!this.state.profile || !window.Groups || !window.GroupBattleSchedule) return this.hideBattleTimer();
+            const mine = await window.Groups.getMyGroup(this.state.profile.id).catch(() => null);
+            if (!mine || !mine.group) return this.hideBattleTimer();
+            const battles = await window.GroupBattleSchedule.getBattlesFor(mine.group.id);
+            const now = Date.now();
+            let best = null, kind = null, target = 0;
+            for (const b of battles) {
+                if (!b.scheduled_at) continue;
+                const start = new Date(b.scheduled_at).getTime();
+                const end = start + (b.window_min || 30) * 60000;
+                if (b.status === 'active' && now < end) { best = b; kind = 'live'; target = end; break; }
+                if (b.status === 'pending' && b.schedule_approved && now < start && (!best || start < target)) { best = b; kind = 'wait'; target = start; }
+            }
+            if (!best) return this.hideBattleTimer();
+            this.showBattleTimer(mine.group.id, kind, target);
+        } catch (e) { /* widget is best-effort */ }
+    },
+    showBattleTimer(myGroupId, kind, target) {
+        let w = document.getElementById('battle-timer-widget');
+        if (!w) {
+            w = document.createElement('button');
+            w.id = 'battle-timer-widget';
+            document.body.appendChild(w);
+            w.addEventListener('click', () => { if (this._battleTimerGroupId) this.renderBattleScheduleBoard(this._battleTimerGroupId); });
+        }
+        this._battleTimerGroupId = myGroupId;
+        const label = kind === 'live' ? '⚔️ ĐANG THI ĐẤU · còn' : '⏳ Trận bắt đầu sau';
+        w.className = 'battle-timer-widget ' + (kind === 'live' ? 'live' : 'wait');
+        w.innerHTML = `<span class="btw-label">${label}</span><span class="btw-clock" data-countdown-to="${target}" data-zero-text="${kind === 'live' ? 'Hết giờ' : 'Bắt đầu!'}" data-countdown-refresh="1">--:--</span>`;
+        this.startBattleTick();
+    },
+    hideBattleTimer() {
+        const w = document.getElementById('battle-timer-widget');
+        if (w) w.remove();
+    },
+
     // ===== Letter-first challenge flow: search -> letter -> accept -> schedule+wager+chat
     //       -> approve -> auto-pair at window -> timed play -> server-side rewards. =====
 
@@ -639,25 +881,28 @@ Object.assign(DuoClone.prototype, {
         if (!viewGroupId) { this.renderGroupsMenu(); return; }
 
         const S = window.GroupBattleSchedule;
-        let battles = await S.getBattlesFor(viewGroupId);
-        // Open the play window (auto-pair) for any approved battle whose time has arrived.
-        for (const b of battles) {
-            if (b.status === 'pending' && b.schedule_approved && b.scheduled_at && Date.now() >= new Date(b.scheduled_at).getTime()) {
-                await S.ensurePairsAndActivate(b);
-            }
-        }
-        battles = await S.getBattlesFor(viewGroupId);
-        // Finalize (server-side rewards) any active battle whose window has closed.
-        for (const b of battles) {
-            if (b.status === 'active' && b.scheduled_at && Date.now() >= new Date(b.scheduled_at).getTime() + (b.window_min || 30) * 60000) {
-                await S.finalizeScheduledBattle(b.id);
-            }
-        }
-        battles = await S.getBattlesFor(viewGroupId);
-        const finished = await S.getRecentFinishedFor(viewGroupId);
-
         const nameCache = {};
         const nameOf = async id => { if (nameCache[id]) return nameCache[id]; const g = await window.Groups.getGroupById(id).catch(() => null); nameCache[id] = g ? g.name : '?'; return nameCache[id]; };
+
+        let battles = await S.getBattlesFor(viewGroupId);
+        // Auto-pair approved battles whose time has arrived; the client that wins the claim
+        // announces the kickoff on the community marquee.
+        for (const b of battles) {
+            if (b.status === 'pending' && b.schedule_approved && b.scheduled_at && Date.now() >= new Date(b.scheduled_at).getTime()) {
+                const r = await S.ensurePairsAndActivate(b);
+                if (r && r.pairs > 0) {
+                    const na = await nameOf(b.group_a_id), nb = await nameOf(b.group_b_id);
+                    this.showBattleAlert('⚔️ ĐẾN GIỜ! Trận đấu đã bắt đầu — vào trận ngay!', 'live');
+                    await S.postBattleMarquee(this.state.profile && this.state.profile.id, this.state.profile && this.state.profile.username, `⚔️ TRẬN ĐẤU BẮT ĐẦU: ${na} 🆚 ${nb}! (${r.pairs} cặp)`);
+                }
+            }
+        }
+        battles = await S.getBattlesFor(viewGroupId);
+        // Progress the live score and finalize on time for every active battle.
+        for (const b of battles) { if (b.status === 'active') await S.syncScheduledBattle(b); }
+        battles = await S.getBattlesFor(viewGroupId);
+        const finished = await S.getRecentFinishedFor(viewGroupId);
+        await this.announceFinishedBattles(finished, myGroupId, nameOf);
 
         let cards = '';
         for (const b of battles) cards += await this.renderBattleCard(b, myGroupId, iAmAdmin, nameOf);
@@ -675,10 +920,40 @@ Object.assign(DuoClone.prototype, {
                 ${finishedCards ? `<h3 style="text-align:center; margin-top:18px;">Kết quả gần đây</h3>${finishedCards}` : ''}
                 <button class="btn-secondary" id="sched-board-back" style="display:block; margin:15px auto; padding:15px 30px;">QUAY LẠI</button>
             </div>`;
-        document.getElementById('sched-board-back').addEventListener('click', () => this.renderGroupsMenu());
+        document.getElementById('sched-board-back').addEventListener('click', () => { this.stopBattleBoardLive(); this.renderGroupsMenu(); });
         const searchBtn = document.getElementById('chal-search-btn');
         if (searchBtn) searchBtn.addEventListener('click', () => this.renderChallengeSearch(myGroupId));
         this.wireBattleBoard(viewGroupId, battles);
+        this.ui.container.querySelectorAll('.bb-chat-list').forEach(l => { l.scrollTop = l.scrollHeight; });
+        this.startBattleBoardLive(viewGroupId);
+        this.startBattleTick();
+        this.refreshBattleTimerWidget();
+    },
+
+    // Once per finished battle (per client), push the result to the marquee for everyone
+    // and a prominent local banner if the viewer's group was involved.
+    async announceFinishedBattles(finished, myGroupId, nameOf) {
+        if (!this._announcedFinished) this._announcedFinished = new Set();
+        for (const b of (finished || [])) {
+            if (this._announcedFinished.has(b.id)) continue;
+            this._announcedFinished.add(b.id);
+            const na = await nameOf(b.group_a_id), nb = await nameOf(b.group_b_id);
+            const hi = Math.max(b.group_a_wins || 0, b.group_b_wins || 0), lo = Math.min(b.group_a_wins || 0, b.group_b_wins || 0);
+            const resultTxt = !b.winner_group_id ? `HÒA ${b.group_a_wins || 0}-${b.group_b_wins || 0}` : `${this.escapeHtml(b.winner_group_id === b.group_a_id ? na : nb)} THẮNG ${hi}-${lo}`;
+            await window.GroupBattleSchedule.postBattleMarquee(this.state.profile && this.state.profile.id, this.state.profile && this.state.profile.username, `🏁 KẾT THÚC: ${na} 🆚 ${nb} — ${resultTxt}${b.forfeited_by_group_id ? ' (bỏ cuộc)' : ''}`);
+            if (myGroupId && (b.group_a_id === myGroupId || b.group_b_id === myGroupId)) {
+                const iWon = b.winner_group_id === myGroupId;
+                this.showBattleAlert(`🏁 Trận đấu kết thúc! ${!b.winner_group_id ? '🤝 Hai group hòa nhau!' : (iWon ? '🏆 GROUP BẠN CHIẾN THẮNG!' : '💪 Group bạn đã thua trận này.')}`, iWon ? 'gold' : (!b.winner_group_id ? 'info' : 'danger'));
+            }
+        }
+    },
+
+    scoreboardHtml(nameA, nameB, winsA, winsB, live) {
+        return `<div class="bb-scoreboard ${live ? 'live' : ''}">
+                    <span class="bb-sb-team">${this.escapeHtml(nameA)}</span>
+                    <span class="bb-sb-score">${winsA}<span class="bb-sb-dash">–</span>${winsB}</span>
+                    <span class="bb-sb-team">${this.escapeHtml(nameB)}</span>
+                </div>`;
     },
 
     // One battle card, rendered by phase. myGroupId identifies which side (if any) the
@@ -724,18 +999,24 @@ Object.assign(DuoClone.prototype, {
                 : `<p style="color:#999; font-size:13px;">⏳ Chờ đối thủ đặt lịch.</p>`;
         } else if (b.status === 'active' || inWindow) {
             const pairs = await window.GroupBattleSchedule.getPairs(b.id);
-            body += this.renderPairRows(b, pairs, inWindow);
+            const winsA = pairs.filter(p => p.winner === 'a').length, winsB = pairs.filter(p => p.winner === 'b').length;
+            body += this.scoreboardHtml(nameA, nameB, winsA, winsB, true);
+            if (inWindow) body += `<div class="bb-countdown-wrap live">⚔️ Thời gian thi đấu còn <span class="bb-countdown" data-countdown-to="${windowEnd}" data-zero-text="HẾT GIỜ" data-countdown-refresh="1">--:--</span></div>`;
+            body += this.renderPairRows(b, pairs, inWindow, windowEnd);
+            if ((adminA || adminB) && b.status === 'active') body += `<button class="btn-secondary bb-forfeit" data-bid="${b.id}" style="padding:8px 16px; margin-top:8px; color:var(--duo-red);">🏳️ Bỏ cuộc (xử thua)</button>`;
         } else if (at && Date.now() < at.getTime()) {
-            body += `<p style="color:#58a700; font-size:13px;">✅ Đã chốt! Đến giờ hệ thống tự ghép cặp thi đấu.</p>`;
+            body += this.scoreboardHtml(nameA, nameB, 0, 0, false);
+            body += `<div class="bb-countdown-wrap wait">✅ Đã chốt! Trận bắt đầu sau <span class="bb-countdown" data-countdown-to="${at.getTime()}" data-zero-text="BẮT ĐẦU!" data-countdown-refresh="1">--:--</span></div>`;
         } else {
             body += `<p style="color:#999; font-size:13px;">⏳ Đang tổng kết trận...</p>`;
         }
 
+        if ((adminA || adminB) && b.status === 'pending') body += `<button class="btn-secondary bb-withdraw" data-bid="${b.id}" style="padding:7px 14px; margin-top:6px; font-size:12px; color:#999;">❌ Hủy trận</button>`;
         if (adminA || adminB) body += await this.renderBattleChat(b);
-        return `<div class="sched-card"><div class="sched-card-title">${title}</div>${body}</div>`;
+        return `<div class="sched-card ${inWindow ? 'sched-card-live' : ''}"><div class="sched-card-title">${title}</div>${body}</div>`;
     },
 
-    renderPairRows(b, pairs, inWindow) {
+    renderPairRows(b, pairs, inWindow, windowEnd) {
         if (!pairs || !pairs.length) return `<p style="color:#999; font-size:13px;">Chưa có cặp đấu.</p>`;
         const rows = pairs.map(p => {
             const meA = this.state.profile && p.user_a_id === this.state.profile.id;
@@ -743,19 +1024,21 @@ Object.assign(DuoClone.prototype, {
             const status = p.winner
                 ? (p.winner === 'draw' ? '🤝 Hòa' : `🏆 ${this.escapeHtml(p.winner === 'a' ? p.username_a : p.username_b)}`)
                 : (inWindow ? `${p.joined_a_at ? '🟢' : '⚪'} vs ${p.joined_b_at ? '🟢' : '⚪'}` : '⏳');
+            const cd = (inWindow && !p.winner) ? `<span class="bb-pair-cd" data-countdown-to="${windowEnd}" data-zero-text="⌛">--:--</span>` : '';
             const joinBtn = (inWindow && !p.winner && (meA || meB) && !(meA ? p.joined_a_at : p.joined_b_at))
                 ? `<button class="btn-primary sched-join" data-pid="${p.id}" data-bid="${b.id}" data-side="${meA ? 'a' : 'b'}" style="padding:5px 12px; font-size:12px;">VÀO TRẬN</button>` : '';
             const duelBtn = (inWindow && !p.winner && (meA || meB) && (meA ? p.joined_a_at : p.joined_b_at) && (meA ? p.joined_b_at : p.joined_a_at))
                 ? `<button class="btn-primary sched-duel" data-opponent="${this.escapeHtml(meA ? p.username_b : p.username_a)}" data-bid="${b.id}" data-side="${meA ? 'a' : 'b'}" style="padding:5px 12px; font-size:12px;">⚔️ ĐẤU NGAY</button>` : '';
             return `<div class="sched-pair-row ${meA || meB ? 'me' : ''}">
                         <span class="sched-pair-names">${this.escapeHtml(p.username_a)} ⚔️ ${this.escapeHtml(p.username_b)}</span>
-                        <span class="sched-pair-status">${status}${joinBtn}${duelBtn}</span>
+                        <span class="sched-pair-status">${cd}${status}${joinBtn}${duelBtn}</span>
                     </div>`;
         }).join('');
         return `<div class="sched-pairs">${rows}</div>`;
     },
 
     // Private owner-to-owner thread for one battle (only owners/admins of both sides).
+    // Realtime: new messages append via onBattleChatInsert (keyed by data-battle).
     async renderBattleChat(b) {
         const msgs = await window.GroupBattleSchedule.getBattleChat(b.id);
         const list = (msgs || []).map(m => {
@@ -763,7 +1046,8 @@ Object.assign(DuoClone.prototype, {
             return `<div class="bb-chat-msg ${mine ? 'mine' : ''}"><b>${this.escapeHtml(m.sender_username)}:</b> ${this.escapeHtml(m.message)}</div>`;
         }).join('') || `<div class="bb-chat-empty">Chưa có tin nhắn. Trao đổi lịch đấu với chủ group đối thủ ở đây.</div>`;
         return `<div class="bb-chat">
-                    <div class="bb-chat-list">${list}</div>
+                    <div class="bb-chat-title">💬 Chat với chủ group đối thủ (trực tiếp)</div>
+                    <div class="bb-chat-list" data-battle="${b.id}">${list}</div>
                     <div class="bb-chat-input-row">
                         <input type="text" class="bb-chat-input" id="bb-chat-input-${b.id}" maxlength="500" placeholder="Nhắn cho chủ group đối thủ...">
                         <button class="btn-primary bb-chat-send" data-bid="${b.id}" style="padding:8px 14px; font-size:13px;">Gửi</button>
@@ -773,20 +1057,31 @@ Object.assign(DuoClone.prototype, {
 
     async renderFinishedBattleCard(b, myGroupId, nameOf) {
         const nameA = await nameOf(b.group_a_id), nameB = await nameOf(b.group_b_id);
-        let outcome;
-        if (!b.winner_group_id) outcome = '🤝 Hòa';
+        const pairs = await window.GroupBattleSchedule.getPairs(b.id);
+        let outcome, kind;
+        if (!b.winner_group_id) { outcome = '🤝 Hai group HÒA'; kind = 'info'; }
         else {
-            const winnerName = b.winner_group_id === b.group_a_id ? nameA : nameB;
+            const wn = b.winner_group_id === b.group_a_id ? nameA : nameB;
             const mineWon = myGroupId && b.winner_group_id === myGroupId;
-            outcome = `🏆 ${this.escapeHtml(winnerName)} thắng${mineWon ? ' (group bạn!)' : ''}`;
+            outcome = `🏆 ${this.escapeHtml(wn)} THẮNG${mineWon ? ' — group bạn!' : ''}`;
+            kind = mineWon ? 'gold' : 'danger';
         }
-        const wagerNote = (b.wager_xp || 0) > 0 && b.winner_group_id ? ` · 💰 +${b.wager_xp} EXP cho group thắng` : '';
-        const stealNote = b.winner_group_id ? `<div style="color:#777; font-size:12px; text-align:center;">Mỗi thành viên group thắng có vào trận đã cướp 10% XP của đối thủ ghép cặp.</div>` : '';
-        return `<div class="sched-card sched-card-finished">
+        const forfeitNote = b.forfeited_by_group_id
+            ? `<div class="bb-forfeit-note">🏳️ ${this.escapeHtml(b.forfeited_by_group_id === b.group_a_id ? nameA : nameB)} đã bỏ cuộc — bị xử thua.</div>` : '';
+        const pairList = (pairs || []).map(p => {
+            const w = p.winner === 'draw' ? '🤝 Hòa' : (p.winner === 'a' ? `🏆 ${this.escapeHtml(p.username_a)}` : (p.winner === 'b' ? `🏆 ${this.escapeHtml(p.username_b)}` : '—'));
+            return `<div class="bb-result-pair"><span>${this.escapeHtml(p.username_a)} ⚔️ ${this.escapeHtml(p.username_b)}</span><span>${w}</span></div>`;
+        }).join('');
+        const wagerNote = (b.wager_xp || 0) > 0 && b.winner_group_id ? `<div class="bb-result-line">💰 Group thắng nhận <b>${b.wager_xp}</b> EXP cược.</div>` : '';
+        const stealNote = b.winner_group_id ? `<div class="bb-result-line">🗡️ Mỗi thành viên group thắng có vào trận đã cướp 10% XP của đối thủ ghép cặp.</div>` : '';
+        return `<div class="sched-card sched-card-finished bb-result-${kind}">
                     <div class="sched-card-title">${this.clickableGroupName(b.group_a_id, nameA)} ⚔️ ${this.clickableGroupName(b.group_b_id, nameB)}</div>
-                    <div class="sched-card-time">${this.escapeHtml(nameA)} ${b.group_a_wins || 0} - ${b.group_b_wins || 0} ${this.escapeHtml(nameB)}</div>
-                    <div style="font-weight:800; text-align:center; margin:4px 0;">${outcome}${wagerNote}</div>
-                    ${stealNote}
+                    ${this.scoreboardHtml(nameA, nameB, b.group_a_wins || 0, b.group_b_wins || 0, false)}
+                    <div class="bb-result-outcome">${outcome}</div>
+                    ${forfeitNote}
+                    <details class="bb-result-details"><summary>Chi tiết từng cặp (${(pairs || []).length})</summary><div class="bb-result-pairs">${pairList || '<i>Không có cặp đấu.</i>'}</div></details>
+                    ${wagerNote}${stealNote}
+                    <div class="bb-result-rule">Luật: mỗi cặp thắng +1 điểm; vắng mặt trong cửa sổ = xử thua cặp đó; cả hai vắng = hòa; group nhiều điểm hơn thắng.</div>
                 </div>`;
     },
 
@@ -795,12 +1090,13 @@ Object.assign(DuoClone.prototype, {
         const findB = bid => battles.find(x => x.id === bid);
         const reload = () => this.renderBattleScheduleBoard(viewGroupId);
         const on = (sel, fn) => this.ui.container.querySelectorAll(sel).forEach(btn => btn.addEventListener('click', () => fn(btn)));
+        const namesOf = async b => [await window.Groups.getGroupById(b.group_a_id).catch(() => null), await window.Groups.getGroupById(b.group_b_id).catch(() => null)];
 
         on('.bb-accept-letter', async btn => {
             btn.disabled = true;
             const r = await window.GroupBattleSchedule.acceptInvite(findB(btn.dataset.bid), this.state.profile);
             if (r.error) { alert(r.error); btn.disabled = false; return; }
-            this.showBriefToast('✅ Đã nhận lời! Chờ đối thủ đặt lịch.');
+            this.showBattleAlert('✅ Đã NHẬN LỜI thách đấu! Chờ đối thủ đặt lịch & mức cược.', 'success');
             reload();
         });
         on('.bb-decline-letter', btn => this.showConfirmDialog('Từ chối lời thách đấu này?', async () => {
@@ -812,23 +1108,44 @@ Object.assign(DuoClone.prototype, {
         on('.bb-set-schedule', btn => this.renderScheduleEditor(findB(btn.dataset.bid), viewGroupId));
         on('.bb-approve', async btn => {
             btn.disabled = true;
-            const r = await window.GroupBattleSchedule.approveSchedule(findB(btn.dataset.bid), this.state.profile);
+            const b = findB(btn.dataset.bid);
+            const r = await window.GroupBattleSchedule.approveSchedule(b, this.state.profile);
             if (r.error) { alert(r.error); btn.disabled = false; return; }
-            this.showBriefToast('🤝 Đã chốt trận! Đến giờ vào lại đây để vào trận.');
+            this.showBattleAlert('🔒 ĐÃ CHỐT TRẬN ĐẤU! Đến giờ vào lại đây để thi đấu.', 'gold');
+            const [ga, gb] = await namesOf(b);
+            const at = b.scheduled_at ? new Date(b.scheduled_at) : null;
+            const t = at ? `${String(at.getHours()).padStart(2, '0')}:${String(at.getMinutes()).padStart(2, '0')} ${at.toLocaleDateString('vi-VN')}` : '';
+            await window.GroupBattleSchedule.postBattleMarquee(this.state.profile.id, this.state.profile.username, `🔒 CHỐT TRẬN: ${ga ? ga.name : '?'} 🆚 ${gb ? gb.name : '?'} lúc ${t}${(b.wager_xp || 0) > 0 ? ` · cược ${b.wager_xp} EXP` : ''}!`);
             reload();
         });
+        on('.bb-withdraw', btn => this.showConfirmDialog('Hủy trận đấu này? (chỉ được khi trận chưa bắt đầu)', async () => {
+            const r = await window.GroupBattleSchedule.withdrawBattle(btn.dataset.bid);
+            if (r.error) { alert(r.error); return; }
+            this.showBriefToast('Đã hủy trận.');
+            reload();
+        }, { okLabel: 'HỦY TRẬN' }));
+        on('.bb-forfeit', btn => this.showConfirmDialog('Bỏ cuộc? Group bạn sẽ bị XỬ THUA trận này và mất điểm cược.', async () => {
+            const b = findB(btn.dataset.bid);
+            const r = await window.GroupBattleSchedule.forfeitBattle(b, viewGroupId, this.state.profile);
+            if (r.error) { alert(r.error); return; }
+            this.showBattleAlert('🏳️ Group bạn đã bỏ cuộc — xử thua.', 'danger');
+            const [ga, gb] = await namesOf(b);
+            const winner = viewGroupId === b.group_a_id ? gb : ga, loser = viewGroupId === b.group_a_id ? ga : gb;
+            await window.GroupBattleSchedule.postBattleMarquee(this.state.profile.id, this.state.profile.username, `🏳️ ${loser ? loser.name : '?'} BỎ CUỘC — ${winner ? winner.name : '?'} thắng!`);
+            reload();
+        }, { okLabel: 'BỎ CUỘC' }));
         on('.bb-chat-send', async btn => {
             const input = document.getElementById('bb-chat-input-' + btn.dataset.bid);
             const r = await window.GroupBattleSchedule.sendBattleChat(btn.dataset.bid, this.state.profile, input ? input.value : '');
             if (r.error) { alert(r.error); return; }
-            reload();
+            if (input) input.value = ''; // realtime (onBattleChatInsert) appends it instantly
         });
         on('.sched-join', async btn => {
             btn.disabled = true;
             const pairs = await window.GroupBattleSchedule.getPairs(btn.dataset.bid);
             const p = (pairs || []).find(x => x.id === btn.dataset.pid) || { id: btn.dataset.pid };
             await window.GroupBattleSchedule.joinPair(p, btn.dataset.side);
-            this.showBriefToast('🟢 Đã vào trận - chờ đối thủ...');
+            this.showBattleAlert('🟢 Bạn đã VÀO TRẬN! Chờ đối thủ để bắt đầu đấu.', 'live');
             reload();
         });
         on('.sched-duel', async btn => {

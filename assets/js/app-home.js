@@ -29,6 +29,8 @@ Object.assign(DuoClone.prototype, {
         // Fire-and-forget: surfaces the "đến giờ ghép đấu group" call-to-arms banner
         // when a scheduled group battle is inside its play window (app-groups2.js).
         this.checkScheduledBattleWindow();
+        // Floating always-on countdown for the member's imminent/active group battle.
+        this.refreshBattleTimerWidget();
         const unit = this.state.courseData.units[this.state.currentUnitIdx];
         const lesson = unit ? unit.lessons[this.state.currentLessonIdx] : null;
 

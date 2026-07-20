@@ -3074,6 +3074,74 @@ body {
 .bb-chat-empty { color: #999; font-size: 12px; text-align: center; padding: 6px 0; }
 .bb-chat-input-row { display: flex; gap: 6px; align-items: center; }
 .bb-chat-input { flex: 1; padding: 8px 10px; border: 2px solid var(--duo-border); border-radius: 10px; font-family: inherit; font-size: 13px; }
+.bb-chat-title { font-size: 12px; font-weight: 800; color: #1899d6; text-align: left; margin-bottom: 6px; }
+
+/* ---- Live battle scoreboard ---- */
+.bb-scoreboard { display: flex; align-items: center; justify-content: center; gap: 10px; margin: 10px auto; max-width: 100%; }
+.bb-sb-team { flex: 1; font-weight: 800; font-size: 14px; color: #3c3c3c; overflow-wrap: anywhere; text-align: center; }
+.bb-sb-score { flex-shrink: 0; font-size: 30px; font-weight: 900; color: #1cb0f6; letter-spacing: 1px; min-width: 90px; text-align: center; font-variant-numeric: tabular-nums; }
+.bb-sb-dash { color: #bbb; margin: 0 4px; }
+.bb-scoreboard.live .bb-sb-score { color: #ff9600; animation: bbScorePulse 1.4s ease-in-out infinite; }
+@keyframes bbScorePulse { 0%,100% { transform: scale(1); } 50% { transform: scale(1.08); } }
+.sched-card-live { border-color: #ff9600; box-shadow: 0 0 0 2px rgba(255,150,0,.15); }
+
+/* ---- Countdown timers ---- */
+.bb-countdown-wrap { text-align: center; font-weight: 800; font-size: 14px; margin: 6px 0 10px; color: #3c3c3c; }
+.bb-countdown-wrap.live { color: #e8590c; }
+.bb-countdown-wrap.wait { color: #1971c2; }
+.bb-countdown { font-variant-numeric: tabular-nums; font-weight: 900; background: #fff3bf; border-radius: 8px; padding: 1px 8px; }
+.bb-countdown-wrap.live .bb-countdown { background: #ffe3e3; color: #e03131; }
+.bb-countdown.cd-urgent { animation: bbUrgent .8s steps(2) infinite; }
+@keyframes bbUrgent { 0%,100% { background: #ffe3e3; } 50% { background: #ff8787; color: #fff; } }
+.bb-pair-cd { font-size: 11px; font-variant-numeric: tabular-nums; color: #e8590c; font-weight: 800; margin-right: 4px; }
+
+/* ---- Floating always-on battle countdown widget ---- */
+.battle-timer-widget {
+    position: fixed; right: 14px; bottom: 84px; z-index: 1250; border: none; cursor: pointer;
+    display: flex; flex-direction: column; align-items: center; gap: 1px; padding: 9px 15px;
+    border-radius: 14px; font-family: inherit; color: #fff; box-shadow: 0 6px 18px rgba(0,0,0,.28);
+    animation: btwPop .3s cubic-bezier(.16,1.4,.4,1);
+}
+.battle-timer-widget.wait { background: linear-gradient(135deg, #4dabf7, #1971c2); }
+.battle-timer-widget.live { background: linear-gradient(135deg, #ff922b, #f03e3e); animation: btwPop .3s cubic-bezier(.16,1.4,.4,1), btwLive 1.3s ease-in-out infinite; }
+.btw-label { font-size: 10px; font-weight: 700; letter-spacing: .3px; opacity: .95; }
+.btw-clock { font-size: 20px; font-weight: 900; font-variant-numeric: tabular-nums; line-height: 1; }
+@keyframes btwPop { from { transform: translateY(20px) scale(.8); opacity: 0; } to { transform: none; opacity: 1; } }
+@keyframes btwLive { 0%,100% { transform: scale(1); } 50% { transform: scale(1.05); } }
+
+/* ---- Prominent battle notifications (top-center stack) ---- */
+#battle-alert-host { position: fixed; top: 14px; left: 50%; transform: translateX(-50%); z-index: 1400; display: flex; flex-direction: column; gap: 8px; width: min(94vw, 460px); pointer-events: none; }
+.battle-alert {
+    pointer-events: auto; border-radius: 14px; padding: 13px 18px; font-weight: 800; font-size: 14.5px;
+    color: #fff; text-align: center; box-shadow: 0 8px 24px rgba(0,0,0,.3); overflow-wrap: anywhere;
+    animation: battleAlertIn .32s cubic-bezier(.16,1.4,.4,1);
+}
+.battle-alert.out { animation: battleAlertOut .4s ease forwards; }
+.battle-alert-info { background: linear-gradient(135deg, #4dabf7, #1971c2); }
+.battle-alert-success { background: linear-gradient(135deg, #51cf66, #2f9e44); }
+.battle-alert-live { background: linear-gradient(135deg, #ff922b, #e8590c); }
+.battle-alert-danger { background: linear-gradient(135deg, #ff6b6b, #e03131); }
+.battle-alert-gold { background: linear-gradient(135deg, #ffd43b, #f59f00); color: #3c2f00; text-shadow: 0 1px 0 rgba(255,255,255,.35); }
+@keyframes battleAlertIn { from { transform: translateY(-24px) scale(.9); opacity: 0; } to { transform: none; opacity: 1; } }
+@keyframes battleAlertOut { to { transform: translateY(-16px); opacity: 0; } }
+
+/* ---- Detailed finished-battle result card ---- */
+.bb-result-outcome { font-weight: 900; font-size: 16px; text-align: center; margin: 6px 0; }
+.bb-result-gold { border-color: #f59f00; box-shadow: 0 0 0 2px rgba(245,159,0,.18); }
+.bb-result-gold .bb-result-outcome { color: #e8590c; }
+.bb-result-danger .bb-result-outcome { color: #868e96; }
+.bb-forfeit-note { text-align: center; color: #e03131; font-weight: 700; font-size: 12.5px; margin-bottom: 4px; }
+.bb-result-details { margin: 8px 0; text-align: left; }
+.bb-result-details summary { cursor: pointer; font-size: 12.5px; font-weight: 700; color: #1899d6; }
+.bb-result-pairs { margin-top: 6px; display: flex; flex-direction: column; gap: 3px; }
+.bb-result-pair { display: flex; justify-content: space-between; gap: 8px; font-size: 12.5px; background: #f7f7f7; border-radius: 8px; padding: 5px 10px; }
+.bb-result-line { font-size: 12px; color: #555; text-align: center; margin-top: 3px; }
+.bb-result-rule { font-size: 11px; color: #aaa; text-align: center; margin-top: 8px; font-style: italic; }
+
+@media (prefers-reduced-motion: reduce) {
+    .bb-scoreboard.live .bb-sb-score, .battle-timer-widget.live, .bb-countdown.cd-urgent,
+    .battle-alert, .battle-timer-widget { animation: none; }
+}
 
 /* Chat avatars: small round avatar before every sender name; the weekly king's wears
    the golden ring + mini crown so their title stands out in every chat box. */
