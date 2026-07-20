@@ -243,8 +243,11 @@
     async function withdrawBattle(battleId) {
         if (!client) return { error: 'Chưa cấu hình.' };
         try {
-            const { error } = await client.from('group_battles').delete().eq('id', battleId).neq('status', 'active');
+            const { data, error } = await client.from('group_battles').delete().eq('id', battleId).neq('status', 'active').select();
             if (error) throw error;
+            if (!data || data.length === 0) {
+                return { error: 'Không thu hồi được — trận đã bắt đầu, hoặc quản trị viên cần chạy migration "group_battle_delete_policy.sql".' };
+            }
             return {};
         } catch (e) { return { error: 'Không thể hủy lúc này.' }; }
     }
@@ -332,8 +335,13 @@
     async function declineInvite(battleId) {
         if (!client) return { error: 'Chưa cấu hình.' };
         try {
-            const { error } = await client.from('group_battles').delete().eq('id', battleId);
+            // .select() so we can tell a real delete from an RLS-silenced 0-row delete
+            // (the "treo" bug: no delete policy meant the row was never actually removed).
+            const { data, error } = await client.from('group_battles').delete().eq('id', battleId).select();
             if (error) throw error;
+            if (!data || data.length === 0) {
+                return { error: 'Không xóa được lời mời — quản trị viên cần chạy migration "group_battle_delete_policy.sql".' };
+            }
             return {};
         } catch (e) { return { error: 'Không thể từ chối lúc này.' }; }
     }
@@ -974,6 +982,8 @@ Object.assign(DuoClone.prototype, {
             if (adminB) body = `<p style="color:#777; font-size:13px;">✉️ Group bạn nhận được thư thách đấu.</p>
                 <button class="btn-primary bb-accept-letter" data-bid="${b.id}" style="padding:9px 18px; margin:4px;">NHẬN LỜI</button>
                 <button class="btn-secondary bb-decline-letter" data-bid="${b.id}" style="padding:9px 18px; margin:4px;">TỪ CHỐI</button>`;
+            else if (adminA) body = `<p style="color:#999; font-size:13px;">✉️ Đã gửi thư — chờ ${this.escapeHtml(nameB)} nhận lời.</p>
+                <button class="btn-secondary bb-withdraw" data-bid="${b.id}" style="padding:8px 16px; margin-top:4px; color:var(--duo-red);">❌ Thu hồi thư mời</button>`;
             else body = `<p style="color:#999; font-size:13px;">✉️ Đã gửi thư — chờ ${this.escapeHtml(nameB)} nhận lời.</p>`;
             return `<div class="sched-card"><div class="sched-card-title">${title}</div>${body}</div>`;
         }
