@@ -3036,6 +3036,16 @@ body {
 .ga-danger { color: #ea2b2b; }
 @keyframes gaSheetUp { from { transform: translateY(40px); opacity: 0; } to { transform: none; opacity: 1; } }
 
+/* Dynamic calendar screen-icon (shows TODAY's real date - replaces the 📅 emoji,
+   whose artwork has "July 17" permanently baked in and confused users). */
+.cal-icon {
+    width: 74px; margin: 0 auto 8px; border-radius: 14px; overflow: hidden;
+    border: 2.5px solid #e0e0e0; background: #fff; box-shadow: 0 3px 8px rgba(0,0,0,.12);
+    font-family: inherit; text-align: center;
+}
+.cal-icon-month { background: #ff4b4b; color: #fff; font-size: 12px; font-weight: 800; padding: 3px 0; letter-spacing: .5px; }
+.cal-icon-day { font-size: 34px; font-weight: 800; color: #3c3c3c; padding: 4px 0 6px; line-height: 1; }
+
 /* Schedule / pairing board */
 .sched-card { border: 2px solid #e5e5e5; border-radius: 16px; padding: 14px; margin: 12px auto; max-width: 460px; text-align: center; }
 .sched-card-title { font-weight: 800; font-size: 16px; color: #3c3c3c; overflow-wrap: anywhere; }

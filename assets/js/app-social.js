@@ -848,7 +848,7 @@ Object.assign(DuoClone.prototype, {
                     <h1 style="text-align: center;">${this.escapeHtml(mine.group.name)}</h1>
                     <p style="text-align: center; color: #777;">${levelInfo.label} · ⭐ ${mine.group.vibrancy_score} điểm sôi nổi</p>
                     <button class="btn-primary" id="group-enter-btn" style="display: block; margin: 20px auto; padding: 15px 30px;">VÀO GROUP</button>
-                    <button class="btn-secondary" id="group-schedule-btn" style="display: block; margin: 10px auto; padding: 12px 30px;">📅 LỊCH THI ĐẤU</button>
+                    <button class="btn-secondary" id="group-schedule-btn" style="display: block; margin: 10px auto; padding: 12px 30px;">⏰ LỊCH THI ĐẤU</button>
                     <button class="btn-secondary" id="group-directory-btn" style="display: block; margin: 10px auto; padding: 12px 30px;">🌍 DANH SÁCH GROUP</button>
                     <button class="btn-secondary" id="group-leaderboards-btn" style="display: block; margin: 10px auto; padding: 12px 30px;">🏆 BẢNG XẾP HẠNG GROUP</button>
                     <button class="btn-secondary" id="groups-close" style="display: block; margin: 10px auto; padding: 15px 30px;">QUAY LẠI</button>

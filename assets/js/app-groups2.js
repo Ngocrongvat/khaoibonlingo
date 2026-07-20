@@ -283,11 +283,22 @@ Object.assign(DuoClone.prototype, {
                     <div class="user-info-stat"><span class="user-info-stat-value">👥 ${counts[g.id] || 0}/${window.Groups.MAX_MEMBERS}</span><span class="user-info-stat-label">Thành viên</span></div>
                     <div class="user-info-stat"><span class="user-info-stat-value">⚔️ ${g.battles_initiated || 0}</span><span class="user-info-stat-label">Trận khởi xướng</span></div>
                 </div>
-                <p style="text-align:center; color:#777;">👑 Chủ group: <b>${this.escapeHtml(owner ? owner.username : '—')}</b> · 📅 Lập ngày ${created}</p>
+                <p style="text-align:center; color:#777;">👑 Chủ group: <b>${this.escapeHtml(owner ? owner.username : '—')}</b> · Lập ngày ${created}</p>
                 ${(g.description ? `<p style="text-align:center; color:#999;">${this.escapeHtml(g.description)}</p>` : '')}
                 <button class="btn-secondary" id="group-info-back" style="display:block; margin:15px auto; padding:15px 30px;">QUAY LẠI</button>
             </div>`;
         document.getElementById('group-info-back').addEventListener('click', () => this.renderGroupDirectory());
+    },
+
+    // A calendar screen-icon that shows TODAY'S REAL DATE. The 📅 emoji is unusable
+    // here: its artwork has "July 17" permanently baked into the font (World Emoji
+    // Day) - users reasonably read that as "the system thinks it's the 17th".
+    calendarIconHtml() {
+        const now = new Date();
+        return `<div class="cal-icon" aria-hidden="true">
+                    <div class="cal-icon-month">Tháng ${now.getMonth() + 1}</div>
+                    <div class="cal-icon-day">${now.getDate()}</div>
+                </div>`;
     },
 
     // ===== Scheduled battle: owner form -> pairing board -> timed play =====
@@ -298,7 +309,7 @@ Object.assign(DuoClone.prototype, {
         const local = `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}T${pad(d.getHours())}:${pad(d.getMinutes())}`;
         this.ui.container.innerHTML = `
             <div class="welcome-screen">
-                <div class="duo-character">📅</div>
+                ${this.calendarIconHtml()}
                 <h1 style="text-align:center;">Thách đấu & đặt lịch</h1>
                 <p style="text-align:center; color:#777;">Hệ thống sẽ tự ghép cặp thành viên hai group khi group kia nhận lời.</p>
                 <input type="text" id="sched-target" class="input-field" style="display:block; width:80%; max-width:300px; margin:10px auto; padding:12px; text-align:center;" placeholder="Tên group đối thủ...">
@@ -331,7 +342,7 @@ Object.assign(DuoClone.prototype, {
 
     // The public schedule/pair board for a group's scheduled battles.
     async renderBattleScheduleBoard(groupId) {
-        this.ui.container.innerHTML = `<div class="welcome-screen"><div class="duo-character">📅</div><h1 style="text-align:center;">Lịch thi đấu</h1><p style="text-align:center; color:#777;">Đang tải...</p></div>`;
+        this.ui.container.innerHTML = `<div class="welcome-screen">${this.calendarIconHtml()}<h1 style="text-align:center;">Lịch thi đấu</h1><p style="text-align:center; color:#777;">Đang tải...</p></div>`;
         this.ui.checkBtn.disabled = true;
         this.ui.checkBtn.classList.remove('active');
         const battles = await window.GroupBattleSchedule.getScheduleFor(groupId);
@@ -379,7 +390,7 @@ Object.assign(DuoClone.prototype, {
         }
         this.ui.container.innerHTML = `
             <div class="welcome-screen">
-                <div class="duo-character">📅</div>
+                ${this.calendarIconHtml()}
                 <h1 style="text-align:center;">Lịch thi đấu Group</h1>
                 <p style="text-align:center; color:#777;">Không vào trận trong cửa sổ thi đấu = xử thua cặp đó; cả hai vắng = hòa.</p>
                 ${cards || '<p style="text-align:center; color:#777;">Chưa có trận nào được đặt lịch.</p>'}
