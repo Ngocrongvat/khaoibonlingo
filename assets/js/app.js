@@ -53,7 +53,10 @@ const MENTOR_TIPS = [
     "Kết bạn trong app rồi 💝 tặng tim cho nhau mỗi ngày - vừa giúp bạn bè học tiếp khi hết tim, vừa thắt chặt tình bạn!",
     "Học một mình chưa đủ vui? Tán gẫu ở 💬 Chat cộng đồng hoặc chat nhóm để hỏi bài, khoe thành tích và làm quen bạn mới!",
     "Hoàn thành các bài kiểm tra để nhận 📜 Chứng chỉ - xem lại bộ sưu tập chứng chỉ ở trang cá nhân như một cột mốc đáng tự hào!",
-    "Chăm luyện tập và hoạt động đều đặn còn cộng điểm \"sôi nổi\" cho group của bạn - kéo cả nhóm cùng lên hạng trên bảng xếp hạng group!"
+    "Chăm luyện tập và hoạt động đều đặn còn cộng điểm \"sôi nổi\" cho group của bạn - kéo cả nhóm cùng lên hạng trên bảng xếp hạng group!",
+    "Khác với bài học chính, 🏋️ Luyện tập KHÔNG trừ tim khi bạn sai - cứ thoải mái thử sức câu khó, sai cũng không sao, mà đúng trên 55% vẫn được +XP như một bài học!",
+    "Bài học chính đi tuần tự từng chương, còn 🏋️ Luyện tập nhắm thẳng vào những từ bạn hay quên và trộn nhiều dạng câu hỏi hơn - cách nhanh nhất để vá đúng lỗ hổng của mình!",
+    "Mẹo tiến bộ nhanh: học bài chính để mở nội dung mới, rồi ghé 🏋️ Luyện tập để ôn lại - vừa nhớ lâu hơn, vừa gỡ XP đã lỡ mất mà không tốn thêm tim nào!"
 ];
 
 function pickRandom(arr) {
