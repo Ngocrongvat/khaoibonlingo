@@ -44,7 +44,16 @@ const MENTOR_TIPS = [
     "Học đều mỗi ngày dù chỉ 5 phút cũng tốt hơn học dồn 1 lần thật nhiều - chuỗi ngày học của bạn sẽ cảm ơn bạn đó!",
     "Chế độ 🏋️ Luyện tập sẽ tự động tập trung vào những từ bạn hay sai - luyện thêm ở đó để tiến bộ nhanh hơn!",
     "Bạn đã đổi ảnh đại diện của mình chưa? Bấm vào tên của bạn ở góc trên bên phải để cá nhân hóa tài khoản nhé!",
-    "Hết tim đừng lo - tim sẽ tự hồi theo thời gian, hoặc chơi mini game để nhận thêm tim ngay lập tức!"
+    "Hết tim đừng lo - tim sẽ tự hồi theo thời gian, hoặc chơi mini game để nhận thêm tim ngay lập tức!",
+    "Group của bạn có thể hẹn lịch ⚔️ Thách đấu group khác và đặt cược điểm EXP - group thắng được thưởng, mỗi thành viên còn cướp được 10% XP của đối thủ nữa đó!",
+    "Chưa có nhóm học? Ghé 🌍 Danh sách Group để tìm và \"Xin vào group\" - học cùng cả nhóm luôn vui và nhiều động lực hơn hẳn!",
+    "Mỗi chương đều có một hoạt cảnh 🎬 \"Tình huống giao tiếp\" riêng - xem để thấy cách dùng từ mới trong đời thực, nhớ lâu hơn nhiều!",
+    "Tò mò mình đứng thứ mấy? Xem 🏆 Bảng xếp hạng - chăm học và giữ chuỗi để lên ngôi 👑 Vua Của Tuần và sưu tầm gấu bông 🧸 nhé!",
+    "Vừa học xong một bài? Bấm 🔄 \"Ôn luyện củng cố\" ở màn tổng kết để hỏi lại phần cốt lõi bằng dạng câu mới - không tốn tim mà nhớ dai hơn!",
+    "Kết bạn trong app rồi 💝 tặng tim cho nhau mỗi ngày - vừa giúp bạn bè học tiếp khi hết tim, vừa thắt chặt tình bạn!",
+    "Học một mình chưa đủ vui? Tán gẫu ở 💬 Chat cộng đồng hoặc chat nhóm để hỏi bài, khoe thành tích và làm quen bạn mới!",
+    "Hoàn thành các bài kiểm tra để nhận 📜 Chứng chỉ - xem lại bộ sưu tập chứng chỉ ở trang cá nhân như một cột mốc đáng tự hào!",
+    "Chăm luyện tập và hoạt động đều đặn còn cộng điểm \"sôi nổi\" cho group của bạn - kéo cả nhóm cùng lên hạng trên bảng xếp hạng group!"
 ];
 
 function pickRandom(arr) {
