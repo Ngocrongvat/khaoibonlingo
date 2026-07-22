@@ -248,6 +248,40 @@ const Scenarios = (() => {
         return lines;
     }
 
+    // Coherent scene for chapters that teach SENTENCES but expose no vocab pairs (e.g. the
+    // preposition chapters, which have no multiple-choice). Instead of the old 4 unrelated
+    // lines, two friends "practice sentences together": Khoai says the chapter's real
+    // sentences and the friend reacts naturally, wrapped in a greeting + a warm close.
+    function coherentFromSentences(B, sents, index) {
+        const score = s => {
+            let n = 0;
+            if (/\b(i|you|we|he|she|they|it|this|that|my|your|our|his|her)\b/i.test(s.en)) n += 2;
+            const w = s.en.split(' ').length;
+            if (w >= 3 && w <= 8) n += 2;
+            return n;
+        };
+        const ranked = sents.slice().filter(s => s.en.split(' ').length <= 9).sort((a, b) => score(b) - score(a) || a.en.length - b.en.length).slice(0, 3);
+        const list = ranked.length ? ranked : sents.slice(0, 3);
+        if (!list.length) return [];
+        const reacts = [
+            { en: `Nice sentence, Khoai! I understand it.`, vi: `Câu hay đó Khoai! Mình hiểu rồi.` },
+            { en: `Got it! Let me remember that one.`, vi: `Hiểu rồi! Để mình ghi nhớ câu đó.` },
+            { en: `Ooh, good one! Say it once more?`, vi: `Ồ, hay ghê! Nói lại lần nữa nha?` },
+        ];
+        const moods = ['happy', 'excited', 'giggle', 'love'];
+        const lines = [
+            { who: 'A', mood: 'happy', en: `Hi ${B}! Let's practice some sentences together.`, vi: `Chào ${B}! Cùng luyện vài câu với nhau nào.` },
+            { who: 'B', mood: 'excited', en: `Great idea, Khoai! You say them, I'll learn.`, vi: `Ý hay đó Khoai! Bạn nói đi, mình học theo.` },
+        ];
+        list.forEach((s, i) => {
+            lines.push({ who: 'A', mood: moods[i % moods.length], en: s.en, vi: s.vi });
+            lines.push(Object.assign({ who: 'B', mood: 'love' }, reacts[i % reacts.length]));
+        });
+        lines.push({ who: 'A', mood: 'happy', en: `You did great, ${B}!`, vi: `Bạn giỏi lắm, ${B}!` });
+        lines.push({ who: 'B', mood: 'love', en: `Thanks, Khoai! Let's practice again soon.`, vi: `Cảm ơn Khoai! Lát mình luyện tiếp nhé.` });
+        return lines;
+    }
+
     // Pick the most natural, speakable curriculum sentences for a normal chapter.
     function dialogueFromSentences(sents) {
         const PRON = /\b(i|you|we|he|she|they|it|my|your|our|his|her)\b/i;
@@ -289,7 +323,7 @@ const Scenarios = (() => {
             dialogue = coherentDialogue(shortName, vocab, index);
             if (dialogue.length < 4) dialogue = dialogueFromVocab(vocab, shortName, index);
         } else if (sents.length) {
-            dialogue = dialogueFromSentences(sents);
+            dialogue = coherentFromSentences(shortName, sents, index);
         } else {
             dialogue = [];
         }

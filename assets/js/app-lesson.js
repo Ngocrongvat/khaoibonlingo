@@ -1174,7 +1174,11 @@ Object.assign(DuoClone.prototype, {
         // immediately make new exercises easier again without any extra bookkeeping here.
         const baseDifficulty = this.errorTracker ? this.errorTracker.recommendDifficulty() : 1;
         const rankDifficulty = getRankInfo(this.state.xp).difficulty;
-        const difficulty = Math.max(baseDifficulty, rankDifficulty);
+        let difficulty = Math.max(baseDifficulty, rankDifficulty);
+        // The "Chế độ Dễ (cho trẻ nhỏ)" toggle and the first-10-chapters beginner zone must
+        // also make FREE PRACTICE gentle - otherwise a high-level user who turns Easy mode
+        // on still gets hard generated drills here (the reported gap).
+        if (this.isBeginnerMode() || (this.state.stats && this.state.stats.easyMode)) difficulty = 1;
         const weakKeys = this.errorTracker ? new Set(this.errorTracker.getWeakItems(30)) : new Set();
         // Match ALL_TYPES.length so every exercise type appears at least once per session -
         // generateBatch round-robins by index, so a fixed count smaller than the type list
