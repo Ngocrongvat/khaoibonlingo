@@ -114,7 +114,7 @@ Object.assign(DuoClone.prototype, {
         if (this.state.mode === 'duel') {
             return this.state.duelQueue[this.state.duelIdx];
         }
-        if (this.state.mode === 'practice' || this.state.mode === 'assessment' || this.state.mode === 'placement') {
+        if (this.state.mode === 'practice' || this.state.mode === 'assessment' || this.state.mode === 'placement' || this.state.mode === 'gate') {
             return this.state.practiceQueue[this.state.practiceIdx];
         }
         if (this.state.reviewMode) {
@@ -248,6 +248,9 @@ Object.assign(DuoClone.prototype, {
         if (this.state.mode === 'placement') {
             return `🎯 Bài test xếp loại năng lực — Câu ${this.state.practiceIdx + 1}/${this.state.practiceQueue.length}`;
         }
+        if (this.state.mode === 'gate') {
+            return `🎯 KIỂM TRA QUA CHƯƠNG ${this.state.currentUnitIdx + 1} — Câu ${this.state.practiceIdx + 1}/${this.state.practiceQueue.length}`;
+        }
         if (this.state.reviewMode) {
             return `🔁 Ôn tập lại câu sai — còn ${this.state.reviewQueue.length} câu`;
         }
@@ -258,6 +261,12 @@ Object.assign(DuoClone.prototype, {
     },
 
     renderLesson() {
+        // Held between chapters until the mandatory gate test is passed (Cluster B). Any
+        // entry into the lesson view (Home "TIẾP TỤC HỌC", reload) reroutes to the gate.
+        if (this.state.mode === 'curriculum' && this.state.pendingChapterGate != null) {
+            this.startChapterGate();
+            return;
+        }
         const ex = this.getCurrentExercise();
 
         // Dictation is a 3-phase reinforcement drill (assemble → type → read). The phase
@@ -420,7 +429,11 @@ Object.assign(DuoClone.prototype, {
                      </div>`;
         }
 
-        this.ui.container.innerHTML = html;
+        // Per-chapter background (Cluster B): each chapter tints the lesson area with a
+        // different soft theme (8 rotate) so progressing feels fresh. Scoped to the lesson
+        // wrapper so other screens keep their own look.
+        const bgN = (this.state.currentUnitIdx || 0) % 8;
+        this.ui.container.innerHTML = `<div class="lesson-bg lesson-bg-${bgN}">${html}</div>`;
         this.ui.checkBtn.disabled = true;
         this.ui.checkBtn.classList.remove('active');
         // Self-heal: if any feature ever hid the check button (style.display) and its
@@ -732,7 +745,7 @@ Object.assign(DuoClone.prototype, {
             }
         }
 
-        const noHeartCostModes = ['practice', 'assessment', 'placement', 'duel'];
+        const noHeartCostModes = ['practice', 'assessment', 'placement', 'duel', 'gate'];
         if (ex.type === 'pronunciation' && isCorrect) {
             this.state.stats.pronunciationCorrect++;
         }
@@ -966,14 +979,7 @@ Object.assign(DuoClone.prototype, {
         this.ui.checkBtn.classList.remove('active');
         if (this.ui.skipBtn) this.ui.skipBtn.style.display = 'none';
         this.playBigCelebration();
-        document.getElementById('review-done-continue').addEventListener('click', () => {
-            this.resetSessionAnswers();
-            if (this.state.currentUnitIdx >= this.state.courseData.units.length) {
-                this.renderCourseComplete();
-            } else {
-                this.renderLesson();
-            }
-        });
+        document.getElementById('review-done-continue').addEventListener('click', () => this.continueAfterLesson());
         document.getElementById('review-done-home').addEventListener('click', () => this.renderHomeDashboard());
     },
 
@@ -1034,14 +1040,7 @@ Object.assign(DuoClone.prototype, {
         const reviewBtn = document.getElementById('lesson-review-btn');
         if (reviewBtn) reviewBtn.addEventListener('click', () => this.startLessonReview(reviewQueue, coreItems));
         const continueBtn = document.getElementById('lesson-summary-continue');
-        if (continueBtn) continueBtn.addEventListener('click', () => {
-            this.resetSessionAnswers();
-            if (this.state.currentUnitIdx >= this.state.courseData.units.length) {
-                this.renderCourseComplete();
-            } else {
-                this.renderLesson();
-            }
-        });
+        if (continueBtn) continueBtn.addEventListener('click', () => this.continueAfterLesson());
 
         // A streak milestone reached this lesson pops its celebration OVER the summary.
         if (this.state.pendingStreakMilestone) {
@@ -1070,7 +1069,7 @@ Object.assign(DuoClone.prototype, {
     },
 
     returnToApp() {
-        const inLimitedMode = ['practice', 'assessment', 'placement'].includes(this.state.mode);
+        const inLimitedMode = ['practice', 'assessment', 'placement', 'gate'].includes(this.state.mode);
         if (!this.state.currentUser) {
             this.renderAuthScreen();
         } else if (!inLimitedMode && this.state.hearts <= 0) {
@@ -1271,6 +1270,131 @@ Object.assign(DuoClone.prototype, {
         this.state.assessmentCorrect = 0;
         this.resetSessionAnswers();
         this.renderLesson();
+    },
+
+    // ============== Chapter gate test (Cluster B) ==============
+    // A mandatory pass-test between chapters. Its questions aggregate the CORE content of
+    // every lesson in the chapter (reusing buildLessonReviewQueue, which pulls from the
+    // whole unit's vocab, then shuffles/dedupes/caps). Passing (>=70%) awards DOUBLE a
+    // lesson's XP and unlocks the next chapter; failing lets the learner retry. No hearts
+    // are staked (it's a knowledge check, not a survival run).
+    buildChapterGateQueue(unit) {
+        let q = [];
+        (unit.lessons || []).forEach((l, i) => { q = q.concat(this.buildLessonReviewQueue(unit, i) || []); });
+        const seen = new Set(); const out = [];
+        for (const ex of shuffleArray(q)) {
+            const key = (ex.question || ex.target || ex.source || JSON.stringify(ex.correct || '')).toLowerCase();
+            if (seen.has(key)) continue;
+            seen.add(key); out.push(ex);
+            if (out.length >= 12) break;
+        }
+        return out;
+    },
+
+    startChapterGate() {
+        const unit = this.state.courseData.units[this.state.currentUnitIdx];
+        if (!unit) { this.advanceChapterAfterGate(); this.renderLesson(); return; }
+        const queue = this.buildChapterGateQueue(unit);
+        if (queue.length < 3) { // not enough distinct core to test - just unlock
+            this.advanceChapterAfterGate();
+            if (this.state.currentUnitIdx >= this.state.courseData.units.length) this.renderCourseComplete();
+            else this.renderLesson();
+            return;
+        }
+        this.state.mode = 'gate';
+        this.state.practiceQueue = queue;
+        this.state.practiceIdx = 0;
+        this.state.gateCorrect = 0;
+        this.resetSessionAnswers();
+        this.ui.container.innerHTML = `
+            <div class="welcome-screen">
+                <div class="duo-character">🎯</div>
+                <h1 style="text-align: center;">Kiểm tra qua Chương ${this.state.currentUnitIdx + 1}!</h1>
+                <p style="text-align: center; color: #777;">Trả lời đúng <b>≥ 70%</b> để vượt qua và mở khoá chương tiếp theo. Tổng hợp cốt lõi cả chương (${queue.length} câu) — không tính tim.</p>
+                <p style="text-align: center; font-weight: 800; color: var(--duo-green);">🏆 Vượt qua được thưởng GẤP ĐÔI điểm XP!</p>
+                <button class="btn-primary" id="gate-start" style="display: block; margin: 20px auto; padding: 15px 30px;">BẮT ĐẦU KIỂM TRA</button>
+            </div>`;
+        this.ui.checkBtn.disabled = true;
+        this.ui.checkBtn.classList.remove('active');
+        if (this.ui.skipBtn) this.ui.skipBtn.style.display = 'none';
+        document.getElementById('gate-start').addEventListener('click', () => this.renderLesson());
+    },
+
+    nextGateExercise() {
+        this.state.practiceIdx++;
+        if (this.state.practiceIdx >= this.state.practiceQueue.length) {
+            this.finishChapterGate();
+        } else {
+            this.renderLesson();
+        }
+    },
+
+    // Shared "continue" after a lesson summary / review round: routes into the mandatory
+    // chapter gate test when this was the chapter's last lesson, otherwise into the next
+    // lesson (or the course-complete screen).
+    continueAfterLesson() {
+        this.resetSessionAnswers();
+        if (this.state.pendingChapterGate != null) {
+            this.startChapterGate();
+            return;
+        }
+        if (this.state.currentUnitIdx >= this.state.courseData.units.length) {
+            this.renderCourseComplete();
+        } else {
+            this.renderLesson();
+        }
+    },
+
+    advanceChapterAfterGate() {
+        this.state.pendingChapterGate = null;
+        this.state.currentUnitIdx++;
+        this.state.currentLessonIdx = 0;
+        this.state.currentExIdx = 0;
+        this.saveUserProgress();
+    },
+
+    finishChapterGate() {
+        const total = this.state.practiceQueue.length || 1;
+        const correct = this.state.gateCorrect || 0;
+        const pct = Math.round((correct / total) * 100);
+        const passed = pct >= 70;
+        const chapterNum = this.state.currentUnitIdx + 1;
+        this.state.mode = 'curriculum';
+        let reward = 0;
+        if (passed) {
+            reward = ((this.state.courseData.settings || {}).xp_per_lesson || 10) * 2;
+            this.state.xp += reward;
+            this.state.weeklyXp = (this.state.weeklyXp || 0) + reward;
+            this.state.stats.assessmentsPassed = (this.state.stats.assessmentsPassed || 0) + 1;
+            this.advanceChapterAfterGate();
+            this.syncLeaderboardScore();
+            this.checkBadges();
+        }
+        this.ui.container.innerHTML = `
+            <div class="welcome-screen">
+                ${passed ? this.bigCelebrateMascotHtml('love', 100) : `<div class="duo-character">${getMascotSvg('surprised', 100)}</div>`}
+                <h1 style="text-align: center;">${passed ? `🎉 Vượt qua Chương ${chapterNum}!` : 'Chưa đạt, cố lên nhé!'}</h1>
+                <p style="text-align: center; color: #777;">Bạn trả lời đúng ${correct}/${total} câu (${pct}%).</p>
+                ${passed
+                    ? `<div class="practice-reward practice-reward-win">🏆 Thưởng GẤP ĐÔI: +${reward} XP!</div>`
+                    : `<div class="practice-reward practice-reward-miss">Cần đúng ≥ 70% để qua chương. Ôn lại rồi thử lại nhé!</div>`}
+                <button class="btn-primary" id="gate-continue" style="display: block; margin: 20px auto; padding: 15px 30px;">${passed ? 'HỌC CHƯƠNG MỚI ➜' : 'LÀM LẠI'}</button>
+                <button class="btn-secondary" id="gate-home" style="display: block; margin: 0 auto; padding: 12px 26px;">VỀ TRANG CHÍNH</button>
+            </div>`;
+        this.ui.checkBtn.disabled = true;
+        this.ui.checkBtn.classList.remove('active');
+        if (this.ui.skipBtn) this.ui.skipBtn.style.display = 'none';
+        if (passed) this.playBigCelebration();
+        document.getElementById('gate-continue').addEventListener('click', () => {
+            this.resetSessionAnswers();
+            if (passed) {
+                if (this.state.currentUnitIdx >= this.state.courseData.units.length) this.renderCourseComplete();
+                else this.renderLesson();
+            } else {
+                this.startChapterGate(); // retry the same chapter's gate
+            }
+        });
+        document.getElementById('gate-home').addEventListener('click', () => this.renderHomeDashboard());
     },
 
     // Shown once, right before a brand-new account's very first placement test - without

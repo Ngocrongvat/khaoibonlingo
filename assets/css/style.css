@@ -3148,6 +3148,21 @@ body {
 .easy-mode-toggle.on { border-color: #58cc02; background: #e8ffd6; color: #3caa00; }
 .easy-mode-toggle b { font-weight: 900; }
 
+/* Per-chapter lesson backgrounds (Cluster B): 8 soft themes rotate by chapter so the
+   view feels fresh as learners progress. Kept very light so text stays fully readable. */
+.lesson-bg { border-radius: 18px; padding: 16px 12px 26px; transition: background .5s ease; }
+.lesson-bg-0 { background: linear-gradient(160deg, #eafaff 0%, #d6f0ff 100%); }
+.lesson-bg-1 { background: linear-gradient(160deg, #fff5e6 0%, #ffe6c7 100%); }
+.lesson-bg-2 { background: linear-gradient(160deg, #ecffe9 0%, #d3f7cf 100%); }
+.lesson-bg-3 { background: linear-gradient(160deg, #fdeaff 0%, #f0d6ff 100%); }
+.lesson-bg-4 { background: linear-gradient(160deg, #fff0f0 0%, #ffdada 100%); }
+.lesson-bg-5 { background: linear-gradient(160deg, #eaf0ff 0%, #d6e2ff 100%); }
+.lesson-bg-6 { background: linear-gradient(160deg, #fffde6 0%, #fff4bf 100%); }
+.lesson-bg-7 { background: linear-gradient(160deg, #e6fffb 0%, #c4fff1 100%); }
+@media (prefers-color-scheme: dark) {
+    .lesson-bg { filter: none; }
+}
+
 @media (prefers-reduced-motion: reduce) {
     .bb-scoreboard.live .bb-sb-score, .battle-timer-widget.live, .bb-countdown.cd-urgent,
     .battle-alert, .battle-timer-widget { animation: none; }

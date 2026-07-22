@@ -140,6 +140,7 @@ Object.assign(DuoClone.prototype, {
                 // getCurrentExercise() would return undefined and crash renderLesson().
                 this.state.reviewQueue = Array.isArray(data.reviewQueue) ? data.reviewQueue : [];
                 this.state.reviewMode = !!data.reviewMode;
+                this.state.pendingChapterGate = (data.pendingChapterGate != null) ? data.pendingChapterGate : null;
             } catch (e) {
                 this.state.lastHeartUpdate = Date.now();
             }
@@ -203,7 +204,8 @@ Object.assign(DuoClone.prototype, {
             currentExIdx: this.state.currentExIdx,
             lastHeartUpdate: this.state.lastHeartUpdate,
             reviewQueue: this.state.reviewQueue,
-            reviewMode: this.state.reviewMode
+            reviewMode: this.state.reviewMode,
+            pendingChapterGate: this.state.pendingChapterGate
         }));
     },
 
@@ -1059,6 +1061,12 @@ Object.assign(DuoClone.prototype, {
             return;
         }
 
+        if (this.state.mode === 'gate') {
+            if (correct) this.state.gateCorrect = (this.state.gateCorrect || 0) + 1;
+            this.nextGateExercise();
+            return;
+        }
+
         if (this.state.mode === 'duel') {
             if (correct) this.state.duelCorrect++;
             this.nextDuelExercise();
@@ -1141,8 +1149,11 @@ Object.assign(DuoClone.prototype, {
         this.state.currentLessonIdx++;
         this.state.currentExIdx = 0;
         if (this.state.currentLessonIdx >= unit.lessons.length) {
-            this.state.currentUnitIdx++;
-            this.state.currentLessonIdx = 0;
+            // Chapter finished - but a mandatory gate test stands between chapters. Hold
+            // the indices on this chapter's last lesson; the gate (started from the
+            // summary/review "continue") advances the chapter only on a pass.
+            this.state.currentLessonIdx = unit.lessons.length - 1;
+            this.state.pendingChapterGate = this.state.currentUnitIdx;
         }
         this.saveUserProgress();
         this.renderLessonSummary(skippedReward, completedLessonTitle, { unit, lessonIdx: completedLessonIdx });
