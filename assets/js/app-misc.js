@@ -973,6 +973,89 @@ Object.assign(DuoClone.prototype, {
         this.nextExercise();
     },
 
+    // Dispatcher: in the main course, "catch Bé Khoai to continue" (keeps the question on
+    // screen, a roaming mascot must be tapped) replaces the blocking modal. Duels, free
+    // practice, assessments and the chapter gate keep the fast normal modal.
+    presentResult(correct) {
+        if (this.state.mode === 'curriculum') {
+            this.showCatchResult(correct);
+        } else {
+            this.showResultModal(correct);
+        }
+    },
+
+    // Compact non-blocking verdict banner + a catchable roaming mascot. Catching it
+    // (tapping) calls closeModal() to proceed - closeModal detects correctness from the
+    // (hidden) modal title colour, which we set here, so its per-mode logic is unchanged.
+    showCatchResult(correct) {
+        this.ui.modalTitle.style.color = correct ? 'var(--duo-green)' : 'var(--duo-red)';
+        const old = document.getElementById('catch-result-banner'); if (old) old.remove();
+        const banner = document.createElement('div');
+        banner.id = 'catch-result-banner';
+        banner.className = 'catch-result-banner ' + (correct ? 'ok' : 'no');
+        const ex = this.getCurrentExercise();
+        const answerHint = (!correct && ex) ? `<div class="crb-answer">Đáp án đúng: <b>${this.escapeHtml(this.correctAnswerText(ex))}</b></div>` : '';
+        banner.innerHTML = `<div class="crb-title">${correct ? '✅ ' + pickRandom(['Chính xác!', 'Tuyệt vời!', 'Giỏi quá!', 'Xuất sắc!']) : '❌ ' + pickRandom(['Ôi tiếc quá!', 'Chưa đúng!', 'Suýt rồi!'])}</div>${answerHint}<div class="crb-hint">🏃 Chạm để bắt Bé Khoai và đi tiếp!</div>`;
+        document.body.appendChild(banner);
+        if (correct && this.burstCorrect) this.burstCorrect(null);
+        this.spawnCatchMascot(correct, () => { banner.remove(); this.closeModal(); });
+    },
+
+    // Best-effort readable form of an exercise's correct answer (for the "wrong" banner).
+    correctAnswerText(ex) {
+        try {
+            if (!ex) return '';
+            if (['multiple_choice', 'listening', 'preposition', 'fill_blank', 'synonym', 'meaning', 'reading', 'dialogue'].includes(ex.type) && Array.isArray(ex.options)) {
+                return String(ex.options[ex.correct]);
+            }
+            if (ex.type === 'translate' || ex.type === 'ordering') return (ex.correct || []).join(' ');
+            if (ex.type === 'dictation') return ex.target || '';
+            if (ex.type === 'pronunciation') return ex.target || '';
+            if (Array.isArray(ex.acceptedAnswers)) return ex.acceptedAnswers[0] || '';
+            return '';
+        } catch (e) { return ''; }
+    },
+
+    // A big friendly Bé Khoai runs in from a random screen edge and hops around; the
+    // learner must tap ("catch") it to move on. It always hops WITHIN the viewport so it
+    // stays reachable (never a stuck state). Caught -> squishy happy pose -> onCaught().
+    spawnCatchMascot(happy, onCaught) {
+        const old = document.getElementById('catch-mascot'); if (old) old.remove();
+        const m = document.createElement('button');
+        m.id = 'catch-mascot';
+        m.className = 'catch-mascot';
+        m.setAttribute('aria-label', 'Bắt Bé Khoai để tiếp tục');
+        const face = happy ? pickRandom(['excited', 'giggle', 'party', 'laugh', 'wink']) : pickRandom(['surprised', 'wink', 'giggle']);
+        m.innerHTML = getMascotSvg(face, 74);
+        document.body.appendChild(m);
+        const size = 90;
+        const spot = () => ({
+            x: 12 + Math.random() * Math.max(1, (window.innerWidth || 360) - size - 24),
+            y: 90 + Math.random() * Math.max(1, (window.innerHeight || 640) - size - 190)
+        });
+        const edges = () => {
+            const s = spot();
+            return pickRandom([{ x: -size, y: s.y }, { x: (window.innerWidth || 360), y: s.y }, { x: s.x, y: -size }, { x: s.x, y: (window.innerHeight || 640) }]);
+        };
+        const from = edges();
+        m.style.left = from.x + 'px'; m.style.top = from.y + 'px';
+        let caught = false;
+        const hop = () => { if (caught) return; const p = spot(); m.style.left = p.x + 'px'; m.style.top = p.y + 'px'; m.classList.toggle('flip', Math.random() < 0.5); };
+        setTimeout(hop, 40); // first hop brings it on-screen
+        const timer = setInterval(hop, 850);
+        this._catchTimer = timer;
+        const doCatch = () => {
+            if (caught) return; caught = true;
+            clearInterval(timer);
+            m.classList.add('caught');
+            m.innerHTML = getMascotSvg('love', 80) + '<span class="catch-caught-label">Tóm được rồi! 🎉</span>';
+            if (this.playTone) this.playTone('correct');
+            if (this.spawnMascotParticles) this.spawnMascotParticles(m, ['🎉', '⭐', '✨', '💛'], 8);
+            setTimeout(() => { m.remove(); onCaught(); }, 650);
+        };
+        m.addEventListener('click', doCatch);
+    },
+
     showResultModal(correct) {
         this.ui.modal.classList.remove('hidden');
         const mascot = this.ui.modalMascot;

@@ -752,7 +752,7 @@ Object.assign(DuoClone.prototype, {
 
         if (isCorrect) {
             this.playTone('ding');
-            this.showResultModal(true);
+            this.presentResult(true);
         } else {
             this.playTone('oops');
             if (!noHeartCostModes.includes(this.state.mode)) {
@@ -769,7 +769,7 @@ Object.assign(DuoClone.prototype, {
                     this.state.reviewQueue.push(ex);
                 }
             }
-            this.showResultModal(false);
+            this.presentResult(false);
         }
         if (!noHeartCostModes.includes(this.state.mode)) {
             this.saveUserProgress();
