@@ -8,8 +8,19 @@ const Games = (() => {
         return a;
     }
 
-    function pickPairs(n) {
-        const pool = [...VOCAB_BANK.nouns, ...VOCAB_BANK.verbs, ...VOCAB_BANK.adjectives];
+    // Beginner-friendly difficulty gating (Phase 3): a maxDiff of 1 or 2 keeps only the
+    // easier vocab (each word carries a .difficulty 1-3), so young/new players face words
+    // like Rice/Bread/Egg instead of advanced ones. maxDiff 3 (or unset) = the full pool,
+    // preserving the original behaviour for higher ranks and for duels. Falls back to the
+    // full list whenever filtering would leave too few words to build a round.
+    function filterDiff(words, maxDiff) {
+        if (!maxDiff || maxDiff >= 3) return words;
+        const easy = words.filter(w => (w.difficulty || 1) <= maxDiff);
+        return easy.length >= 12 ? easy : words;
+    }
+
+    function pickPairs(n, maxDiff) {
+        const pool = filterDiff([...VOCAB_BANK.nouns, ...VOCAB_BANK.verbs, ...VOCAB_BANK.adjectives], maxDiff);
         return shuffle(pool).slice(0, n).map((w, i) => ({ id: i, en: w.en, vi: w.vi }));
     }
 
@@ -35,14 +46,22 @@ const Games = (() => {
     // would look broken if ever shown to the user as a category label.
     const PLACEHOLDER_TOPIC_RE = /padding|batch|final|truly|absolute|extra|misc|filler/i;
 
-    function groupNounsByTopic() {
-        const grouped = {};
-        VOCAB_BANK.nouns.forEach(n => {
-            if (!n.topic || PLACEHOLDER_TOPIC_RE.test(n.topic)) return;
-            if (!grouped[n.topic]) grouped[n.topic] = [];
-            grouped[n.topic].push(n);
-        });
-        return grouped;
+    function groupNounsByTopic(maxDiff) {
+        const build = (list) => {
+            const grouped = {};
+            list.forEach(n => {
+                if (!n.topic || PLACEHOLDER_TOPIC_RE.test(n.topic)) return;
+                if (!grouped[n.topic]) grouped[n.topic] = [];
+                grouped[n.topic].push(n);
+            });
+            return grouped;
+        };
+        if (maxDiff && maxDiff < 3) {
+            const easy = build(VOCAB_BANK.nouns.filter(n => (n.difficulty || 1) <= maxDiff));
+            // Only use the easy set if it still has enough topics to build a round with.
+            if (Object.values(easy).filter(a => a.length >= 4).length >= 3) return easy;
+        }
+        return build(VOCAB_BANK.nouns);
     }
 
     // ============================= Word Match Game =============================
@@ -59,13 +78,17 @@ const Games = (() => {
         const onProgress = (callbacks && callbacks.onProgress) || function () {};
         const onExit = (callbacks && callbacks.onExit) || function () {};
 
+        const maxDiff = (callbacks && callbacks.difficulty) || 3;
+
         let pairs, leftItems, rightItems, timeLeft, matchedCount, selectedLeft, timerHandle, finished;
 
         function startRound() {
-            pairs = duelRounds || pickPairs(6);
+            pairs = duelRounds || pickPairs(6, maxDiff);
             leftItems = shuffle(pairs.map(p => ({ id: p.id, text: p.en })));
             rightItems = shuffle(pairs.map(p => ({ id: p.id, text: p.vi })));
-            timeLeft = 45;
+            // Beginners (difficulty 1) get a much more generous clock so the timer stops
+            // being a stress factor.
+            timeLeft = maxDiff === 1 ? 75 : 45;
             matchedCount = 0;
             selectedLeft = null;
             finished = false;
@@ -251,6 +274,7 @@ const Games = (() => {
         const onProgress = (callbacks && callbacks.onProgress) || function () {};
         const onExit = (callbacks && callbacks.onExit) || function () {};
         const uid = userId || 'guest';
+        const maxDiff = (callbacks && callbacks.difficulty) || 3;
 
         let level = duelData ? duelData.level : loadMemoryLevel(uid);
         let cards, flippedIndices, moves, mistakes, matchedPairs, locked, config;
@@ -264,7 +288,7 @@ const Games = (() => {
                 cards = duelData.cards.map(c => ({ ...c }));
             } else {
                 config = getMemoryLevelConfig(level);
-                const pairs = pickPairs(config.pairs);
+                const pairs = pickPairs(config.pairs, maxDiff);
                 cards = [];
                 pairs.forEach(p => {
                     cards.push({ pairId: p.id, text: p.en, flipped: false, matched: false });
@@ -439,8 +463,9 @@ const Games = (() => {
         const onRoundEnd = (callbacks && callbacks.onRoundEnd) || function () {};
         const onProgress = (callbacks && callbacks.onProgress) || function () {};
         const onExit = (callbacks && callbacks.onExit) || function () {};
+        const maxDiff = (callbacks && callbacks.difficulty) || 3;
 
-        const groupedByTopic = groupNounsByTopic();
+        const groupedByTopic = groupNounsByTopic(maxDiff);
         const topics = Object.keys(groupedByTopic).filter(t => groupedByTopic[t].length >= 4);
         const totalRounds = duelRounds ? duelRounds.length : ODD_ONE_OUT_ROUNDS;
 
@@ -561,7 +586,10 @@ const Games = (() => {
         const onRoundEnd = (callbacks && callbacks.onRoundEnd) || function () {};
         const onProgress = (callbacks && callbacks.onProgress) || function () {};
         const onExit = (callbacks && callbacks.onExit) || function () {};
-        const pool = [...VOCAB_BANK.nouns, ...VOCAB_BANK.verbs, ...VOCAB_BANK.adjectives];
+        const maxDiff = (callbacks && callbacks.difficulty) || 3;
+        const pool = filterDiff([...VOCAB_BANK.nouns, ...VOCAB_BANK.verbs, ...VOCAB_BANK.adjectives], maxDiff);
+        // Beginners get double the time per card so the reflex game isn't a stress test.
+        const secondsPerCard = maxDiff === 1 ? REFLEX_SECONDS_PER_CARD * 2 : REFLEX_SECONDS_PER_CARD;
         const totalRounds = duelRounds ? duelRounds.length : REFLEX_ROUNDS;
 
         let round, correctCount, combo, bestCombo, current, locked, timeLeft, timerHandle;
@@ -583,12 +611,12 @@ const Games = (() => {
             round++;
             locked = false;
             current = duelRounds ? duelRounds[round - 1] : buildReflexCard(pool);
-            timeLeft = REFLEX_SECONDS_PER_CARD;
+            timeLeft = secondsPerCard;
             render();
             timerHandle = setInterval(() => {
                 timeLeft -= 0.1;
                 const bar = document.getElementById('reflex-timebar');
-                if (bar) bar.style.width = `${Math.max(0, (timeLeft / REFLEX_SECONDS_PER_CARD) * 100)}%`;
+                if (bar) bar.style.width = `${Math.max(0, (timeLeft / secondsPerCard) * 100)}%`;
                 if (timeLeft <= 0) {
                     clearInterval(timerHandle);
                     answer(null);

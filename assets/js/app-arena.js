@@ -191,11 +191,19 @@ Object.assign(DuoClone.prototype, {
         });
     },
 
+    // Difficulty fed to solo mini-games: beginners (first 10 chapters) get difficulty 1
+    // (easy vocab + relaxed timers); otherwise it scales with the player's rank. Duels are
+    // unaffected (they hand pre-generated rounds to the game).
+    gameDifficulty() {
+        return this.isBeginnerMode() ? 1 : getRankInfo(this.state.xp).difficulty;
+    },
+
     launchWordMatchGame() {
         if (window.Games) {
             Games.renderWordMatchGame(this.ui.container, {
                 onRoundEnd: (matched, total) => this.applyGameReward(matched, total),
-                onExit: () => this.renderGamePicker()
+                onExit: () => this.renderGamePicker(),
+                difficulty: this.gameDifficulty()
             });
         }
     },
@@ -205,7 +213,8 @@ Object.assign(DuoClone.prototype, {
             const userId = this.state.profile ? this.state.profile.id : 'guest';
             Games.renderMemoryGame(this.ui.container, {
                 onRoundEnd: (matched, total) => this.applyGameReward(matched, total),
-                onExit: () => this.renderGamePicker()
+                onExit: () => this.renderGamePicker(),
+                difficulty: this.gameDifficulty()
             }, userId);
         }
     },
@@ -214,7 +223,8 @@ Object.assign(DuoClone.prototype, {
         if (window.Games) {
             Games.renderOddOneOutGame(this.ui.container, {
                 onRoundEnd: (matched, total) => this.applyGameReward(matched, total),
-                onExit: () => this.renderGamePicker()
+                onExit: () => this.renderGamePicker(),
+                difficulty: this.gameDifficulty()
             });
         }
     },
@@ -223,7 +233,8 @@ Object.assign(DuoClone.prototype, {
         if (window.Games) {
             Games.renderReflexGame(this.ui.container, {
                 onRoundEnd: (matched, total) => this.applyGameReward(matched, total),
-                onExit: () => this.renderGamePicker()
+                onExit: () => this.renderGamePicker(),
+                difficulty: this.gameDifficulty()
             });
         }
     },

@@ -89,18 +89,25 @@ Object.assign(DuoClone.prototype, {
             }
         }
 
-        const neverPlaced = !this.state.stats.placementLevel;
-        const noProgressYet = this.state.xp === 0 && this.state.currentUnitIdx === 0 && this.state.currentLessonIdx === 0 && this.state.currentExIdx === 0;
         if (this.state.passwordRecoveryPending) {
             // Came here from a "quên mật khẩu" email link - let the user set the new
             // password before dropping them into the course.
             this.renderPasswordResetScreen();
-        } else if (neverPlaced && noProgressYet && window.ExerciseGenerator) {
-            this.renderPlacementIntro();
         } else {
+            // Placement test removed (too hard a first impression for young beginners):
+            // new users start straight at Bronze / difficulty 1, Chapter 1 Lesson 1, and
+            // ride the gentle "beginner mode" on-ramp (see isBeginnerMode()) instead.
             this.startCourse();
         }
         this.syncLeaderboardScore();
+    },
+
+    // Gentle on-ramp for young/new learners: active while the learner is still inside the
+    // first 10 chapters. Auto-graduates simply by progressing past chapter 10 - no extra
+    // stored flag, so it can never get "stuck on". Drives easier games (difficulty 1) and
+    // the word-first lesson substitution in the early chapters.
+    isBeginnerMode() {
+        return (this.state.currentUnitIdx || 0) < 10;
     },
 
     getCurrentExercise() {
