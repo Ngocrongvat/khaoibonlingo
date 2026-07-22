@@ -424,7 +424,10 @@ const DEFAULT_STATS = {
     earnedBadges: {},
     certificates: [],
     duelWins: 0,
-    duelsPlayed: 0
+    duelsPlayed: 0,
+    // Manual "Chế độ Dễ (cho trẻ nhỏ)" toggle - when on, forces the beginner on-ramp
+    // (word-first lessons + easy-word / relaxed-timer games) regardless of chapter.
+    easyMode: false
 };
 
 class DuoClone {

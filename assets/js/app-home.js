@@ -9,6 +9,18 @@ Object.assign(DuoClone.prototype, {
         return 'Chào buổi tối';
     },
 
+    // Manual "Chế độ Dễ (cho trẻ nhỏ)" switch (Phase 4): forces the beginner on-ramp
+    // (word-first lessons + easy-word/relaxed-timer games) at any chapter. Persists in
+    // stats and takes effect immediately.
+    toggleEasyMode() {
+        if (!this.state.stats) this.state.stats = {};
+        this.state.stats.easyMode = !this.state.stats.easyMode;
+        this._presentKey = null; // invalidate the presented-exercise cache
+        this.saveUserProgress();
+        this.showBriefToast(this.state.stats.easyMode ? '🧸 Đã BẬT chế độ Dễ cho trẻ nhỏ!' : 'Đã tắt chế độ Dễ.');
+        this.renderHomeDashboard();
+    },
+
     renderHomeDashboard() {
         if (!this.state.currentUser) { this.renderAuthScreen(); return; }
         // Cleans up any global-chat realtime subscription left over from a previous
@@ -55,6 +67,10 @@ Object.assign(DuoClone.prototype, {
                     <p class="mentor-tip-text">${this.escapeHtml(this.getMentorTip())}</p>
                 </div>
 
+                <button class="easy-mode-toggle ${(this.state.stats && this.state.stats.easyMode) ? 'on' : ''}" id="easy-mode-toggle" title="Bật để câu hỏi và trò chơi dễ hơn cho trẻ nhỏ">
+                    🧸 Chế độ Dễ (cho trẻ nhỏ): <b>${(this.state.stats && this.state.stats.easyMode) ? 'BẬT' : 'TẮT'}</b>
+                </button>
+
                 ${lesson ? `
                     <button class="btn-primary home-continue-btn" id="home-continue-btn">
                         TIẾP TỤC HỌC: ${this.escapeHtml(lesson.title)}
@@ -86,6 +102,9 @@ Object.assign(DuoClone.prototype, {
 
         const continueBtn = document.getElementById('home-continue-btn');
         if (continueBtn) continueBtn.addEventListener('click', () => this.renderLesson());
+
+        const easyToggle = document.getElementById('easy-mode-toggle');
+        if (easyToggle) easyToggle.addEventListener('click', () => this.toggleEasyMode());
 
         // "Play with me": tapping the greeting mascot triggers a random cute action.
         const greetMascot = document.querySelector('.home-greeting-mascot');

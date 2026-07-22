@@ -195,7 +195,7 @@ Object.assign(DuoClone.prototype, {
     // (easy vocab + relaxed timers); otherwise it scales with the player's rank. Duels are
     // unaffected (they hand pre-generated rounds to the game).
     gameDifficulty() {
-        return this.isBeginnerMode() ? 1 : getRankInfo(this.state.xp).difficulty;
+        return (this.isBeginnerMode() || (this.state.stats && this.state.stats.easyMode)) ? 1 : getRankInfo(this.state.xp).difficulty;
     },
 
     launchWordMatchGame() {

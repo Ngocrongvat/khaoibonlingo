@@ -127,7 +127,41 @@ Object.assign(DuoClone.prototype, {
         // renderLesson() from crashing on `undefined.type` if some other edge case ever
         // leaves the index stale relative to the lesson's exercise count.
         const idx = Math.min(this.state.currentExIdx, lesson.exercises.length - 1);
-        return lesson.exercises[idx];
+        return this.presentedExerciseFor(lesson, idx);
+    },
+
+    // Adapts the raw curriculum exercise to the learner without changing the exercise
+    // COUNT (so all the index/length/progress logic is untouched). Cached per current
+    // lesson so a given slot renders the SAME adapted exercise across re-renders (tiles
+    // don't reshuffle, dictation phase stays put).
+    presentedExerciseFor(lesson, idx) {
+        const key = `${this.state.currentUnitIdx}:${this.state.currentLessonIdx}:${this.state.stats.easyMode ? 'E' : 'N'}`;
+        if (this._presentKey !== key) { this._presentKey = key; this._presentCache = {}; }
+        if (!this._presentCache[idx]) this._presentCache[idx] = this.presentExercise(lesson.exercises[idx], idx);
+        return this._presentCache[idx];
+    },
+
+    presentExercise(raw, exIdx) {
+        if (!raw) return raw;
+        const beginner = this.isBeginnerMode() || this.state.stats.easyMode;
+        if (beginner) {
+            // Word-first on-ramp (Phase 2): strip the decoy tiles from 'translate' so young
+            // learners assemble the sentence from ONLY the needed words. Safe because the
+            // answer check compares the assembled WORDS to ex.correct, not the tile order.
+            if (raw.type === 'translate' && Array.isArray(raw.correct) && Array.isArray(raw.options)
+                && raw.options.length > raw.correct.length) {
+                return { ...raw, options: shuffleArray(raw.correct), _beginnerized: true };
+            }
+            return raw;
+        }
+        // Normal chapters: sprinkle in the 3-phase dictation (listen → type → read aloud)
+        // by upgrading ~1/3 of the multi-word 'translate' drills. dictationWordBank() only
+        // needs ex.target (which translate already has), so the swap is a clean type flip.
+        if (raw.type === 'translate' && raw.target && String(raw.target).trim().split(/\s+/).length >= 3
+            && ((this.state.currentUnitIdx + this.state.currentLessonIdx + exIdx) % 3 === 0)) {
+            return { ...raw, type: 'dictation', question: 'Nghe và gõ lại câu:', _threePhase: true };
+        }
+        return raw;
     },
 
     // Single source of truth for heart-regen accounting. Called by the minute
@@ -981,9 +1015,8 @@ Object.assign(DuoClone.prototype, {
                 ${this.lessonCoreSummaryHtml(coreItems)}
                 ${reviewQueue.length >= 3 ? `
                     <button class="btn-primary" id="lesson-review-btn" style="display: block; margin: 20px auto 0; padding: 15px 30px;">🔄 ÔN LUYỆN CỦNG CỐ (${reviewQueue.length} câu)</button>
-                    <p style="text-align:center; color:#999; font-size:12.5px; margin:6px 0 0;">Hỏi lại đúng cốt lõi vừa học dưới dạng câu hỏi mới - không tốn tim, giúp nhớ lâu hơn</p>
-                ` : ''}
-                <button class="${reviewQueue.length >= 3 ? 'btn-secondary' : 'btn-primary'}" id="lesson-summary-continue" style="display: block; margin: 15px auto; padding: 15px 30px;">TIẾP TỤC</button>
+                    <p style="text-align:center; color:#999; font-size:12.5px; margin:6px 0 0;">Bắt buộc ôn lại cốt lõi vừa học dưới dạng câu hỏi mới - không tốn tim, giúp nhớ thật lâu</p>
+                ` : `<button class="btn-primary" id="lesson-summary-continue" style="display: block; margin: 15px auto; padding: 15px 30px;">TIẾP TỤC</button>`}
             </div>
         `;
         this.ui.checkBtn.disabled = true;
@@ -1000,7 +1033,8 @@ Object.assign(DuoClone.prototype, {
         }
         const reviewBtn = document.getElementById('lesson-review-btn');
         if (reviewBtn) reviewBtn.addEventListener('click', () => this.startLessonReview(reviewQueue, coreItems));
-        document.getElementById('lesson-summary-continue').addEventListener('click', () => {
+        const continueBtn = document.getElementById('lesson-summary-continue');
+        if (continueBtn) continueBtn.addEventListener('click', () => {
             this.resetSessionAnswers();
             if (this.state.currentUnitIdx >= this.state.courseData.units.length) {
                 this.renderCourseComplete();
