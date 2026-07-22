@@ -187,6 +187,67 @@ const Scenarios = (() => {
         return [];
     }
 
+    // Coherent, LONGER chapter dialogue (Cluster D). The old approach strung 4 unrelated
+    // curriculum sentences between two characters, which never read as a real conversation.
+    // Instead we stage a genuine mini-scene with a beginning → middle → end, weaving the
+    // chapter's OWN vocab in one natural exchange per word (so the length scales with the
+    // vocab and the chat actually holds together). EN stays clean for TTS; VI meanings ride
+    // in the subtitle. Falls back to sentences only when a chapter has no vocab at all.
+    const COHERENT_THEMES = [
+        { // 1) Two friends meet and share the new words
+            intro: (B) => [
+                { who: 'A', mood: 'happy', en: `Hi ${B}! How are you today?`, vi: `Chào ${B}! Hôm nay bạn thế nào?` },
+                { who: 'B', mood: 'excited', en: `I'm great, Khoai! What did you learn today?`, vi: `Mình khỏe, Khoai! Hôm nay bạn học được gì thế?` },
+            ],
+            exch: (e, v) => [
+                { who: 'A', mood: 'giggle', en: `I learned a new word: ${e}.`, vi: `Mình học một từ mới: ${e}.` },
+                { who: 'B', mood: 'love', en: `${cap(e)}! So it means "${v}". I like it!`, vi: `${e}! Vậy nó nghĩa là “${v}”. Mình thích ghê!` },
+            ],
+            outro: (B) => [
+                { who: 'A', mood: 'happy', en: `You learn so fast, ${B}!`, vi: `Bạn học nhanh quá, ${B}!` },
+                { who: 'B', mood: 'love', en: `Thank you, Khoai! Let's study again tomorrow.`, vi: `Cảm ơn Khoai! Mai mình học tiếp nhé.` },
+            ],
+        },
+        { // 2) A friendly guessing game
+            intro: (B) => [
+                { who: 'A', mood: 'happy', en: `Let's play a word game, ${B}!`, vi: `Cùng chơi trò đố từ nào, ${B}!` },
+                { who: 'B', mood: 'excited', en: `Yes! I say the meaning, you say the word. Ready!`, vi: `Được! Bạn nói từ, mình nói nghĩa nhé. Sẵn sàng!` },
+            ],
+            exch: (e, v) => [
+                { who: 'A', mood: 'giggle', en: `Okay, here is the word: ${e}.`, vi: `Được, từ đây nè: ${e}.` },
+                { who: 'B', mood: 'love', en: `${cap(e)} means "${v}"! Am I right?`, vi: `${e} nghĩa là “${v}”! Đúng không?` },
+            ],
+            outro: (B) => [
+                { who: 'A', mood: 'happy', en: `All correct! You are so clever, ${B}.`, vi: `Đúng hết! Bạn giỏi quá, ${B}.` },
+                { who: 'B', mood: 'love', en: `That was fun! One more game soon, Khoai?`, vi: `Vui ghê! Lát chơi ván nữa nha Khoai?` },
+            ],
+        },
+        { // 3) Studying together / helping a friend
+            intro: (B) => [
+                { who: 'A', mood: 'happy', en: `${B}, can you help me study these words?`, vi: `${B} ơi, giúp mình học mấy từ này với?` },
+                { who: 'B', mood: 'excited', en: `Of course, Khoai! Tell me the first one.`, vi: `Tất nhiên rồi, Khoai! Nói từ đầu tiên đi.` },
+            ],
+            exch: (e, v) => [
+                { who: 'A', mood: 'giggle', en: `This word is ${e}. I always forget it.`, vi: `Từ này là ${e}. Mình cứ quên hoài.` },
+                { who: 'B', mood: 'love', en: `${cap(e)} means "${v}". Say it with me: ${e}!`, vi: `${e} nghĩa là “${v}”. Đọc cùng mình nào: ${e}!` },
+            ],
+            outro: (B) => [
+                { who: 'A', mood: 'happy', en: `Now I remember them all. Thank you, ${B}!`, vi: `Giờ mình nhớ hết rồi. Cảm ơn ${B}!` },
+                { who: 'B', mood: 'love', en: `You did it, Khoai! We make a great team.`, vi: `Bạn làm được mà, Khoai! Đôi mình hợp ghê.` },
+            ],
+        },
+    ];
+
+    function coherentDialogue(B, vocab, index) {
+        const words = (vocab || []).filter(w => w && w.en && w.vi).slice(0, 3);
+        if (!words.length) return [];
+        const t = COHERENT_THEMES[index % COHERENT_THEMES.length];
+        let lines = t.intro(B).slice();
+        words.forEach(w => { lines = lines.concat(t.exch(w.en, w.vi)); });
+        lines = lines.concat(t.outro(B));
+        return lines;
+    }
+
     // Pick the most natural, speakable curriculum sentences for a normal chapter.
     function dialogueFromSentences(sents) {
         const PRON = /\b(i|you|we|he|she|they|it|my|your|our|his|her)\b/i;
@@ -220,14 +281,17 @@ const Scenarios = (() => {
         // "(mở rộng)" chapters are the machine-expanded vocab drills — stage a vocab chat
         // instead of surfacing their odd drill sentences. Everything else uses its real
         // (vetted) curriculum sentences, which read naturally as-is.
-        const isExpansion = /mở rộng|bậc thầy|thành thạo/i.test(unit.title || '');
+        // Coherent, longer mini-scene from the chapter's own vocab (Cluster D) for every
+        // chapter that has vocab (normal AND "(mở rộng)"). Only chapters with no usable
+        // vocab at all fall back to their curriculum sentences.
         let dialogue;
-        if (isExpansion && vocab.length >= 1) {
-            dialogue = dialogueFromVocab(vocab, shortName, index);
+        if (vocab.length >= 1) {
+            dialogue = coherentDialogue(shortName, vocab, index);
+            if (dialogue.length < 4) dialogue = dialogueFromVocab(vocab, shortName, index);
         } else if (sents.length) {
             dialogue = dialogueFromSentences(sents);
         } else {
-            dialogue = dialogueFromVocab(vocab, shortName, index);
+            dialogue = [];
         }
         if (!dialogue.length) return null;
 
