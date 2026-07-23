@@ -186,5 +186,14 @@
     <script defer src="assets/js/app-groups2.js?v=20260733"></script>
     <script defer src="assets/js/scenarios.js?v=20260733"></script>
     <script defer src="assets/js/app-main.js?v=20260733"></script>
+    <script>
+        // Register the Service Worker for offline support + instant repeat loads (PWA).
+        // Best-effort: never block or break the app if unsupported/failed.
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', function () {
+                navigator.serviceWorker.register('./sw.js').catch(function () {});
+            });
+        }
+    </script>
 </body>
 </html>
