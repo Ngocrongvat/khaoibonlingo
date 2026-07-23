@@ -994,7 +994,11 @@ Object.assign(DuoClone.prototype, {
         banner.id = 'catch-result-banner';
         banner.className = 'catch-result-banner ' + (correct ? 'ok' : 'no');
         const ex = this.getCurrentExercise();
-        const answerHint = (!correct && ex) ? `<div class="crb-answer">Đáp án đúng: <b>${this.escapeHtml(this.correctAnswerText(ex))}</b></div>` : '';
+        // Reveal the correct answer on a wrong response ONLY in kids/Easy mode (the beginner
+        // zone or the "🧸 Chế độ Dễ" toggle). With it off, no answer is shown - the miss just
+        // goes to the end-of-lesson review to be tried again.
+        const kidsMode = this.isBeginnerMode() || (this.state.stats && this.state.stats.easyMode);
+        const answerHint = (!correct && ex && kidsMode) ? `<div class="crb-answer">Đáp án đúng: <b>${this.escapeHtml(this.correctAnswerText(ex))}</b></div>` : '';
         banner.innerHTML = `<div class="crb-title">${correct ? '✅ ' + pickRandom(['Chính xác!', 'Tuyệt vời!', 'Giỏi quá!', 'Xuất sắc!']) : '❌ ' + pickRandom(['Ôi tiếc quá!', 'Chưa đúng!', 'Suýt rồi!'])}</div>${answerHint}<div class="crb-hint">🏃 Chạm để bắt Bé Khoai và đi tiếp!</div>`;
         document.body.appendChild(banner);
         if (correct && this.burstCorrect) this.burstCorrect(null);
