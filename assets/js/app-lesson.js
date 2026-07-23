@@ -152,6 +152,16 @@ Object.assign(DuoClone.prototype, {
                 && raw.options.length > raw.correct.length) {
                 return { ...raw, options: shuffleArray(raw.correct), _beginnerized: true };
             }
+            // Make it MARKEDLY easier for kids mode: reduce multiple_choice / listening to
+            // just the answer + ONE decoy — a clear, confidence-building 2-way pick. The
+            // correct index is remapped to the trimmed, reshuffled options.
+            if ((raw.type === 'multiple_choice' || raw.type === 'listening')
+                && Array.isArray(raw.options) && typeof raw.correct === 'number' && raw.options.length > 2) {
+                const answer = raw.options[raw.correct];
+                const decoy = shuffleArray(raw.options.filter((_, i) => i !== raw.correct)).slice(0, 1);
+                const opts = shuffleArray([answer, ...decoy]);
+                return { ...raw, options: opts, correct: opts.indexOf(answer), _beginnerized: true };
+            }
             return raw;
         }
         // Normal chapters: sprinkle in the 3-phase dictation (listen → type → read aloud)
@@ -279,6 +289,10 @@ Object.assign(DuoClone.prototype, {
 
         const progressLabel = this.getLessonProgressLabel();
         let html = progressLabel ? `<div class="lesson-progress-label">${progressLabel}</div>` : '';
+        // Clear visual cue that kids/Easy mode is on and the questions are made easier.
+        if (this.state.mode === 'curriculum' && (this.isBeginnerMode() || (this.state.stats && this.state.stats.easyMode))) {
+            html += `<div class="easy-mode-badge">🧸 Chế độ dễ cho trẻ nhỏ · câu hỏi đã được làm dễ hơn</div>`;
+        }
         // dictation renders its own phase-specific prompt inside its branch.
         if (ex.type !== 'reading' && ex.type !== 'dialogue' && ex.type !== 'listening_comprehension' && ex.type !== 'dictation') {
             html += `<div class="exercise-title">${this.escapeHtml(ex.question || 'Dịch câu này')}</div>`;
