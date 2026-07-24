@@ -66,6 +66,17 @@ Object.assign(DuoClone.prototype, {
         }
 
         this.loadLocalPosition(profile.id);
+        // Lazy course data (GĐ0): the position is now set, so make sure THIS chapter's chunk
+        // is resident before anything below or the first render reads its lessons/exercises
+        // synchronously (prevents the "login hang" class of stub-access crashes).
+        if (window.CourseLoader) {
+            try {
+                await window.CourseLoader.ensure(this.state.currentUnitIdx);
+                this.updateNav();
+            } catch (e) {
+                /* fail-soft: render guards will re-ensure */
+            }
+        }
         // Grant any hearts that came due while the app was closed IMMEDIATELY -
         // waiting for the interval's first tick meant a quick visit shorter than 60s
         // never saw its regen at all.

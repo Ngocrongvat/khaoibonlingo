@@ -763,13 +763,16 @@ Object.assign(DuoClone.prototype, {
             this.ui.progress.style.width = `${total ? (current / total) * 100 : 0}%`;
         } else {
             const unit = this.state.courseData.units[this.state.currentUnitIdx];
-            if (unit) {
-                const lesson = unit.lessons[this.state.currentLessonIdx];
+            const lesson = unit && unit.lessons ? unit.lessons[this.state.currentLessonIdx] : null;
+            if (lesson && lesson.exercises && lesson.exercises.length) {
                 const total = lesson.exercises.length;
                 const current = this.state.currentExIdx;
                 this.ui.progress.style.width = `${(current / total) * 100}%`;
-            } else {
+            } else if (!unit) {
                 this.ui.progress.style.width = '100%';
+            } else {
+                // Lazy stub: chapter chunk not fetched yet — neutral bar until it loads.
+                this.ui.progress.style.width = '0%';
             }
         }
         this.ui.hearts.innerText = this.state.hearts;
