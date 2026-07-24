@@ -20,7 +20,10 @@
             // "only rows already older than 24h" safety bound (a stricter cutoff
             // deletes a subset of what the policy allows).
             const cutoff = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString();
-            const { error } = await client.from('global_chat_messages').delete().lt('created_at', cutoff);
+            const { error } = await client
+                .from('global_chat_messages')
+                .delete()
+                .lt('created_at', cutoff);
             if (error) throw error;
         } catch (e) {
             console.error('Failed to delete old global chat messages:', e);
@@ -89,23 +92,30 @@
         if (!client || !myProfile) return { error: 'Chưa cấu hình.' };
         const trimmed = (text || '').trim();
         if (!trimmed) return { error: 'Vui lòng nhập tin nhắn.' };
-        if (trimmed.length > MAX_MESSAGE_LENGTH) return { error: `Tin nhắn quá dài (tối đa ${MAX_MESSAGE_LENGTH} ký tự).` };
+        if (trimmed.length > MAX_MESSAGE_LENGTH)
+            return { error: `Tin nhắn quá dài (tối đa ${MAX_MESSAGE_LENGTH} ký tự).` };
         // Child-safety gate: block profanity + sharing of personal contact info before send.
         if (window.ContentSafety) {
             const safe = window.ContentSafety.check(trimmed, { maxLength: MAX_MESSAGE_LENGTH });
             if (!safe.ok) return { error: safe.reason };
         }
         try {
-            const { data, error } = await client.from('global_chat_messages').insert({
-                sender_id: myProfile.id,
-                sender_username: myProfile.username,
-                message: trimmed
-            }).select().single();
+            const { data, error } = await client
+                .from('global_chat_messages')
+                .insert({
+                    sender_id: myProfile.id,
+                    sender_username: myProfile.username,
+                    message: trimmed,
+                })
+                .select()
+                .single();
             if (error) throw error;
             return { data };
         } catch (e) {
             console.error('Failed to send global chat message:', e);
-            return { error: 'Không thể gửi tin nhắn lúc này. Bảng "global_chat_messages" có thể chưa được tạo trên Supabase.' };
+            return {
+                error: 'Không thể gửi tin nhắn lúc này. Bảng "global_chat_messages" có thể chưa được tạo trên Supabase.',
+            };
         }
     }
 
@@ -123,9 +133,11 @@
         if (!client) return () => {};
         const channel = client
             .channel('global-chat:' + channelKey)
-            .on('postgres_changes',
+            .on(
+                'postgres_changes',
                 { event: 'INSERT', schema: 'public', table: 'global_chat_messages' },
-                (payload) => onNew(payload.new))
+                (payload) => onNew(payload.new)
+            )
             .subscribe();
         return () => client.removeChannel(channel);
     }
@@ -137,6 +149,6 @@
         getMessagesBefore,
         getUnreadCount,
         sendMessage,
-        subscribeToNewMessages
+        subscribeToNewMessages,
     };
 })();

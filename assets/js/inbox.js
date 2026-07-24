@@ -37,7 +37,8 @@
         if (!client || !myProfile || !targetUsername) return { error: 'Chưa cấu hình.' };
         const trimmed = (text || '').trim();
         if (!trimmed) return { error: 'Vui lòng nhập tin nhắn.' };
-        if (trimmed.length > MAX_MESSAGE_LENGTH) return { error: `Tin nhắn quá dài (tối đa ${MAX_MESSAGE_LENGTH} ký tự).` };
+        if (trimmed.length > MAX_MESSAGE_LENGTH)
+            return { error: `Tin nhắn quá dài (tối đa ${MAX_MESSAGE_LENGTH} ký tự).` };
         // Child-safety gate: block profanity + sharing of personal contact info before send.
         if (window.ContentSafety) {
             const safe = window.ContentSafety.check(trimmed, { maxLength: MAX_MESSAGE_LENGTH });
@@ -46,20 +47,27 @@
         try {
             const target = await searchUserByUsername(targetUsername);
             if (!target) return { error: 'Không tìm thấy người dùng này.' };
-            if (target.id === myProfile.id) return { error: 'Bạn không thể tự nhắn tin cho chính mình.' };
+            if (target.id === myProfile.id)
+                return { error: 'Bạn không thể tự nhắn tin cho chính mình.' };
 
-            const { data, error } = await client.from('direct_messages').insert({
-                sender_id: myProfile.id,
-                sender_username: myProfile.username,
-                recipient_id: target.id,
-                recipient_username: target.username,
-                message: trimmed
-            }).select().single();
+            const { data, error } = await client
+                .from('direct_messages')
+                .insert({
+                    sender_id: myProfile.id,
+                    sender_username: myProfile.username,
+                    recipient_id: target.id,
+                    recipient_username: target.username,
+                    message: trimmed,
+                })
+                .select()
+                .single();
             if (error) throw error;
             return { data };
         } catch (e) {
             console.error('Failed to send direct message:', e);
-            return { error: 'Không thể gửi tin nhắn lúc này. Bảng "direct_messages" có thể chưa được tạo trên Supabase.' };
+            return {
+                error: 'Không thể gửi tin nhắn lúc này. Bảng "direct_messages" có thể chưa được tạo trên Supabase.',
+            };
         }
     }
 
@@ -70,20 +78,25 @@
         if (!client || !myProfile || !recipientId) return { error: 'Chưa cấu hình.' };
         const trimmed = (text || '').trim();
         if (!trimmed) return { error: 'Vui lòng nhập tin nhắn.' };
-        if (trimmed.length > MAX_MESSAGE_LENGTH) return { error: `Tin nhắn quá dài (tối đa ${MAX_MESSAGE_LENGTH} ký tự).` };
+        if (trimmed.length > MAX_MESSAGE_LENGTH)
+            return { error: `Tin nhắn quá dài (tối đa ${MAX_MESSAGE_LENGTH} ký tự).` };
         // Child-safety gate: block profanity + sharing of personal contact info before send.
         if (window.ContentSafety) {
             const safe = window.ContentSafety.check(trimmed, { maxLength: MAX_MESSAGE_LENGTH });
             if (!safe.ok) return { error: safe.reason };
         }
         try {
-            const { data, error } = await client.from('direct_messages').insert({
-                sender_id: myProfile.id,
-                sender_username: myProfile.username,
-                recipient_id: recipientId,
-                recipient_username: recipientUsername,
-                message: trimmed
-            }).select().single();
+            const { data, error } = await client
+                .from('direct_messages')
+                .insert({
+                    sender_id: myProfile.id,
+                    sender_username: myProfile.username,
+                    recipient_id: recipientId,
+                    recipient_username: recipientUsername,
+                    message: trimmed,
+                })
+                .select()
+                .single();
             if (error) throw error;
             return { data };
         } catch (e) {
@@ -117,20 +130,30 @@
             if (error) throw error;
 
             const byOther = new Map();
-            (data || []).filter(row => !isDeletedForMe(row, userId)).forEach(row => {
-                const iAmSender = row.sender_id === userId;
-                const otherId = iAmSender ? row.recipient_id : row.sender_id;
-                const otherUsername = iAmSender ? row.recipient_username : row.sender_username;
-                if (!byOther.has(otherId)) {
-                    byOther.set(otherId, { otherUserId: otherId, otherUsername, lastMessage: '', lastMessageAt: null, unreadCount: 0 });
-                }
-                const convo = byOther.get(otherId);
-                convo.lastMessage = row.message;
-                convo.lastMessageAt = row.created_at;
-                if (!iAmSender && !row.read) convo.unreadCount++;
-            });
+            (data || [])
+                .filter((row) => !isDeletedForMe(row, userId))
+                .forEach((row) => {
+                    const iAmSender = row.sender_id === userId;
+                    const otherId = iAmSender ? row.recipient_id : row.sender_id;
+                    const otherUsername = iAmSender ? row.recipient_username : row.sender_username;
+                    if (!byOther.has(otherId)) {
+                        byOther.set(otherId, {
+                            otherUserId: otherId,
+                            otherUsername,
+                            lastMessage: '',
+                            lastMessageAt: null,
+                            unreadCount: 0,
+                        });
+                    }
+                    const convo = byOther.get(otherId);
+                    convo.lastMessage = row.message;
+                    convo.lastMessageAt = row.created_at;
+                    if (!iAmSender && !row.read) convo.unreadCount++;
+                });
 
-            return [...byOther.values()].sort((a, b) => new Date(b.lastMessageAt) - new Date(a.lastMessageAt));
+            return [...byOther.values()].sort(
+                (a, b) => new Date(b.lastMessageAt) - new Date(a.lastMessageAt)
+            );
         } catch (e) {
             console.error('Failed to fetch conversations:', e);
             return [];
@@ -143,10 +166,12 @@
             const { data, error } = await client
                 .from('direct_messages')
                 .select('*')
-                .or(`and(sender_id.eq.${userId},recipient_id.eq.${otherUserId}),and(sender_id.eq.${otherUserId},recipient_id.eq.${userId})`)
+                .or(
+                    `and(sender_id.eq.${userId},recipient_id.eq.${otherUserId}),and(sender_id.eq.${otherUserId},recipient_id.eq.${userId})`
+                )
                 .order('created_at', { ascending: true });
             if (error) throw error;
-            return (data || []).filter(row => !isDeletedForMe(row, userId));
+            return (data || []).filter((row) => !isDeletedForMe(row, userId));
         } catch (e) {
             console.error('Failed to fetch conversation messages:', e);
             return [];
@@ -161,7 +186,9 @@
         const iAmSender = message.sender_id === userId;
         // A recipient hiding an unread message also marks it read, otherwise it would
         // keep counting toward the unread badge while being invisible in the thread.
-        const fields = iAmSender ? { deleted_by_sender: true } : { deleted_by_recipient: true, read: true };
+        const fields = iAmSender
+            ? { deleted_by_sender: true }
+            : { deleted_by_recipient: true, read: true };
         try {
             const { error } = await client
                 .from('direct_messages')
@@ -171,7 +198,9 @@
             return {};
         } catch (e) {
             console.error('Failed to delete message:', e);
-            return { error: 'Không thể xóa tin nhắn. Có thể cần chạy migration "self_service_inbox_vibrancy.sql" trên Supabase.' };
+            return {
+                error: 'Không thể xóa tin nhắn. Có thể cần chạy migration "self_service_inbox_vibrancy.sql" trên Supabase.',
+            };
         }
     }
 
@@ -196,7 +225,9 @@
             return {};
         } catch (e) {
             console.error('Failed to delete conversation:', e);
-            return { error: 'Không thể xóa cuộc trò chuyện. Có thể cần chạy migration "self_service_inbox_vibrancy.sql" trên Supabase.' };
+            return {
+                error: 'Không thể xóa cuộc trò chuyện. Có thể cần chạy migration "self_service_inbox_vibrancy.sql" trên Supabase.',
+            };
         }
     }
 
@@ -249,9 +280,16 @@
         if (!client || !userId) return () => {};
         const channel = client
             .channel('inbox:' + channelKey + ':' + userId)
-            .on('postgres_changes',
-                { event: 'INSERT', schema: 'public', table: 'direct_messages', filter: 'recipient_id=eq.' + userId },
-                (payload) => onNew(payload.new))
+            .on(
+                'postgres_changes',
+                {
+                    event: 'INSERT',
+                    schema: 'public',
+                    table: 'direct_messages',
+                    filter: 'recipient_id=eq.' + userId,
+                },
+                (payload) => onNew(payload.new)
+            )
             .subscribe();
         return () => client.removeChannel(channel);
     }
@@ -268,6 +306,6 @@
         deleteConversationForMe,
         markConversationRead,
         getTotalUnreadCount,
-        subscribeToIncomingMessages
+        subscribeToIncomingMessages,
     };
 })();

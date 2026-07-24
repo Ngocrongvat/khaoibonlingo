@@ -15,19 +15,24 @@
     async function createGroup(myProfile, name, description) {
         if (!client || !myProfile || !name) return { error: 'Chưa cấu hình.' };
         const trimmedName = name.trim();
-        if (trimmedName.length < 2 || trimmedName.length > 40) return { error: 'Tên group phải từ 2-40 ký tự.' };
+        if (trimmedName.length < 2 || trimmedName.length > 40)
+            return { error: 'Tên group phải từ 2-40 ký tự.' };
         // Child-safety gate: no profanity / contact info in a public group name.
         if (window.ContentSafety) {
             const safe = window.ContentSafety.checkName(trimmedName, { maxLength: 40 });
             if (!safe.ok) return { error: safe.reason };
         }
         try {
-            const { data: group, error } = await client.from('groups').insert({
-                name: trimmedName,
-                description: (description || '').trim() || null,
-                owner_id: myProfile.id,
-                owner_username: myProfile.username
-            }).select().single();
+            const { data: group, error } = await client
+                .from('groups')
+                .insert({
+                    name: trimmedName,
+                    description: (description || '').trim() || null,
+                    owner_id: myProfile.id,
+                    owner_username: myProfile.username,
+                })
+                .select()
+                .single();
             if (error) {
                 if (error.code === '23505') return { error: 'Tên group này đã được sử dụng.' };
                 throw error;
@@ -42,20 +47,26 @@
                 username: myProfile.username,
                 role: 'owner',
                 status: 'active',
-                last_active_at: new Date().toISOString()
+                last_active_at: new Date().toISOString(),
             });
             if (memberError) throw memberError;
             return { data: group };
         } catch (e) {
             console.error('Failed to create group:', e);
-            return { error: 'Không thể tạo group lúc này. Bảng "groups" có thể chưa được tạo trên Supabase.' };
+            return {
+                error: 'Không thể tạo group lúc này. Bảng "groups" có thể chưa được tạo trên Supabase.',
+            };
         }
     }
 
     async function searchGroups(query, limit = 30) {
         if (!client) return [];
         try {
-            let q = client.from('groups').select('*').order('vibrancy_score', { ascending: false }).limit(limit);
+            let q = client
+                .from('groups')
+                .select('*')
+                .order('vibrancy_score', { ascending: false })
+                .limit(limit);
             if (query) q = q.ilike('name', `%${query.trim()}%`);
             const { data, error } = await q;
             if (error) throw error;
@@ -69,7 +80,11 @@
     async function getGroupById(groupId) {
         if (!client || !groupId) return null;
         try {
-            const { data, error } = await client.from('groups').select('*').eq('id', groupId).maybeSingle();
+            const { data, error } = await client
+                .from('groups')
+                .select('*')
+                .eq('id', groupId)
+                .maybeSingle();
             if (error) throw error;
             return data || null;
         } catch (e) {
@@ -81,7 +96,10 @@
     async function updateGroupAvatar(groupId, avatarUrl) {
         if (!client || !groupId) return { error: 'Chưa cấu hình.' };
         try {
-            const { error } = await client.from('groups').update({ avatar_url: avatarUrl }).eq('id', groupId);
+            const { error } = await client
+                .from('groups')
+                .update({ avatar_url: avatarUrl })
+                .eq('id', groupId);
             if (error) throw error;
             return {};
         } catch (e) {
@@ -93,7 +111,11 @@
     async function searchGroupByName(name) {
         if (!client || !name) return null;
         try {
-            const { data, error } = await client.from('groups').select('*').ilike('name', name.trim()).maybeSingle();
+            const { data, error } = await client
+                .from('groups')
+                .select('*')
+                .ilike('name', name.trim())
+                .maybeSingle();
             if (error) throw error;
             if (data) return data;
             // Fuzzy fallback: an UNAMBIGUOUS substring match still resolves ("Rồng"
@@ -104,7 +126,7 @@
                 .select('*')
                 .ilike('name', `%${name.trim()}%`)
                 .limit(2);
-            return (near && near.length === 1) ? near[0] : null;
+            return near && near.length === 1 ? near[0] : null;
         } catch (e) {
             console.error('Failed to search group by name:', e);
             return null;
@@ -124,7 +146,9 @@
                 .in('group_id', groupIds);
             if (error) throw error;
             const counts = {};
-            (data || []).forEach(r => { counts[r.group_id] = (counts[r.group_id] || 0) + 1; });
+            (data || []).forEach((r) => {
+                counts[r.group_id] = (counts[r.group_id] || 0) + 1;
+            });
             return counts;
         } catch (e) {
             console.error('Failed to count group members:', e);
@@ -204,10 +228,11 @@
                 user_id: myProfile.id,
                 username: myProfile.username,
                 role: 'member',
-                status: 'pending'
+                status: 'pending',
             });
             if (error) {
-                if (error.code === '23505') return { error: 'Bạn đã ở trong group này hoặc đã gửi yêu cầu rồi.' };
+                if (error.code === '23505')
+                    return { error: 'Bạn đã ở trong group này hoặc đã gửi yêu cầu rồi.' };
                 throw error;
             }
             return {};
@@ -221,7 +246,8 @@
         if (!client) return { error: 'Chưa cấu hình.' };
         try {
             const members = await getGroupMembers(groupId);
-            if (members.length >= MAX_MEMBERS) return { error: `Group đã đủ ${MAX_MEMBERS} thành viên.` };
+            if (members.length >= MAX_MEMBERS)
+                return { error: `Group đã đủ ${MAX_MEMBERS} thành viên.` };
             const { error } = await client
                 .from('group_members')
                 .update({ status: 'active', last_active_at: new Date().toISOString() })
@@ -279,7 +305,10 @@
     async function promoteToAdmin(memberRowId) {
         if (!client) return { error: 'Chưa cấu hình.' };
         try {
-            const { error } = await client.from('group_members').update({ role: 'admin' }).eq('id', memberRowId);
+            const { error } = await client
+                .from('group_members')
+                .update({ role: 'admin' })
+                .eq('id', memberRowId);
             if (error) throw error;
             return {};
         } catch (e) {
@@ -291,7 +320,10 @@
     async function demoteToMember(memberRowId) {
         if (!client) return { error: 'Chưa cấu hình.' };
         try {
-            const { error } = await client.from('group_members').update({ role: 'member' }).eq('id', memberRowId);
+            const { error } = await client
+                .from('group_members')
+                .update({ role: 'member' })
+                .eq('id', memberRowId);
             if (error) throw error;
             return {};
         } catch (e) {
@@ -323,24 +355,31 @@
         if (!client || !myProfile || !groupId) return { error: 'Chưa cấu hình.' };
         const trimmed = (text || '').trim();
         if (!trimmed) return { error: 'Vui lòng nhập tin nhắn.' };
-        if (trimmed.length > MAX_MESSAGE_LENGTH) return { error: `Tin nhắn quá dài (tối đa ${MAX_MESSAGE_LENGTH} ký tự).` };
+        if (trimmed.length > MAX_MESSAGE_LENGTH)
+            return { error: `Tin nhắn quá dài (tối đa ${MAX_MESSAGE_LENGTH} ký tự).` };
         // Child-safety gate: block profanity + sharing of personal contact info before send.
         if (window.ContentSafety) {
             const safe = window.ContentSafety.check(trimmed, { maxLength: MAX_MESSAGE_LENGTH });
             if (!safe.ok) return { error: safe.reason };
         }
         try {
-            const { data, error } = await client.from('group_messages').insert({
-                group_id: groupId,
-                sender_id: myProfile.id,
-                sender_username: myProfile.username,
-                message: trimmed
-            }).select().single();
+            const { data, error } = await client
+                .from('group_messages')
+                .insert({
+                    group_id: groupId,
+                    sender_id: myProfile.id,
+                    sender_username: myProfile.username,
+                    message: trimmed,
+                })
+                .select()
+                .single();
             if (error) throw error;
             return { data };
         } catch (e) {
             console.error('Failed to send group message:', e);
-            return { error: 'Không thể gửi tin nhắn lúc này. Bảng "group_messages" có thể chưa được tạo trên Supabase.' };
+            return {
+                error: 'Không thể gửi tin nhắn lúc này. Bảng "group_messages" có thể chưa được tạo trên Supabase.',
+            };
         }
     }
 
@@ -352,9 +391,16 @@
         if (!client || !groupId) return () => {};
         const channel = client
             .channel('group-chat:' + groupId + ':' + channelKey)
-            .on('postgres_changes',
-                { event: 'INSERT', schema: 'public', table: 'group_messages', filter: 'group_id=eq.' + groupId },
-                (payload) => onNew(payload.new))
+            .on(
+                'postgres_changes',
+                {
+                    event: 'INSERT',
+                    schema: 'public',
+                    table: 'group_messages',
+                    filter: 'group_id=eq.' + groupId,
+                },
+                (payload) => onNew(payload.new)
+            )
             .subscribe();
         return () => client.removeChannel(channel);
     }
@@ -386,12 +432,17 @@
         try {
             const target = await searchGroupByName(targetGroupName);
             if (!target) return { error: 'Không tìm thấy group này.' };
-            if (target.id === myGroupId) return { error: 'Không thể tự thách đấu group của chính mình.' };
-            const { data, error } = await client.from('group_battles').insert({
-                group_a_id: myGroupId,
-                group_b_id: target.id,
-                initiated_by_group_id: myGroupId
-            }).select().single();
+            if (target.id === myGroupId)
+                return { error: 'Không thể tự thách đấu group của chính mình.' };
+            const { data, error } = await client
+                .from('group_battles')
+                .insert({
+                    group_a_id: myGroupId,
+                    group_b_id: target.id,
+                    initiated_by_group_id: myGroupId,
+                })
+                .select()
+                .single();
             if (error) throw error;
             // "Máu chiến" counter - counts every battle a group STARTS regardless of
             // outcome. Caller here is always owner/admin (RLS-enforced by
@@ -399,9 +450,16 @@
             // UPDATE access, so a plain read-then-write is fine (no RPC needed) - this
             // is a rare, deliberate, single-actor action, not a high-frequency
             // concurrent write like the heartbeat.
-            const { data: groupRow } = await client.from('groups').select('battles_initiated').eq('id', myGroupId).single();
+            const { data: groupRow } = await client
+                .from('groups')
+                .select('battles_initiated')
+                .eq('id', myGroupId)
+                .single();
             if (groupRow) {
-                await client.from('groups').update({ battles_initiated: (groupRow.battles_initiated || 0) + 1 }).eq('id', myGroupId);
+                await client
+                    .from('groups')
+                    .update({ battles_initiated: (groupRow.battles_initiated || 0) + 1 })
+                    .eq('id', myGroupId);
             }
             return { data };
         } catch (e) {
@@ -497,11 +555,17 @@
     async function recomputeBattleScore(battleId) {
         if (!client || !battleId) return null;
         try {
-            const battle = await client.from('group_battles').select('*').eq('id', battleId).single();
-            if (battle.error || !battle.data || battle.data.status !== 'active') return battle.data || null;
+            const battle = await client
+                .from('group_battles')
+                .select('*')
+                .eq('id', battleId)
+                .single();
+            if (battle.error || !battle.data || battle.data.status !== 'active')
+                return battle.data || null;
             const duels = await getBattleDuels(battleId);
-            let aWins = 0, bWins = 0;
-            duels.forEach(d => {
+            let aWins = 0,
+                bWins = 0;
+            duels.forEach((d) => {
                 if (d.status !== 'finished' || !d.winner_id) return;
                 if (d.group_side === 'a') aWins++;
                 else if (d.group_side === 'b') bWins++;
@@ -536,7 +600,9 @@
         if (!client || !battleId) return { error: 'Chưa cấu hình.' };
         try {
             await recomputeBattleScore(battleId);
-            const { data, error } = await client.rpc('finalize_group_battle', { p_battle_id: battleId });
+            const { data, error } = await client.rpc('finalize_group_battle', {
+                p_battle_id: battleId,
+            });
             if (error) throw error;
             return { data };
         } catch (e) {
@@ -638,7 +704,9 @@
     async function adminRemoveMember(memberId) {
         if (!client || !memberId) return { error: 'Chưa cấu hình.' };
         try {
-            const { error } = await client.rpc('admin_remove_group_member', { p_member_id: memberId });
+            const { error } = await client.rpc('admin_remove_group_member', {
+                p_member_id: memberId,
+            });
             if (error) throw error;
             return {};
         } catch (e) {
@@ -650,7 +718,10 @@
     async function adminChangeMemberRole(memberId, newRole) {
         if (!client || !memberId || !newRole) return { error: 'Chưa cấu hình.' };
         try {
-            const { error } = await client.rpc('admin_change_member_role', { p_member_id: memberId, p_new_role: newRole });
+            const { error } = await client.rpc('admin_change_member_role', {
+                p_member_id: memberId,
+                p_new_role: newRole,
+            });
             if (error) throw error;
             return {};
         } catch (e) {
@@ -662,7 +733,10 @@
     async function adminSetVibrancy(groupId, newScore) {
         if (!client || !groupId) return { error: 'Chưa cấu hình.' };
         try {
-            const { error } = await client.rpc('admin_set_group_vibrancy', { p_group_id: groupId, p_new_score: newScore });
+            const { error } = await client.rpc('admin_set_group_vibrancy', {
+                p_group_id: groupId,
+                p_new_score: newScore,
+            });
             if (error) throw error;
             return {};
         } catch (e) {
@@ -674,7 +748,9 @@
     async function adminDeleteMessage(messageId) {
         if (!client || !messageId) return { error: 'Chưa cấu hình.' };
         try {
-            const { error } = await client.rpc('admin_delete_group_message', { p_message_id: messageId });
+            const { error } = await client.rpc('admin_delete_group_message', {
+                p_message_id: messageId,
+            });
             if (error) throw error;
             return {};
         } catch (e) {
@@ -686,7 +762,9 @@
     async function adminForceFinishBattle(battleId) {
         if (!client || !battleId) return { error: 'Chưa cấu hình.' };
         try {
-            const { data, error } = await client.rpc('admin_force_finish_battle', { p_battle_id: battleId });
+            const { data, error } = await client.rpc('admin_force_finish_battle', {
+                p_battle_id: battleId,
+            });
             if (error) throw error;
             return { data };
         } catch (e) {
@@ -734,6 +812,6 @@
         adminChangeMemberRole,
         adminSetVibrancy,
         adminDeleteMessage,
-        adminForceFinishBattle
+        adminForceFinishBattle,
     };
 })();

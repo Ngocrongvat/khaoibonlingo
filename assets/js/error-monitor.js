@@ -10,7 +10,7 @@
 (function () {
     'use strict';
 
-    var APP_VERSION = '20260737';
+    var APP_VERSION = '20260738';
     var MAX_PER_SESSION = 15; // hard cap so a tight error loop can't spam the DB
     var seen = {}; // signature -> true (collapse identical repeats)
     var sent = 0;

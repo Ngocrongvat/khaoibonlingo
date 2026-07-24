@@ -56,6 +56,8 @@ Object.assign(DuoClone.prototype, {
         const infoAvatarHtml = info.avatar_url
             ? `<img src="${info.avatar_url}" alt="" style="width:88px; height:88px; border-radius:50%; display:block; margin:0 auto; object-fit:cover;">`
             : `<div class="duo-character">👤</div>`;
+        const isMe = this.state.profile && info.id === this.state.profile.id;
+        const isUserBlocked = !!(window.Moderation && window.Moderation.isBlocked(info.id));
         this.ui.container.innerHTML = `
             <div class="welcome-screen">
                 ${isWeeklyKing ? `<div class="king-frame king-frame-info">${infoAvatarHtml}</div>` : infoAvatarHtml}
@@ -70,6 +72,8 @@ Object.assign(DuoClone.prototype, {
                 <div class="game-picker-list" style="max-width: 280px;">
                     <button class="btn-primary game-pick-btn" id="user-info-duel">⚔️ Thách đấu</button>
                     <button class="btn-primary game-pick-btn" id="user-info-message">💬 Gửi tin nhắn</button>
+                    ${isMe ? '' : `<button class="btn-secondary game-pick-btn" id="user-info-report">⚠️ Báo cáo</button>
+                    <button class="btn-secondary game-pick-btn" id="user-info-block">${isUserBlocked ? '✅ Bỏ chặn' : '🚫 Chặn người này'}</button>`}
                 </div>
                 <button class="btn-secondary" id="user-info-back" style="display: block; margin: 10px auto; padding: 15px 30px;">QUAY LẠI</button>
             </div>
@@ -79,6 +83,43 @@ Object.assign(DuoClone.prototype, {
         document.getElementById('user-info-back').addEventListener('click', () => this.renderHomeDashboard());
         document.getElementById('user-info-duel').addEventListener('click', () => this.renderGameTypePicker(info.username));
         document.getElementById('user-info-message').addEventListener('click', () => this.renderConversation(info.id, info.username));
+        // Child-safety: report or block this user (hidden for your own profile).
+        const reportBtn = document.getElementById('user-info-report');
+        if (reportBtn) {
+            reportBtn.addEventListener('click', async () => {
+                if (!window.Moderation) return;
+                reportBtn.disabled = true;
+                const res = await window.Moderation.reportContent(this.state.profile, {
+                    reportedUserId: info.id,
+                    reportedUsername: info.username,
+                    context: 'user_profile',
+                    reason: 'Báo cáo từ trang thông tin người dùng',
+                });
+                this.showBriefToast(res.error ? res.error : '⚠️ Đã gửi báo cáo. Cảm ơn bạn đã giúp giữ cộng đồng an toàn!');
+                reportBtn.disabled = false;
+            });
+        }
+        const blockBtn = document.getElementById('user-info-block');
+        if (blockBtn) {
+            blockBtn.addEventListener('click', async () => {
+                if (!window.Moderation) return;
+                blockBtn.disabled = true;
+                let res;
+                if (window.Moderation.isBlocked(info.id)) {
+                    res = await window.Moderation.unblockUser(this.state.profile, info.id);
+                    if (!res.error) this.showBriefToast('✅ Đã bỏ chặn ' + this.escapeHtml(info.username));
+                } else {
+                    res = await window.Moderation.blockUser(this.state.profile, info.id, info.username);
+                    if (!res.error) this.showBriefToast('🚫 Đã chặn ' + this.escapeHtml(info.username) + '. Bạn sẽ không thấy tin nhắn của họ nữa.');
+                }
+                if (res.error) {
+                    this.showBriefToast(res.error);
+                    blockBtn.disabled = false;
+                    return;
+                }
+                this.renderUserInfo(info.username); // re-render so the button flips
+            });
+        }
     },
 
     buildDuelQuestions(count, difficulty) {
@@ -1199,6 +1240,7 @@ Object.assign(DuoClone.prototype, {
     renderGroupChatMessages(messages) {
         const listEl = document.getElementById('group-chat-messages');
         if (!listEl) return;
+        messages = (messages || []).filter((m) => !(window.Moderation && window.Moderation.isBlocked(m.sender_id))); // hide blocked users
         listEl.innerHTML = messages.length
             ? messages.map(m => this.groupChatMessageHtml(m)).join('')
             : '<p style="text-align:center; color:#999; font-size:13px;">Chưa có tin nhắn nào trong group.</p>';
@@ -1208,6 +1250,7 @@ Object.assign(DuoClone.prototype, {
     appendGroupChatMessage(msg) {
         const listEl = document.getElementById('group-chat-messages');
         if (!listEl) return;
+        if (window.Moderation && window.Moderation.isBlocked(msg.sender_id)) return; // hide blocked users
         listEl.insertAdjacentHTML('beforeend', this.groupChatMessageHtml(msg));
         listEl.scrollTop = listEl.scrollHeight;
     },
@@ -1481,7 +1524,8 @@ Object.assign(DuoClone.prototype, {
         this.ui.checkBtn.disabled = true;
         this.ui.checkBtn.classList.remove('active');
 
-        const conversations = await window.Inbox.getConversations(this.state.profile.id);
+        const conversations = (await window.Inbox.getConversations(this.state.profile.id))
+            .filter((c) => !(window.Moderation && window.Moderation.isBlocked(c.otherUserId))); // hide blocked users' conversations
 
         const listHtml = conversations.length ? conversations.map(c => `
             <div class="friend-row inbox-conversation-row" data-other-id="${c.otherUserId}" data-other-username="${this.escapeHtml(c.otherUsername)}">
@@ -1594,6 +1638,7 @@ Object.assign(DuoClone.prototype, {
         const renderMessages = (messages) => {
             const threadEl = document.getElementById('conversation-thread');
             if (!threadEl) return;
+            messages = (messages || []).filter((m) => !(window.Moderation && window.Moderation.isBlocked(m.sender_id))); // hide blocked users
             threadEl.innerHTML = messages.map(m => {
                 const isMine = m.sender_id === this.state.profile.id;
                 return `<div class="chat-bubble-row ${isMine ? 'mine' : 'theirs'}">
@@ -1651,6 +1696,7 @@ Object.assign(DuoClone.prototype, {
         this.updateInboxBadge();
         if (this.inboxUnsub) this.inboxUnsub();
         this.inboxUnsub = window.Inbox.subscribeToIncomingMessages(this.state.profile.id, (msg) => {
+            if (window.Moderation && window.Moderation.isBlocked(msg.sender_id)) return; // no toast for blocked users
             this.updateInboxBadge();
             // If the matching conversation thread is already open, its own subscription
             // (see renderConversation()) handles live-appending the message - avoid

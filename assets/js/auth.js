@@ -5,7 +5,11 @@ const AuthService = (() => {
     async function signUp(email, password, username) {
         if (!client) return { error: 'Chưa cấu hình đăng nhập.' };
         try {
-            const { data, error } = await client.auth.signUp({ email, password, options: { data: { username } } });
+            const { data, error } = await client.auth.signUp({
+                email,
+                password,
+                options: { data: { username } },
+            });
             if (error) return { error: error.message };
             if (!data.user) return { error: 'Không tạo được tài khoản.' };
 
@@ -35,21 +39,28 @@ const AuthService = (() => {
         const existing = await getProfile(user.id);
         if (existing) return existing;
 
-        const baseUsername = fallbackUsername || (user.user_metadata && user.user_metadata.username) || (user.email ? user.email.split('@')[0] : 'user');
+        const baseUsername =
+            fallbackUsername ||
+            (user.user_metadata && user.user_metadata.username) ||
+            (user.email ? user.email.split('@')[0] : 'user');
 
         async function tryInsert(username) {
-            const { data, error } = await client.from('profiles').insert({
-                id: user.id,
-                username,
-                email: user.email || null,
-                role: 'user',
-                xp: 0,
-                weekly_xp: 0,
-                streak: 0,
-                hearts: 10, // keep in sync with MAX_HEARTS in app.js - not shared scope
-                banned: false,
-                stats: {}
-            }).select().maybeSingle();
+            const { data, error } = await client
+                .from('profiles')
+                .insert({
+                    id: user.id,
+                    username,
+                    email: user.email || null,
+                    role: 'user',
+                    xp: 0,
+                    weekly_xp: 0,
+                    streak: 0,
+                    hearts: 10, // keep in sync with MAX_HEARTS in app.js - not shared scope
+                    banned: false,
+                    stats: {},
+                })
+                .select()
+                .maybeSingle();
             if (error) throw error;
             return data;
         }
@@ -63,7 +74,8 @@ const AuthService = (() => {
             // has no username field to let them pick a different one). Auto-disambiguate instead
             // of blocking - the account remains usable, and the caller can tell the user their
             // requested name was taken.
-            const isDuplicateUsername = e && e.code === '23505' && /profiles_username_key/.test(e.message || '');
+            const isDuplicateUsername =
+                e && e.code === '23505' && /profiles_username_key/.test(e.message || '');
             if (!isDuplicateUsername) {
                 console.error('Failed to create profile:', e);
                 return null;
@@ -94,7 +106,11 @@ const AuthService = (() => {
     async function getProfile(userId) {
         if (!client) return null;
         try {
-            const { data, error } = await client.from('profiles').select('*').eq('id', userId).maybeSingle();
+            const { data, error } = await client
+                .from('profiles')
+                .select('*')
+                .eq('id', userId)
+                .maybeSingle();
             if (error) throw error;
             return data;
         } catch (e) {
@@ -117,7 +133,10 @@ const AuthService = (() => {
     async function listAllProfiles() {
         if (!client) return [];
         try {
-            const { data, error } = await client.from('profiles').select('*').order('created_at', { ascending: false });
+            const { data, error } = await client
+                .from('profiles')
+                .select('*')
+                .order('created_at', { ascending: false });
             if (error) throw error;
             return data || [];
         } catch (e) {
@@ -212,11 +231,15 @@ const AuthService = (() => {
         if (!client) return { error: 'Chưa cấu hình đăng nhập.' };
         // Child-safety gate: no profanity / contact info in a public display name.
         if (window.ContentSafety) {
-            const safe = window.ContentSafety.checkName((newUsername || '').trim(), { maxLength: 40 });
+            const safe = window.ContentSafety.checkName((newUsername || '').trim(), {
+                maxLength: 40,
+            });
             if (!safe.ok) return { error: safe.reason };
         }
         try {
-            const { data, error } = await client.rpc('rename_own_account', { p_new_username: newUsername });
+            const { data, error } = await client.rpc('rename_own_account', {
+                p_new_username: newUsername,
+            });
             if (error) return { error: error.message };
             return { username: data };
         } catch (e) {
@@ -249,7 +272,10 @@ const AuthService = (() => {
     async function resetAllWeeklyXp() {
         if (!client) return { error: 'Chưa cấu hình đăng nhập.' };
         try {
-            const { error } = await client.from('profiles').update({ weekly_xp: 0 }).neq('username', '');
+            const { error } = await client
+                .from('profiles')
+                .update({ weekly_xp: 0 })
+                .neq('username', '');
             if (error) return { error: error.message };
             return {};
         } catch (e) {
@@ -257,7 +283,26 @@ const AuthService = (() => {
         }
     }
 
-    return { isConfigured, signUp, signIn, signOut, getSession, getProfile, ensureProfile, updateProfile, listAllProfiles, deleteProfile, resetAllWeeklyXp, uploadAvatar, uploadGroupAvatar, updatePassword, requestPasswordReset, onPasswordRecovery, renameAccount, deleteOwnAccount };
+    return {
+        isConfigured,
+        signUp,
+        signIn,
+        signOut,
+        getSession,
+        getProfile,
+        ensureProfile,
+        updateProfile,
+        listAllProfiles,
+        deleteProfile,
+        resetAllWeeklyXp,
+        uploadAvatar,
+        uploadGroupAvatar,
+        updatePassword,
+        requestPasswordReset,
+        onPasswordRecovery,
+        renameAccount,
+        deleteOwnAccount,
+    };
 })();
 
 window.AuthService = AuthService;

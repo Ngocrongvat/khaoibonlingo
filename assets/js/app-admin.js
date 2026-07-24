@@ -32,8 +32,14 @@ Object.assign(DuoClone.prototype, {
             const errorEl = document.getElementById('recovery-error');
             const pw = document.getElementById('recovery-password-input').value;
             const confirmPw = document.getElementById('recovery-password-confirm').value;
-            if (pw.length < 6) { errorEl.innerText = 'Mật khẩu mới phải có ít nhất 6 ký tự.'; return; }
-            if (pw !== confirmPw) { errorEl.innerText = 'Hai mật khẩu không khớp nhau.'; return; }
+            if (pw.length < 6) {
+                errorEl.innerText = 'Mật khẩu mới phải có ít nhất 6 ký tự.';
+                return;
+            }
+            if (pw !== confirmPw) {
+                errorEl.innerText = 'Hai mật khẩu không khớp nhau.';
+                return;
+            }
             errorEl.style.color = 'var(--duo-dark-grey)';
             errorEl.innerText = 'Đang cập nhật...';
             const result = await window.AuthService.updatePassword(pw);
@@ -106,7 +112,9 @@ Object.assign(DuoClone.prototype, {
             this.applyAuthMode();
         });
         this.bindPasswordEyeToggle('password-eye-btn', 'password-input');
-        document.getElementById('forgot-password-btn').addEventListener('click', () => this.handleForgotPassword());
+        document
+            .getElementById('forgot-password-btn')
+            .addEventListener('click', () => this.handleForgotPassword());
 
         this.ui.checkBtn.disabled = true;
         this.ui.checkBtn.classList.remove('active');
@@ -117,7 +125,9 @@ Object.assign(DuoClone.prototype, {
         document.getElementById('auth-title').innerText = isSignup ? 'Đăng ký' : 'Đăng nhập';
         this.ui.usernameInput.style.display = isSignup ? 'block' : 'none';
         this.ui.loginBtn.innerText = isSignup ? 'ĐĂNG KÝ' : 'ĐĂNG NHẬP';
-        document.getElementById('auth-toggle-btn').innerText = isSignup ? 'Đã có tài khoản? Đăng nhập' : 'Chưa có tài khoản? Đăng ký';
+        document.getElementById('auth-toggle-btn').innerText = isSignup
+            ? 'Đã có tài khoản? Đăng nhập'
+            : 'Chưa có tài khoản? Đăng ký';
         const errorEl = document.getElementById('auth-error');
         errorEl.innerText = '';
         errorEl.style.color = 'var(--duo-red)';
@@ -131,7 +141,8 @@ Object.assign(DuoClone.prototype, {
         const email = this.ui.emailInput.value.trim();
         errorEl.style.color = 'var(--duo-red)';
         if (!email) {
-            errorEl.innerText = 'Nhập email của bạn vào ô Email phía trên rồi bấm "Quên mật khẩu?" nhé.';
+            errorEl.innerText =
+                'Nhập email của bạn vào ô Email phía trên rồi bấm "Quên mật khẩu?" nhé.';
             return;
         }
         if (!window.AuthService || !window.AuthService.isConfigured) {
@@ -191,7 +202,8 @@ Object.assign(DuoClone.prototype, {
             }
             if (result.pendingConfirmation) {
                 errorEl.style.color = 'var(--duo-green)';
-                errorEl.innerText = 'Đăng ký thành công! Vui lòng kiểm tra email để xác nhận, sau đó đăng nhập.';
+                errorEl.innerText =
+                    'Đăng ký thành công! Vui lòng kiểm tra email để xác nhận, sau đó đăng nhập.';
                 this.authMode = 'signin';
                 this.applyAuthMode();
                 return;
@@ -218,7 +230,7 @@ Object.assign(DuoClone.prototype, {
 
     renderAccountSettings() {
         if (!this.state.currentUser) {
-            alert("Vui lòng đăng nhập trước khi vào cài đặt tài khoản!");
+            alert('Vui lòng đăng nhập trước khi vào cài đặt tài khoản!');
             return;
         }
         const avatarPreviewHtml = this.state.avatarUrl
@@ -227,10 +239,16 @@ Object.assign(DuoClone.prototype, {
 
         const badges = this.badgeTracker
             ? this.badgeTracker.getAllBadgesWithStatus()
-            : BADGE_DEFINITIONS.map(b => ({ ...b, earned: false }));
-        const earnedBadges = badges.filter(b => b.earned);
+            : BADGE_DEFINITIONS.map((b) => ({ ...b, earned: false }));
+        const earnedBadges = badges.filter((b) => b.earned);
         const badgePreviewHtml = earnedBadges.length
-            ? earnedBadges.slice(0, 6).map(b => `<span class="settings-badge-chip" title="${this.escapeHtml(b.name)}">${b.icon}</span>`).join('')
+            ? earnedBadges
+                  .slice(0, 6)
+                  .map(
+                      (b) =>
+                          `<span class="settings-badge-chip" title="${this.escapeHtml(b.name)}">${b.icon}</span>`
+                  )
+                  .join('')
             : `<p class="settings-empty-note">Chưa có huy hiệu nào - hoàn thành bài học để mở khóa nhé!</p>`;
 
         const certificates = this.state.stats.certificates || [];
@@ -314,20 +332,32 @@ Object.assign(DuoClone.prototype, {
             this.state.mode = 'curriculum';
             this.renderHomeDashboard();
         });
-        document.getElementById('settings-signout-btn').addEventListener('click', () => this.handleSignOut());
-        document.getElementById('settings-view-achievements').addEventListener('click', () => this.renderAchievements());
-        document.getElementById('settings-view-certificates').addEventListener('click', () => this.renderCertificateHistory());
+        document
+            .getElementById('settings-signout-btn')
+            .addEventListener('click', () => this.handleSignOut());
+        document
+            .getElementById('settings-view-achievements')
+            .addEventListener('click', () => this.renderAchievements());
+        document
+            .getElementById('settings-view-certificates')
+            .addEventListener('click', () => this.renderCertificateHistory());
 
         const fileInput = document.getElementById('avatar-file-input');
-        document.getElementById('avatar-upload-btn').addEventListener('click', () => fileInput.click());
+        document
+            .getElementById('avatar-upload-btn')
+            .addEventListener('click', () => fileInput.click());
         fileInput.addEventListener('change', () => {
             const file = fileInput.files[0];
             if (file) this.handleAvatarUpload(file);
         });
 
-        document.getElementById('change-password-btn').addEventListener('click', () => this.handleChangePassword());
+        document
+            .getElementById('change-password-btn')
+            .addEventListener('click', () => this.handleChangePassword());
         document.getElementById('rename-btn').addEventListener('click', () => this.handleRename());
-        document.getElementById('delete-account-btn').addEventListener('click', () => this.handleDeleteAccount());
+        document
+            .getElementById('delete-account-btn')
+            .addEventListener('click', () => this.handleDeleteAccount());
     },
 
     handleDeleteAccount() {
@@ -338,24 +368,28 @@ Object.assign(DuoClone.prototype, {
             statusEl.innerText = `Vui lòng gõ chính xác tên "${this.state.currentUser}" để xác nhận xóa.`;
             return;
         }
-        this.showConfirmDialog('Bạn CHẮC CHẮN muốn xóa vĩnh viễn tài khoản? Toàn bộ dữ liệu sẽ mất và không thể khôi phục. Tin nhắn, kết bạn và lịch sử thách đấu giữa bạn và người khác cũng sẽ biến mất ở cả hai phía.', async () => {
-            statusEl.style.color = 'var(--duo-dark-grey)';
-            statusEl.innerText = 'Đang xóa tài khoản...';
-            const result = await window.AuthService.deleteOwnAccount();
-            if (result.error) {
-                statusEl.style.color = 'var(--duo-red)';
-                statusEl.innerText = /delete_own_account/.test(result.error)
-                    ? 'Tính năng xóa tài khoản chưa sẵn sàng - quản trị viên cần chạy migration "self_service_inbox_vibrancy.sql" trên Supabase.'
-                    : `Xóa tài khoản thất bại: ${result.error}`;
-                return;
-            }
-            if (this.state.profile) {
-                localStorage.removeItem(`duo_position_${this.state.profile.id}`);
-            }
-            alert('Tài khoản của bạn đã được xóa. Tạm biệt và hẹn gặp lại!');
-            if (window.AuthService) await window.AuthService.signOut();
-            location.reload();
-        }, { okLabel: 'XÓA VĨNH VIỄN' });
+        this.showConfirmDialog(
+            'Bạn CHẮC CHẮN muốn xóa vĩnh viễn tài khoản? Toàn bộ dữ liệu sẽ mất và không thể khôi phục. Tin nhắn, kết bạn và lịch sử thách đấu giữa bạn và người khác cũng sẽ biến mất ở cả hai phía.',
+            async () => {
+                statusEl.style.color = 'var(--duo-dark-grey)';
+                statusEl.innerText = 'Đang xóa tài khoản...';
+                const result = await window.AuthService.deleteOwnAccount();
+                if (result.error) {
+                    statusEl.style.color = 'var(--duo-red)';
+                    statusEl.innerText = /delete_own_account/.test(result.error)
+                        ? 'Tính năng xóa tài khoản chưa sẵn sàng - quản trị viên cần chạy migration "self_service_inbox_vibrancy.sql" trên Supabase.'
+                        : `Xóa tài khoản thất bại: ${result.error}`;
+                    return;
+                }
+                if (this.state.profile) {
+                    localStorage.removeItem(`duo_position_${this.state.profile.id}`);
+                }
+                alert('Tài khoản của bạn đã được xóa. Tạm biệt và hẹn gặp lại!');
+                if (window.AuthService) await window.AuthService.signOut();
+                location.reload();
+            },
+            { okLabel: 'XÓA VĨNH VIỄN' }
+        );
     },
 
     async handleAvatarUpload(file) {
@@ -458,14 +492,17 @@ Object.assign(DuoClone.prototype, {
         `;
         this.ui.checkBtn.disabled = true;
         this.ui.checkBtn.classList.remove('active');
-        document.getElementById('admin-close').addEventListener('click', () => this.renderHomeDashboard());
+        document
+            .getElementById('admin-close')
+            .addEventListener('click', () => this.renderHomeDashboard());
 
         const allProfiles = await window.AuthService.listAllProfiles();
         this.renderAdminSummary(allProfiles);
 
         const searchInput = document.getElementById('admin-search');
         const sortSelect = document.getElementById('admin-sort');
-        const rerender = () => this.renderAdminList(allProfiles, searchInput.value, sortSelect.value);
+        const rerender = () =>
+            this.renderAdminList(allProfiles, searchInput.value, sortSelect.value);
         searchInput.addEventListener('input', rerender);
         sortSelect.addEventListener('change', rerender);
         rerender();
@@ -474,18 +511,24 @@ Object.assign(DuoClone.prototype, {
             // Leaderboard now ranks by cumulative XP (never reset), so clearing these
             // rows is mostly cosmetic - every user's real total XP re-populates the
             // table again the moment they finish their next lesson or duel.
-            const ok = confirm('Xóa toàn bộ danh sách bảng xếp hạng? Lưu ý: XP thật của người dùng không đổi, bảng sẽ tự điền lại ngay khi họ hoàn thành bài học hoặc thi đấu tiếp theo.');
+            const ok = confirm(
+                'Xóa toàn bộ danh sách bảng xếp hạng? Lưu ý: XP thật của người dùng không đổi, bảng sẽ tự điền lại ngay khi họ hoàn thành bài học hoặc thi đấu tiếp theo.'
+            );
             if (!ok) return;
             await window.Leaderboard.resetLeaderboard();
             this.renderAdminDashboard();
         });
         document.getElementById('admin-clear-hof').addEventListener('click', async () => {
-            const ok = confirm('Xóa TOÀN BỘ dữ liệu vinh danh (gấu bông tuần)? Số gấu bông tương ứng của mỗi user cũng sẽ bị trừ lại. Không thể hoàn tác.');
+            const ok = confirm(
+                'Xóa TOÀN BỘ dữ liệu vinh danh (gấu bông tuần)? Số gấu bông tương ứng của mỗi user cũng sẽ bị trừ lại. Không thể hoàn tác.'
+            );
             if (!ok) return;
             await window.Leaderboard.clearHallOfFame();
             this.renderAdminDashboard();
         });
-        document.getElementById('admin-manage-groups').addEventListener('click', () => this.renderAdminGroupsList());
+        document
+            .getElementById('admin-manage-groups')
+            .addEventListener('click', () => this.renderAdminGroupsList());
 
         await this.renderAdminHallOfFame();
     },
@@ -498,7 +541,11 @@ Object.assign(DuoClone.prototype, {
             hofListEl.innerHTML = `<p style="text-align: center; color: #777;">Chưa có dữ liệu vinh danh.</p>`;
             return;
         }
-        hofListEl.innerHTML = `<div class="admin-table">` + entries.map(h => `
+        hofListEl.innerHTML =
+            `<div class="admin-table">` +
+            entries
+                .map(
+                    (h) => `
             <div class="admin-row">
                 <div class="admin-row-main">
                     <strong>🧸 ${this.escapeHtml(h.username)}</strong>
@@ -508,11 +555,16 @@ Object.assign(DuoClone.prototype, {
                     <button class="btn-secondary admin-action-btn admin-action-danger" data-action="delete-hof" data-week="${this.escapeHtml(h.week_id)}">Xóa</button>
                 </div>
             </div>
-        `).join('') + `</div>`;
+        `
+                )
+                .join('') +
+            `</div>`;
 
-        hofListEl.querySelectorAll('.admin-action-btn').forEach(btn => {
+        hofListEl.querySelectorAll('.admin-action-btn').forEach((btn) => {
             btn.addEventListener('click', async () => {
-                const ok = confirm('Xóa dòng vinh danh này? Gấu bông tương ứng của user sẽ bị trừ lại 1.');
+                const ok = confirm(
+                    'Xóa dòng vinh danh này? Gấu bông tương ứng của user sẽ bị trừ lại 1.'
+                );
                 if (!ok) return;
                 btn.disabled = true;
                 await window.Leaderboard.deleteHallOfFameEntry(btn.dataset.week);
@@ -529,7 +581,7 @@ Object.assign(DuoClone.prototype, {
         const totalXp = profiles.reduce((sum, p) => sum + (p.xp || 0), 0);
         const totalBears = profiles.reduce((sum, p) => sum + (p.teddy_bears || 0), 0);
         const oneWeekAgoMs = Date.now() - 7 * 24 * 60 * 60 * 1000;
-        const activeThisWeek = profiles.filter(p => {
+        const activeThisWeek = profiles.filter((p) => {
             if (!p.last_activity_date) return false;
             const t = new Date(p.last_activity_date).getTime();
             return !isNaN(t) && t >= oneWeekAgoMs;
@@ -564,9 +616,10 @@ Object.assign(DuoClone.prototype, {
         let filtered = allProfiles;
         const term = (searchTerm || '').trim().toLowerCase();
         if (term) {
-            filtered = filtered.filter(p =>
-                (p.username || '').toLowerCase().includes(term) ||
-                (p.email || '').toLowerCase().includes(term)
+            filtered = filtered.filter(
+                (p) =>
+                    (p.username || '').toLowerCase().includes(term) ||
+                    (p.email || '').toLowerCase().includes(term)
             );
         }
 
@@ -575,7 +628,7 @@ Object.assign(DuoClone.prototype, {
             xp_desc: (a, b) => (b.xp || 0) - (a.xp || 0),
             streak_desc: (a, b) => (b.streak || 0) - (a.streak || 0),
             teddy_desc: (a, b) => (b.teddy_bears || 0) - (a.teddy_bears || 0),
-            name_asc: (a, b) => (a.username || '').localeCompare(b.username || '')
+            name_asc: (a, b) => (a.username || '').localeCompare(b.username || ''),
         };
         filtered = filtered.slice().sort(sorters[sortKey] || sorters.created_desc);
 
@@ -584,9 +637,12 @@ Object.assign(DuoClone.prototype, {
             return;
         }
 
-        listEl.innerHTML = `<div class="admin-table">` + filtered.map(p => {
-            const isSelf = this.state.profile && p.id === this.state.profile.id;
-            return `
+        listEl.innerHTML =
+            `<div class="admin-table">` +
+            filtered
+                .map((p) => {
+                    const isSelf = this.state.profile && p.id === this.state.profile.id;
+                    return `
             <div class="admin-row ${p.banned ? 'admin-row-banned' : ''}">
                 <div class="admin-row-main">
                     <strong>${this.escapeHtml(p.username)}</strong>
@@ -605,9 +661,11 @@ Object.assign(DuoClone.prototype, {
                 </div>
             </div>
         `;
-        }).join('') + `</div>`;
+                })
+                .join('') +
+            `</div>`;
 
-        listEl.querySelectorAll('.admin-action-btn').forEach(btn => {
+        listEl.querySelectorAll('.admin-action-btn').forEach((btn) => {
             btn.addEventListener('click', () => this.handleAdminAction(btn));
         });
     },
@@ -624,17 +682,29 @@ Object.assign(DuoClone.prototype, {
         }
 
         if (action === 'reset-progress') {
-            const ok = confirm('Bạn chắc chắn muốn reset TOÀN BỘ tiến trình của người dùng này (XP, streak, tim)? Không thể hoàn tác.');
+            const ok = confirm(
+                'Bạn chắc chắn muốn reset TOÀN BỘ tiến trình của người dùng này (XP, streak, tim)? Không thể hoàn tác.'
+            );
             if (!ok) return;
             btn.disabled = true;
-            await window.AuthService.updateProfile(id, { xp: 0, weekly_xp: 0, streak: 0, hearts: MAX_HEARTS, stats: {} });
+            await window.AuthService.updateProfile(id, {
+                xp: 0,
+                weekly_xp: 0,
+                streak: 0,
+                hearts: MAX_HEARTS,
+                stats: {},
+            });
             this.renderAdminDashboard();
             return;
         }
 
         if (action === 'toggle-role') {
             const newRole = btn.dataset.role === 'admin' ? 'user' : 'admin';
-            const ok = confirm(newRole === 'admin' ? 'Thăng người dùng này lên quyền Admin?' : 'Giáng người dùng này xuống quyền User thường?');
+            const ok = confirm(
+                newRole === 'admin'
+                    ? 'Thăng người dùng này lên quyền Admin?'
+                    : 'Giáng người dùng này xuống quyền User thường?'
+            );
             if (!ok) return;
             btn.disabled = true;
             await window.AuthService.updateProfile(id, { role: newRole });
@@ -644,7 +714,11 @@ Object.assign(DuoClone.prototype, {
 
         if (action === 'toggle-ban') {
             const newBanned = btn.dataset.banned !== 'true';
-            const ok = confirm(newBanned ? 'Khóa tài khoản này? Người dùng sẽ không thể đăng nhập được nữa.' : 'Mở khóa tài khoản này?');
+            const ok = confirm(
+                newBanned
+                    ? 'Khóa tài khoản này? Người dùng sẽ không thể đăng nhập được nữa.'
+                    : 'Mở khóa tài khoản này?'
+            );
             if (!ok) return;
             btn.disabled = true;
             await window.AuthService.updateProfile(id, { banned: newBanned });
@@ -653,12 +727,14 @@ Object.assign(DuoClone.prototype, {
         }
 
         if (action === 'delete-user') {
-            const ok = confirm('XÓA VĨNH VIỄN hồ sơ này? Toàn bộ XP, streak, gấu bông, tiến trình sẽ mất, không thể hoàn tác.\n\nLưu ý: tài khoản đăng nhập (email/mật khẩu) vẫn còn tồn tại trên hệ thống xác thực — nếu họ đăng nhập lại, một hồ sơ mới trắng sẽ được tạo. Muốn chặn hẳn, dùng "Khóa tài khoản" hoặc xóa tay trong Supabase Dashboard.');
+            const ok = confirm(
+                'XÓA VĨNH VIỄN hồ sơ này? Toàn bộ XP, streak, gấu bông, tiến trình sẽ mất, không thể hoàn tác.\n\nLưu ý: tài khoản đăng nhập (email/mật khẩu) vẫn còn tồn tại trên hệ thống xác thực — nếu họ đăng nhập lại, một hồ sơ mới trắng sẽ được tạo. Muốn chặn hẳn, dùng "Khóa tài khoản" hoặc xóa tay trong Supabase Dashboard.'
+            );
             if (!ok) return;
             btn.disabled = true;
             await window.AuthService.deleteProfile(id);
             this.renderAdminDashboard();
             return;
         }
-    }
+    },
 });

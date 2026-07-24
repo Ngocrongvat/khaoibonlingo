@@ -16,12 +16,19 @@ const ok = (c, m) => {
 
 const sandbox = { window: {}, console, String, RegExp, Object, Array };
 vm.createContext(sandbox);
-vm.runInContext(fs.readFileSync(path.join(__dirname, '..', 'assets/js/content-safety.js'), 'utf8'), sandbox, { filename: 'content-safety.js' });
+vm.runInContext(
+    fs.readFileSync(path.join(__dirname, '..', 'assets/js/content-safety.js'), 'utf8'),
+    sandbox,
+    { filename: 'content-safety.js' }
+);
 const CS = sandbox.window.ContentSafety;
 const blocked = (t, o) => CS.check(t, o).ok === false;
 const allowed = (t, o) => CS.check(t, o).ok === true;
 
-ok(CS && typeof CS.check === 'function' && typeof CS.checkName === 'function', 'ContentSafety API exposed');
+ok(
+    CS && typeof CS.check === 'function' && typeof CS.checkName === 'function',
+    'ContentSafety API exposed'
+);
 
 console.log('\n== normal learning chat is allowed (no false positives) ==');
 [
@@ -37,9 +44,15 @@ console.log('\n== normal learning chat is allowed (no false positives) ==');
 ].forEach((t) => ok(allowed(t), 'allowed: "' + t + '"'));
 
 console.log('\n== profanity is blocked (EN + VI) ==');
-['you are stupid', 'what the fuck', 'this is shit', 'đồ ngu', 'địt mẹ', 'thằng chó', 'đm quá'].forEach((t) =>
-    ok(blocked(t), 'blocked profanity: "' + t + '"')
-);
+[
+    'you are stupid',
+    'what the fuck',
+    'this is shit',
+    'đồ ngu',
+    'địt mẹ',
+    'thằng chó',
+    'đm quá',
+].forEach((t) => ok(blocked(t), 'blocked profanity: "' + t + '"'));
 ok(blocked('f u c k you'), 'blocked spaced-out evasion "f u c k"');
 
 console.log('\n== personal contact info is blocked ==');
@@ -55,7 +68,10 @@ ok(blocked(''), 'empty blocked');
 ok(blocked('   '), 'whitespace-only blocked');
 ok(blocked('ab'.repeat(300)), 'over max length blocked (600 chars > 500 default)');
 ok(blocked('aaaaaaaaaaaaaaa'), 'repeated-char spam blocked');
-ok(allowed('ab'.repeat(300), { maxLength: 700 }), 'custom maxLength respected (600 chars, no spam)');
+ok(
+    allowed('ab'.repeat(300), { maxLength: 700 }),
+    'custom maxLength respected (600 chars, no spam)'
+);
 
 console.log('\n== name rules (stricter) ==');
 ok(CS.checkName('CoolKid123').ok === true, 'clean username allowed');
