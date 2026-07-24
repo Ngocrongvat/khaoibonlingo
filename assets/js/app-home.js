@@ -23,6 +23,13 @@ Object.assign(DuoClone.prototype, {
 
     renderHomeDashboard() {
         if (!this.state.currentUser) { this.renderAuthScreen(); return; }
+        // Lazy course data (GĐ0): make sure the current chapter's chunk is resident before
+        // reading its unit below; if not, load it then re-enter (cheap no-op once loaded).
+        if (window.CourseLoader && !window.CourseLoader.isLoaded(this.state.currentUnitIdx)) {
+            window.CourseLoader.ensure(this.state.currentUnitIdx).then(() => this.renderHomeDashboard());
+            return;
+        }
+        if (window.CourseLoader) window.CourseLoader.prefetch(this.state.currentUnitIdx);
         // Cleans up any global-chat realtime subscription left over from a previous
         // visit to this screen before the DOM (and the widget state) gets rebuilt below
         // - without this, revisiting Home repeatedly while the chat was left open would
@@ -385,6 +392,12 @@ Object.assign(DuoClone.prototype, {
     },
 
     renderPathMap(viewedUnitIdx) {
+        // Lazy course data (GĐ0): ensure the viewed chapter's chunk is loaded before its
+        // unit is read below; load then re-enter otherwise.
+        if (window.CourseLoader && !window.CourseLoader.isLoaded(viewedUnitIdx)) {
+            window.CourseLoader.ensure(viewedUnitIdx).then(() => this.renderPathMap(viewedUnitIdx));
+            return;
+        }
         const map = document.getElementById('path-map');
         if (!map) return;
         const unit = this.state.courseData.units[viewedUnitIdx];

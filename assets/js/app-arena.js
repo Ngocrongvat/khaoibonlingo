@@ -256,6 +256,12 @@ Object.assign(DuoClone.prototype, {
     // undo once stuck forever when users left via the home button (bug 0fcdd79).
     launchUnitScenario(unitIdx) {
         if (!window.Scenarios) { alert('Tính năng đang tải, thử lại sau giây lát nhé!'); return; }
+        // Lazy course data (GĐ0): the scenario is built from the unit's own content, so
+        // make sure the chapter's chunk is loaded before reading it.
+        if (window.CourseLoader && !window.CourseLoader.isLoaded(unitIdx)) {
+            window.CourseLoader.ensure(unitIdx).then(() => this.launchUnitScenario(unitIdx));
+            return;
+        }
         const unit = this.state.courseData.units[unitIdx];
         if (!unit) return;
         this.ui.checkBtn.disabled = true;

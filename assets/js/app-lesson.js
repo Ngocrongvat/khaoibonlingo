@@ -271,6 +271,14 @@ Object.assign(DuoClone.prototype, {
     },
 
     renderLesson() {
+        // Lazy course data (GĐ0): the current chapter's content must be resident before
+        // ANY unit read below — including the gate reroute and getCurrentExercise. Load
+        // then re-enter if needed; prefetch the next chapter so advancing stays seamless.
+        if (this.state.mode === 'curriculum' && window.CourseLoader && !window.CourseLoader.isLoaded(this.state.currentUnitIdx)) {
+            window.CourseLoader.ensure(this.state.currentUnitIdx).then(() => this.renderLesson());
+            return;
+        }
+        if (this.state.mode === 'curriculum' && window.CourseLoader) window.CourseLoader.prefetch(this.state.currentUnitIdx);
         // Held between chapters until the mandatory gate test is passed (Cluster B). Any
         // entry into the lesson view (Home "TIẾP TỤC HỌC", reload) reroutes to the gate.
         if (this.state.mode === 'curriculum' && this.state.pendingChapterGate != null) {
