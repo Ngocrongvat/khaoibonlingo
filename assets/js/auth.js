@@ -210,6 +210,11 @@ const AuthService = (() => {
     // copies, the auth.users row itself).
     async function renameAccount(newUsername) {
         if (!client) return { error: 'Chưa cấu hình đăng nhập.' };
+        // Child-safety gate: no profanity / contact info in a public display name.
+        if (window.ContentSafety) {
+            const safe = window.ContentSafety.checkName((newUsername || '').trim(), { maxLength: 40 });
+            if (!safe.ok) return { error: safe.reason };
+        }
         try {
             const { data, error } = await client.rpc('rename_own_account', { p_new_username: newUsername });
             if (error) return { error: error.message };

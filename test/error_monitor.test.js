@@ -69,19 +69,45 @@ function makeEnv(user) {
     {
         const { win, handlers } = makeEnv('alice');
         ok(typeof handlers.error === 'function', "window 'error' handler installed");
-        ok(typeof handlers.unhandledrejection === 'function', "window 'unhandledrejection' handler installed");
-        ok(win.ErrorMonitor && typeof win.ErrorMonitor.record === 'function', 'window.ErrorMonitor.record exposed');
+        ok(
+            typeof handlers.unhandledrejection === 'function',
+            "window 'unhandledrejection' handler installed"
+        );
+        ok(
+            win.ErrorMonitor && typeof win.ErrorMonitor.record === 'function',
+            'window.ErrorMonitor.record exposed'
+        );
     }
 
     console.log('\n== a JS error is captured with the right payload ==');
     {
         const { handlers, inserted } = makeEnv('alice');
-        handlers.error({ message: 'Boom', filename: 'app.js', lineno: 12, colno: 5, error: { stack: 'at foo' } });
+        handlers.error({
+            message: 'Boom',
+            filename: 'app.js',
+            lineno: 12,
+            colno: 5,
+            error: { stack: 'at foo' },
+        });
         await drain();
-        ok(rowCount(inserted) === 1 && inserted[0].table === 'client_errors', 'one row inserted into client_errors');
+        ok(
+            rowCount(inserted) === 1 && inserted[0].table === 'client_errors',
+            'one row inserted into client_errors'
+        );
         const row = inserted[0].rows[0];
-        ok(row.message === 'Boom' && row.source === 'app.js' && row.lineno === 12 && row.colno === 5, 'message/source/line/col captured');
-        ok(row.stack === 'at foo' && row.username === 'alice' && row.page_url === 'https://khoaibonlingo.example/app', 'stack/username/page_url captured');
+        ok(
+            row.message === 'Boom' &&
+                row.source === 'app.js' &&
+                row.lineno === 12 &&
+                row.colno === 5,
+            'message/source/line/col captured'
+        );
+        ok(
+            row.stack === 'at foo' &&
+                row.username === 'alice' &&
+                row.page_url === 'https://khoaibonlingo.example/app',
+            'stack/username/page_url captured'
+        );
         ok(typeof row.app_version === 'string' && row.app_version.length > 0, 'app_version tagged');
     }
 
@@ -103,7 +129,10 @@ function makeEnv(user) {
         const { handlers, inserted } = makeEnv('carol');
         handlers.unhandledrejection({ reason: new Error('async blew up') });
         await drain();
-        ok(rowCount(inserted) === 1 && /async blew up/.test(inserted[0].rows[0].message), 'rejection reason.message captured');
+        ok(
+            rowCount(inserted) === 1 && /async blew up/.test(inserted[0].rows[0].message),
+            'rejection reason.message captured'
+        );
     }
 
     console.log('\n== resource-load errors are skipped ==');
@@ -117,10 +146,14 @@ function makeEnv(user) {
     console.log('\n== rate-limited per session (max 15) ==');
     {
         const { handlers, inserted } = makeEnv('erin');
-        for (let i = 0; i < 30; i++) handlers.error({ message: 'e' + i, filename: 'a.js', lineno: i, colno: 0 });
+        for (let i = 0; i < 30; i++)
+            handlers.error({ message: 'e' + i, filename: 'a.js', lineno: i, colno: 0 });
         // Multiple flush cycles drain the queue; give it several turns.
         for (let k = 0; k < 5; k++) await drain();
-        ok(rowCount(inserted) === 15, 'capped at MAX_PER_SESSION (15) distinct errors, no flooding');
+        ok(
+            rowCount(inserted) === 15,
+            'capped at MAX_PER_SESSION (15) distinct errors, no flooding'
+        );
     }
 
     console.log('\n== never throws when the Supabase client is missing ==');
@@ -151,6 +184,8 @@ function makeEnv(user) {
         ok(!threw, 'recording an error with no client does not throw (buffered silently)');
     }
 
-    console.log(`\n=========================================\nRESULT: ${PASS} passed, ${FAIL} failed`);
+    console.log(
+        `\n=========================================\nRESULT: ${PASS} passed, ${FAIL} failed`
+    );
     process.exit(FAIL ? 1 : 0);
 })();

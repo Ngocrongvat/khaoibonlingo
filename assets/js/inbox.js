@@ -38,6 +38,11 @@
         const trimmed = (text || '').trim();
         if (!trimmed) return { error: 'Vui lòng nhập tin nhắn.' };
         if (trimmed.length > MAX_MESSAGE_LENGTH) return { error: `Tin nhắn quá dài (tối đa ${MAX_MESSAGE_LENGTH} ký tự).` };
+        // Child-safety gate: block profanity + sharing of personal contact info before send.
+        if (window.ContentSafety) {
+            const safe = window.ContentSafety.check(trimmed, { maxLength: MAX_MESSAGE_LENGTH });
+            if (!safe.ok) return { error: safe.reason };
+        }
         try {
             const target = await searchUserByUsername(targetUsername);
             if (!target) return { error: 'Không tìm thấy người dùng này.' };
@@ -66,6 +71,11 @@
         const trimmed = (text || '').trim();
         if (!trimmed) return { error: 'Vui lòng nhập tin nhắn.' };
         if (trimmed.length > MAX_MESSAGE_LENGTH) return { error: `Tin nhắn quá dài (tối đa ${MAX_MESSAGE_LENGTH} ký tự).` };
+        // Child-safety gate: block profanity + sharing of personal contact info before send.
+        if (window.ContentSafety) {
+            const safe = window.ContentSafety.check(trimmed, { maxLength: MAX_MESSAGE_LENGTH });
+            if (!safe.ok) return { error: safe.reason };
+        }
         try {
             const { data, error } = await client.from('direct_messages').insert({
                 sender_id: myProfile.id,

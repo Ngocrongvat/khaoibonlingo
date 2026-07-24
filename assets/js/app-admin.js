@@ -169,6 +169,15 @@ Object.assign(DuoClone.prototype, {
                 this.ui.loginBtn.disabled = false;
                 return;
             }
+            // Child-safety gate: no profanity / contact info in a public display name.
+            if (window.ContentSafety) {
+                const safeName = window.ContentSafety.checkName(username, { maxLength: 40 });
+                if (!safeName.ok) {
+                    errorEl.innerText = safeName.reason;
+                    this.ui.loginBtn.disabled = false;
+                    return;
+                }
+            }
             const result = await window.AuthService.signUp(email, password, username);
             this.ui.loginBtn.disabled = false;
             if (result.error) {

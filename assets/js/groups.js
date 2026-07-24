@@ -16,6 +16,11 @@
         if (!client || !myProfile || !name) return { error: 'Chưa cấu hình.' };
         const trimmedName = name.trim();
         if (trimmedName.length < 2 || trimmedName.length > 40) return { error: 'Tên group phải từ 2-40 ký tự.' };
+        // Child-safety gate: no profanity / contact info in a public group name.
+        if (window.ContentSafety) {
+            const safe = window.ContentSafety.checkName(trimmedName, { maxLength: 40 });
+            if (!safe.ok) return { error: safe.reason };
+        }
         try {
             const { data: group, error } = await client.from('groups').insert({
                 name: trimmedName,
@@ -319,6 +324,11 @@
         const trimmed = (text || '').trim();
         if (!trimmed) return { error: 'Vui lòng nhập tin nhắn.' };
         if (trimmed.length > MAX_MESSAGE_LENGTH) return { error: `Tin nhắn quá dài (tối đa ${MAX_MESSAGE_LENGTH} ký tự).` };
+        // Child-safety gate: block profanity + sharing of personal contact info before send.
+        if (window.ContentSafety) {
+            const safe = window.ContentSafety.check(trimmed, { maxLength: MAX_MESSAGE_LENGTH });
+            if (!safe.ok) return { error: safe.reason };
+        }
         try {
             const { data, error } = await client.from('group_messages').insert({
                 group_id: groupId,

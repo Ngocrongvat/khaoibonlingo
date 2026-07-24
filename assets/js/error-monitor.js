@@ -10,7 +10,7 @@
 (function () {
     'use strict';
 
-    var APP_VERSION = '20260735';
+    var APP_VERSION = '20260736';
     var MAX_PER_SESSION = 15; // hard cap so a tight error loop can't spam the DB
     var seen = {}; // signature -> true (collapse identical repeats)
     var sent = 0;
@@ -30,7 +30,15 @@
     }
 
     function signature(r) {
-        return (r.message || '') + '@' + (r.source || '') + ':' + (r.lineno || 0) + ':' + (r.colno || 0);
+        return (
+            (r.message || '') +
+            '@' +
+            (r.source || '') +
+            ':' +
+            (r.lineno || 0) +
+            ':' +
+            (r.colno || 0)
+        );
     }
 
     function flush() {
@@ -101,7 +109,8 @@
     window.addEventListener('unhandledrejection', function (e) {
         var reason = e && e.reason;
         record({
-            message: (reason && (reason.message || String(reason))) || 'Unhandled promise rejection',
+            message:
+                (reason && (reason.message || String(reason))) || 'Unhandled promise rejection',
             stack: reason && reason.stack,
         });
     });
