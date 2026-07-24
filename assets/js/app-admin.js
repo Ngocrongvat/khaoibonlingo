@@ -87,6 +87,11 @@ Object.assign(DuoClone.prototype, {
                     <button id="auth-toggle-btn" style="padding: 12px; border-radius: 12px; font-weight: 700; cursor: pointer; background: white; border: 2px solid #e5e5e5; color: #777;">Chưa có tài khoản? Đăng ký</button>
                     <button id="forgot-password-btn" style="padding: 6px; border: none; background: none; color: #1cb0f6; font-weight: 700; cursor: pointer; font-size: 14px;">Quên mật khẩu?</button>
                 </div>
+                <p class="auth-legal" style="text-align:center; font-size:12px; color:#999; margin: 18px auto 0; max-width: 320px;">
+                    Khi tiếp tục, bạn đồng ý với
+                    <a href="terms.html" target="_blank" rel="noopener" style="color:#1cb0f6;">Điều khoản sử dụng</a>
+                    &amp; <a href="privacy.html" target="_blank" rel="noopener" style="color:#1cb0f6;">Chính sách bảo mật</a>.
+                </p>
             </div>
         `;
         this.ui.usernameInput = document.getElementById('username-input');
