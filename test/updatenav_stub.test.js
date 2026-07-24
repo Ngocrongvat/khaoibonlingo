@@ -17,15 +17,37 @@ const ok = (c, m) => {
 
 function DuoClone() {}
 DuoClone.prototype = {};
-const sandbox = { DuoClone, document: { getElementById: () => null, querySelector: () => null }, console, Math, Object, Array, String, Date };
+const sandbox = {
+    DuoClone,
+    document: { getElementById: () => null, querySelector: () => null },
+    console,
+    Math,
+    Object,
+    Array,
+    String,
+    Date,
+};
 vm.createContext(sandbox);
-vm.runInContext(fs.readFileSync(path.join(__dirname, '..', 'assets/js/app-home.js'), 'utf8'), sandbox, { filename: 'app-home.js' });
+vm.runInContext(
+    fs.readFileSync(path.join(__dirname, '..', 'assets/js/app-home.js'), 'utf8'),
+    sandbox,
+    { filename: 'app-home.js' }
+);
 const P = sandbox.DuoClone.prototype;
 ok(typeof P.updateNav === 'function', 'updateNav attached');
 
 function ctx(unit) {
     return {
-        state: { mode: 'curriculum', currentUnitIdx: 5, currentLessonIdx: 2, currentExIdx: 1, hearts: 10, streak: 0, xp: 0, courseData: { units: { 5: unit, length: 10 } } },
+        state: {
+            mode: 'curriculum',
+            currentUnitIdx: 5,
+            currentLessonIdx: 2,
+            currentExIdx: 1,
+            hearts: 10,
+            streak: 0,
+            xp: 0,
+            courseData: { units: { 5: unit, length: 10 } },
+        },
         ui: { progress: { style: {} }, hearts: {}, streak: {}, xp: {} },
         updateNav: P.updateNav,
         updateRankBadge() {},
@@ -51,7 +73,10 @@ console.log('\n== updateNav does not crash on a lazy stub unit ==');
 console.log('\n== updateNav computes real progress once the unit is loaded ==');
 {
     // ctx uses currentLessonIdx 2, currentExIdx 1 → need lesson index 2 with 4 exercises.
-    const t = ctx({ title: 'Real', lessons: [{ exercises: [{}] }, { exercises: [{}] }, { exercises: [{}, {}, {}, {}] }] });
+    const t = ctx({
+        title: 'Real',
+        lessons: [{ exercises: [{}] }, { exercises: [{}] }, { exercises: [{}, {}, {}, {}] }],
+    });
     t.updateNav();
     ok(t.ui.progress.style.width === '25%', 'currentExIdx 1 of 4 → 25% progress'); // current/total = 1/4
 }

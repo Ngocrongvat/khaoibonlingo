@@ -45,8 +45,12 @@ Object.assign(DuoClone.prototype, {
                 this.ui.navMoreMenu.classList.add('hidden');
             });
             this.ui.navMoreMenu.addEventListener('click', (e) => e.stopPropagation());
-            this.ui.navMoreMenu.querySelectorAll('button').forEach(btn => {
-                btn.addEventListener('click', () => this.ui.navMoreMenu.classList.add('hidden'));
+            this.ui.navMoreMenu.querySelectorAll('button').forEach((btn) => {
+                btn.addEventListener('click', () => {
+                    // Leaving the lesson via any menu item: drop a leftover catch-mascot/banner.
+                    this.cleanupCatchMascot();
+                    this.ui.navMoreMenu.classList.add('hidden');
+                });
             });
         }
         if (this.ui.homeBtn) {
@@ -140,7 +144,8 @@ Object.assign(DuoClone.prototype, {
                 // getCurrentExercise() would return undefined and crash renderLesson().
                 this.state.reviewQueue = Array.isArray(data.reviewQueue) ? data.reviewQueue : [];
                 this.state.reviewMode = !!data.reviewMode;
-                this.state.pendingChapterGate = (data.pendingChapterGate != null) ? data.pendingChapterGate : null;
+                this.state.pendingChapterGate =
+                    data.pendingChapterGate != null ? data.pendingChapterGate : null;
             } catch (e) {
                 this.state.lastHeartUpdate = Date.now();
             }
@@ -158,11 +163,16 @@ Object.assign(DuoClone.prototype, {
         // position only ever moves forward.
         const server = this.state.stats && this.state.stats.position;
         if (server && typeof server.u === 'number') {
-            const local = [this.state.currentUnitIdx, this.state.currentLessonIdx, this.state.currentExIdx];
+            const local = [
+                this.state.currentUnitIdx,
+                this.state.currentLessonIdx,
+                this.state.currentExIdx,
+            ];
             const remote = [server.u || 0, server.l || 0, server.e || 0];
-            const serverFurther = remote[0] > local[0]
-                || (remote[0] === local[0] && remote[1] > local[1])
-                || (remote[0] === local[0] && remote[1] === local[1] && remote[2] > local[2]);
+            const serverFurther =
+                remote[0] > local[0] ||
+                (remote[0] === local[0] && remote[1] > local[1]) ||
+                (remote[0] === local[0] && remote[1] === local[1] && remote[2] > local[2]);
             if (serverFurther) {
                 // clamp against the current course shape in case data evolved
                 const units = this.state.courseData.units;
@@ -210,15 +220,18 @@ Object.assign(DuoClone.prototype, {
 
     saveLocalPosition() {
         if (!this.state.profile) return;
-        localStorage.setItem(`duo_position_${this.state.profile.id}`, JSON.stringify({
-            currentUnitIdx: this.state.currentUnitIdx,
-            currentLessonIdx: this.state.currentLessonIdx,
-            currentExIdx: this.state.currentExIdx,
-            lastHeartUpdate: this.state.lastHeartUpdate,
-            reviewQueue: this.state.reviewQueue,
-            reviewMode: this.state.reviewMode,
-            pendingChapterGate: this.state.pendingChapterGate
-        }));
+        localStorage.setItem(
+            `duo_position_${this.state.profile.id}`,
+            JSON.stringify({
+                currentUnitIdx: this.state.currentUnitIdx,
+                currentLessonIdx: this.state.currentLessonIdx,
+                currentExIdx: this.state.currentExIdx,
+                lastHeartUpdate: this.state.lastHeartUpdate,
+                reviewQueue: this.state.reviewQueue,
+                reviewMode: this.state.reviewMode,
+                pendingChapterGate: this.state.pendingChapterGate,
+            })
+        );
     },
 
     saveUserProgress() {
@@ -236,7 +249,7 @@ Object.assign(DuoClone.prototype, {
                     u: this.state.currentUnitIdx,
                     l: this.state.currentLessonIdx,
                     e: this.state.currentExIdx,
-                    t: Date.now()
+                    t: Date.now(),
                 };
                 // regen clock saved WITH the hearts value so a fresh device can
                 // resume accrual consistently (see loadLocalPosition()).
@@ -256,7 +269,7 @@ Object.assign(DuoClone.prototype, {
                 streak: this.state.streak,
                 last_activity_date: this.state.lastActivityDate,
                 last_week_id: this.state.lastWeekId,
-                stats
+                stats,
             });
         }
     },
@@ -292,7 +305,9 @@ Object.assign(DuoClone.prototype, {
         if (this.state.hearts <= 5) {
             return `💔 Bạn sắp hết tim rồi (còn ${this.state.hearts}) - thử chơi 🎮 mini game để nhận thêm tim ngay lập tức!`;
         }
-        const dayOfYear = Math.floor((Date.now() - new Date(new Date().getFullYear(), 0, 0)) / 86400000);
+        const dayOfYear = Math.floor(
+            (Date.now() - new Date(new Date().getFullYear(), 0, 0)) / 86400000
+        );
         return MENTOR_TIPS[dayOfYear % MENTOR_TIPS.length];
     },
 
@@ -312,17 +327,31 @@ Object.assign(DuoClone.prototype, {
         box.className = 'suggest-box hidden';
         input.insertAdjacentElement('afterend', box);
         let debounce = null;
-        const close = () => { box.classList.add('hidden'); box.innerHTML = ''; };
+        const close = () => {
+            box.classList.add('hidden');
+            box.innerHTML = '';
+        };
         input.addEventListener('input', () => {
             clearTimeout(debounce);
             const q = input.value.trim();
-            if (q.length < 2) { close(); return; }
+            if (q.length < 2) {
+                close();
+                return;
+            }
             debounce = setTimeout(async () => {
                 const items = await fetcher(q);
-                if (!items.length || document.activeElement !== input) { close(); return; }
-                box.innerHTML = items.map((it, i) => `<button type="button" class="suggest-item" data-idx="${i}">${this.escapeHtml(it.label)}</button>`).join('');
+                if (!items.length || document.activeElement !== input) {
+                    close();
+                    return;
+                }
+                box.innerHTML = items
+                    .map(
+                        (it, i) =>
+                            `<button type="button" class="suggest-item" data-idx="${i}">${this.escapeHtml(it.label)}</button>`
+                    )
+                    .join('');
                 box.classList.remove('hidden');
-                box.querySelectorAll('.suggest-item').forEach(btn => {
+                box.querySelectorAll('.suggest-item').forEach((btn) => {
                     btn.addEventListener('click', () => {
                         const item = items[parseInt(btn.dataset.idx, 10)];
                         input.value = item.value;
@@ -342,10 +371,16 @@ Object.assign(DuoClone.prototype, {
     attachUserSuggestions(input, onPick = null) {
         if (!window.Friends || !window.Friends.searchUsers) return;
         const myName = this.state.currentUser;
-        this.attachSuggestions(input, async (q) => {
-            const users = await window.Friends.searchUsers(q, 8);
-            return users.filter(u => u.username !== myName).map(u => ({ label: `👤 ${u.username}`, value: u.username, id: u.id }));
-        }, onPick);
+        this.attachSuggestions(
+            input,
+            async (q) => {
+                const users = await window.Friends.searchUsers(q, 8);
+                return users
+                    .filter((u) => u.username !== myName)
+                    .map((u) => ({ label: `👤 ${u.username}`, value: u.username, id: u.id }));
+            },
+            onPick
+        );
     },
 
     closeUserActionMenu() {
@@ -359,7 +394,11 @@ Object.assign(DuoClone.prototype, {
 
     async showUserActionMenu(anchorEl, userId, username) {
         // No point showing "challenge/message/friend yourself".
-        if (username === this.state.currentUser || (this.state.profile && userId === this.state.profile.id)) return;
+        if (
+            username === this.state.currentUser ||
+            (this.state.profile && userId === this.state.profile.id)
+        )
+            return;
         if (!window.Friends || !this.state.currentUser) return;
 
         this.closeUserActionMenu();
@@ -383,16 +422,18 @@ Object.assign(DuoClone.prototype, {
         const menu = document.createElement('div');
         menu.className = 'user-action-menu';
         menu.id = 'user-action-menu';
-        menu.style.top = (rect.bottom + window.scrollY + 6) + 'px';
+        menu.style.top = rect.bottom + window.scrollY + 6 + 'px';
         const menuWidth = 210;
-        menu.style.left = Math.max(8, Math.min(rect.left + window.scrollX, window.innerWidth - menuWidth - 8)) + 'px';
+        menu.style.left =
+            Math.max(8, Math.min(rect.left + window.scrollX, window.innerWidth - menuWidth - 8)) +
+            'px';
 
         menu.innerHTML = `
             <div class="user-action-menu-header">${this.escapeHtml(username)}</div>
             <button class="user-action-menu-item" data-action="duel">⚔️ Thách đấu</button>
             <button class="user-action-menu-item" data-action="message">💬 Gửi tin nhắn</button>
             <button class="user-action-menu-item" data-action="info">ℹ️ Xem info</button>
-            ${(resolvedId && !alreadyFriends) ? '<button class="user-action-menu-item" data-action="friend">👋 Kết bạn</button>' : ''}
+            ${resolvedId && !alreadyFriends ? '<button class="user-action-menu-item" data-action="friend">👋 Kết bạn</button>' : ''}
         `;
         document.body.appendChild(menu);
 
@@ -402,7 +443,10 @@ Object.assign(DuoClone.prototype, {
         });
         menu.querySelector('[data-action="message"]').addEventListener('click', () => {
             this.closeUserActionMenu();
-            if (!resolvedId) { alert('Không tìm thấy người dùng này.'); return; }
+            if (!resolvedId) {
+                alert('Không tìm thấy người dùng này.');
+                return;
+            }
             this.renderConversation(resolvedId, username);
         });
         menu.querySelector('[data-action="info"]').addEventListener('click', () => {
@@ -429,16 +473,31 @@ Object.assign(DuoClone.prototype, {
     },
 
     bindExerciseEvents(ex) {
-        const optionBasedTypes = ['multiple_choice', 'listening', 'preposition', 'fill_blank', 'synonym', 'meaning', 'reading', 'dialogue'];
+        const optionBasedTypes = [
+            'multiple_choice',
+            'listening',
+            'preposition',
+            'fill_blank',
+            'synonym',
+            'meaning',
+            'reading',
+            'dialogue',
+        ];
         if (optionBasedTypes.includes(ex.type)) {
             this.ui.container.querySelectorAll('.option-card').forEach((el, i) => {
                 el.addEventListener('click', () => this.selectOption(i, el));
             });
             if (ex.type === 'listening') {
                 const listenBtn = document.getElementById('listen-btn');
-                if (listenBtn) listenBtn.addEventListener('click', () => this.playAudio(ex.options[ex.correct]));
+                if (listenBtn)
+                    listenBtn.addEventListener('click', () =>
+                        this.playAudio(ex.options[ex.correct])
+                    );
                 const listenSlowBtn = document.getElementById('listen-slow-btn');
-                if (listenSlowBtn) listenSlowBtn.addEventListener('click', () => this.playAudioSlow(ex.options[ex.correct]));
+                if (listenSlowBtn)
+                    listenSlowBtn.addEventListener('click', () =>
+                        this.playAudioSlow(ex.options[ex.correct])
+                    );
             }
         } else if (ex.type === 'translate' || ex.type === 'ordering') {
             const words = ex.options || ex.shuffled;
@@ -449,7 +508,8 @@ Object.assign(DuoClone.prototype, {
             const listenBtn = document.getElementById('listen-btn');
             if (listenBtn) listenBtn.addEventListener('click', () => this.playAudio(ex.target));
             const listenSlowBtn = document.getElementById('listen-slow-btn');
-            if (listenSlowBtn) listenSlowBtn.addEventListener('click', () => this.playAudioSlow(ex.target));
+            if (listenSlowBtn)
+                listenSlowBtn.addEventListener('click', () => this.playAudioSlow(ex.target));
             const micBtn = document.getElementById('mic-btn');
             if (micBtn) micBtn.addEventListener('click', () => this.startRecording());
         } else if (ex.type === 'dictation') {
@@ -457,7 +517,8 @@ Object.assign(DuoClone.prototype, {
             const listenBtn = document.getElementById('listen-btn');
             if (listenBtn) listenBtn.addEventListener('click', () => this.playAudio(ex.target));
             const listenSlowBtn = document.getElementById('listen-slow-btn');
-            if (listenSlowBtn) listenSlowBtn.addEventListener('click', () => this.playAudioSlow(ex.target));
+            if (listenSlowBtn)
+                listenSlowBtn.addEventListener('click', () => this.playAudioSlow(ex.target));
             if (phase === 0) {
                 const bank = this.dictationWordBank(ex);
                 this.ui.container.querySelectorAll('.word-bank .word-chip').forEach((el, i) => {
@@ -480,17 +541,18 @@ Object.assign(DuoClone.prototype, {
                 if (micBtn) micBtn.addEventListener('click', () => this.startRecording());
             }
         } else if (ex.type === 'matching') {
-            this.ui.container.querySelectorAll('#match-left .match-card').forEach(el => {
+            this.ui.container.querySelectorAll('#match-left .match-card').forEach((el) => {
                 el.addEventListener('click', () => this.onMatchLeftClick(el));
             });
-            this.ui.container.querySelectorAll('#match-right .match-card').forEach(el => {
+            this.ui.container.querySelectorAll('#match-right .match-card').forEach((el) => {
                 el.addEventListener('click', () => this.onMatchRightClick(el, ex));
             });
         } else if (ex.type === 'listening_comprehension') {
             const listenBtn = document.getElementById('listen-btn');
             if (listenBtn) listenBtn.addEventListener('click', () => this.playAudio(ex.audioText));
             const listenSlowBtn = document.getElementById('listen-slow-btn');
-            if (listenSlowBtn) listenSlowBtn.addEventListener('click', () => this.playAudioSlow(ex.audioText));
+            if (listenSlowBtn)
+                listenSlowBtn.addEventListener('click', () => this.playAudioSlow(ex.audioText));
 
             const typeBtn = document.getElementById('mode-type-btn');
             const speakBtn = document.getElementById('mode-speak-btn');
@@ -502,9 +564,10 @@ Object.assign(DuoClone.prototype, {
                 speakBtn.classList.toggle('active', mode === 'speak');
                 typePanel.style.display = mode === 'type' ? '' : 'none';
                 speakPanel.style.display = mode === 'speak' ? '' : 'none';
-                const hasAnswer = mode === 'type'
-                    ? this.state.comprehensionText.trim().length > 0
-                    : !!this.state.recognizedSpeech;
+                const hasAnswer =
+                    mode === 'type'
+                        ? this.state.comprehensionText.trim().length > 0
+                        : !!this.state.recognizedSpeech;
                 this.ui.checkBtn.disabled = !hasAnswer;
                 this.ui.checkBtn.classList.toggle('active', hasAnswer);
             };
@@ -530,7 +593,9 @@ Object.assign(DuoClone.prototype, {
     onMatchLeftClick(el) {
         const ms = this.state.matchingState;
         if (!ms || ms.matchedIds.has(el.dataset.id)) return;
-        this.ui.container.querySelectorAll('#match-left .match-card').forEach(c => c.classList.remove('selected'));
+        this.ui.container
+            .querySelectorAll('#match-left .match-card')
+            .forEach((c) => c.classList.remove('selected'));
         ms.selectedLeftId = el.dataset.id;
         el.classList.add('selected');
     },
@@ -540,8 +605,9 @@ Object.assign(DuoClone.prototype, {
         if (!ms || !ms.selectedLeftId || ms.matchedIds.has(el.dataset.id)) return;
         const leftId = ms.selectedLeftId;
         const rightId = el.dataset.id;
-        const leftEl = Array.from(this.ui.container.querySelectorAll('#match-left .match-card'))
-            .find(c => c.dataset.id === leftId);
+        const leftEl = Array.from(
+            this.ui.container.querySelectorAll('#match-left .match-card')
+        ).find((c) => c.dataset.id === leftId);
         if (leftId === rightId) {
             ms.matchedIds.add(leftId);
             if (leftEl) leftEl.classList.add('matched');
@@ -587,14 +653,54 @@ Object.assign(DuoClone.prototype, {
     // Spells out a number (0-9999) in English words, matching how course targets are
     // written - used to reconcile speech-recognition output with the expected text.
     numberToEnglishWords(n) {
-        const ones = ['zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten',
-            'eleven', 'twelve', 'thirteen', 'fourteen', 'fifteen', 'sixteen', 'seventeen', 'eighteen', 'nineteen'];
-        const tens = ['', '', 'twenty', 'thirty', 'forty', 'fifty', 'sixty', 'seventy', 'eighty', 'ninety'];
+        const ones = [
+            'zero',
+            'one',
+            'two',
+            'three',
+            'four',
+            'five',
+            'six',
+            'seven',
+            'eight',
+            'nine',
+            'ten',
+            'eleven',
+            'twelve',
+            'thirteen',
+            'fourteen',
+            'fifteen',
+            'sixteen',
+            'seventeen',
+            'eighteen',
+            'nineteen',
+        ];
+        const tens = [
+            '',
+            '',
+            'twenty',
+            'thirty',
+            'forty',
+            'fifty',
+            'sixty',
+            'seventy',
+            'eighty',
+            'ninety',
+        ];
         if (n < 0 || n > 9999 || !Number.isInteger(n)) return String(n);
         if (n < 20) return ones[n];
         if (n < 100) return tens[Math.floor(n / 10)] + (n % 10 ? ' ' + ones[n % 10] : '');
-        if (n < 1000) return ones[Math.floor(n / 100)] + ' hundred' + (n % 100 ? ' ' + this.numberToEnglishWords(n % 100) : '');
-        return this.numberToEnglishWords(Math.floor(n / 1000)) + ' thousand' + (n % 1000 ? ' ' + this.numberToEnglishWords(n % 1000) : '');
+        if (n < 1000)
+            return (
+                ones[Math.floor(n / 100)] +
+                ' hundred' +
+                (n % 100 ? ' ' + this.numberToEnglishWords(n % 100) : '')
+            );
+        return (
+            this.numberToEnglishWords(Math.floor(n / 1000)) +
+            ' thousand' +
+            (n % 1000 ? ' ' + this.numberToEnglishWords(n % 1000) : '')
+        );
     },
 
     // Bug fix: speech recognition returns DIGITS for spoken numbers ("seven o'clock"
@@ -630,7 +736,7 @@ Object.assign(DuoClone.prototype, {
 
     selectOption(idx, el) {
         this.state.selectedOption = idx;
-        document.querySelectorAll('.option-card').forEach(c => c.classList.remove('selected'));
+        document.querySelectorAll('.option-card').forEach((c) => c.classList.remove('selected'));
         el.classList.add('selected');
         this.ui.checkBtn.disabled = false;
         this.ui.checkBtn.classList.add('active');
@@ -655,7 +761,7 @@ Object.assign(DuoClone.prototype, {
     },
 
     removeWord(word, chip, originalEl) {
-        this.state.currentAnswer = this.state.currentAnswer.filter(w => w !== word);
+        this.state.currentAnswer = this.state.currentAnswer.filter((w) => w !== word);
         chip.remove();
         originalEl.classList.remove('used');
     },
@@ -683,55 +789,150 @@ Object.assign(DuoClone.prototype, {
             const key = en.toLowerCase();
             if (locked.has(key)) return;
             const existing = map.get(key);
-            if (!existing) { map.set(key, vi); return; }
+            if (!existing) {
+                map.set(key, vi);
+                return;
+            }
             // merge a second distinct meaning; cap at 2 so the popup stays readable
-            if (existing === vi || existing.includes(' / ') || existing.toLowerCase() === vi.toLowerCase()) return;
+            if (
+                existing === vi ||
+                existing.includes(' / ') ||
+                existing.toLowerCase() === vi.toLowerCase()
+            )
+                return;
             map.set(key, existing + ' / ' + vi);
         };
         // Function words / high-frequency grammar words (never in the topical bank).
         const FUNCTION_GLOSS = {
-            i: 'tôi', you: 'bạn', he: 'anh ấy', she: 'cô ấy', it: 'nó', we: 'chúng tôi', they: 'họ',
-            am: 'là (đi với I)', is: 'là (số ít)', are: 'là (số nhiều)', was: 'đã là', were: 'đã là',
-            a: 'một (mạo từ)', an: 'một (mạo từ)', the: '(mạo từ xác định)',
-            my: 'của tôi', your: 'của bạn', his: 'của anh ấy', her: 'của cô ấy', our: 'của chúng tôi', their: 'của họ', its: 'của nó',
-            me: 'tôi (tân ngữ)', him: 'anh ấy (tân ngữ)', us: 'chúng tôi (tân ngữ)', them: 'họ (tân ngữ)',
-            this: 'này, cái này', that: 'kia, cái đó', these: 'những cái này', those: 'những cái kia',
-            do: 'làm / trợ động từ', does: 'trợ động từ (số ít)', did: 'trợ động từ (quá khứ)',
-            not: 'không', no: 'không', yes: 'vâng, có',
-            and: 'và', or: 'hoặc', but: 'nhưng', so: 'vì vậy', because: 'bởi vì', if: 'nếu',
-            in: 'trong', on: 'trên', at: 'tại, ở', to: 'đến, để', of: 'của', for: 'cho, vì', with: 'với',
-            from: 'từ', by: 'bởi, bằng', about: 'về', under: 'dưới', over: 'phía trên', near: 'gần',
-            there: 'ở đó, có', here: 'ở đây', what: 'cái gì', who: 'ai', where: 'ở đâu', when: 'khi nào',
-            why: 'tại sao', how: 'như thế nào', which: 'cái nào',
-            can: 'có thể', could: 'có thể (quá khứ/lịch sự)', will: 'sẽ', would: 'sẽ (giả định)',
-            should: 'nên', must: 'phải', may: 'có lẽ, được phép',
-            have: 'có', has: 'có (số ít)', had: 'đã có',
-            very: 'rất', too: 'quá, cũng', also: 'cũng', some: 'một vài', any: 'bất kỳ',
-            many: 'nhiều (đếm được)', much: 'nhiều (không đếm được)', more: 'nhiều hơn', most: 'nhiều nhất',
-            all: 'tất cả', every: 'mỗi, mọi', please: 'làm ơn', let: 'hãy, để cho',
+            i: 'tôi',
+            you: 'bạn',
+            he: 'anh ấy',
+            she: 'cô ấy',
+            it: 'nó',
+            we: 'chúng tôi',
+            they: 'họ',
+            am: 'là (đi với I)',
+            is: 'là (số ít)',
+            are: 'là (số nhiều)',
+            was: 'đã là',
+            were: 'đã là',
+            a: 'một (mạo từ)',
+            an: 'một (mạo từ)',
+            the: '(mạo từ xác định)',
+            my: 'của tôi',
+            your: 'của bạn',
+            his: 'của anh ấy',
+            her: 'của cô ấy',
+            our: 'của chúng tôi',
+            their: 'của họ',
+            its: 'của nó',
+            me: 'tôi (tân ngữ)',
+            him: 'anh ấy (tân ngữ)',
+            us: 'chúng tôi (tân ngữ)',
+            them: 'họ (tân ngữ)',
+            this: 'này, cái này',
+            that: 'kia, cái đó',
+            these: 'những cái này',
+            those: 'những cái kia',
+            do: 'làm / trợ động từ',
+            does: 'trợ động từ (số ít)',
+            did: 'trợ động từ (quá khứ)',
+            not: 'không',
+            no: 'không',
+            yes: 'vâng, có',
+            and: 'và',
+            or: 'hoặc',
+            but: 'nhưng',
+            so: 'vì vậy',
+            because: 'bởi vì',
+            if: 'nếu',
+            in: 'trong',
+            on: 'trên',
+            at: 'tại, ở',
+            to: 'đến, để',
+            of: 'của',
+            for: 'cho, vì',
+            with: 'với',
+            from: 'từ',
+            by: 'bởi, bằng',
+            about: 'về',
+            under: 'dưới',
+            over: 'phía trên',
+            near: 'gần',
+            there: 'ở đó, có',
+            here: 'ở đây',
+            what: 'cái gì',
+            who: 'ai',
+            where: 'ở đâu',
+            when: 'khi nào',
+            why: 'tại sao',
+            how: 'như thế nào',
+            which: 'cái nào',
+            can: 'có thể',
+            could: 'có thể (quá khứ/lịch sự)',
+            will: 'sẽ',
+            would: 'sẽ (giả định)',
+            should: 'nên',
+            must: 'phải',
+            may: 'có lẽ, được phép',
+            have: 'có',
+            has: 'có (số ít)',
+            had: 'đã có',
+            very: 'rất',
+            too: 'quá, cũng',
+            also: 'cũng',
+            some: 'một vài',
+            any: 'bất kỳ',
+            many: 'nhiều (đếm được)',
+            much: 'nhiều (không đếm được)',
+            more: 'nhiều hơn',
+            most: 'nhiều nhất',
+            all: 'tất cả',
+            every: 'mỗi, mọi',
+            please: 'làm ơn',
+            let: 'hãy, để cho',
         };
         // Hand-written glosses for high-frequency homographs the bank covers with only
         // ONE sense (or the wrong-first sense) - course sentences use both, so show both.
         const HOMOGRAPH_GLOSS = {
-            book: 'quyển sách / đặt (vé, phòng)', watch: 'xem / đồng hồ đeo tay',
-            left: 'bên trái / đã rời đi', right: 'bên phải / đúng',
-            light: 'ánh sáng / nhẹ', orange: 'quả cam / màu cam',
-            kind: 'tốt bụng / loại', close: 'đóng / gần', mean: 'có nghĩa là / xấu tính',
-            fly: 'bay / con ruồi', play: 'chơi / vở kịch', water: 'nước / tưới nước',
-            like: 'thích / giống như', back: 'lưng / quay lại / phía sau',
+            book: 'quyển sách / đặt (vé, phòng)',
+            watch: 'xem / đồng hồ đeo tay',
+            left: 'bên trái / đã rời đi',
+            right: 'bên phải / đúng',
+            light: 'ánh sáng / nhẹ',
+            orange: 'quả cam / màu cam',
+            kind: 'tốt bụng / loại',
+            close: 'đóng / gần',
+            mean: 'có nghĩa là / xấu tính',
+            fly: 'bay / con ruồi',
+            play: 'chơi / vở kịch',
+            water: 'nước / tưới nước',
+            like: 'thích / giống như',
+            back: 'lưng / quay lại / phía sau',
         };
         // Grammar words + curated homographs go in FIRST and are then locked - the
         // topical bank can neither override nor merge into them.
-        Object.entries(FUNCTION_GLOSS).forEach(([en, vi]) => { put(en, vi); locked.add(en.toLowerCase()); });
-        Object.entries(HOMOGRAPH_GLOSS).forEach(([en, vi]) => { put(en, vi); locked.add(en.toLowerCase()); });
+        Object.entries(FUNCTION_GLOSS).forEach(([en, vi]) => {
+            put(en, vi);
+            locked.add(en.toLowerCase());
+        });
+        Object.entries(HOMOGRAPH_GLOSS).forEach(([en, vi]) => {
+            put(en, vi);
+            locked.add(en.toLowerCase());
+        });
         try {
             if (typeof VOCAB_BANK !== 'undefined') {
-                Object.values(VOCAB_BANK).forEach(list => (list || []).forEach(entry => {
-                    put(entry.en, entry.vi);
-                    if (entry.forms) Object.values(entry.forms).forEach(f => put(f, entry.vi));
-                }));
+                Object.values(VOCAB_BANK).forEach((list) =>
+                    (list || []).forEach((entry) => {
+                        put(entry.en, entry.vi);
+                        if (entry.forms)
+                            Object.values(entry.forms).forEach((f) => put(f, entry.vi));
+                    })
+                );
             }
-        } catch (e) { /* gloss map is a nice-to-have */ }
+        } catch (e) {
+            /* gloss map is a nice-to-have */
+        }
         return map;
     },
 
@@ -748,7 +949,9 @@ Object.assign(DuoClone.prototype, {
         if (w.endsWith('s')) candidates.push(w.slice(0, -1));
         if (w.endsWith('ing')) candidates.push(w.slice(0, -3), w.slice(0, -3) + 'e');
         if (w.endsWith('ed')) candidates.push(w.slice(0, -2), w.slice(0, -1));
-        for (const c of candidates) { if (c.length >= 2 && m.has(c)) return m.get(c); }
+        for (const c of candidates) {
+            if (c.length >= 2 && m.has(c)) return m.get(c);
+        }
         return null;
     },
 
@@ -757,7 +960,10 @@ Object.assign(DuoClone.prototype, {
             const clean = String(word).replace(/[^\p{L}\p{N}'’-]/gu, '');
             if (!clean) return;
             // Anchor position must be captured NOW - the chip gets restyled as "used".
-            const rect = anchorEl && anchorEl.getBoundingClientRect ? anchorEl.getBoundingClientRect() : null;
+            const rect =
+                anchorEl && anchorEl.getBoundingClientRect
+                    ? anchorEl.getBoundingClientRect()
+                    : null;
             this.playAudio(clean, 0.95);
             const gloss = this.lookupWordGloss(clean);
             if (!rect) return;
@@ -768,13 +974,23 @@ Object.assign(DuoClone.prototype, {
             pop.innerHTML = `🔊 <b>${this.escapeHtml(clean)}</b>${gloss ? ` — ${this.escapeHtml(gloss)}` : ''}`;
             document.body.appendChild(pop);
             const half = pop.offsetWidth / 2;
-            const x = Math.min(Math.max(rect.left + rect.width / 2, half + 8), window.innerWidth - half - 8);
+            const x = Math.min(
+                Math.max(rect.left + rect.width / 2, half + 8),
+                window.innerWidth - half - 8
+            );
             pop.style.left = x + 'px';
-            pop.style.top = (rect.top - 10) + 'px';
+            pop.style.top = rect.top - 10 + 'px';
             this._glossPop = pop;
-            setTimeout(() => { if (pop.isConnected) pop.classList.add('fade'); }, 1400);
-            setTimeout(() => { if (pop.isConnected) pop.remove(); if (this._glossPop === pop) this._glossPop = null; }, 1850);
-        } catch (e) { /* never let the learning popup break answering */ }
+            setTimeout(() => {
+                if (pop.isConnected) pop.classList.add('fade');
+            }, 1400);
+            setTimeout(() => {
+                if (pop.isConnected) pop.remove();
+                if (this._glossPop === pop) this._glossPop = null;
+            }, 1850);
+        } catch (e) {
+            /* never let the learning popup break answering */
+        }
     },
 
     // ============== Session answer log (powers the "Tổng kết" summary screens) ==============
@@ -791,7 +1007,8 @@ Object.assign(DuoClone.prototype, {
         if (!ex) return '';
         if (ex.type === 'translate') return `Dịch: "${ex.source || ''}"`;
         if (ex.type === 'ordering') return `Sắp xếp câu: "${ex.sentence || ''}"`;
-        if (ex.type === 'preposition' || ex.type === 'fill_blank') return `Điền vào chỗ trống: "${ex.sentence || ''}"`;
+        if (ex.type === 'preposition' || ex.type === 'fill_blank')
+            return `Điền vào chỗ trống: "${ex.sentence || ''}"`;
         if (ex.type === 'matching') return 'Nối các cặp từ tương ứng';
         if (ex.type === 'listening') return 'Nghe và chọn từ/câu đúng';
         if (ex.type === 'dictation') return 'Nghe và gõ lại câu';
@@ -801,12 +1018,27 @@ Object.assign(DuoClone.prototype, {
 
     describeCorrectAnswerForSummary(ex) {
         if (!ex) return '';
-        const optionBasedTypes = ['multiple_choice', 'listening', 'preposition', 'fill_blank', 'synonym', 'meaning', 'reading', 'dialogue'];
-        if (optionBasedTypes.includes(ex.type)) return ex.options && ex.options[ex.correct] != null ? String(ex.options[ex.correct]) : '';
-        if (ex.type === 'translate' || ex.type === 'ordering') return Array.isArray(ex.correct) ? ex.correct.join(' ') : '';
+        const optionBasedTypes = [
+            'multiple_choice',
+            'listening',
+            'preposition',
+            'fill_blank',
+            'synonym',
+            'meaning',
+            'reading',
+            'dialogue',
+        ];
+        if (optionBasedTypes.includes(ex.type))
+            return ex.options && ex.options[ex.correct] != null
+                ? String(ex.options[ex.correct])
+                : '';
+        if (ex.type === 'translate' || ex.type === 'ordering')
+            return Array.isArray(ex.correct) ? ex.correct.join(' ') : '';
         if (ex.type === 'pronunciation' || ex.type === 'dictation') return ex.target || '';
-        if (ex.type === 'matching') return (ex.pairs || []).map(p => `${p.en} = ${p.vi}`).join('  ·  ');
-        if (ex.type === 'listening_comprehension') return (ex.acceptedAnswers && ex.acceptedAnswers[0]) || '';
+        if (ex.type === 'matching')
+            return (ex.pairs || []).map((p) => `${p.en} = ${p.vi}`).join('  ·  ');
+        if (ex.type === 'listening_comprehension')
+            return (ex.acceptedAnswers && ex.acceptedAnswers[0]) || '';
         return '';
     },
 
@@ -815,11 +1047,23 @@ Object.assign(DuoClone.prototype, {
     // (it gets wiped on the next renderLesson()).
     captureUserAnswerForSummary(ex) {
         if (!ex) return '';
-        const optionBasedTypes = ['multiple_choice', 'listening', 'preposition', 'fill_blank', 'synonym', 'meaning', 'reading', 'dialogue'];
+        const optionBasedTypes = [
+            'multiple_choice',
+            'listening',
+            'preposition',
+            'fill_blank',
+            'synonym',
+            'meaning',
+            'reading',
+            'dialogue',
+        ];
         if (optionBasedTypes.includes(ex.type)) {
-            return this.state.selectedOption != null && ex.options ? String(ex.options[this.state.selectedOption]) : '';
+            return this.state.selectedOption != null && ex.options
+                ? String(ex.options[this.state.selectedOption])
+                : '';
         }
-        if (ex.type === 'translate' || ex.type === 'ordering') return (this.state.currentAnswer || []).join(' ');
+        if (ex.type === 'translate' || ex.type === 'ordering')
+            return (this.state.currentAnswer || []).join(' ');
         if (ex.type === 'pronunciation') return this.state.recognizedSpeech || '';
         if (ex.type === 'dictation') {
             const phase = this.state.dictationPhase || 0;
@@ -832,7 +1076,11 @@ Object.assign(DuoClone.prototype, {
             return ms && ms.mistakenIds.size === 0 ? 'Nối đúng tất cả' : 'Có lần nối sai';
         }
         if (ex.type === 'listening_comprehension') {
-            return (this.state.comprehensionMode === 'speak' ? this.state.recognizedSpeech : this.state.comprehensionText) || '';
+            return (
+                (this.state.comprehensionMode === 'speak'
+                    ? this.state.recognizedSpeech
+                    : this.state.comprehensionText) || ''
+            );
         }
         return '';
     },
@@ -844,7 +1092,7 @@ Object.assign(DuoClone.prototype, {
         // Date.now()+random ids that can collide within one batch - include the
         // question content so two distinct questions can never merge into one row.
         const key = `${ex.id || ''}|${ex.type}|${ex.question || ''}|${ex.target || ex.sentence || ex.source || ''}`;
-        const existing = this.state.sessionAnswers.find(r => r.key === key);
+        const existing = this.state.sessionAnswers.find((r) => r.key === key);
         if (existing) {
             existing.isCorrect = isCorrect;
             existing.userAnswer = userAnswer;
@@ -857,7 +1105,7 @@ Object.assign(DuoClone.prototype, {
             correctAnswer: this.describeCorrectAnswerForSummary(ex),
             userAnswer,
             isCorrect,
-            hadMistake: !isCorrect
+            hadMistake: !isCorrect,
         });
     },
 
@@ -866,8 +1114,10 @@ Object.assign(DuoClone.prototype, {
     sessionSummaryHtml() {
         const records = this.state.sessionAnswers || [];
         if (!records.length) return '';
-        const correctCount = records.filter(r => r.isCorrect).length;
-        const rows = records.map((r, i) => `
+        const correctCount = records.filter((r) => r.isCorrect).length;
+        const rows = records
+            .map(
+                (r, i) => `
             <div class="summary-row ${r.isCorrect ? 'summary-correct' : 'summary-wrong'}">
                 <div class="summary-row-head">
                     <span class="summary-verdict">${r.isCorrect ? '✅' : '❌'}</span>
@@ -877,7 +1127,9 @@ Object.assign(DuoClone.prototype, {
                 ${r.userAnswer ? `<div class="summary-line">Bạn trả lời: <strong>${this.escapeHtml(r.userAnswer)}</strong></div>` : ''}
                 <div class="summary-line">Đáp án đúng: <strong class="summary-answer">${this.escapeHtml(r.correctAnswer)}</strong></div>
             </div>
-        `).join('');
+        `
+            )
+            .join('');
         return `
             <div class="session-summary">
                 <h3 class="session-summary-title">📋 Tổng kết đáp án (${correctCount}/${records.length} đúng)</h3>
@@ -910,14 +1162,19 @@ Object.assign(DuoClone.prototype, {
         // Once-only resolution: rapid double/triple clicks on OK must not re-run the
         // confirmed action (listeners still fire on the detached button otherwise).
         let resolved = false;
-        const close = () => { resolved = true; overlay.remove(); };
+        const close = () => {
+            resolved = true;
+            overlay.remove();
+        };
         overlay.querySelector('[data-action="ok"]').addEventListener('click', () => {
             if (resolved) return;
             close();
             onConfirm();
         });
         overlay.querySelector('[data-action="cancel"]').addEventListener('click', close);
-        overlay.addEventListener('click', (e) => { if (e.target === overlay) close(); });
+        overlay.addEventListener('click', (e) => {
+            if (e.target === overlay) close();
+        });
     },
 
     performSkip(isLastBeforeLessonComplete, SKIP_XP_PENALTY) {
@@ -939,9 +1196,12 @@ Object.assign(DuoClone.prototype, {
         if (ex) this.recordSessionAnswer(ex, false, '(đã bỏ qua)');
         if (ex && this.errorTracker) {
             if (ex.type === 'matching') {
-                (ex.pairs || []).forEach(pair => this.errorTracker.recordResult(pair.en, false));
+                (ex.pairs || []).forEach((pair) => this.errorTracker.recordResult(pair.en, false));
             } else if (ex.type === 'listening_comprehension' && ex.meta) {
-                this.errorTracker.recordResult(`${ex.meta.templateId}_${ex.meta.questionIdx}`, false);
+                this.errorTracker.recordResult(
+                    `${ex.meta.templateId}_${ex.meta.questionIdx}`,
+                    false
+                );
             } else {
                 const key = (ex.meta && (ex.meta.wordEn || ex.meta.answer)) || ex.id;
                 this.errorTracker.recordResult(key, false);
@@ -950,9 +1210,18 @@ Object.assign(DuoClone.prototype, {
 
         this.saveUserProgress();
 
-        if (this.state.mode === 'practice') { this.nextPracticeExercise(); return; }
-        if (this.state.mode === 'assessment') { this.nextAssessmentExercise(); return; }
-        if (this.state.mode === 'placement') { this.nextPlacementExercise(); return; }
+        if (this.state.mode === 'practice') {
+            this.nextPracticeExercise();
+            return;
+        }
+        if (this.state.mode === 'assessment') {
+            this.nextAssessmentExercise();
+            return;
+        }
+        if (this.state.mode === 'placement') {
+            this.nextPlacementExercise();
+            return;
+        }
 
         if (this.state.reviewMode) {
             // Bug fix (the "stuck in the lesson" complaint): skipping during review used
@@ -1001,7 +1270,8 @@ Object.assign(DuoClone.prototype, {
     // (hidden) modal title colour, which we set here, so its per-mode logic is unchanged.
     showCatchResult(correct) {
         this.ui.modalTitle.style.color = correct ? 'var(--duo-green)' : 'var(--duo-red)';
-        const old = document.getElementById('catch-result-banner'); if (old) old.remove();
+        const old = document.getElementById('catch-result-banner');
+        if (old) old.remove();
         const banner = document.createElement('div');
         banner.id = 'catch-result-banner';
         banner.className = 'catch-result-banner ' + (correct ? 'ok' : 'no');
@@ -1010,64 +1280,121 @@ Object.assign(DuoClone.prototype, {
         // zone or the "🧸 Chế độ Dễ" toggle). With it off, no answer is shown - the miss just
         // goes to the end-of-lesson review to be tried again.
         const kidsMode = this.isBeginnerMode() || (this.state.stats && this.state.stats.easyMode);
-        const answerHint = (!correct && ex && kidsMode) ? `<div class="crb-answer">Đáp án đúng: <b>${this.escapeHtml(this.correctAnswerText(ex))}</b></div>` : '';
+        const answerHint =
+            !correct && ex && kidsMode
+                ? `<div class="crb-answer">Đáp án đúng: <b>${this.escapeHtml(this.correctAnswerText(ex))}</b></div>`
+                : '';
         banner.innerHTML = `<div class="crb-title">${correct ? '✅ ' + pickRandom(['Chính xác!', 'Tuyệt vời!', 'Giỏi quá!', 'Xuất sắc!']) : '❌ ' + pickRandom(['Ôi tiếc quá!', 'Chưa đúng!', 'Suýt rồi!'])}</div>${answerHint}<div class="crb-hint">🏃 Chạm để bắt Bé Khoai và đi tiếp!</div>`;
         document.body.appendChild(banner);
         if (correct && this.burstCorrect) this.burstCorrect(null);
-        this.spawnCatchMascot(correct, () => { banner.remove(); this.closeModal(); });
+        this.spawnCatchMascot(correct, () => {
+            banner.remove();
+            this.closeModal();
+        });
+    },
+
+    // Removes the roaming catch-mascot + verdict banner (and stops its hop timer) if the user
+    // leaves the lesson — Home or any nav-menu item — before catching it. They're appended to
+    // document.body, so without this they orphan and float over every later screen.
+    cleanupCatchMascot() {
+        if (this._catchTimer) {
+            clearInterval(this._catchTimer);
+            this._catchTimer = null;
+        }
+        const m = document.getElementById('catch-mascot');
+        if (m) m.remove();
+        const b = document.getElementById('catch-result-banner');
+        if (b) b.remove();
     },
 
     // Best-effort readable form of an exercise's correct answer (for the "wrong" banner).
     correctAnswerText(ex) {
         try {
             if (!ex) return '';
-            if (['multiple_choice', 'listening', 'preposition', 'fill_blank', 'synonym', 'meaning', 'reading', 'dialogue'].includes(ex.type) && Array.isArray(ex.options)) {
+            if (
+                [
+                    'multiple_choice',
+                    'listening',
+                    'preposition',
+                    'fill_blank',
+                    'synonym',
+                    'meaning',
+                    'reading',
+                    'dialogue',
+                ].includes(ex.type) &&
+                Array.isArray(ex.options)
+            ) {
                 return String(ex.options[ex.correct]);
             }
-            if (ex.type === 'translate' || ex.type === 'ordering') return (ex.correct || []).join(' ');
+            if (ex.type === 'translate' || ex.type === 'ordering')
+                return (ex.correct || []).join(' ');
             if (ex.type === 'dictation') return ex.target || '';
             if (ex.type === 'pronunciation') return ex.target || '';
             if (Array.isArray(ex.acceptedAnswers)) return ex.acceptedAnswers[0] || '';
             return '';
-        } catch (e) { return ''; }
+        } catch (e) {
+            return '';
+        }
     },
 
     // A big friendly Bé Khoai runs in from a random screen edge and hops around; the
     // learner must tap ("catch") it to move on. It always hops WITHIN the viewport so it
     // stays reachable (never a stuck state). Caught -> squishy happy pose -> onCaught().
     spawnCatchMascot(happy, onCaught) {
-        const old = document.getElementById('catch-mascot'); if (old) old.remove();
+        const old = document.getElementById('catch-mascot');
+        if (old) old.remove();
         const m = document.createElement('button');
         m.id = 'catch-mascot';
         m.className = 'catch-mascot';
         m.setAttribute('aria-label', 'Bắt Bé Khoai để tiếp tục');
-        const face = happy ? pickRandom(['excited', 'giggle', 'party', 'laugh', 'wink']) : pickRandom(['surprised', 'wink', 'giggle']);
+        const face = happy
+            ? pickRandom(['excited', 'giggle', 'party', 'laugh', 'wink'])
+            : pickRandom(['surprised', 'wink', 'giggle']);
         m.innerHTML = getMascotSvg(face, 74);
         document.body.appendChild(m);
         const size = 90;
         const spot = () => ({
             x: 12 + Math.random() * Math.max(1, (window.innerWidth || 360) - size - 24),
-            y: 90 + Math.random() * Math.max(1, (window.innerHeight || 640) - size - 190)
+            y: 90 + Math.random() * Math.max(1, (window.innerHeight || 640) - size - 190),
         });
         const edges = () => {
             const s = spot();
-            return pickRandom([{ x: -size, y: s.y }, { x: (window.innerWidth || 360), y: s.y }, { x: s.x, y: -size }, { x: s.x, y: (window.innerHeight || 640) }]);
+            return pickRandom([
+                { x: -size, y: s.y },
+                { x: window.innerWidth || 360, y: s.y },
+                { x: s.x, y: -size },
+                { x: s.x, y: window.innerHeight || 640 },
+            ]);
         };
         const from = edges();
-        m.style.left = from.x + 'px'; m.style.top = from.y + 'px';
+        m.style.left = from.x + 'px';
+        m.style.top = from.y + 'px';
         let caught = false;
-        const hop = () => { if (caught) return; const p = spot(); m.style.left = p.x + 'px'; m.style.top = p.y + 'px'; m.classList.toggle('flip', Math.random() < 0.5); };
+        const hop = () => {
+            if (caught) return;
+            const p = spot();
+            m.style.left = p.x + 'px';
+            m.style.top = p.y + 'px';
+            m.classList.toggle('flip', Math.random() < 0.5);
+        };
         setTimeout(hop, 40); // first hop brings it on-screen
         const timer = setInterval(hop, 850);
         this._catchTimer = timer;
         const doCatch = () => {
-            if (caught) return; caught = true;
+            if (caught) return;
+            caught = true;
             clearInterval(timer);
             m.classList.add('caught');
-            m.innerHTML = getMascotSvg('love', 80) + '<span class="catch-caught-label">Tóm được rồi! 🎉</span>';
+            m.innerHTML =
+                getMascotSvg('love', 80) +
+                '<span class="catch-caught-label">Tóm được rồi! 🎉</span>';
             if (this.playTone) this.playTone('correct');
-            if (this.spawnMascotParticles) this.spawnMascotParticles(m, ['🎉', '⭐', '✨', '💛'], 8);
-            setTimeout(() => { m.remove(); onCaught(); }, 650);
+            if (this.spawnMascotParticles)
+                this.spawnMascotParticles(m, ['🎉', '⭐', '✨', '💛'], 8);
+            setTimeout(() => {
+                m.remove();
+                onCaught();
+            }, 650);
         };
         m.addEventListener('click', doCatch);
     },
@@ -1079,35 +1406,59 @@ Object.assign(DuoClone.prototype, {
             // Rotate through a few delighted faces + reaction animations + accessories
             // so the reward never feels repetitive - each right answer is a small
             // "surprise & delight" for young learners.
-            const happyMoods = ['excited', 'giggle', 'love', 'wink', 'party', 'laugh', 'cool', 'blush', 'starstruck'];
+            const happyMoods = [
+                'excited',
+                'giggle',
+                'love',
+                'wink',
+                'party',
+                'laugh',
+                'cool',
+                'blush',
+                'starstruck',
+            ];
             const happyAnims = ['mascot-pop-happy', 'mascot-dance', 'mascot-spin-pop'];
             const accessories = ['🌟', '✨', '💛', '🎉', '🥳', '😄', '🤩', '💯'];
             const mood = pickRandom(happyMoods);
             if (mascot) {
                 mascot.className = 'mascot ' + pickRandom(happyAnims);
-                mascot.innerHTML = getMascotSvg(mood, 68) + `<span class="mascot-accessory">${pickRandom(accessories)}</span>`;
+                mascot.innerHTML =
+                    getMascotSvg(mood, 68) +
+                    `<span class="mascot-accessory">${pickRandom(accessories)}</span>`;
                 this.spawnMascotParticles(mascot, moodParticles(mood), 9);
             }
             // --- EXTRA "explosion" layer on top of the existing reward effects ---
             this.burstCorrect(mascot);
-            this.ui.modalIcon.innerText = "✅";
-            this.ui.modalTitle.innerText = pickRandom(['Chính xác!', 'Tuyệt vời!', 'Giỏi quá!', 'Xuất sắc!']);
-            this.ui.modalTitle.style.color = "var(--duo-green)";
+            this.ui.modalIcon.innerText = '✅';
+            this.ui.modalTitle.innerText = pickRandom([
+                'Chính xác!',
+                'Tuyệt vời!',
+                'Giỏi quá!',
+                'Xuất sắc!',
+            ]);
+            this.ui.modalTitle.style.color = 'var(--duo-green)';
             this.ui.modalMsg.innerText = pickRandom(HAPPY_MESSAGES);
-            this.ui.modalBtn.className = "btn-primary";
+            this.ui.modalBtn.className = 'btn-primary';
         } else {
             const sadMoods = ['surprised', 'teary', 'pout', 'dizzy', 'sob'];
             const sadAnims = ['mascot-wobble-sad', 'mascot-cry-shake'];
             const sadMood = pickRandom(sadMoods);
             if (mascot) {
                 mascot.className = 'mascot ' + pickRandom(sadAnims);
-                mascot.innerHTML = getMascotSvg(sadMood, 68) + `<span class="mascot-accessory">${pickRandom(['💫', '💧', '😢', '😵', '🥺'])}</span>`;
+                mascot.innerHTML =
+                    getMascotSvg(sadMood, 68) +
+                    `<span class="mascot-accessory">${pickRandom(['💫', '💧', '😢', '😵', '🥺'])}</span>`;
             }
-            this.ui.modalIcon.innerText = "❌";
-            this.ui.modalTitle.innerText = pickRandom(['Ôi tiếc quá!', 'Suýt rồi!', 'Thử lại nhé!', 'Chưa đúng!']);
-            this.ui.modalTitle.style.color = "var(--duo-red)";
+            this.ui.modalIcon.innerText = '❌';
+            this.ui.modalTitle.innerText = pickRandom([
+                'Ôi tiếc quá!',
+                'Suýt rồi!',
+                'Thử lại nhé!',
+                'Chưa đúng!',
+            ]);
+            this.ui.modalTitle.style.color = 'var(--duo-red)';
             this.ui.modalMsg.innerText = pickRandom(SAD_MESSAGES);
-            this.ui.modalBtn.className = "btn-secondary";
+            this.ui.modalBtn.className = 'btn-secondary';
         }
     },
 
@@ -1120,9 +1471,21 @@ Object.assign(DuoClone.prototype, {
         this.playTone('sparkle');
         // full-screen confetti pop (canvas-confetti, same lib the finale uses)
         if (window.confetti) {
-            window.confetti({ particleCount: 70, spread: 80, startVelocity: 45, ticks: 120, origin: { y: 0.55 }, scalar: 0.9 });
+            window.confetti({
+                particleCount: 70,
+                spread: 80,
+                startVelocity: 45,
+                ticks: 120,
+                origin: { y: 0.55 },
+                scalar: 0.9,
+            });
             window.confetti({ particleCount: 30, angle: 60, spread: 55, origin: { x: 0, y: 0.7 } });
-            window.confetti({ particleCount: 30, angle: 120, spread: 55, origin: { x: 1, y: 0.7 } });
+            window.confetti({
+                particleCount: 30,
+                angle: 120,
+                spread: 55,
+                origin: { x: 1, y: 0.7 },
+            });
         }
         if (mascot) {
             // a bigger, more explosive emoji burst on top of the existing one
@@ -1137,7 +1500,7 @@ Object.assign(DuoClone.prototype, {
 
     closeModal() {
         this.ui.modal.classList.add('hidden');
-        const correct = this.ui.modalTitle.style.color === "var(--duo-green)";
+        const correct = this.ui.modalTitle.style.color === 'var(--duo-green)';
 
         if (this.state.mode === 'practice') {
             if (correct) {
@@ -1227,13 +1590,15 @@ Object.assign(DuoClone.prototype, {
     finishLessonCompletion(skippedReward = false) {
         const unit = this.state.courseData.units[this.state.currentUnitIdx];
         const completedLessonIdx = this.state.currentLessonIdx;
-        const completedLessonTitle = unit.lessons[completedLessonIdx] ? unit.lessons[completedLessonIdx].title : '';
+        const completedLessonTitle = unit.lessons[completedLessonIdx]
+            ? unit.lessons[completedLessonIdx].title
+            : '';
         if (!skippedReward) {
             if (window.confetti) {
                 confetti({
                     particleCount: 150,
                     spread: 70,
-                    origin: { y: 0.6 }
+                    origin: { y: 0.6 },
                 });
             }
             if (this.state.stats.lessonWrongCount === 0) {
@@ -1255,7 +1620,10 @@ Object.assign(DuoClone.prototype, {
             this.state.pendingChapterGate = this.state.currentUnitIdx;
         }
         this.saveUserProgress();
-        this.renderLessonSummary(skippedReward, completedLessonTitle, { unit, lessonIdx: completedLessonIdx });
+        this.renderLessonSummary(skippedReward, completedLessonTitle, {
+            unit,
+            lessonIdx: completedLessonIdx,
+        });
     },
 
     // "Cốt lõi bài học": the concrete words/sentences this lesson taught, distilled
@@ -1270,7 +1638,7 @@ Object.assign(DuoClone.prototype, {
             seen.add(key);
             items.push({ en, vi: vi || '' });
         };
-        lesson.exercises.forEach(e => {
+        lesson.exercises.forEach((e) => {
             if (e.type === 'multiple_choice' && Array.isArray(e.options)) {
                 const m = /How do you say '([^']+)'\?/.exec(e.question || '');
                 add(String(e.options[e.correct]), m ? m[1] : '');
@@ -1280,7 +1648,10 @@ Object.assign(DuoClone.prototype, {
             else if (e.type === 'ordering') add(e.sentence, e.source);
             else if (e.type === 'pronunciation' || e.type === 'dictation') add(e.target, '');
             else if (e.type === 'preposition' && Array.isArray(e.options)) {
-                add((e.sentence || '').replace('___', String(e.options[e.correct]).toUpperCase()), '');
+                add(
+                    (e.sentence || '').replace('___', String(e.options[e.correct]).toUpperCase()),
+                    ''
+                );
             }
         });
         return items.slice(0, 8);
@@ -1292,7 +1663,7 @@ Object.assign(DuoClone.prototype, {
             <div class="core-summary">
                 <h3 class="core-summary-title">🌟 Cốt lõi bài học</h3>
                 <ul class="core-summary-list">
-                    ${coreItems.map(it => `<li><strong>${this.escapeHtml(it.en)}</strong>${it.vi ? ` — ${this.escapeHtml(it.vi)}` : ''}</li>`).join('')}
+                    ${coreItems.map((it) => `<li><strong>${this.escapeHtml(it.en)}</strong>${it.vi ? ` — ${this.escapeHtml(it.vi)}` : ''}</li>`).join('')}
                 </ul>
             </div>
         `;
@@ -1301,7 +1672,10 @@ Object.assign(DuoClone.prototype, {
     // Fanfare + confetti + floating particles for a completion moment. `happy=false`
     // keeps a gentler sound for the "didn't quite make it" screens.
     playBigCelebration(happy = true) {
-        if (!happy) { this.playTone('whimper'); return; }
+        if (!happy) {
+            this.playTone('whimper');
+            return;
+        }
         this.playTone('fanfare');
         // Layer a short cheerful jingle under the fanfare voice for the big moment.
         if (window.MascotVoice && window.MascotVoice.jingle) window.MascotVoice.jingle();
@@ -1325,7 +1699,11 @@ Object.assign(DuoClone.prototype, {
             const heartsBefore = this.state.hearts;
             this.state.hearts = MAX_HEARTS;
             this.updateHeartsDisplay();
-            this.state.pendingStreakMilestone = { days: this.state.streak, xp: milestone.xp, heartsRefilled: MAX_HEARTS - heartsBefore };
+            this.state.pendingStreakMilestone = {
+                days: this.state.streak,
+                xp: milestone.xp,
+                heartsRefilled: MAX_HEARTS - heartsBefore,
+            };
         }
 
         this.state.xp += totalGain;
@@ -1341,7 +1719,9 @@ Object.assign(DuoClone.prototype, {
         // "Chuỗi online thành viên" contribution to the group's vibrancy score - only on
         // days the streak actually extended (not every lesson), scaled by streak length.
         if (streakExtended && this.state.myGroupId && window.Groups) {
-            window.Groups.creditStreakVibrancy(this.state.myGroupId, this.state.streak).catch(() => {});
+            window.Groups.creditStreakVibrancy(this.state.myGroupId, this.state.streak).catch(
+                () => {}
+            );
         }
         if (streakExtended) {
             this.checkStreakTop1();
@@ -1361,7 +1741,13 @@ Object.assign(DuoClone.prototype, {
         // this the public "Sôi nổi" board lagged behind until the next lesson
         // completion or re-login - which read as "points never credited".
         if (window.Leaderboard) {
-            window.Leaderboard.submitScore(this.state.currentUser, this.state.xp, this.state.streak, this.state.vibrancy, this.state.lastActivityDate);
+            window.Leaderboard.submitScore(
+                this.state.currentUser,
+                this.state.xp,
+                this.state.streak,
+                this.state.vibrancy,
+                this.state.lastActivityDate
+            );
         }
     },
 
@@ -1374,7 +1760,12 @@ Object.assign(DuoClone.prototype, {
         const currentLevel = getRankInfo(this.state.xp).level;
         if (this.state.lastKnownLevel != null && currentLevel > this.state.lastKnownLevel) {
             if (window.ActivityFeed) {
-                window.ActivityFeed.postEvent('level_up', this.state.profile.id, this.state.currentUser, `⭐ ${this.state.currentUser} vừa thăng lên Cấp ${currentLevel}!`);
+                window.ActivityFeed.postEvent(
+                    'level_up',
+                    this.state.profile.id,
+                    this.state.currentUser,
+                    `⭐ ${this.state.currentUser} vừa thăng lên Cấp ${currentLevel}!`
+                );
             }
         }
         this.state.lastKnownLevel = currentLevel;
@@ -1383,7 +1774,11 @@ Object.assign(DuoClone.prototype, {
     async refreshTeddyBears() {
         if (!window.AuthService || !this.state.profile) return;
         const fresh = await window.AuthService.getProfile(this.state.profile.id);
-        if (fresh && typeof fresh.teddy_bears === 'number' && fresh.teddy_bears !== this.state.teddyBears) {
+        if (
+            fresh &&
+            typeof fresh.teddy_bears === 'number' &&
+            fresh.teddy_bears !== this.state.teddyBears
+        ) {
             this.state.teddyBears = fresh.teddy_bears;
             this.checkBadges();
         }
@@ -1440,7 +1835,9 @@ Object.assign(DuoClone.prototype, {
     checkRankDemotion(rankIndexBefore) {
         const rankAfter = getRankInfo(this.state.xp);
         if (rankAfter.rankIndex < rankIndexBefore) {
-            alert(`😢 Bạn đã tụt xuống danh hiệu ${rankAfter.rankIcon} ${rankAfter.rankName} rồi. Đừng nản lòng - cố gắng luyện tập thêm để lấy lại phong độ nhé! Bài tập tiếp theo sẽ dễ hơn một chút để bạn lấy lại nhịp.`);
+            alert(
+                `😢 Bạn đã tụt xuống danh hiệu ${rankAfter.rankIcon} ${rankAfter.rankName} rồi. Đừng nản lòng - cố gắng luyện tập thêm để lấy lại phong độ nhé! Bài tập tiếp theo sẽ dễ hơn một chút để bạn lấy lại nhịp.`
+            );
         }
     },
 
@@ -1472,5 +1869,5 @@ Object.assign(DuoClone.prototype, {
         if (this.ui.userBadgeName) this.ui.userBadgeName.innerText = result.username;
         statusEl.style.color = 'var(--duo-green)';
         statusEl.innerText = `Đổi tên thành công! Tên mới của bạn là "${result.username}".`;
-    }
+    },
 });

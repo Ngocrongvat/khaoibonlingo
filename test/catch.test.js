@@ -238,5 +238,25 @@ console.log('\n== Answer reveal gated on kids/Easy mode ==');
     );
 }
 
+console.log('\n== cleanupCatchMascot removes leftover elements (nav-away fix) ==');
+{
+    BODY = [];
+    const t = fake('curriculum', true);
+    t._ex = { type: 'multiple_choice', options: ['Hi', 'Bye'], correct: 0 };
+    t.showCatchResult = P.showCatchResult;
+    t.spawnCatchMascot = P.spawnCatchMascot;
+    t.cleanupCatchMascot = P.cleanupCatchMascot;
+    t.showCatchResult(false);
+    ok(
+        BODY.find((x) => x._id === 'catch-mascot') && BODY.find((x) => x._id === 'catch-result-banner'),
+        'catch mascot + banner exist after answering'
+    );
+    t.cleanupCatchMascot();
+    ok(
+        !BODY.find((x) => x._id === 'catch-mascot') && !BODY.find((x) => x._id === 'catch-result-banner'),
+        'cleanupCatchMascot removes both (leftover-overlay-on-nav fix)'
+    );
+}
+
 console.log(`\n=========================================\nRESULT: ${PASS} passed, ${FAIL} failed`);
 process.exit(FAIL ? 1 : 0);

@@ -37,7 +37,11 @@ const sandbox = {
     Date,
 };
 vm.createContext(sandbox);
-vm.runInContext(fs.readFileSync(path.join(__dirname, '..', 'assets/js/app-misc.js'), 'utf8'), sandbox, { filename: 'app-misc.js' });
+vm.runInContext(
+    fs.readFileSync(path.join(__dirname, '..', 'assets/js/app-misc.js'), 'utf8'),
+    sandbox,
+    { filename: 'app-misc.js' }
+);
 const P = sandbox.DuoClone.prototype;
 ok(typeof P.loadLocalPosition === 'function', 'loadLocalPosition attached');
 
@@ -76,7 +80,10 @@ console.log('\n== a stub (unloaded) target unit does NOT crash login ==');
     }
     ok(!threw, 'loadLocalPosition does not throw on a lazy stub unit (the login-hang bug)');
     ok(t.state.currentUnitIdx === 5, 'adopts the server unit index');
-    ok(t.state.currentLessonIdx === 2 && t.state.currentExIdx === 3, 'adopts saved lesson/ex as-is when the unit is an unloaded stub');
+    ok(
+        t.state.currentLessonIdx === 2 && t.state.currentExIdx === 3,
+        'adopts saved lesson/ex as-is when the unit is an unloaded stub'
+    );
 }
 
 console.log('\n== a loaded unit still clamps an over-range saved position ==');
@@ -88,7 +95,10 @@ console.log('\n== a loaded unit still clamps an over-range saved position ==');
     t.loadLocalPosition('u1');
     ok(t.state.currentUnitIdx === 5, 'unit adopted');
     ok(t.state.currentLessonIdx === 1, 'lessonIdx clamped to last real lesson (1)');
-    ok(t.state.currentExIdx === 0, 'exIdx clamped to last exercise of that lesson (lesson1 has 1 → idx 0)');
+    ok(
+        t.state.currentExIdx === 0,
+        'exIdx clamped to last exercise of that lesson (lesson1 has 1 → idx 0)'
+    );
 }
 
 console.log('\n== no server position: no crash, keeps defaults ==');

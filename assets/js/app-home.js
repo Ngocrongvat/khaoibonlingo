@@ -37,6 +37,8 @@ Object.assign(DuoClone.prototype, {
             return;
         }
         if (window.CourseLoader) window.CourseLoader.prefetch(this.state.currentUnitIdx);
+        // Drop any leftover catch-mascot/verdict banner from a lesson exited via Home.
+        if (this.cleanupCatchMascot) this.cleanupCatchMascot();
         // Load this user's block list once (idempotent) so chat/DM renders can hide blocked
         // users' messages synchronously.
         if (window.Moderation && this.state.profile)
