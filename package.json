@@ -5,6 +5,7 @@
   "description": "KhoaiBonlingo — a Vietnamese→English learning app for young children (vanilla JS, Cloudflare Workers static hosting, Supabase backend).",
   "type": "commonjs",
   "scripts": {
+    "build": "echo 'KhoaiBonlingo is a static site served from the repo root — no build step (course chunks are prebuilt and committed under data/course/).'",
     "test": "node test/run-all.js",
     "lint": "eslint \"assets/js/**/*.js\" \"test/**/*.js\" sw.js",
     "lint:fix": "eslint --fix \"assets/js/**/*.js\" \"test/**/*.js\" sw.js",
