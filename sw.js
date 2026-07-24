@@ -17,11 +17,13 @@ self.addEventListener('install', (event) => {
 });
 
 self.addEventListener('activate', (event) => {
-    event.waitUntil((async () => {
-        const keys = await caches.keys();
-        await Promise.all(keys.filter((k) => k !== CACHE).map((k) => caches.delete(k)));
-        await self.clients.claim();
-    })());
+    event.waitUntil(
+        (async () => {
+            const keys = await caches.keys();
+            await Promise.all(keys.filter((k) => k !== CACHE).map((k) => caches.delete(k)));
+            await self.clients.claim();
+        })()
+    );
 });
 
 self.addEventListener('fetch', (event) => {
@@ -29,7 +31,11 @@ self.addEventListener('fetch', (event) => {
     if (req.method !== 'GET') return;
 
     let url;
-    try { url = new URL(req.url); } catch (e) { return; }
+    try {
+        url = new URL(req.url);
+    } catch (e) {
+        return;
+    }
     // Only ever handle our OWN origin. Supabase REST/realtime, TTS voices, fonts, any CDN
     // — all go straight to the network so dynamic data is never cached.
     if (url.origin !== self.location.origin) return;
@@ -37,33 +43,41 @@ self.addEventListener('fetch', (event) => {
     // App shell / navigations: network-first (get the freshest index.html when online),
     // fall back to the cached shell when offline so the app still opens.
     if (req.mode === 'navigate') {
-        event.respondWith((async () => {
-            try {
-                const fresh = await fetch(req);
-                const cache = await caches.open(CACHE);
-                cache.put(req, fresh.clone());
-                return fresh;
-            } catch (e) {
-                return (await caches.match(req)) || (await caches.match('./index.html')) || Response.error();
-            }
-        })());
+        event.respondWith(
+            (async () => {
+                try {
+                    const fresh = await fetch(req);
+                    const cache = await caches.open(CACHE);
+                    cache.put(req, fresh.clone());
+                    return fresh;
+                } catch (e) {
+                    return (
+                        (await caches.match(req)) ||
+                        (await caches.match('./index.html')) ||
+                        Response.error()
+                    );
+                }
+            })()
+        );
         return;
     }
 
     // Everything else same-origin (versioned JS/CSS/data/images/sounds): cache-first.
-    event.respondWith((async () => {
-        const cached = await caches.match(req);
-        if (cached) return cached;
-        try {
-            const fresh = await fetch(req);
-            // Only cache full, successful, same-origin (basic) responses.
-            if (fresh && fresh.status === 200 && fresh.type === 'basic') {
-                const cache = await caches.open(CACHE);
-                cache.put(req, fresh.clone());
+    event.respondWith(
+        (async () => {
+            const cached = await caches.match(req);
+            if (cached) return cached;
+            try {
+                const fresh = await fetch(req);
+                // Only cache full, successful, same-origin (basic) responses.
+                if (fresh && fresh.status === 200 && fresh.type === 'basic') {
+                    const cache = await caches.open(CACHE);
+                    cache.put(req, fresh.clone());
+                }
+                return fresh;
+            } catch (e) {
+                return cached || Response.error();
             }
-            return fresh;
-        } catch (e) {
-            return cached || Response.error();
-        }
-    })());
+        })()
+    );
 });

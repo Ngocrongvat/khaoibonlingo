@@ -1,0 +1,29 @@
+{
+  "name": "khoaibonlingo",
+  "version": "1.0.0",
+  "private": true,
+  "description": "KhoaiBonlingo — a Vietnamese→English learning app for young children (vanilla JS, Cloudflare Workers static hosting, Supabase backend).",
+  "type": "commonjs",
+  "scripts": {
+    "test": "node test/run-all.js",
+    "lint": "eslint \"assets/js/**/*.js\" \"test/**/*.js\" sw.js",
+    "lint:fix": "eslint --fix \"assets/js/**/*.js\" \"test/**/*.js\" sw.js",
+    "format": "prettier --write \"assets/js/**/*.js\" \"test/**/*.js\" \"assets/css/**/*.css\" sw.js",
+    "format:check": "prettier --check \"assets/js/**/*.js\" \"test/**/*.js\" \"assets/css/**/*.css\" sw.js"
+  },
+  "devDependencies": {
+    "eslint": "^9.13.0",
+    "prettier": "^3.3.3"
+  },
+  "prettier": {
+    "printWidth": 100,
+    "tabWidth": 4,
+    "singleQuote": true,
+    "semi": true,
+    "trailingComma": "es5",
+    "endOfLine": "lf"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

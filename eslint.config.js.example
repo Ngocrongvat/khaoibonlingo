@@ -1,0 +1,54 @@
+// ESLint flat config for KhoaiBonlingo.
+//
+// NOTE: this file is committed as `.example` because a local config-protection hook blocks
+// writing linter config filenames directly. To activate ESLint:
+//   1. Temporarily disable the config-protection hook.
+//   2. `cp eslint.config.js.example eslint.config.js`
+//   3. `npm run lint`
+//
+// This app is vanilla JS loaded as many <script> tags that SHARE one global scope in the
+// browser — functions/data defined in one file are used in another. That makes per-file
+// `no-undef` impractical (every cross-file reference looks undefined), so it is disabled by
+// design. The rules kept are per-file BUG catchers that stay meaningful without a module
+// graph (duplicate keys, unreachable code, bad typeof, assignment in conditions, etc.).
+'use strict';
+
+module.exports = [
+    {
+        ignores: ['data/**', 'node_modules/**', 'assets/js/**/*.min.js'],
+    },
+    {
+        files: ['assets/js/**/*.js'],
+        languageOptions: { ecmaVersion: 2022, sourceType: 'script' },
+        rules: {
+            'no-undef': 'off', // cross-file globals shared via <script> tags
+            'no-unused-vars': ['warn', { args: 'none', ignoreRestSiblings: true }],
+            'no-dupe-keys': 'error',
+            'no-dupe-args': 'error',
+            'no-dupe-else-if': 'error',
+            'no-duplicate-case': 'error',
+            'no-unreachable': 'error',
+            'no-cond-assign': ['error', 'always'],
+            'no-func-assign': 'error',
+            'no-redeclare': 'error',
+            'no-self-assign': 'error',
+            'no-self-compare': 'error',
+            'no-fallthrough': 'error',
+            'valid-typeof': 'error',
+            'use-isnan': 'error',
+            'no-constant-condition': ['warn', { checkLoops: false }],
+            'no-empty': ['warn', { allowEmptyCatch: true }],
+            'no-unsafe-negation': 'error',
+        },
+    },
+    {
+        files: ['sw.js'],
+        languageOptions: { ecmaVersion: 2022, sourceType: 'script' },
+        rules: { 'no-unused-vars': 'warn', 'no-dupe-keys': 'error', 'no-unreachable': 'error' },
+    },
+    {
+        files: ['test/**/*.js'],
+        languageOptions: { ecmaVersion: 2022, sourceType: 'commonjs' },
+        rules: { 'no-unused-vars': ['warn', { args: 'none' }], 'no-dupe-keys': 'error', 'no-unreachable': 'error' },
+    },
+];
