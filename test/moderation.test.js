@@ -57,9 +57,21 @@ function makeClient(store) {
 }
 
 function load(store) {
-    const sandbox = { window: { SupabaseClient: { client: makeClient(store) } }, console, Set, Promise, String, Object, Array };
+    const sandbox = {
+        window: { SupabaseClient: { client: makeClient(store) } },
+        console,
+        Set,
+        Promise,
+        String,
+        Object,
+        Array,
+    };
     vm.createContext(sandbox);
-    vm.runInContext(fs.readFileSync(path.join(__dirname, '..', 'assets/js/moderation.js'), 'utf8'), sandbox, { filename: 'moderation.js' });
+    vm.runInContext(
+        fs.readFileSync(path.join(__dirname, '..', 'assets/js/moderation.js'), 'utf8'),
+        sandbox,
+        { filename: 'moderation.js' }
+    );
     return sandbox.window.Moderation;
 }
 
@@ -88,9 +100,20 @@ const me = { id: 'me', username: 'Me' };
         await M.ensureLoaded('me');
         const r = await M.blockUser(me, 'u9', 'NineUser');
         ok(!r.error && M.isBlocked('u9'), 'blockUser inserts + marks blocked');
-        ok(store.inserts.some((i) => i.table === 'user_blocks' && i.row.blocked_id === 'u9' && i.row.blocker_id === 'me'), 'insert row shape correct');
+        ok(
+            store.inserts.some(
+                (i) =>
+                    i.table === 'user_blocks' &&
+                    i.row.blocked_id === 'u9' &&
+                    i.row.blocker_id === 'me'
+            ),
+            'insert row shape correct'
+        );
         const u = await M.unblockUser(me, 'u9');
-        ok(!u.error && !M.isBlocked('u9') && store.deletes === 1, 'unblockUser deletes + clears cache');
+        ok(
+            !u.error && !M.isBlocked('u9') && store.deletes === 1,
+            'unblockUser deletes + clears cache'
+        );
     }
 
     console.log('\n== self-block is refused ==');
@@ -113,12 +136,27 @@ const me = { id: 'me', username: 'Me' };
     {
         const store = makeStore();
         const M = load(store);
-        const r = await M.reportContent(me, { reportedUserId: 'bad', reportedUsername: 'BadKid', context: 'global_chat', messageText: 'nasty', reason: 'abuse' });
+        const r = await M.reportContent(me, {
+            reportedUserId: 'bad',
+            reportedUsername: 'BadKid',
+            context: 'global_chat',
+            messageText: 'nasty',
+            reason: 'abuse',
+        });
         ok(!r.error, 'report succeeds');
         const row = (store.inserts.find((i) => i.table === 'content_reports') || {}).row;
-        ok(row && row.reporter_id === 'me' && row.reported_user_id === 'bad' && row.context === 'global_chat' && row.message_text === 'nasty', 'report row shape correct');
+        ok(
+            row &&
+                row.reporter_id === 'me' &&
+                row.reported_user_id === 'bad' &&
+                row.context === 'global_chat' &&
+                row.message_text === 'nasty',
+            'report row shape correct'
+        );
     }
 
-    console.log(`\n=========================================\nRESULT: ${PASS} passed, ${FAIL} failed`);
+    console.log(
+        `\n=========================================\nRESULT: ${PASS} passed, ${FAIL} failed`
+    );
     process.exit(FAIL ? 1 : 0);
 })();

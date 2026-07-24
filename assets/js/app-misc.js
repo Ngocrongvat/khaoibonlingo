@@ -168,9 +168,21 @@ Object.assign(DuoClone.prototype, {
                 const units = this.state.courseData.units;
                 this.state.currentUnitIdx = Math.min(remote[0], units.length);
                 if (this.state.currentUnitIdx < units.length) {
+                    // With lazy-loaded course data the target unit may still be a STUB
+                    // (lessons:[]) here — completeLogin runs before its chunk is fetched.
+                    // Only clamp against the real lesson/exercise shape once loaded; else
+                    // adopt the saved indices as-is (they came from a valid save, and the
+                    // render path ensures the chunk + clamps defensively before drawing).
                     const lessons = units[this.state.currentUnitIdx].lessons;
-                    this.state.currentLessonIdx = Math.min(remote[1], lessons.length - 1);
-                    this.state.currentExIdx = Math.min(remote[2], lessons[this.state.currentLessonIdx].exercises.length - 1);
+                    if (lessons && lessons.length > 0) {
+                        this.state.currentLessonIdx = Math.min(remote[1], lessons.length - 1);
+                        const lesson = lessons[this.state.currentLessonIdx];
+                        const exCount = lesson && lesson.exercises ? lesson.exercises.length : 0;
+                        this.state.currentExIdx = Math.min(remote[2], Math.max(0, exCount - 1));
+                    } else {
+                        this.state.currentLessonIdx = remote[1];
+                        this.state.currentExIdx = remote[2];
+                    }
                 } else {
                     this.state.currentLessonIdx = 0;
                     this.state.currentExIdx = 0;

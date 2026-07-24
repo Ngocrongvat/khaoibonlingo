@@ -47,12 +47,16 @@ Object.assign(DuoClone.prototype, {
                     <button class="btn-secondary" id="user-info-back" style="display: block; margin: 20px auto; padding: 15px 30px;">QUAY LẠI</button>
                 </div>
             `;
-            document.getElementById('user-info-back').addEventListener('click', () => this.renderHomeDashboard());
+            document
+                .getElementById('user-info-back')
+                .addEventListener('click', () => this.renderHomeDashboard());
             return;
         }
 
         const rank = getRankInfo(info.xp || 0);
-        const isWeeklyKing = !!(this.state.weeklyKing && this.state.weeklyKing.username === info.username);
+        const isWeeklyKing = !!(
+            this.state.weeklyKing && this.state.weeklyKing.username === info.username
+        );
         const infoAvatarHtml = info.avatar_url
             ? `<img src="${info.avatar_url}" alt="" style="width:88px; height:88px; border-radius:50%; display:block; margin:0 auto; object-fit:cover;">`
             : `<div class="duo-character">👤</div>`;
@@ -72,17 +76,27 @@ Object.assign(DuoClone.prototype, {
                 <div class="game-picker-list" style="max-width: 280px;">
                     <button class="btn-primary game-pick-btn" id="user-info-duel">⚔️ Thách đấu</button>
                     <button class="btn-primary game-pick-btn" id="user-info-message">💬 Gửi tin nhắn</button>
-                    ${isMe ? '' : `<button class="btn-secondary game-pick-btn" id="user-info-report">⚠️ Báo cáo</button>
-                    <button class="btn-secondary game-pick-btn" id="user-info-block">${isUserBlocked ? '✅ Bỏ chặn' : '🚫 Chặn người này'}</button>`}
+                    ${
+                        isMe
+                            ? ''
+                            : `<button class="btn-secondary game-pick-btn" id="user-info-report">⚠️ Báo cáo</button>
+                    <button class="btn-secondary game-pick-btn" id="user-info-block">${isUserBlocked ? '✅ Bỏ chặn' : '🚫 Chặn người này'}</button>`
+                    }
                 </div>
                 <button class="btn-secondary" id="user-info-back" style="display: block; margin: 10px auto; padding: 15px 30px;">QUAY LẠI</button>
             </div>
         `;
         this.ui.checkBtn.disabled = true;
         this.ui.checkBtn.classList.remove('active');
-        document.getElementById('user-info-back').addEventListener('click', () => this.renderHomeDashboard());
-        document.getElementById('user-info-duel').addEventListener('click', () => this.renderGameTypePicker(info.username));
-        document.getElementById('user-info-message').addEventListener('click', () => this.renderConversation(info.id, info.username));
+        document
+            .getElementById('user-info-back')
+            .addEventListener('click', () => this.renderHomeDashboard());
+        document
+            .getElementById('user-info-duel')
+            .addEventListener('click', () => this.renderGameTypePicker(info.username));
+        document
+            .getElementById('user-info-message')
+            .addEventListener('click', () => this.renderConversation(info.id, info.username));
         // Child-safety: report or block this user (hidden for your own profile).
         const reportBtn = document.getElementById('user-info-report');
         if (reportBtn) {
@@ -95,7 +109,11 @@ Object.assign(DuoClone.prototype, {
                     context: 'user_profile',
                     reason: 'Báo cáo từ trang thông tin người dùng',
                 });
-                this.showBriefToast(res.error ? res.error : '⚠️ Đã gửi báo cáo. Cảm ơn bạn đã giúp giữ cộng đồng an toàn!');
+                this.showBriefToast(
+                    res.error
+                        ? res.error
+                        : '⚠️ Đã gửi báo cáo. Cảm ơn bạn đã giúp giữ cộng đồng an toàn!'
+                );
                 reportBtn.disabled = false;
             });
         }
@@ -107,10 +125,20 @@ Object.assign(DuoClone.prototype, {
                 let res;
                 if (window.Moderation.isBlocked(info.id)) {
                     res = await window.Moderation.unblockUser(this.state.profile, info.id);
-                    if (!res.error) this.showBriefToast('✅ Đã bỏ chặn ' + this.escapeHtml(info.username));
+                    if (!res.error)
+                        this.showBriefToast('✅ Đã bỏ chặn ' + this.escapeHtml(info.username));
                 } else {
-                    res = await window.Moderation.blockUser(this.state.profile, info.id, info.username);
-                    if (!res.error) this.showBriefToast('🚫 Đã chặn ' + this.escapeHtml(info.username) + '. Bạn sẽ không thấy tin nhắn của họ nữa.');
+                    res = await window.Moderation.blockUser(
+                        this.state.profile,
+                        info.id,
+                        info.username
+                    );
+                    if (!res.error)
+                        this.showBriefToast(
+                            '🚫 Đã chặn ' +
+                                this.escapeHtml(info.username) +
+                                '. Bạn sẽ không thấy tin nhắn của họ nữa.'
+                        );
                 }
                 if (res.error) {
                     this.showBriefToast(res.error);
@@ -183,9 +211,18 @@ Object.assign(DuoClone.prototype, {
     // the XP wager) rather than a free bail-out, since escaping a losing duel for free
     // would defeat the point of the wager.
     async forfeitDuel() {
-        if (!confirm('Bỏ cuộc sẽ tính là thua trận này (-20 XP) và đối thủ thắng. Bạn có chắc chắn?')) return;
+        if (
+            !confirm(
+                'Bỏ cuộc sẽ tính là thua trận này (-20 XP) và đối thủ thắng. Bạn có chắc chắn?'
+            )
+        )
+            return;
         const duelRow = await window.Duel.getDuel(this.state.duelId);
-        if (!duelRow) { this.state.mode = 'curriculum'; this.returnToApp(); return; }
+        if (!duelRow) {
+            this.state.mode = 'curriculum';
+            this.returnToApp();
+            return;
+        }
         const oppId = this.state.isDuelChallenger ? duelRow.opponent_id : duelRow.challenger_id;
         await window.Duel.finalizeDuel(this.state.duelId, oppId);
         const finalRow = await window.Duel.getDuel(this.state.duelId);
@@ -194,7 +231,7 @@ Object.assign(DuoClone.prototype, {
 
     async renderDuelMenu() {
         if (!this.state.currentUser) {
-            alert("Vui lòng đăng nhập trước khi thi đấu 1v1!");
+            alert('Vui lòng đăng nhập trước khi thi đấu 1v1!');
             return;
         }
         if (!window.Duel) return;
@@ -209,13 +246,19 @@ Object.assign(DuoClone.prototype, {
         this.ui.checkBtn.classList.remove('active');
 
         const invites = await window.Duel.getPendingInvitesFor(this.state.profile.id);
-        const invitesHtml = invites.length ? invites.map(inv => `
+        const invitesHtml = invites.length
+            ? invites
+                  .map(
+                      (inv) => `
             <div class="leaderboard-row" data-duel-id="${inv.id}" style="cursor:pointer;">
                 <span class="lb-rank">⚔️</span>
                 <span class="lb-name">${this.clickableUsername(inv.challenger_id, inv.challenger_username)}</span>
                 <span class="lb-xp">đã thách đấu bạn</span>
             </div>
-        `).join('') : `<p style="text-align:center; color:#777;">Chưa có lời mời nào.</p>`;
+        `
+                  )
+                  .join('')
+            : `<p style="text-align:center; color:#777;">Chưa có lời mời nào.</p>`;
 
         this.ui.container.innerHTML = `
             <div class="welcome-screen">
@@ -229,10 +272,14 @@ Object.assign(DuoClone.prototype, {
         `;
         this.ui.checkBtn.disabled = true;
         this.ui.checkBtn.classList.remove('active');
-        document.getElementById('duel-challenge-btn').addEventListener('click', () => this.renderDuelChallengeForm());
-        document.getElementById('duel-leaderboard-btn').addEventListener('click', () => this.renderDuelLeaderboard());
-        this.ui.container.querySelectorAll('[data-duel-id]').forEach(el => {
-            const invite = invites.find(i => i.id === el.dataset.duelId);
+        document
+            .getElementById('duel-challenge-btn')
+            .addEventListener('click', () => this.renderDuelChallengeForm());
+        document
+            .getElementById('duel-leaderboard-btn')
+            .addEventListener('click', () => this.renderDuelLeaderboard());
+        this.ui.container.querySelectorAll('[data-duel-id]').forEach((el) => {
+            const invite = invites.find((i) => i.id === el.dataset.duelId);
             el.addEventListener('click', () => this.renderDuelInvitePrompt(invite));
         });
     },
@@ -250,17 +297,21 @@ Object.assign(DuoClone.prototype, {
 
         const entries = await window.Duel.getDuelLeaderboard(20);
         const myUsername = this.state.profile ? this.state.profile.username : null;
-        const rowsHtml = entries.length ? entries.map((e, i) => {
-            const medal = i === 0 ? '🥇' : i === 1 ? '🥈' : i === 2 ? '🥉' : `#${i + 1}`;
-            const isMe = e.username === myUsername;
-            return `
+        const rowsHtml = entries.length
+            ? entries
+                  .map((e, i) => {
+                      const medal = i === 0 ? '🥇' : i === 1 ? '🥈' : i === 2 ? '🥉' : `#${i + 1}`;
+                      const isMe = e.username === myUsername;
+                      return `
                 <div class="leaderboard-row" style="${isMe ? 'background: var(--accent-soft, #fff8e8); font-weight:800;' : ''}">
                     <span class="lb-rank">${medal}</span>
                     <span class="lb-name">${isMe ? this.escapeHtml(e.username) : this.clickableUsername(null, e.username)}</span>
                     <span class="lb-xp">${e.wins} thắng</span>
                 </div>
             `;
-        }).join('') : `<p style="text-align:center; color:#777;">Chưa có trận thắng nào được ghi nhận.</p>`;
+                  })
+                  .join('')
+            : `<p style="text-align:center; color:#777;">Chưa có trận thắng nào được ghi nhận.</p>`;
 
         this.ui.container.innerHTML = `
             <div class="welcome-screen">
@@ -273,7 +324,9 @@ Object.assign(DuoClone.prototype, {
         `;
         this.ui.checkBtn.disabled = true;
         this.ui.checkBtn.classList.remove('active');
-        document.getElementById('duel-leaderboard-back').addEventListener('click', () => this.renderHomeDashboard());
+        document
+            .getElementById('duel-leaderboard-back')
+            .addEventListener('click', () => this.renderHomeDashboard());
     },
 
     // gameType defaults to 'lesson' (the original behavior, reached from the Duel menu's
@@ -295,12 +348,17 @@ Object.assign(DuoClone.prototype, {
         `;
         this.ui.checkBtn.disabled = true;
         this.ui.checkBtn.classList.remove('active');
-        document.getElementById('duel-back').addEventListener('click', () => this.renderHomeDashboard());
+        document
+            .getElementById('duel-back')
+            .addEventListener('click', () => this.renderHomeDashboard());
         this.attachUserSuggestions(document.getElementById('duel-target-input'));
         document.getElementById('duel-send-challenge').addEventListener('click', async () => {
             const target = document.getElementById('duel-target-input').value.trim();
             const errorEl = document.getElementById('duel-challenge-error');
-            if (!target) { errorEl.innerText = 'Vui lòng nhập tên người dùng.'; return; }
+            if (!target) {
+                errorEl.innerText = 'Vui lòng nhập tên người dùng.';
+                return;
+            }
             const result = await this.sendGameDuelChallenge(target, gameType);
             if (result && result.error) errorEl.innerText = result.error;
         });
@@ -351,9 +409,16 @@ Object.assign(DuoClone.prototype, {
     // tagging the resulting duel row so recomputeBattleScore() can find it later. Every
     // other call site (friend list, manual username form) omits them, keeping the
     // existing individual-duel behavior byte-for-byte unchanged.
-    async sendGameDuelChallenge(targetUsername, gameType = 'lesson', groupBattleId = null, groupSide = null) {
+    async sendGameDuelChallenge(
+        targetUsername,
+        gameType = 'lesson',
+        groupBattleId = null,
+        groupSide = null
+    ) {
         if (this.state.mode === 'duel') return { error: 'Bạn đang trong một trận đấu khác.' };
-        let questions, gameLevel = null, questionCount = null;
+        let questions,
+            gameLevel = null,
+            questionCount = null;
         if (gameType === 'lesson') {
             const baseDifficulty = this.errorTracker ? this.errorTracker.recommendDifficulty() : 2;
             const difficulty = Math.max(baseDifficulty, getRankInfo(this.state.xp).difficulty);
@@ -365,7 +430,16 @@ Object.assign(DuoClone.prototype, {
             gameLevel = built.level;
             questionCount = built.total;
         }
-        const result = await window.Duel.challengeUser(this.state.profile, targetUsername, questions, gameType, gameLevel, questionCount, groupBattleId, groupSide);
+        const result = await window.Duel.challengeUser(
+            this.state.profile,
+            targetUsername,
+            questions,
+            gameType,
+            gameLevel,
+            questionCount,
+            groupBattleId,
+            groupSide
+        );
         if (result.error) return result;
         this.renderDuelWaitingRoom(result.data);
         return result;
@@ -391,9 +465,13 @@ Object.assign(DuoClone.prototype, {
         const createdAt = new Date(duelRow.created_at).getTime();
         const hintInterval = setInterval(() => {
             const hintEl = document.getElementById('duel-wait-hint');
-            if (!hintEl) { clearInterval(hintInterval); return; }
+            if (!hintEl) {
+                clearInterval(hintInterval);
+                return;
+            }
             const elapsedMin = Math.floor((Date.now() - createdAt) / 60000);
-            hintEl.innerText = elapsedMin >= 3 ? 'Đối thủ chưa phản hồi. Bạn có thể hủy và thử lại sau.' : '';
+            hintEl.innerText =
+                elapsedMin >= 3 ? 'Đối thủ chưa phản hồi. Bạn có thể hủy và thử lại sau.' : '';
         }, 5000);
 
         this.state.duelUnsub = window.Duel.subscribeToDuel(duelRow.id, async (updated) => {
@@ -420,9 +498,10 @@ Object.assign(DuoClone.prototype, {
     renderDuelInvitePrompt(invite) {
         const gameType = invite.game_type || 'lesson';
         const label = DuoClone.GAME_TYPE_LABELS[gameType] || '';
-        const subtitle = gameType === 'lesson'
-            ? `Bộ đề gồm ${invite.question_count} câu hỏi. Sẵn sàng chưa?`
-            : `Thử thách: ${label}. Sẵn sàng chưa?`;
+        const subtitle =
+            gameType === 'lesson'
+                ? `Bộ đề gồm ${invite.question_count} câu hỏi. Sẵn sàng chưa?`
+                : `Thử thách: ${label}. Sẵn sàng chưa?`;
         this.ui.container.innerHTML = `
             <div class="welcome-screen">
                 <div class="duo-character">⚔️</div>
@@ -437,7 +516,10 @@ Object.assign(DuoClone.prototype, {
         this.ui.checkBtn.classList.remove('active');
         document.getElementById('duel-accept').addEventListener('click', async () => {
             const result = await window.Duel.acceptDuel(invite.id);
-            if (result.error) { alert('Không thể chấp nhận lúc này.'); return; }
+            if (result.error) {
+                alert('Không thể chấp nhận lúc này.');
+                return;
+            }
             this.startDuelBattle(result.data, false);
         });
         document.getElementById('duel-decline').addEventListener('click', async () => {
@@ -455,7 +537,9 @@ Object.assign(DuoClone.prototype, {
         this.state.duelGameType = duelRow.game_type || 'lesson';
         this.state.duelGameLevel = duelRow.game_level;
         this.state.duelIdx = isChallenger ? duelRow.challenger_idx : duelRow.opponent_idx;
-        this.state.duelCorrect = isChallenger ? duelRow.challenger_correct : duelRow.opponent_correct;
+        this.state.duelCorrect = isChallenger
+            ? duelRow.challenger_correct
+            : duelRow.opponent_correct;
         this.state.duelLastOpponentUpdate = Date.now();
         this.state.duelResultShown = false;
         this.resetSessionAnswers();
@@ -465,8 +549,12 @@ Object.assign(DuoClone.prototype, {
         this.state.duelUnsub = window.Duel.subscribeToDuel(duelRow.id, (updated) => {
             this.state.duelLastOpponentUpdate = Date.now();
             this.renderDuelProgressBar(updated, isChallenger);
-            const oppFinished = isChallenger ? updated.opponent_finished : updated.challenger_finished;
-            const myFinished = isChallenger ? updated.challenger_finished : updated.opponent_finished;
+            const oppFinished = isChallenger
+                ? updated.opponent_finished
+                : updated.challenger_finished;
+            const myFinished = isChallenger
+                ? updated.challenger_finished
+                : updated.opponent_finished;
             // Bug fix: forfeitDuel() only flips `status` to 'finished' - it never touches
             // challenger_finished/opponent_finished, so the other side's client (still
             // mid-duel, its own *_finished still false) would never satisfy
@@ -478,14 +566,18 @@ Object.assign(DuoClone.prototype, {
         });
 
         this.duelWatchdogInterval = setInterval(() => {
-            if (this.state.mode !== 'duel') { clearInterval(this.duelWatchdogInterval); return; }
+            if (this.state.mode !== 'duel') {
+                clearInterval(this.duelWatchdogInterval);
+                return;
+            }
             const silentMs = Date.now() - this.state.duelLastOpponentUpdate;
             const bar = document.getElementById('duel-progress-bar');
             if (bar && silentMs > 90000 && !document.getElementById('duel-forfeit-claim')) {
                 const btn = document.createElement('button');
                 btn.id = 'duel-forfeit-claim';
                 btn.className = 'btn-secondary';
-                btn.style.cssText = 'display:block; margin:6px auto 0; padding:8px 16px; font-size:13px;';
+                btn.style.cssText =
+                    'display:block; margin:6px auto 0; padding:8px 16px; font-size:13px;';
                 btn.innerText = 'Đối thủ có vẻ đã rời trận - Xác nhận thắng';
                 btn.addEventListener('click', async () => {
                     await window.Duel.finalizeDuel(this.state.duelId, this.state.profile.id);
@@ -518,17 +610,25 @@ Object.assign(DuoClone.prototype, {
             onProgress: (idx, correct) => {
                 this.state.duelIdx = idx;
                 this.state.duelCorrect = correct;
-                window.Duel.updateMyProgress(this.state.duelId, this.state.isDuelChallenger, { idx, correct, finished: false });
+                window.Duel.updateMyProgress(this.state.duelId, this.state.isDuelChallenger, {
+                    idx,
+                    correct,
+                    finished: false,
+                });
             },
             onRoundEnd: (correct, total) => {
                 this.state.duelIdx = total;
                 this.state.duelCorrect = correct;
-                window.Duel.updateMyProgress(this.state.duelId, this.state.isDuelChallenger, { idx: total, correct, finished: true });
+                window.Duel.updateMyProgress(this.state.duelId, this.state.isDuelChallenger, {
+                    idx: total,
+                    correct,
+                    finished: true,
+                });
                 this.renderDuelWaitingForOpponent();
             },
             // Backing out mid-round abandons the match same as the lesson-duel forfeit
             // button - there is no "just leave" option once a duel round has started.
-            onExit: () => this.forfeitDuel()
+            onExit: () => this.forfeitDuel(),
         };
 
         const gameType = this.state.duelGameType;
@@ -537,7 +637,11 @@ Object.assign(DuoClone.prototype, {
         } else if (gameType === 'memory') {
             const uid = this.state.profile ? this.state.profile.id : 'guest';
             const level = this.state.duelGameLevel || 1;
-            const memoryDuelData = { level, config: window.Games.getMemoryLevelConfig(level), cards: duelData };
+            const memoryDuelData = {
+                level,
+                config: window.Games.getMemoryLevelConfig(level),
+                cards: duelData,
+            };
             window.Games.renderMemoryGame(this.ui.container, callbacks, uid, memoryDuelData);
         } else if (gameType === 'odd_one_out') {
             window.Games.renderOddOneOutGame(this.ui.container, callbacks, duelData);
@@ -554,7 +658,7 @@ Object.assign(DuoClone.prototype, {
         window.Duel.updateMyProgress(this.state.duelId, this.state.isDuelChallenger, {
             idx: this.state.duelIdx,
             correct: this.state.duelCorrect,
-            finished
+            finished,
         });
         if (!finished) {
             this.renderLesson();
@@ -565,7 +669,9 @@ Object.assign(DuoClone.prototype, {
 
     async renderDuelWaitingForOpponent() {
         const duelRow = await window.Duel.getDuel(this.state.duelId);
-        const oppFinished = this.state.isDuelChallenger ? duelRow.opponent_finished : duelRow.challenger_finished;
+        const oppFinished = this.state.isDuelChallenger
+            ? duelRow.opponent_finished
+            : duelRow.challenger_finished;
         if (oppFinished || duelRow.status === 'finished') {
             this.finishDuelIfNeeded(duelRow);
             return;
@@ -593,7 +699,7 @@ Object.assign(DuoClone.prototype, {
         if (duelRow.status !== 'finished') {
             const winnerId = window.Duel.resolveDuelWinner(duelRow);
             await window.Duel.finalizeDuel(duelRow.id, winnerId);
-            finalRow = await window.Duel.getDuel(duelRow.id) || duelRow;
+            finalRow = (await window.Duel.getDuel(duelRow.id)) || duelRow;
         }
         // If this 1v1 was one leg of a group battle, opportunistically recompute that
         // battle's aggregate score now - whichever client happens to reach this point
@@ -610,9 +716,15 @@ Object.assign(DuoClone.prototype, {
         const myId = this.state.profile.id;
         const iWon = duelRow.winner_id === myId;
         const isDraw = !duelRow.winner_id;
-        const myCorrect = this.state.isDuelChallenger ? duelRow.challenger_correct : duelRow.opponent_correct;
-        const oppCorrect = this.state.isDuelChallenger ? duelRow.opponent_correct : duelRow.challenger_correct;
-        const oppName = this.state.isDuelChallenger ? duelRow.opponent_username : duelRow.challenger_username;
+        const myCorrect = this.state.isDuelChallenger
+            ? duelRow.challenger_correct
+            : duelRow.opponent_correct;
+        const oppCorrect = this.state.isDuelChallenger
+            ? duelRow.opponent_correct
+            : duelRow.challenger_correct;
+        const oppName = this.state.isDuelChallenger
+            ? duelRow.opponent_username
+            : duelRow.challenger_username;
         const oppId = this.state.isDuelChallenger ? duelRow.opponent_id : duelRow.challenger_id;
 
         // Zero-sum wager: the winner takes XP straight from the loser rather than both
@@ -638,20 +750,24 @@ Object.assign(DuoClone.prototype, {
         this.checkRankDemotion(rankBefore);
         this.syncLeaderboardScore();
 
-        const resultLabel = isDraw ? 'HÒA!' : (iWon ? 'BẠN THẮNG!' : 'BẠN THUA');
-        const resultColor = isDraw ? 'var(--duo-text)' : (iWon ? 'var(--duo-green)' : 'var(--duo-red)');
-        const xpChangeLabel = isDraw ? '' : (iWon ? `+${DUEL_XP_WAGER} XP` : `-${DUEL_XP_WAGER} XP`);
+        const resultLabel = isDraw ? 'HÒA!' : iWon ? 'BẠN THẮNG!' : 'BẠN THUA';
+        const resultColor = isDraw
+            ? 'var(--duo-text)'
+            : iWon
+              ? 'var(--duo-green)'
+              : 'var(--duo-red)';
+        const xpChangeLabel = isDraw ? '' : iWon ? `+${DUEL_XP_WAGER} XP` : `-${DUEL_XP_WAGER} XP`;
         const xpChangeColor = iWon ? 'var(--duo-green)' : 'var(--duo-red)';
 
         // Winner gets "Thách đấu lại", loser gets "Phục thù" - same action underneath
         // (send a fresh challenge of the same game type to the same opponent), the label
         // just matches which side of the result the user is standing on.
-        const rematchLabel = isDraw ? '⚔️ ĐẤU LẠI' : (iWon ? '⚔️ THÁCH ĐẤU LẠI' : '🔥 PHỤC THÙ');
+        const rematchLabel = isDraw ? '⚔️ ĐẤU LẠI' : iWon ? '⚔️ THÁCH ĐẤU LẠI' : '🔥 PHỤC THÙ';
         const gameType = duelRow.game_type || 'lesson';
 
         this.ui.container.innerHTML = `
             <div class="certificate">
-                <div class="certificate-badge">${isDraw ? '🤝' : (iWon ? '🏆' : '⚔️')}</div>
+                <div class="certificate-badge">${isDraw ? '🤝' : iWon ? '🏆' : '⚔️'}</div>
                 <h2 style="color:${resultColor};">${resultLabel}</h2>
                 <p class="certificate-score">Bạn: ${myCorrect} đúng &nbsp;|&nbsp; ${this.clickableUsername(oppId, oppName)}: ${oppCorrect} đúng</p>
                 ${xpChangeLabel ? `<p style="font-weight:800; color:${xpChangeColor};">${xpChangeLabel}</p>` : ''}
@@ -680,7 +796,7 @@ Object.assign(DuoClone.prototype, {
                 if (errorEl) errorEl.innerText = result.error;
             }
         });
-        this.playTone(iWon ? 'cheer' : (isDraw ? 'correct' : 'cry'));
+        this.playTone(iWon ? 'cheer' : isDraw ? 'correct' : 'cry');
         this.addVibrancy(8);
         this.checkBadges();
         this.saveUserProgress();
@@ -690,7 +806,7 @@ Object.assign(DuoClone.prototype, {
 
     async renderOnlineMembers() {
         if (!this.state.currentUser) {
-            alert("Vui lòng đăng nhập trước khi xem thành viên đang online!");
+            alert('Vui lòng đăng nhập trước khi xem thành viên đang online!');
             return;
         }
         this.ui.container.innerHTML = `
@@ -705,15 +821,19 @@ Object.assign(DuoClone.prototype, {
         if (!window.Friends) return;
 
         const members = await window.Friends.getOnlineMembers(5, 100);
-        const rowsHtml = members.length ? members.map(m => {
-            const isMe = m.username === this.state.currentUser;
-            return `
+        const rowsHtml = members.length
+            ? members
+                  .map((m) => {
+                      const isMe = m.username === this.state.currentUser;
+                      return `
                 <div class="friend-row">
                     <span class="friend-row-name">🟢 ${isMe ? this.escapeHtml(m.username) + ' (bạn)' : this.clickableUsername(m.id, m.username)}</span>
                     <span class="friend-row-actions" style="color:#999; font-size:12px;">⭐ ${m.xp || 0} XP · 🔥 ${m.streak || 0}</span>
                 </div>
             `;
-        }).join('') : `<p style="text-align:center; color:#777;">Không có ai đang online lúc này.</p>`;
+                  })
+                  .join('')
+            : `<p style="text-align:center; color:#777;">Không có ai đang online lúc này.</p>`;
 
         this.ui.container.innerHTML = `
             <div class="welcome-screen">
@@ -726,14 +846,16 @@ Object.assign(DuoClone.prototype, {
         `;
         this.ui.checkBtn.disabled = true;
         this.ui.checkBtn.classList.remove('active');
-        document.getElementById('online-members-back').addEventListener('click', () => this.renderHomeDashboard());
+        document
+            .getElementById('online-members-back')
+            .addEventListener('click', () => this.renderHomeDashboard());
     },
 
     // ===================== Friends (requests, list, heart gifting) =====================
 
     async renderFriendsMenu() {
         if (!this.state.currentUser) {
-            alert("Vui lòng đăng nhập trước khi xem bạn bè!");
+            alert('Vui lòng đăng nhập trước khi xem bạn bè!');
             return;
         }
         if (!window.Friends) return;
@@ -749,14 +871,16 @@ Object.assign(DuoClone.prototype, {
 
         const [pendingRequests, friendsList] = await Promise.all([
             window.Friends.getPendingRequestsFor(this.state.profile.id),
-            window.Friends.getFriendsList(this.state.profile.id)
+            window.Friends.getFriendsList(this.state.profile.id),
         ]);
         // Drives the friend-count achievement badges (friend_5/friend_20) - checked
         // right after the list loads rather than fetched separately for checkBadges().
         this.state.friendCount = friendsList.length;
         this.checkBadges();
 
-        const requestsHtml = pendingRequests.map(req => `
+        const requestsHtml = pendingRequests
+            .map(
+                (req) => `
             <div class="friend-row">
                 <span class="friend-row-name">👋 ${this.clickableUsername(req.requester_id, req.requester_username)}</span>
                 <span class="friend-row-actions">
@@ -764,11 +888,17 @@ Object.assign(DuoClone.prototype, {
                     <button class="btn-secondary friend-decline-btn" data-request-id="${req.id}" style="padding:5px 12px; font-size:12px;">Từ chối</button>
                 </span>
             </div>
-        `).join('');
+        `
+            )
+            .join('');
 
-        const friendsHtml = friendsList.length ? friendsList.map(f => {
-            const canGift = window.Friends.canGiftHeartToday({ last_heart_gift_at: f.lastHeartGiftAt });
-            return `
+        const friendsHtml = friendsList.length
+            ? friendsList
+                  .map((f) => {
+                      const canGift = window.Friends.canGiftHeartToday({
+                          last_heart_gift_at: f.lastHeartGiftAt,
+                      });
+                      return `
                 <div class="friend-row" data-friendship-id="${f.friendshipId}" data-friend-id="${f.friendId}" data-friend-username="${this.escapeHtml(f.friendUsername)}">
                     <span class="friend-row-name">🧑 ${this.clickableUsername(f.friendId, f.friendUsername)}</span>
                     <span class="friend-row-actions">
@@ -777,7 +907,9 @@ Object.assign(DuoClone.prototype, {
                     </span>
                 </div>
             `;
-        }).join('') : `<p style="text-align:center; color:#777;">Bạn chưa có người bạn nào. Hãy kết bạn nhé!</p>`;
+                  })
+                  .join('')
+            : `<p style="text-align:center; color:#777;">Bạn chưa có người bạn nào. Hãy kết bạn nhé!</p>`;
 
         this.ui.container.innerHTML = `
             <div class="welcome-screen">
@@ -793,39 +925,54 @@ Object.assign(DuoClone.prototype, {
         this.ui.checkBtn.disabled = true;
         this.ui.checkBtn.classList.remove('active');
 
-        document.getElementById('friends-add-btn').addEventListener('click', () => this.renderAddFriendForm());
-        document.getElementById('friends-close').addEventListener('click', () => this.renderHomeDashboard());
+        document
+            .getElementById('friends-add-btn')
+            .addEventListener('click', () => this.renderAddFriendForm());
+        document
+            .getElementById('friends-close')
+            .addEventListener('click', () => this.renderHomeDashboard());
 
-        this.ui.container.querySelectorAll('.friend-accept-btn').forEach(btn => {
+        this.ui.container.querySelectorAll('.friend-accept-btn').forEach((btn) => {
             btn.addEventListener('click', async (e) => {
                 e.stopPropagation();
                 await window.Friends.acceptFriendRequest(btn.dataset.requestId);
                 this.renderFriendsMenu();
             });
         });
-        this.ui.container.querySelectorAll('.friend-decline-btn').forEach(btn => {
+        this.ui.container.querySelectorAll('.friend-decline-btn').forEach((btn) => {
             btn.addEventListener('click', async (e) => {
                 e.stopPropagation();
                 await window.Friends.declineFriendRequest(btn.dataset.requestId);
                 this.renderFriendsMenu();
             });
         });
-        this.ui.container.querySelectorAll('.friend-duel-btn').forEach(btn => {
+        this.ui.container.querySelectorAll('.friend-duel-btn').forEach((btn) => {
             btn.addEventListener('click', (e) => {
                 e.stopPropagation();
-                if (this.state.mode === 'duel') { alert('Bạn đang trong một trận đấu khác.'); return; }
+                if (this.state.mode === 'duel') {
+                    alert('Bạn đang trong một trận đấu khác.');
+                    return;
+                }
                 const row = btn.closest('[data-friend-username]');
                 this.renderGameTypePicker(row.dataset.friendUsername);
             });
         });
-        this.ui.container.querySelectorAll('.friend-gift-btn').forEach(btn => {
+        this.ui.container.querySelectorAll('.friend-gift-btn').forEach((btn) => {
             btn.addEventListener('click', async (e) => {
                 e.stopPropagation();
                 if (btn.disabled) return;
                 const row = btn.closest('[data-friendship-id]');
                 btn.disabled = true;
-                const result = await window.Friends.giftHeart(row.dataset.friendshipId, this.state.profile, row.dataset.friendId);
-                if (result.error) { alert(result.error); btn.disabled = false; return; }
+                const result = await window.Friends.giftHeart(
+                    row.dataset.friendshipId,
+                    this.state.profile,
+                    row.dataset.friendId
+                );
+                if (result.error) {
+                    alert(result.error);
+                    btn.disabled = false;
+                    return;
+                }
                 btn.textContent = '❤️ Đã tặng hôm nay';
                 alert(`🎁 Đã tặng 1 tim cho ${row.dataset.friendUsername}!`);
             });
@@ -846,14 +993,22 @@ Object.assign(DuoClone.prototype, {
         `;
         this.ui.checkBtn.disabled = true;
         this.ui.checkBtn.classList.remove('active');
-        document.getElementById('friend-add-back').addEventListener('click', () => this.renderHomeDashboard());
+        document
+            .getElementById('friend-add-back')
+            .addEventListener('click', () => this.renderHomeDashboard());
         this.attachUserSuggestions(document.getElementById('friend-target-input'));
         document.getElementById('friend-send-request').addEventListener('click', async () => {
             const target = document.getElementById('friend-target-input').value.trim();
             const errorEl = document.getElementById('friend-add-error');
-            if (!target) { errorEl.innerText = 'Vui lòng nhập tên người dùng.'; return; }
+            if (!target) {
+                errorEl.innerText = 'Vui lòng nhập tên người dùng.';
+                return;
+            }
             const result = await window.Friends.sendFriendRequest(this.state.profile, target);
-            if (result.error) { errorEl.innerText = result.error; return; }
+            if (result.error) {
+                errorEl.innerText = result.error;
+                return;
+            }
             this.renderFriendsMenu();
         });
     },
@@ -883,9 +1038,11 @@ Object.assign(DuoClone.prototype, {
             const levelInfo = getGroupLevelInfo(mine.group.vibrancy_score);
             this.ui.container.innerHTML = `
                 <div class="welcome-screen">
-                    ${mine.group.avatar_url
-                        ? `<img src="${mine.group.avatar_url}" alt="" style="width:88px; height:88px; border-radius:20px; display:block; margin:0 auto; object-fit:cover;">`
-                        : `<div class="duo-character">🏰</div>`}
+                    ${
+                        mine.group.avatar_url
+                            ? `<img src="${mine.group.avatar_url}" alt="" style="width:88px; height:88px; border-radius:20px; display:block; margin:0 auto; object-fit:cover;">`
+                            : `<div class="duo-character">🏰</div>`
+                    }
                     <h1 style="text-align: center;">${this.escapeHtml(mine.group.name)}</h1>
                     <p style="text-align: center; color: #777;">${levelInfo.label} · ⭐ ${mine.group.vibrancy_score} điểm sôi nổi</p>
                     <button class="btn-primary" id="group-enter-btn" style="display: block; margin: 20px auto; padding: 15px 30px;">VÀO GROUP</button>
@@ -895,11 +1052,21 @@ Object.assign(DuoClone.prototype, {
                     <button class="btn-secondary" id="groups-close" style="display: block; margin: 10px auto; padding: 15px 30px;">QUAY LẠI</button>
                 </div>
             `;
-            document.getElementById('group-enter-btn').addEventListener('click', () => this.renderGroupDetail(mine.group.id));
-            document.getElementById('group-schedule-btn').addEventListener('click', () => this.renderBattleScheduleBoard(mine.group.id));
-            document.getElementById('group-directory-btn').addEventListener('click', () => this.renderGroupDirectory());
-            document.getElementById('group-leaderboards-btn').addEventListener('click', () => this.renderGroupLeaderboards());
-            document.getElementById('groups-close').addEventListener('click', () => this.renderHomeDashboard());
+            document
+                .getElementById('group-enter-btn')
+                .addEventListener('click', () => this.renderGroupDetail(mine.group.id));
+            document
+                .getElementById('group-schedule-btn')
+                .addEventListener('click', () => this.renderBattleScheduleBoard(mine.group.id));
+            document
+                .getElementById('group-directory-btn')
+                .addEventListener('click', () => this.renderGroupDirectory());
+            document
+                .getElementById('group-leaderboards-btn')
+                .addEventListener('click', () => this.renderGroupLeaderboards());
+            document
+                .getElementById('groups-close')
+                .addEventListener('click', () => this.renderHomeDashboard());
             this.ui.checkBtn.disabled = true;
             this.ui.checkBtn.classList.remove('active');
             return;
@@ -921,9 +1088,15 @@ Object.assign(DuoClone.prototype, {
         this.ui.checkBtn.disabled = true;
         this.ui.checkBtn.classList.remove('active');
 
-        document.getElementById('group-create-btn').addEventListener('click', () => this.renderCreateGroupForm());
-        document.getElementById('group-leaderboards-btn').addEventListener('click', () => this.renderGroupLeaderboards());
-        document.getElementById('groups-close').addEventListener('click', () => this.renderHomeDashboard());
+        document
+            .getElementById('group-create-btn')
+            .addEventListener('click', () => this.renderCreateGroupForm());
+        document
+            .getElementById('group-leaderboards-btn')
+            .addEventListener('click', () => this.renderGroupLeaderboards());
+        document
+            .getElementById('groups-close')
+            .addEventListener('click', () => this.renderHomeDashboard());
 
         // Refreshes ONLY the list (not the whole screen) so live search-as-you-type
         // never steals focus from the input mid-word.
@@ -932,12 +1105,16 @@ Object.assign(DuoClone.prototype, {
             const headingEl = document.getElementById('group-list-heading');
             if (!listEl) return;
             const groups = await window.Groups.searchGroups(query, 30);
-            const counts = await window.Groups.getMemberCounts(groups.map(g => g.id));
-            if (headingEl) headingEl.textContent = query ? `🔎 Kết quả cho "${query}"` : '🔥 Group sôi nổi nhất';
+            const counts = await window.Groups.getMemberCounts(groups.map((g) => g.id));
+            if (headingEl)
+                headingEl.textContent = query
+                    ? `🔎 Kết quả cho "${query}"`
+                    : '🔥 Group sôi nổi nhất';
             listEl.innerHTML = groups.length
-                ? groups.map(g => {
-                    const info = getGroupLevelInfo(g.vibrancy_score);
-                    return `
+                ? groups
+                      .map((g) => {
+                          const info = getGroupLevelInfo(g.vibrancy_score);
+                          return `
                         <div class="friend-row">
                             <span class="friend-row-name group-dir-name">${this.clickableGroupName(g.id, g.name)}
                                 <span class="group-row-meta">${info.label} · ⭐ ${g.vibrancy_score} sôi nổi · 👥 ${counts[g.id] || 0}/${window.Groups.MAX_MEMBERS} thành viên</span>
@@ -947,13 +1124,21 @@ Object.assign(DuoClone.prototype, {
                             </span>
                         </div>
                     `;
-                }).join('')
+                      })
+                      .join('')
                 : `<p style="text-align:center; color:#777;">Chưa có group nào${query ? ' gần khớp với tìm kiếm' : ''}. Hãy là người đầu tiên tạo group!</p>`;
-            listEl.querySelectorAll('.group-join-btn').forEach(btn => {
+            listEl.querySelectorAll('.group-join-btn').forEach((btn) => {
                 btn.addEventListener('click', async () => {
                     btn.disabled = true;
-                    const result = await window.Groups.requestJoin(this.state.profile, btn.dataset.groupId);
-                    if (result.error) { alert(result.error); btn.disabled = false; return; }
+                    const result = await window.Groups.requestJoin(
+                        this.state.profile,
+                        btn.dataset.groupId
+                    );
+                    if (result.error) {
+                        alert(result.error);
+                        btn.disabled = false;
+                        return;
+                    }
                     alert('Đã gửi yêu cầu tham gia! Chờ Chủ nhóm duyệt nhé.');
                     refreshList(query);
                 });
@@ -968,7 +1153,10 @@ Object.assign(DuoClone.prototype, {
             searchDebounce = setTimeout(() => refreshList(searchInput.value.trim()), 300);
         });
         searchInput.addEventListener('keydown', (e) => {
-            if (e.key === 'Enter') { clearTimeout(searchDebounce); refreshList(searchInput.value.trim()); }
+            if (e.key === 'Enter') {
+                clearTimeout(searchDebounce);
+                refreshList(searchInput.value.trim());
+            }
         });
     },
 
@@ -986,14 +1174,22 @@ Object.assign(DuoClone.prototype, {
         `;
         this.ui.checkBtn.disabled = true;
         this.ui.checkBtn.classList.remove('active');
-        document.getElementById('group-create-back').addEventListener('click', () => this.renderGroupsMenu());
+        document
+            .getElementById('group-create-back')
+            .addEventListener('click', () => this.renderGroupsMenu());
         document.getElementById('group-create-submit').addEventListener('click', async () => {
             const name = document.getElementById('group-name-input').value.trim();
             const description = document.getElementById('group-desc-input').value.trim();
             const errorEl = document.getElementById('group-create-error');
-            if (!name) { errorEl.innerText = 'Vui lòng nhập tên group.'; return; }
+            if (!name) {
+                errorEl.innerText = 'Vui lòng nhập tên group.';
+                return;
+            }
             const result = await window.Groups.createGroup(this.state.profile, name, description);
-            if (result.error) { errorEl.innerText = result.error; return; }
+            if (result.error) {
+                errorEl.innerText = result.error;
+                return;
+            }
             this.state.myGroupId = result.data.id;
             this.setupGroupHeartbeat();
             this.renderGroupDetail(result.data.id);
@@ -1011,17 +1207,27 @@ Object.assign(DuoClone.prototype, {
                 <h1 style="text-align: center;">Thách đấu ${this.escapeHtml(friendUsername)}</h1>
                 <p style="text-align: center; color: #777;">Chọn loại thi đấu.</p>
                 <div class="game-picker-list">
-                    ${Object.keys(labels).map(gt => `<button class="btn-primary game-pick-btn" data-game-type="${gt}">${labels[gt]}</button>`).join('')}
+                    ${Object.keys(labels)
+                        .map(
+                            (gt) =>
+                                `<button class="btn-primary game-pick-btn" data-game-type="${gt}">${labels[gt]}</button>`
+                        )
+                        .join('')}
                 </div>
                 <button class="btn-secondary" style="margin-top: 20px;" id="game-type-picker-back">QUAY LẠI</button>
             </div>
         `;
         this.ui.checkBtn.disabled = true;
         this.ui.checkBtn.classList.remove('active');
-        document.getElementById('game-type-picker-back').addEventListener('click', () => this.renderHomeDashboard());
-        this.ui.container.querySelectorAll('[data-game-type]').forEach(btn => {
+        document
+            .getElementById('game-type-picker-back')
+            .addEventListener('click', () => this.renderHomeDashboard());
+        this.ui.container.querySelectorAll('[data-game-type]').forEach((btn) => {
             btn.addEventListener('click', async () => {
-                const result = await this.sendGameDuelChallenge(friendUsername, btn.dataset.gameType);
+                const result = await this.sendGameDuelChallenge(
+                    friendUsername,
+                    btn.dataset.gameType
+                );
                 if (result && result.error) alert(result.error);
             });
         });
@@ -1039,14 +1245,17 @@ Object.assign(DuoClone.prototype, {
         const [group, members, myMembership] = await Promise.all([
             window.Groups.getGroupById(groupId),
             window.Groups.getGroupMembers(groupId),
-            window.Groups.getMyGroup(this.state.profile.id)
+            window.Groups.getMyGroup(this.state.profile.id),
         ]);
         if (!group) {
             this.ui.container.innerHTML = `<div class="welcome-screen"><p style="text-align:center; color:#777;">Không tìm thấy group này.</p><button class="btn-secondary" id="group-detail-back" style="display:block; margin:15px auto; padding:12px 24px;">QUAY LẠI</button></div>`;
-            document.getElementById('group-detail-back').addEventListener('click', () => this.renderHomeDashboard());
+            document
+                .getElementById('group-detail-back')
+                .addEventListener('click', () => this.renderHomeDashboard());
             return;
         }
-        const myRole = myMembership && myMembership.group.id === groupId ? myMembership.membership.role : null;
+        const myRole =
+            myMembership && myMembership.group.id === groupId ? myMembership.membership.role : null;
         const isAdmin = myRole === 'owner' || myRole === 'admin';
         const isOwner = myRole === 'owner';
 
@@ -1054,9 +1263,12 @@ Object.assign(DuoClone.prototype, {
         const levelInfo = getGroupLevelInfo(group.vibrancy_score);
         const roleLabel = { owner: '👑 Chủ nhóm', admin: '⭐ Phó nhóm', member: '' };
 
-        const requestsHtml = pendingRequests.length ? `
+        const requestsHtml = pendingRequests.length
+            ? `
             <h3 style="margin: 15px 0 8px;">Yêu cầu tham gia (${pendingRequests.length})</h3>
-            ${pendingRequests.map(r => `
+            ${pendingRequests
+                .map(
+                    (r) => `
                 <div class="friend-row">
                     <span class="friend-row-name">👋 ${this.clickableUsername(r.user_id, r.username)}</span>
                     <span class="friend-row-actions">
@@ -1064,34 +1276,51 @@ Object.assign(DuoClone.prototype, {
                         <button class="btn-secondary group-decline-btn" data-id="${r.id}" style="padding:5px 12px; font-size:12px;">Từ chối</button>
                     </span>
                 </div>
-            `).join('')}
-        ` : '';
+            `
+                )
+                .join('')}
+        `
+            : '';
 
-        const membersHtml = members.map(m => `
+        const membersHtml = members
+            .map(
+                (m) => `
             <div class="friend-row" data-member-id="${m.id}" data-user-id="${m.user_id}">
                 <span class="friend-row-name">${this.clickableUsername(m.user_id, m.username)} ${roleLabel[m.role] ? `<span class="group-role-badge">${roleLabel[m.role]}</span>` : ''}</span>
-                ${isAdmin && m.user_id !== this.state.profile.id ? `
+                ${
+                    isAdmin && m.user_id !== this.state.profile.id
+                        ? `
                     <span class="friend-row-actions">
                         ${m.role === 'member' ? `<button class="btn-secondary group-promote-btn" data-id="${m.id}" style="padding:5px 10px; font-size:11px;">Phong Phó nhóm</button>` : ''}
                         ${isOwner && m.role === 'admin' ? `<button class="btn-secondary group-demote-btn" data-id="${m.id}" style="padding:5px 10px; font-size:11px;">Hạ cấp</button>` : ''}
                         <button class="btn-secondary group-kick-btn" data-id="${m.id}" style="padding:5px 10px; font-size:11px; color:var(--duo-red);">Xoá</button>
                     </span>
-                ` : ''}
+                `
+                        : ''
+                }
             </div>
-        `).join('');
+        `
+            )
+            .join('');
 
         this.ui.container.innerHTML = `
             <div class="welcome-screen">
-                ${group.avatar_url
-                    ? `<img src="${group.avatar_url}" alt="" style="width:88px; height:88px; border-radius:20px; display:block; margin:0 auto; object-fit:cover;">`
-                    : `<div class="duo-character">🏰</div>`}
+                ${
+                    group.avatar_url
+                        ? `<img src="${group.avatar_url}" alt="" style="width:88px; height:88px; border-radius:20px; display:block; margin:0 auto; object-fit:cover;">`
+                        : `<div class="duo-character">🏰</div>`
+                }
                 <h1 style="text-align: center;">${this.escapeHtml(group.name)}</h1>
                 ${group.description ? `<p style="text-align:center; color:#777;">${this.escapeHtml(group.description)}</p>` : ''}
                 <p style="text-align: center; color: #777;">${levelInfo.label} · ⭐ ${group.vibrancy_score} điểm sôi nổi · ⚔️ ${group.battle_wins}T-${group.battle_losses}B</p>
 
-                ${isAdmin ? `
+                ${
+                    isAdmin
+                        ? `
                     <input type="file" id="group-avatar-input" accept="image/*" style="display:block; margin: 10px auto;">
-                ` : ''}
+                `
+                        : ''
+                }
 
                 <button class="btn-primary" id="group-battle-btn" style="display: block; margin: 15px auto; padding: 15px 30px;">⚔️ ĐẤU GROUP</button>
                 ${isAdmin ? `<button class="btn-secondary" id="group-schedule-btn" style="display: block; margin: 10px auto; padding: 13px 26px;">📅 Thách đấu có lịch & đặt cược</button>` : ''}
@@ -1122,10 +1351,15 @@ Object.assign(DuoClone.prototype, {
         this.ui.checkBtn.disabled = true;
         this.ui.checkBtn.classList.remove('active');
 
-        document.getElementById('group-detail-back').addEventListener('click', () => this.renderHomeDashboard());
-        document.getElementById('group-battle-btn').addEventListener('click', () => this.renderGroupBattleMenu(groupId));
+        document
+            .getElementById('group-detail-back')
+            .addEventListener('click', () => this.renderHomeDashboard());
+        document
+            .getElementById('group-battle-btn')
+            .addEventListener('click', () => this.renderGroupBattleMenu(groupId));
         const scheduleBtn = document.getElementById('group-schedule-btn');
-        if (scheduleBtn) scheduleBtn.addEventListener('click', () => this.renderBattleScheduleBoard(groupId));
+        if (scheduleBtn)
+            scheduleBtn.addEventListener('click', () => this.renderBattleScheduleBoard(groupId));
 
         const avatarInput = document.getElementById('group-avatar-input');
         if (avatarInput) {
@@ -1133,38 +1367,44 @@ Object.assign(DuoClone.prototype, {
                 const file = avatarInput.files[0];
                 if (!file || !window.AuthService) return;
                 const result = await window.AuthService.uploadGroupAvatar(groupId, file);
-                if (result.error) { alert(result.error); return; }
+                if (result.error) {
+                    alert(result.error);
+                    return;
+                }
                 await window.Groups.updateGroupAvatar(groupId, result.url);
                 this.renderGroupDetail(groupId);
             });
         }
 
-        this.ui.container.querySelectorAll('.group-approve-btn').forEach(btn => {
+        this.ui.container.querySelectorAll('.group-approve-btn').forEach((btn) => {
             btn.addEventListener('click', async () => {
                 const result = await window.Groups.approveJoinRequest(btn.dataset.id, groupId);
-                if (result.error) { alert(result.error); return; }
+                if (result.error) {
+                    alert(result.error);
+                    return;
+                }
                 this.renderGroupDetail(groupId);
             });
         });
-        this.ui.container.querySelectorAll('.group-decline-btn').forEach(btn => {
+        this.ui.container.querySelectorAll('.group-decline-btn').forEach((btn) => {
             btn.addEventListener('click', async () => {
                 await window.Groups.declineJoinRequest(btn.dataset.id);
                 this.renderGroupDetail(groupId);
             });
         });
-        this.ui.container.querySelectorAll('.group-promote-btn').forEach(btn => {
+        this.ui.container.querySelectorAll('.group-promote-btn').forEach((btn) => {
             btn.addEventListener('click', async () => {
                 await window.Groups.promoteToAdmin(btn.dataset.id);
                 this.renderGroupDetail(groupId);
             });
         });
-        this.ui.container.querySelectorAll('.group-demote-btn').forEach(btn => {
+        this.ui.container.querySelectorAll('.group-demote-btn').forEach((btn) => {
             btn.addEventListener('click', async () => {
                 await window.Groups.demoteToMember(btn.dataset.id);
                 this.renderGroupDetail(groupId);
             });
         });
-        this.ui.container.querySelectorAll('.group-kick-btn').forEach(btn => {
+        this.ui.container.querySelectorAll('.group-kick-btn').forEach((btn) => {
             btn.addEventListener('click', async () => {
                 if (!confirm('Xoá thành viên này khỏi group?')) return;
                 await window.Groups.removeMember(btn.dataset.id);
@@ -1199,7 +1439,10 @@ Object.assign(DuoClone.prototype, {
             if (result.error) alert(result.error);
         };
         if (sendBtn) sendBtn.addEventListener('click', send);
-        if (input) input.addEventListener('keydown', (e) => { if (e.key === 'Enter') send(); });
+        if (input)
+            input.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter') send();
+            });
     },
 
     async toggleGroupChat(groupId) {
@@ -1240,9 +1483,11 @@ Object.assign(DuoClone.prototype, {
     renderGroupChatMessages(messages) {
         const listEl = document.getElementById('group-chat-messages');
         if (!listEl) return;
-        messages = (messages || []).filter((m) => !(window.Moderation && window.Moderation.isBlocked(m.sender_id))); // hide blocked users
+        messages = (messages || []).filter(
+            (m) => !(window.Moderation && window.Moderation.isBlocked(m.sender_id))
+        ); // hide blocked users
         listEl.innerHTML = messages.length
-            ? messages.map(m => this.groupChatMessageHtml(m)).join('')
+            ? messages.map((m) => this.groupChatMessageHtml(m)).join('')
             : '<p style="text-align:center; color:#999; font-size:13px;">Chưa có tin nhắn nào trong group.</p>';
         listEl.scrollTop = listEl.scrollHeight;
     },
@@ -1270,7 +1515,7 @@ Object.assign(DuoClone.prototype, {
         const tabs = [
             { key: 'vibrancy_score', label: '⚡ Sôi nổi' },
             { key: 'battle_wins', label: 'Thiện chiến' },
-            { key: 'battles_initiated', label: 'Máu chiến' }
+            { key: 'battles_initiated', label: 'Máu chiến' },
         ];
         this.ui.container.innerHTML = `<div class="welcome-screen"><p style="text-align:center; color:#777;">Đang tải...</p></div>`;
         this.ui.checkBtn.disabled = true;
@@ -1283,23 +1528,27 @@ Object.assign(DuoClone.prototype, {
             if (sortBy === 'battles_initiated') return `${g.battles_initiated} trận`;
             return `${getGroupLevelInfo(g.vibrancy_score).label} · ⭐ ${g.vibrancy_score}`;
         };
-        const rowsHtml = entries.length ? entries.map((g, i) => {
-            const medal = i === 0 ? '🥇' : i === 1 ? '🥈' : i === 2 ? '🥉' : `#${i + 1}`;
-            return `
+        const rowsHtml = entries.length
+            ? entries
+                  .map((g, i) => {
+                      const medal = i === 0 ? '🥇' : i === 1 ? '🥈' : i === 2 ? '🥉' : `#${i + 1}`;
+                      return `
                 <div class="leaderboard-row group-lb-row">
                     <span class="lb-rank">${medal}</span>
                     <span class="lb-name group-lb-name">${this.clickableGroupName(g.id, g.name)}</span>
                     <span class="lb-xp">${valueLabel(g)}</span>
                 </div>
             `;
-        }).join('') : `<p style="text-align:center; color:#777;">Chưa có group nào.</p>`;
+                  })
+                  .join('')
+            : `<p style="text-align:center; color:#777;">Chưa có group nào.</p>`;
 
         this.ui.container.innerHTML = `
             <div class="welcome-screen">
                 <div class="duo-character">🏆</div>
                 <h1 style="text-align: center;">Bảng Xếp Hạng Group</h1>
                 <div class="game-picker-list" style="flex-direction:row; justify-content:center; gap:8px; max-width:500px; margin:10px auto;">
-                    ${tabs.map(t => `<button class="btn-secondary group-lb-tab-btn ${t.key === sortBy ? 'group-lb-tab-active' : ''}" data-sort="${t.key}" style="padding:8px 14px; font-size:13px;">${t.label}</button>`).join('')}
+                    ${tabs.map((t) => `<button class="btn-secondary group-lb-tab-btn ${t.key === sortBy ? 'group-lb-tab-active' : ''}" data-sort="${t.key}" style="padding:8px 14px; font-size:13px;">${t.label}</button>`).join('')}
                 </div>
                 <div style="max-width:500px; margin:0 auto;">${rowsHtml}</div>
                 <button class="btn-secondary" id="group-lb-back" style="display: block; margin: 20px auto; padding: 15px 30px;">QUAY LẠI</button>
@@ -1307,8 +1556,10 @@ Object.assign(DuoClone.prototype, {
         `;
         this.ui.checkBtn.disabled = true;
         this.ui.checkBtn.classList.remove('active');
-        document.getElementById('group-lb-back').addEventListener('click', () => this.renderHomeDashboard());
-        this.ui.container.querySelectorAll('.group-lb-tab-btn').forEach(btn => {
+        document
+            .getElementById('group-lb-back')
+            .addEventListener('click', () => this.renderHomeDashboard());
+        this.ui.container.querySelectorAll('.group-lb-tab-btn').forEach((btn) => {
             btn.addEventListener('click', () => this.renderGroupLeaderboards(btn.dataset.sort));
         });
     },
@@ -1328,28 +1579,36 @@ Object.assign(DuoClone.prototype, {
 
         const [pending, myMembership] = await Promise.all([
             window.Groups.getPendingBattlesFor(groupId),
-            window.Groups.getMyGroup(this.state.profile.id)
+            window.Groups.getMyGroup(this.state.profile.id),
         ]);
         const myRole = myMembership ? myMembership.membership.role : null;
         const isAdmin = myRole === 'owner' || myRole === 'admin';
 
-        const pendingHtml = pending.length ? `
+        const pendingHtml = pending.length
+            ? `
             <h3 style="margin: 15px 0 8px;">Lời thách đấu</h3>
-            ${await Promise.all(pending.map(async b => {
-                const challenger = await window.Groups.getGroupById(b.group_a_id);
-                return `
+            ${await Promise.all(
+                pending.map(async (b) => {
+                    const challenger = await window.Groups.getGroupById(b.group_a_id);
+                    return `
                     <div class="friend-row">
                         <span class="friend-row-name">⚔️ ${this.escapeHtml(challenger ? challenger.name : 'Group khác')}</span>
                         <span class="friend-row-actions">
-                            ${isAdmin ? `
+                            ${
+                                isAdmin
+                                    ? `
                                 <button class="btn-primary group-battle-accept-btn" data-id="${b.id}" style="padding:5px 12px; font-size:12px;">Chấp nhận</button>
                                 <button class="btn-secondary group-battle-decline-btn" data-id="${b.id}" style="padding:5px 12px; font-size:12px;">Từ chối</button>
-                            ` : '<span style="color:#999; font-size:12px;">Chờ Chủ/Phó nhóm duyệt</span>'}
+                            `
+                                    : '<span style="color:#999; font-size:12px;">Chờ Chủ/Phó nhóm duyệt</span>'
+                            }
                         </span>
                     </div>
                 `;
-            })).then(rows => rows.join(''))}
-        ` : '';
+                })
+            ).then((rows) => rows.join(''))}
+        `
+            : '';
 
         this.ui.container.innerHTML = `
             <div class="welcome-screen">
@@ -1357,27 +1616,36 @@ Object.assign(DuoClone.prototype, {
                 <h1 style="text-align: center;">Đấu Group</h1>
                 <p style="text-align: center; color: #777;">Tổng điểm nhiều trận 1vs1 giữa thành viên 2 group.</p>
                 ${pendingHtml}
-                ${isAdmin ? `
+                ${
+                    isAdmin
+                        ? `
                     <h3 style="margin: 15px 0 8px;">Thách đấu group khác</h3>
                     <input type="text" id="group-battle-target-input" class="input-field" style="display:block; width:80%; max-width:300px; margin:10px auto; padding:12px; text-align:center;" placeholder="Tên group muốn thách đấu...">
                     <p id="group-battle-error" style="text-align:center; color: var(--duo-red); min-height:18px;"></p>
                     <button class="btn-primary" id="group-battle-challenge-btn" style="display: block; margin: 10px auto; padding: 15px 30px;">GỬI THÁCH ĐẤU</button>
-                ` : ''}
+                `
+                        : ''
+                }
                 <button class="btn-secondary" id="group-battle-menu-back" style="display: block; margin: 15px auto; padding: 15px 30px;">QUAY LẠI</button>
             </div>
         `;
         this.ui.checkBtn.disabled = true;
         this.ui.checkBtn.classList.remove('active');
 
-        document.getElementById('group-battle-menu-back').addEventListener('click', () => this.renderGroupDetail(groupId));
-        this.ui.container.querySelectorAll('.group-battle-accept-btn').forEach(btn => {
+        document
+            .getElementById('group-battle-menu-back')
+            .addEventListener('click', () => this.renderGroupDetail(groupId));
+        this.ui.container.querySelectorAll('.group-battle-accept-btn').forEach((btn) => {
             btn.addEventListener('click', async () => {
                 const result = await window.Groups.acceptGroupBattle(btn.dataset.id);
-                if (result.error) { alert(result.error); return; }
+                if (result.error) {
+                    alert(result.error);
+                    return;
+                }
                 this.renderGroupBattleScreen(btn.dataset.id);
             });
         });
-        this.ui.container.querySelectorAll('.group-battle-decline-btn').forEach(btn => {
+        this.ui.container.querySelectorAll('.group-battle-decline-btn').forEach((btn) => {
             btn.addEventListener('click', async () => {
                 await window.Groups.declineGroupBattle(btn.dataset.id);
                 this.renderGroupBattleMenu(groupId);
@@ -1387,19 +1655,30 @@ Object.assign(DuoClone.prototype, {
         if (challengeBtn) {
             // Group-name suggestions (excluding our own group) so admins don't need
             // the exact name to send a battle challenge.
-            this.attachSuggestions(document.getElementById('group-battle-target-input'), async (q) => {
-                const found = await window.Groups.searchGroups(q, 8);
-                return found.filter(g => g.id !== groupId).map(g => ({
-                    label: `🏰 ${g.name} (${getGroupLevelInfo(g.vibrancy_score).label})`,
-                    value: g.name
-                }));
-            });
+            this.attachSuggestions(
+                document.getElementById('group-battle-target-input'),
+                async (q) => {
+                    const found = await window.Groups.searchGroups(q, 8);
+                    return found
+                        .filter((g) => g.id !== groupId)
+                        .map((g) => ({
+                            label: `🏰 ${g.name} (${getGroupLevelInfo(g.vibrancy_score).label})`,
+                            value: g.name,
+                        }));
+                }
+            );
             challengeBtn.addEventListener('click', async () => {
                 const target = document.getElementById('group-battle-target-input').value.trim();
                 const errorEl = document.getElementById('group-battle-error');
-                if (!target) { errorEl.innerText = 'Vui lòng nhập tên group.'; return; }
+                if (!target) {
+                    errorEl.innerText = 'Vui lòng nhập tên group.';
+                    return;
+                }
                 const result = await window.Groups.challengeGroupBattle(groupId, target);
-                if (result.error) { errorEl.innerText = result.error; return; }
+                if (result.error) {
+                    errorEl.innerText = result.error;
+                    return;
+                }
                 alert('Đã gửi thách đấu! Chờ group kia chấp nhận.');
                 this.renderGroupBattleMenu(groupId);
             });
@@ -1417,7 +1696,9 @@ Object.assign(DuoClone.prototype, {
         const recomputed = await window.Groups.recomputeBattleScore(battleId);
         if (!recomputed) {
             this.ui.container.innerHTML = `<div class="welcome-screen"><p style="text-align:center; color:#777;">Không tìm thấy trận đấu.</p><button class="btn-secondary" id="group-battle-back" style="display:block; margin:15px auto; padding:12px 24px;">QUAY LẠI</button></div>`;
-            document.getElementById('group-battle-back').addEventListener('click', () => this.renderHomeDashboard());
+            document
+                .getElementById('group-battle-back')
+                .addEventListener('click', () => this.renderHomeDashboard());
             return;
         }
 
@@ -1426,37 +1707,49 @@ Object.assign(DuoClone.prototype, {
             window.Groups.getGroupById(recomputed.group_b_id),
             window.Groups.getGroupMembers(recomputed.group_a_id),
             window.Groups.getGroupMembers(recomputed.group_b_id),
-            window.Groups.getMyGroup(this.state.profile.id)
+            window.Groups.getMyGroup(this.state.profile.id),
         ]);
         const myGroupId = myMembership ? myMembership.group.id : null;
         const myRole = myMembership ? myMembership.membership.role : null;
         const isAdmin = myRole === 'owner' || myRole === 'admin';
-        const mySide = myGroupId === recomputed.group_a_id ? 'a' : (myGroupId === recomputed.group_b_id ? 'b' : null);
+        const mySide =
+            myGroupId === recomputed.group_a_id
+                ? 'a'
+                : myGroupId === recomputed.group_b_id
+                  ? 'b'
+                  : null;
 
         const ONLINE_WINDOW_MS = 3 * 60 * 1000;
-        const isOnline = (m) => m.last_active_at && (Date.now() - new Date(m.last_active_at).getTime()) < ONLINE_WINDOW_MS;
+        const isOnline = (m) =>
+            m.last_active_at &&
+            Date.now() - new Date(m.last_active_at).getTime() < ONLINE_WINDOW_MS;
 
         const renderSide = (members, sideKey) => {
             const isMySide = sideKey === mySide;
-            return members.map(m => {
-                const online = isOnline(m);
-                const canChallenge = !isMySide && mySide && online && recomputed.status === 'active';
-                return `
+            return members
+                .map((m) => {
+                    const online = isOnline(m);
+                    const canChallenge =
+                        !isMySide && mySide && online && recomputed.status === 'active';
+                    return `
                     <div class="friend-row">
                         <span class="friend-row-name">${online ? '🟢' : '⚪'} ${this.clickableUsername(m.user_id, m.username)}</span>
                         ${canChallenge ? `<button class="btn-primary group-battle-fight-btn" data-username="${this.escapeHtml(m.username)}" data-side="${mySide}" style="padding:5px 12px; font-size:12px;">Đấu</button>` : ''}
                     </div>
                 `;
-            }).join('');
+                })
+                .join('');
         };
 
         if (recomputed.status === 'finished') {
             const resultText = !recomputed.winner_group_id
                 ? 'Trận đấu hoà!'
-                : (recomputed.winner_group_id === myGroupId ? '🏆 Group bạn đã thắng!' : 'Group bạn đã thua trận này.');
+                : recomputed.winner_group_id === myGroupId
+                  ? '🏆 Group bạn đã thắng!'
+                  : 'Group bạn đã thua trận này.';
             this.ui.container.innerHTML = `
                 <div class="certificate">
-                    <div class="certificate-badge">${!recomputed.winner_group_id ? '🤝' : (recomputed.winner_group_id === myGroupId ? '🏆' : '⚔️')}</div>
+                    <div class="certificate-badge">${!recomputed.winner_group_id ? '🤝' : recomputed.winner_group_id === myGroupId ? '🏆' : '⚔️'}</div>
                     <h2>${resultText}</h2>
                     <p class="certificate-score">${this.escapeHtml(groupA.name)}: ${recomputed.group_a_wins} thắng &nbsp;|&nbsp; ${this.escapeHtml(groupB.name)}: ${recomputed.group_b_wins} thắng</p>
                 </div>
@@ -1464,7 +1757,9 @@ Object.assign(DuoClone.prototype, {
             `;
             this.ui.checkBtn.disabled = true;
             this.ui.checkBtn.classList.remove('active');
-            document.getElementById('group-battle-back').addEventListener('click', () => this.renderHomeDashboard());
+            document
+                .getElementById('group-battle-back')
+                .addEventListener('click', () => this.renderHomeDashboard());
             return;
         }
 
@@ -1488,19 +1783,34 @@ Object.assign(DuoClone.prototype, {
         this.ui.checkBtn.disabled = true;
         this.ui.checkBtn.classList.remove('active');
 
-        document.getElementById('group-battle-back').addEventListener('click', () => this.renderHomeDashboard());
-        this.ui.container.querySelectorAll('.group-battle-fight-btn').forEach(btn => {
+        document
+            .getElementById('group-battle-back')
+            .addEventListener('click', () => this.renderHomeDashboard());
+        this.ui.container.querySelectorAll('.group-battle-fight-btn').forEach((btn) => {
             btn.addEventListener('click', async () => {
-                const result = await this.sendGameDuelChallenge(btn.dataset.username, 'lesson', battleId, btn.dataset.side);
+                const result = await this.sendGameDuelChallenge(
+                    btn.dataset.username,
+                    'lesson',
+                    battleId,
+                    btn.dataset.side
+                );
                 if (result && result.error) alert(result.error);
             });
         });
         const finishBtn = document.getElementById('group-battle-finish-btn');
         if (finishBtn) {
             finishBtn.addEventListener('click', async () => {
-                if (!confirm('Kết thúc trận đấu ngay bây giờ? Bên nào đang thắng nhiều trận 1vs1 hơn sẽ được tính thắng chung cuộc.')) return;
+                if (
+                    !confirm(
+                        'Kết thúc trận đấu ngay bây giờ? Bên nào đang thắng nhiều trận 1vs1 hơn sẽ được tính thắng chung cuộc.'
+                    )
+                )
+                    return;
                 const result = await window.Groups.finalizeGroupBattle(battleId);
-                if (result.error) { alert(result.error); return; }
+                if (result.error) {
+                    alert(result.error);
+                    return;
+                }
                 this.renderGroupBattleScreen(battleId);
             });
         }
@@ -1510,7 +1820,7 @@ Object.assign(DuoClone.prototype, {
 
     async renderInboxMenu() {
         if (!this.state.currentUser) {
-            alert("Vui lòng đăng nhập trước khi xem hộp thư!");
+            alert('Vui lòng đăng nhập trước khi xem hộp thư!');
             return;
         }
         if (!window.Inbox) return;
@@ -1524,10 +1834,14 @@ Object.assign(DuoClone.prototype, {
         this.ui.checkBtn.disabled = true;
         this.ui.checkBtn.classList.remove('active');
 
-        const conversations = (await window.Inbox.getConversations(this.state.profile.id))
-            .filter((c) => !(window.Moderation && window.Moderation.isBlocked(c.otherUserId))); // hide blocked users' conversations
+        const conversations = (await window.Inbox.getConversations(this.state.profile.id)).filter(
+            (c) => !(window.Moderation && window.Moderation.isBlocked(c.otherUserId))
+        ); // hide blocked users' conversations
 
-        const listHtml = conversations.length ? conversations.map(c => `
+        const listHtml = conversations.length
+            ? conversations
+                  .map(
+                      (c) => `
             <div class="friend-row inbox-conversation-row" data-other-id="${c.otherUserId}" data-other-username="${this.escapeHtml(c.otherUsername)}">
                 <span class="friend-row-name">${c.unreadCount > 0 ? '🔵 ' : ''}${this.clickableUsername(c.otherUserId, c.otherUsername)}</span>
                 <span class="inbox-preview">
@@ -1536,7 +1850,10 @@ Object.assign(DuoClone.prototype, {
                 </span>
                 <button class="btn-secondary inbox-delete-convo-btn" data-other-id="${c.otherUserId}" title="Xóa cuộc trò chuyện (chỉ phía bạn)" style="padding:4px 10px; font-size:12px;">🗑️</button>
             </div>
-        `).join('') : `<p style="text-align:center; color:#777;">Chưa có tin nhắn nào. Hãy nhắn tin cho ai đó nhé!</p>`;
+        `
+                  )
+                  .join('')
+            : `<p style="text-align:center; color:#777;">Chưa có tin nhắn nào. Hãy nhắn tin cho ai đó nhé!</p>`;
 
         this.ui.container.innerHTML = `
             <div class="welcome-screen">
@@ -1549,22 +1866,38 @@ Object.assign(DuoClone.prototype, {
         `;
         this.ui.checkBtn.disabled = true;
         this.ui.checkBtn.classList.remove('active');
-        document.getElementById('inbox-new-btn').addEventListener('click', () => this.renderNewMessageForm());
-        document.getElementById('inbox-close').addEventListener('click', () => this.renderHomeDashboard());
-        this.ui.container.querySelectorAll('.inbox-conversation-row').forEach(row => {
-            row.addEventListener('click', () => this.renderConversation(row.dataset.otherId, row.dataset.otherUsername));
+        document
+            .getElementById('inbox-new-btn')
+            .addEventListener('click', () => this.renderNewMessageForm());
+        document
+            .getElementById('inbox-close')
+            .addEventListener('click', () => this.renderHomeDashboard());
+        this.ui.container.querySelectorAll('.inbox-conversation-row').forEach((row) => {
+            row.addEventListener('click', () =>
+                this.renderConversation(row.dataset.otherId, row.dataset.otherUsername)
+            );
         });
-        this.ui.container.querySelectorAll('.inbox-delete-convo-btn').forEach(btn => {
+        this.ui.container.querySelectorAll('.inbox-delete-convo-btn').forEach((btn) => {
             btn.addEventListener('click', (e) => {
                 // The row's own click handler opens the conversation - a delete click
                 // must not also navigate into the thread it is about to remove.
                 e.stopPropagation();
-                this.showConfirmDialog('Xóa toàn bộ cuộc trò chuyện này khỏi hộp thư của bạn? (Người kia vẫn giữ bản của họ)', async () => {
-                    const result = await window.Inbox.deleteConversationForMe(this.state.profile.id, btn.dataset.otherId);
-                    if (result.error) { alert(result.error); return; }
-                    this.updateInboxBadge();
-                    this.renderInboxMenu();
-                }, { okLabel: 'XÓA' });
+                this.showConfirmDialog(
+                    'Xóa toàn bộ cuộc trò chuyện này khỏi hộp thư của bạn? (Người kia vẫn giữ bản của họ)',
+                    async () => {
+                        const result = await window.Inbox.deleteConversationForMe(
+                            this.state.profile.id,
+                            btn.dataset.otherId
+                        );
+                        if (result.error) {
+                            alert(result.error);
+                            return;
+                        }
+                        this.updateInboxBadge();
+                        this.renderInboxMenu();
+                    },
+                    { okLabel: 'XÓA' }
+                );
             });
         });
     },
@@ -1583,15 +1916,26 @@ Object.assign(DuoClone.prototype, {
         `;
         this.ui.checkBtn.disabled = true;
         this.ui.checkBtn.classList.remove('active');
-        document.getElementById('dm-target-back').addEventListener('click', () => this.renderHomeDashboard());
+        document
+            .getElementById('dm-target-back')
+            .addEventListener('click', () => this.renderHomeDashboard());
         this.attachUserSuggestions(document.getElementById('dm-target-input'));
         document.getElementById('dm-target-next').addEventListener('click', async () => {
             const target = document.getElementById('dm-target-input').value.trim();
             const errorEl = document.getElementById('dm-target-error');
-            if (!target) { errorEl.innerText = 'Vui lòng nhập tên người dùng.'; return; }
-            if (target === this.state.currentUser) { errorEl.innerText = 'Bạn không thể tự nhắn tin cho chính mình.'; return; }
+            if (!target) {
+                errorEl.innerText = 'Vui lòng nhập tên người dùng.';
+                return;
+            }
+            if (target === this.state.currentUser) {
+                errorEl.innerText = 'Bạn không thể tự nhắn tin cho chính mình.';
+                return;
+            }
             const user = await window.Inbox.searchUserByUsername(target);
-            if (!user) { errorEl.innerText = 'Không tìm thấy người dùng này.'; return; }
+            if (!user) {
+                errorEl.innerText = 'Không tìm thấy người dùng này.';
+                return;
+            }
             this.renderConversation(user.id, user.username);
         });
     },
@@ -1632,31 +1976,48 @@ Object.assign(DuoClone.prototype, {
         // by id - refreshed on every re-render (send, incoming message, delete).
         let currentMessages = [];
         const refresh = async () => {
-            currentMessages = await window.Inbox.getConversationMessages(this.state.profile.id, otherUserId);
+            currentMessages = await window.Inbox.getConversationMessages(
+                this.state.profile.id,
+                otherUserId
+            );
             renderMessages(currentMessages);
         };
         const renderMessages = (messages) => {
             const threadEl = document.getElementById('conversation-thread');
             if (!threadEl) return;
-            messages = (messages || []).filter((m) => !(window.Moderation && window.Moderation.isBlocked(m.sender_id))); // hide blocked users
-            threadEl.innerHTML = messages.map(m => {
-                const isMine = m.sender_id === this.state.profile.id;
-                return `<div class="chat-bubble-row ${isMine ? 'mine' : 'theirs'}">
+            messages = (messages || []).filter(
+                (m) => !(window.Moderation && window.Moderation.isBlocked(m.sender_id))
+            ); // hide blocked users
+            threadEl.innerHTML = messages
+                .map((m) => {
+                    const isMine = m.sender_id === this.state.profile.id;
+                    return `<div class="chat-bubble-row ${isMine ? 'mine' : 'theirs'}">
                             <div class="chat-bubble">${this.escapeHtml(m.message)}</div>
                             <button class="dm-delete-btn" data-msg-id="${m.id}" title="Xóa tin nhắn này (chỉ phía bạn)">✕</button>
                         </div>`;
-            }).join('');
+                })
+                .join('');
             threadEl.scrollTop = threadEl.scrollHeight;
-            threadEl.querySelectorAll('.dm-delete-btn').forEach(btn => {
+            threadEl.querySelectorAll('.dm-delete-btn').forEach((btn) => {
                 btn.addEventListener('click', () => {
-                    const msg = currentMessages.find(m => m.id === btn.dataset.msgId);
+                    const msg = currentMessages.find((m) => m.id === btn.dataset.msgId);
                     if (!msg) return;
-                    this.showConfirmDialog('Xóa tin nhắn này khỏi hộp thư của bạn? (Người kia vẫn nhìn thấy bản của họ)', async () => {
-                        const result = await window.Inbox.deleteMessageForMe(this.state.profile.id, msg);
-                        if (result.error) { alert(result.error); return; }
-                        this.updateInboxBadge();
-                        refresh();
-                    }, { okLabel: 'XÓA' });
+                    this.showConfirmDialog(
+                        'Xóa tin nhắn này khỏi hộp thư của bạn? (Người kia vẫn nhìn thấy bản của họ)',
+                        async () => {
+                            const result = await window.Inbox.deleteMessageForMe(
+                                this.state.profile.id,
+                                msg
+                            );
+                            if (result.error) {
+                                alert(result.error);
+                                return;
+                            }
+                            this.updateInboxBadge();
+                            refresh();
+                        },
+                        { okLabel: 'XÓA' }
+                    );
                 });
             });
         };
@@ -1668,8 +2029,16 @@ Object.assign(DuoClone.prototype, {
             const text = input.value.trim();
             if (!text) return;
             input.value = '';
-            const result = await window.Inbox.sendDirectMessageToId(this.state.profile, otherUserId, otherUsername, text);
-            if (result.error) { alert(result.error); return; }
+            const result = await window.Inbox.sendDirectMessageToId(
+                this.state.profile,
+                otherUserId,
+                otherUsername,
+                text
+            );
+            if (result.error) {
+                alert(result.error);
+                return;
+            }
             await refresh();
         };
         document.getElementById('dm-send-btn').addEventListener('click', sendHandler);
@@ -1680,12 +2049,16 @@ Object.assign(DuoClone.prototype, {
         // Scoped to THIS conversation - subscribeToIncomingMessages already filters at
         // the DB level to "messages addressed to me", the sender check here narrows it
         // further to just the person currently open on screen.
-        this.inboxConversationUnsub = window.Inbox.subscribeToIncomingMessages(this.state.profile.id, async (msg) => {
-            if (msg.sender_id !== otherUserId) return;
-            await window.Inbox.markConversationRead(this.state.profile.id, otherUserId);
-            this.updateInboxBadge();
-            await refresh();
-        }, 'conversation:' + otherUserId);
+        this.inboxConversationUnsub = window.Inbox.subscribeToIncomingMessages(
+            this.state.profile.id,
+            async (msg) => {
+                if (msg.sender_id !== otherUserId) return;
+                await window.Inbox.markConversationRead(this.state.profile.id, otherUserId);
+                this.updateInboxBadge();
+                await refresh();
+            },
+            'conversation:' + otherUserId
+        );
     },
 
     // Called once per login (completeLogin()) - keeps the unread badge current and
@@ -1727,11 +2100,14 @@ Object.assign(DuoClone.prototype, {
     async setupDuelInviteWatcher() {
         if (!window.Duel || !window.Duel.isConfigured || !this.state.profile) return;
         const existing = await window.Duel.getPendingInvitesFor(this.state.profile.id);
-        existing.forEach(inv => this.showDuelInviteToast(inv));
+        existing.forEach((inv) => this.showDuelInviteToast(inv));
         if (this.duelInviteUnsub) this.duelInviteUnsub();
-        this.duelInviteUnsub = window.Duel.subscribeToIncomingInvites(this.state.profile.id, (invite) => {
-            this.showDuelInviteToast(invite);
-        });
+        this.duelInviteUnsub = window.Duel.subscribeToIncomingInvites(
+            this.state.profile.id,
+            (invite) => {
+                this.showDuelInviteToast(invite);
+            }
+        );
     },
 
     showDuelInviteToast(invite) {
@@ -1762,9 +2138,15 @@ Object.assign(DuoClone.prototype, {
         };
         toast.querySelector('[data-action="accept"]').addEventListener('click', async () => {
             dismiss();
-            if (this.state.mode === 'duel') { alert('Bạn đang trong một trận đấu khác.'); return; }
+            if (this.state.mode === 'duel') {
+                alert('Bạn đang trong một trận đấu khác.');
+                return;
+            }
             const result = await window.Duel.acceptDuel(invite.id);
-            if (result.error) { alert('Không thể chấp nhận lúc này.'); return; }
+            if (result.error) {
+                alert('Không thể chấp nhận lúc này.');
+                return;
+            }
             this.startDuelBattle(result.data, false);
         });
         toast.querySelector('[data-action="decline"]').addEventListener('click', async () => {
@@ -1778,11 +2160,14 @@ Object.assign(DuoClone.prototype, {
     async setupFriendRequestWatcher() {
         if (!window.Friends || !window.Friends.isConfigured || !this.state.profile) return;
         const existing = await window.Friends.getPendingRequestsFor(this.state.profile.id);
-        existing.forEach(req => this.showFriendRequestToast(req));
+        existing.forEach((req) => this.showFriendRequestToast(req));
         if (this.friendRequestUnsub) this.friendRequestUnsub();
-        this.friendRequestUnsub = window.Friends.subscribeToIncomingFriendRequests(this.state.profile.id, (req) => {
-            this.showFriendRequestToast(req);
-        });
+        this.friendRequestUnsub = window.Friends.subscribeToIncomingFriendRequests(
+            this.state.profile.id,
+            (req) => {
+                this.showFriendRequestToast(req);
+            }
+        );
     },
 
     showFriendRequestToast(request) {
@@ -1832,9 +2217,11 @@ Object.assign(DuoClone.prototype, {
         if (!window.Groups) return;
 
         const groups = await window.Groups.searchGroups(searchQuery, 100);
-        const rowsHtml = groups.length ? groups.map(g => {
-            const info = getGroupLevelInfo(g.vibrancy_score);
-            return `
+        const rowsHtml = groups.length
+            ? groups
+                  .map((g) => {
+                      const info = getGroupLevelInfo(g.vibrancy_score);
+                      return `
                 <div class="admin-row">
                     <div class="admin-row-main">
                         <strong>🏰 ${this.escapeHtml(g.name)}</strong>
@@ -1846,7 +2233,9 @@ Object.assign(DuoClone.prototype, {
                     </div>
                 </div>
             `;
-        }).join('') : `<p style="text-align: center; color: #777;">Không tìm thấy group nào.</p>`;
+                  })
+                  .join('')
+            : `<p style="text-align: center; color: #777;">Không tìm thấy group nào.</p>`;
 
         this.ui.container.innerHTML = `
             <div class="admin-screen">
@@ -1861,10 +2250,12 @@ Object.assign(DuoClone.prototype, {
         this.ui.checkBtn.disabled = true;
         this.ui.checkBtn.classList.remove('active');
 
-        document.getElementById('admin-groups-back').addEventListener('click', () => this.renderAdminDashboard());
+        document
+            .getElementById('admin-groups-back')
+            .addEventListener('click', () => this.renderAdminDashboard());
         const searchInput = document.getElementById('admin-group-search');
         searchInput.addEventListener('input', () => this.renderAdminGroupsList(searchInput.value));
-        this.ui.container.querySelectorAll('.admin-action-btn').forEach(btn => {
+        this.ui.container.querySelectorAll('.admin-action-btn').forEach((btn) => {
             btn.addEventListener('click', () => this.handleAdminGroupAction(btn));
         });
     },
@@ -1878,19 +2269,29 @@ Object.assign(DuoClone.prototype, {
         const [group, members, battles] = await Promise.all([
             window.Groups.getGroupById(groupId),
             window.Groups.adminGetGroupMembersAll(groupId),
-            window.Groups.adminGetBattlesFor(groupId)
+            window.Groups.adminGetBattlesFor(groupId),
         ]);
         if (!group) {
             this.ui.container.innerHTML = `<div class="admin-screen"><p style="text-align:center; color:#777;">Không tìm thấy group này.</p><button class="btn-secondary" id="admin-group-detail-back">QUAY LẠI</button></div>`;
-            document.getElementById('admin-group-detail-back').addEventListener('click', () => this.renderAdminGroupsList());
+            document
+                .getElementById('admin-group-detail-back')
+                .addEventListener('click', () => this.renderAdminGroupsList());
             return;
         }
 
         const roleLabel = { owner: '👑 Chủ nhóm', admin: '⭐ Phó nhóm', member: 'Thành viên' };
-        const roleOptions = (current) => ['owner', 'admin', 'member']
-            .map(r => `<option value="${r}" ${r === current ? 'selected' : ''}>${roleLabel[r]}</option>`).join('');
+        const roleOptions = (current) =>
+            ['owner', 'admin', 'member']
+                .map(
+                    (r) =>
+                        `<option value="${r}" ${r === current ? 'selected' : ''}>${roleLabel[r]}</option>`
+                )
+                .join('');
 
-        const membersHtml = members.length ? members.map(m => `
+        const membersHtml = members.length
+            ? members
+                  .map(
+                      (m) => `
             <div class="admin-row">
                 <div class="admin-row-main">
                     <strong>${this.escapeHtml(m.username)}</strong>
@@ -1902,10 +2303,20 @@ Object.assign(DuoClone.prototype, {
                     <button class="btn-secondary admin-action-btn admin-action-danger" data-group-action="remove-member" data-id="${m.id}">Gỡ khỏi group</button>
                 </div>
             </div>
-        `).join('') : `<p style="text-align: center; color: #777;">Group chưa có thành viên nào.</p>`;
+        `
+                  )
+                  .join('')
+            : `<p style="text-align: center; color: #777;">Group chưa có thành viên nào.</p>`;
 
-        const battleStatusLabel = { pending: 'Chờ chấp nhận', active: 'Đang diễn ra', finished: 'Đã kết thúc' };
-        const battlesHtml = battles.length ? battles.map(b => `
+        const battleStatusLabel = {
+            pending: 'Chờ chấp nhận',
+            active: 'Đang diễn ra',
+            finished: 'Đã kết thúc',
+        };
+        const battlesHtml = battles.length
+            ? battles
+                  .map(
+                      (b) => `
             <div class="admin-row">
                 <div class="admin-row-main">
                     <strong>${b.group_a_wins} — ${b.group_b_wins}</strong>
@@ -1915,7 +2326,10 @@ Object.assign(DuoClone.prototype, {
                     ${b.status !== 'finished' ? `<button class="btn-secondary admin-action-btn" data-group-action="force-finish-battle" data-id="${b.id}">Buộc kết thúc</button>` : ''}
                 </div>
             </div>
-        `).join('') : `<p style="text-align: center; color: #777;">Group chưa có trận đấu nào.</p>`;
+        `
+                  )
+                  .join('')
+            : `<p style="text-align: center; color: #777;">Group chưa có trận đấu nào.</p>`;
 
         this.ui.container.innerHTML = `
             <div class="admin-screen">
@@ -1942,31 +2356,48 @@ Object.assign(DuoClone.prototype, {
         this.ui.checkBtn.disabled = true;
         this.ui.checkBtn.classList.remove('active');
 
-        document.getElementById('admin-group-detail-back').addEventListener('click', () => this.renderAdminGroupsList());
-        document.getElementById('admin-view-chat').addEventListener('click', () => this.renderAdminGroupChat(groupId));
+        document
+            .getElementById('admin-group-detail-back')
+            .addEventListener('click', () => this.renderAdminGroupsList());
+        document
+            .getElementById('admin-view-chat')
+            .addEventListener('click', () => this.renderAdminGroupChat(groupId));
         document.getElementById('admin-save-vibrancy').addEventListener('click', async () => {
             const val = parseInt(document.getElementById('admin-vibrancy-input').value, 10);
-            if (Number.isNaN(val)) { alert('Giá trị không hợp lệ.'); return; }
+            if (Number.isNaN(val)) {
+                alert('Giá trị không hợp lệ.');
+                return;
+            }
             const result = await window.Groups.adminSetVibrancy(groupId, val);
-            if (result.error) { alert(result.error); return; }
+            if (result.error) {
+                alert(result.error);
+                return;
+            }
             this.renderAdminGroupDetail(groupId);
         });
         document.getElementById('admin-delete-group-btn').addEventListener('click', async () => {
-            const ok = confirm(`XÓA VĨNH VIỄN group "${group.name}"? Toàn bộ thành viên, tin nhắn, trận đấu sẽ mất. Không thể hoàn tác.`);
+            const ok = confirm(
+                `XÓA VĨNH VIỄN group "${group.name}"? Toàn bộ thành viên, tin nhắn, trận đấu sẽ mất. Không thể hoàn tác.`
+            );
             if (!ok) return;
             const result = await window.Groups.adminDeleteGroup(groupId);
-            if (result.error) { alert(result.error); return; }
+            if (result.error) {
+                alert(result.error);
+                return;
+            }
             this.renderAdminGroupsList();
         });
-        this.ui.container.querySelectorAll('.admin-role-select').forEach(sel => {
+        this.ui.container.querySelectorAll('.admin-role-select').forEach((sel) => {
             sel.addEventListener('change', async () => {
                 sel.disabled = true;
                 const result = await window.Groups.adminChangeMemberRole(sel.dataset.id, sel.value);
-                if (result.error) { alert(result.error); }
+                if (result.error) {
+                    alert(result.error);
+                }
                 this.renderAdminGroupDetail(groupId);
             });
         });
-        this.ui.container.querySelectorAll('[data-group-action]').forEach(btn => {
+        this.ui.container.querySelectorAll('[data-group-action]').forEach((btn) => {
             btn.addEventListener('click', () => this.handleAdminGroupAction(btn, groupId));
         });
     },
@@ -1978,7 +2409,10 @@ Object.assign(DuoClone.prototype, {
         if (!window.Groups) return;
 
         const messages = await window.Groups.getGroupMessages(groupId, 100);
-        const messagesHtml = messages.length ? messages.map(m => `
+        const messagesHtml = messages.length
+            ? messages
+                  .map(
+                      (m) => `
             <div class="admin-row">
                 <div class="admin-row-main">
                     <strong>${this.escapeHtml(m.sender_username)}</strong>
@@ -1989,7 +2423,10 @@ Object.assign(DuoClone.prototype, {
                     <button class="btn-secondary admin-action-btn admin-action-danger" data-group-action="delete-message" data-id="${m.id}">Xóa</button>
                 </div>
             </div>
-        `).join('') : `<p style="text-align: center; color: #777;">Group chưa có tin nhắn nào.</p>`;
+        `
+                  )
+                  .join('')
+            : `<p style="text-align: center; color: #777;">Group chưa có tin nhắn nào.</p>`;
 
         this.ui.container.innerHTML = `
             <div class="admin-screen">
@@ -2001,8 +2438,10 @@ Object.assign(DuoClone.prototype, {
         this.ui.checkBtn.disabled = true;
         this.ui.checkBtn.classList.remove('active');
 
-        document.getElementById('admin-group-chat-back').addEventListener('click', () => this.renderAdminGroupDetail(groupId));
-        this.ui.container.querySelectorAll('[data-group-action]').forEach(btn => {
+        document
+            .getElementById('admin-group-chat-back')
+            .addEventListener('click', () => this.renderAdminGroupDetail(groupId));
+        this.ui.container.querySelectorAll('[data-group-action]').forEach((btn) => {
             btn.addEventListener('click', () => this.handleAdminGroupAction(btn, groupId));
         });
     },
@@ -2017,11 +2456,16 @@ Object.assign(DuoClone.prototype, {
         }
 
         if (action === 'delete-group') {
-            const ok = confirm('XÓA VĨNH VIỄN group này? Toàn bộ thành viên, tin nhắn, trận đấu sẽ mất. Không thể hoàn tác.');
+            const ok = confirm(
+                'XÓA VĨNH VIỄN group này? Toàn bộ thành viên, tin nhắn, trận đấu sẽ mất. Không thể hoàn tác.'
+            );
             if (!ok) return;
             btn.disabled = true;
             const result = await window.Groups.adminDeleteGroup(id);
-            if (result.error) { alert(result.error); return; }
+            if (result.error) {
+                alert(result.error);
+                return;
+            }
             this.renderAdminGroupsList();
             return;
         }
@@ -2031,17 +2475,25 @@ Object.assign(DuoClone.prototype, {
             if (!ok) return;
             btn.disabled = true;
             const result = await window.Groups.adminRemoveMember(id);
-            if (result.error) { alert(result.error); return; }
+            if (result.error) {
+                alert(result.error);
+                return;
+            }
             this.renderAdminGroupDetail(groupId);
             return;
         }
 
         if (action === 'force-finish-battle') {
-            const ok = confirm('Buộc kết thúc trận đấu này ngay bây giờ? Nếu trận đang 0-0 hoặc chưa ai chấp nhận, hành động này coi như hủy trận (không bên nào được cộng/trừ điểm).');
+            const ok = confirm(
+                'Buộc kết thúc trận đấu này ngay bây giờ? Nếu trận đang 0-0 hoặc chưa ai chấp nhận, hành động này coi như hủy trận (không bên nào được cộng/trừ điểm).'
+            );
             if (!ok) return;
             btn.disabled = true;
             const result = await window.Groups.adminForceFinishBattle(id);
-            if (result.error) { alert(result.error); return; }
+            if (result.error) {
+                alert(result.error);
+                return;
+            }
             this.renderAdminGroupDetail(groupId);
             return;
         }
@@ -2051,9 +2503,12 @@ Object.assign(DuoClone.prototype, {
             if (!ok) return;
             btn.disabled = true;
             const result = await window.Groups.adminDeleteMessage(id);
-            if (result.error) { alert(result.error); return; }
+            if (result.error) {
+                alert(result.error);
+                return;
+            }
             this.renderAdminGroupChat(groupId);
             return;
         }
-    }
+    },
 });

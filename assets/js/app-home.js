@@ -39,7 +39,8 @@ Object.assign(DuoClone.prototype, {
         if (window.CourseLoader) window.CourseLoader.prefetch(this.state.currentUnitIdx);
         // Load this user's block list once (idempotent) so chat/DM renders can hide blocked
         // users' messages synchronously.
-        if (window.Moderation && this.state.profile) window.Moderation.ensureLoaded(this.state.profile.id);
+        if (window.Moderation && this.state.profile)
+            window.Moderation.ensureLoaded(this.state.profile.id);
         // Cleans up any global-chat realtime subscription left over from a previous
         // visit to this screen before the DOM (and the widget state) gets rebuilt below
         // - without this, revisiting Home repeatedly while the chat was left open would
@@ -263,7 +264,9 @@ Object.assign(DuoClone.prototype, {
     renderGlobalChatMessages(messages) {
         const listEl = document.getElementById('global-chat-messages');
         if (!listEl) return;
-        messages = (messages || []).filter((m) => !(window.Moderation && window.Moderation.isBlocked(m.sender_id))); // hide blocked users
+        messages = (messages || []).filter(
+            (m) => !(window.Moderation && window.Moderation.isBlocked(m.sender_id))
+        ); // hide blocked users
         listEl.innerHTML = messages.length
             ? messages.map((m) => this.globalChatMessageHtml(m)).join('')
             : '<p style="text-align:center; color:#999; font-size:13px;">Chưa có tin nhắn nào. Hãy là người đầu tiên chào hỏi!</p>';

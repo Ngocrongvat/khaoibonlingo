@@ -12,11 +12,17 @@ const Moderation = (() => {
     async function loadMyBlocks(myId) {
         if (!client || !myId) return blockedIds;
         try {
-            const { data, error } = await client.from('user_blocks').select('blocked_id').eq('blocker_id', myId);
+            const { data, error } = await client
+                .from('user_blocks')
+                .select('blocked_id')
+                .eq('blocker_id', myId);
             if (error) throw error;
             blockedIds = new Set((data || []).map((r) => r.blocked_id));
         } catch (e) {
-            console.error('Failed to load blocks (migration content_moderation.sql may be missing):', e);
+            console.error(
+                'Failed to load blocks (migration content_moderation.sql may be missing):',
+                e
+            );
         }
         return blockedIds;
     }
@@ -51,14 +57,20 @@ const Moderation = (() => {
             return {};
         } catch (e) {
             console.error('blockUser failed:', e);
-            return { error: 'Không thể chặn lúc này. (Quản trị viên cần chạy migration content_moderation.sql.)' };
+            return {
+                error: 'Không thể chặn lúc này. (Quản trị viên cần chạy migration content_moderation.sql.)',
+            };
         }
     }
 
     async function unblockUser(myProfile, blockedId) {
         if (!client || !myProfile || !blockedId) return { error: 'Chưa cấu hình.' };
         try {
-            const { error } = await client.from('user_blocks').delete().eq('blocker_id', myProfile.id).eq('blocked_id', blockedId);
+            const { error } = await client
+                .from('user_blocks')
+                .delete()
+                .eq('blocker_id', myProfile.id)
+                .eq('blocked_id', blockedId);
             if (error) throw error;
             blockedIds.delete(blockedId);
             return {};
@@ -80,18 +92,30 @@ const Moderation = (() => {
                 reported_username: payload.reportedUsername || null,
                 context: payload.context || null,
                 message_id: payload.messageId != null ? String(payload.messageId) : null,
-                message_text: payload.messageText ? String(payload.messageText).slice(0, 1000) : null,
+                message_text: payload.messageText
+                    ? String(payload.messageText).slice(0, 1000)
+                    : null,
                 reason: payload.reason ? String(payload.reason).slice(0, 300) : null,
             });
             if (error) throw error;
             return {};
         } catch (e) {
             console.error('reportContent failed:', e);
-            return { error: 'Không thể gửi báo cáo lúc này. (Quản trị viên cần chạy migration content_moderation.sql.)' };
+            return {
+                error: 'Không thể gửi báo cáo lúc này. (Quản trị viên cần chạy migration content_moderation.sql.)',
+            };
         }
     }
 
-    return { loadMyBlocks, ensureLoaded, isBlocked, getBlockedIds, blockUser, unblockUser, reportContent };
+    return {
+        loadMyBlocks,
+        ensureLoaded,
+        isBlocked,
+        getBlockedIds,
+        blockUser,
+        unblockUser,
+        reportContent,
+    };
 })();
 
 window.Moderation = Moderation;

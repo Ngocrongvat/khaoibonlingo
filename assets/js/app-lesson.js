@@ -135,11 +135,13 @@ Object.assign(DuoClone.prototype, {
             return this.state.reviewQueue[0];
         }
         const unit = this.state.courseData.units[this.state.currentUnitIdx];
-        const lesson = unit.lessons[this.state.currentLessonIdx];
-        // Defensive clamp: currentExIdx should always be in range now that
-        // reviewQueue/reviewMode are persisted (see loadLocalPosition()), but this keeps
-        // renderLesson() from crashing on `undefined.type` if some other edge case ever
-        // leaves the index stale relative to the lesson's exercise count.
+        // Defensive clamps: renderLesson ensures the chunk is loaded before we get here, but
+        // a stale saved position (data evolved, or a lazy stub not yet clamped) could leave
+        // currentLessonIdx/currentExIdx past the real shape - clamp both so we never read
+        // `undefined.exercises` / `undefined.type` and crash the lesson view.
+        const lessonIdx = Math.min(this.state.currentLessonIdx, Math.max(0, unit.lessons.length - 1));
+        const lesson = unit.lessons[lessonIdx];
+        if (!lesson || !lesson.exercises || !lesson.exercises.length) return null;
         const idx = Math.min(this.state.currentExIdx, lesson.exercises.length - 1);
         return this.presentedExerciseFor(lesson, idx);
     },
