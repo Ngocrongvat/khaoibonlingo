@@ -1,0 +1,31 @@
+# Files wrangler must NOT upload as static assets (deploy dir is the repo root ".").
+# Cloudflare runs `npm clean-install` before `wrangler deploy`, so node_modules exists in
+# the build workspace — its 122 MiB workerd binary blows the 25 MiB per-asset limit and
+# fails the whole deploy. Everything below is dev tooling / build source, not part of the
+# shipped site. Runtime files (index.html, sw.js, manifest.webmanifest, assets/**,
+# data/course/**, data/*.js runtime data) are intentionally NOT listed and DO deploy.
+node_modules
+.git
+.github
+.claude
+.wrangler
+test
+scripts
+*.md
+package.json
+package-lock.json
+eslint.config.js
+eslint.config.js.example
+.prettierignore
+.prettierrc
+.gitignore
+.assetsignore
+wrangler.jsonc
+
+# Old monolithic course sources — superseded by the lazy-loaded data/course/ chunks and no
+# longer referenced by index.html. Kept in the repo only as the build input for
+# scripts/build-course-chunks.js; excluding them here trims ~32 MB from every deploy.
+data/data.js
+data/course-part1.js
+data/course-part2.js
+data/course-part3.js

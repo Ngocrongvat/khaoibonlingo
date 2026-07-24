@@ -17,16 +17,23 @@ Object.assign(DuoClone.prototype, {
         this.state.stats.easyMode = !this.state.stats.easyMode;
         this._presentKey = null; // invalidate the presented-exercise cache
         this.saveUserProgress();
-        this.showBriefToast(this.state.stats.easyMode ? '🧸 Đã BẬT chế độ Dễ cho trẻ nhỏ!' : 'Đã tắt chế độ Dễ.');
+        this.showBriefToast(
+            this.state.stats.easyMode ? '🧸 Đã BẬT chế độ Dễ cho trẻ nhỏ!' : 'Đã tắt chế độ Dễ.'
+        );
         this.renderHomeDashboard();
     },
 
     renderHomeDashboard() {
-        if (!this.state.currentUser) { this.renderAuthScreen(); return; }
+        if (!this.state.currentUser) {
+            this.renderAuthScreen();
+            return;
+        }
         // Lazy course data (GĐ0): make sure the current chapter's chunk is resident before
         // reading its unit below; if not, load it then re-enter (cheap no-op once loaded).
         if (window.CourseLoader && !window.CourseLoader.isLoaded(this.state.currentUnitIdx)) {
-            window.CourseLoader.ensure(this.state.currentUnitIdx).then(() => this.renderHomeDashboard());
+            window.CourseLoader.ensure(this.state.currentUnitIdx).then(() =>
+                this.renderHomeDashboard()
+            );
             return;
         }
         if (window.CourseLoader) window.CourseLoader.prefetch(this.state.currentUnitIdx);
@@ -74,15 +81,19 @@ Object.assign(DuoClone.prototype, {
                     <p class="mentor-tip-text">${this.escapeHtml(this.getMentorTip())}</p>
                 </div>
 
-                <button class="easy-mode-toggle ${(this.state.stats && this.state.stats.easyMode) ? 'on' : ''}" id="easy-mode-toggle" title="Bật để câu hỏi và trò chơi dễ hơn cho trẻ nhỏ">
-                    🧸 Chế độ Dễ (cho trẻ nhỏ): <b>${(this.state.stats && this.state.stats.easyMode) ? 'BẬT' : 'TẮT'}</b>
+                <button class="easy-mode-toggle ${this.state.stats && this.state.stats.easyMode ? 'on' : ''}" id="easy-mode-toggle" title="Bật để câu hỏi và trò chơi dễ hơn cho trẻ nhỏ">
+                    🧸 Chế độ Dễ (cho trẻ nhỏ): <b>${this.state.stats && this.state.stats.easyMode ? 'BẬT' : 'TẮT'}</b>
                 </button>
 
-                ${lesson ? `
+                ${
+                    lesson
+                        ? `
                     <button class="btn-primary home-continue-btn" id="home-continue-btn">
                         TIẾP TỤC HỌC: ${this.escapeHtml(lesson.title)}
                     </button>
-                ` : ''}
+                `
+                        : ''
+                }
 
                 <div class="global-chat-widget" id="global-chat-widget">
                     <button class="global-chat-toggle" id="global-chat-toggle">
@@ -145,14 +156,20 @@ Object.assign(DuoClone.prototype, {
             if (!text) return;
             input.value = '';
             const result = await window.GlobalChat.sendMessage(this.state.profile, text);
-            if (result.error) { alert(result.error); return; }
+            if (result.error) {
+                alert(result.error);
+                return;
+            }
             // Chatting counts toward the user's "Sôi nổi" score, mirroring how group
             // chat activity feeds the group's vibrancy.
             this.addVibrancy(1);
             this.saveUserProgress();
         };
         if (sendBtn) sendBtn.addEventListener('click', send);
-        if (input) input.addEventListener('keydown', (e) => { if (e.key === 'Enter') send(); });
+        if (input)
+            input.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter') send();
+            });
 
         // The badge element itself is rebuilt fresh on every Home render - reflect
         // whatever setupGlobalChatWatcher() has already tracked in memory since login.
@@ -243,7 +260,7 @@ Object.assign(DuoClone.prototype, {
         const listEl = document.getElementById('global-chat-messages');
         if (!listEl) return;
         listEl.innerHTML = messages.length
-            ? messages.map(m => this.globalChatMessageHtml(m)).join('')
+            ? messages.map((m) => this.globalChatMessageHtml(m)).join('')
             : '<p style="text-align:center; color:#999; font-size:13px;">Chưa có tin nhắn nào. Hãy là người đầu tiên chào hỏi!</p>';
         listEl.scrollTop = listEl.scrollHeight;
     },
@@ -270,17 +287,27 @@ Object.assign(DuoClone.prototype, {
     setupGlobalChatHistoryScroll(initialMessages) {
         const listEl = document.getElementById('global-chat-messages');
         if (!listEl) return;
-        this.state.globalChatOldestIso = initialMessages.length ? initialMessages[0].created_at : null;
+        this.state.globalChatOldestIso = initialMessages.length
+            ? initialMessages[0].created_at
+            : null;
         // A first page smaller than the requested 50 means there is nothing older.
         this.state.globalChatHasOlder = initialMessages.length >= 50;
         this.state.globalChatLoadingOlder = false;
 
         listEl.onscroll = async () => {
             if (listEl.scrollTop > 40) return;
-            if (this.state.globalChatLoadingOlder || !this.state.globalChatHasOlder || !this.state.globalChatOldestIso) return;
+            if (
+                this.state.globalChatLoadingOlder ||
+                !this.state.globalChatHasOlder ||
+                !this.state.globalChatOldestIso
+            )
+                return;
             this.state.globalChatLoadingOlder = true;
             try {
-                const older = await window.GlobalChat.getMessagesBefore(this.state.globalChatOldestIso, 50);
+                const older = await window.GlobalChat.getMessagesBefore(
+                    this.state.globalChatOldestIso,
+                    50
+                );
                 if (!older.length) {
                     this.state.globalChatHasOlder = false;
                     return;
@@ -288,7 +315,10 @@ Object.assign(DuoClone.prototype, {
                 this.state.globalChatOldestIso = older[0].created_at;
                 this.state.globalChatHasOlder = older.length >= 50;
                 const prevHeight = listEl.scrollHeight;
-                listEl.insertAdjacentHTML('afterbegin', older.map(m => this.globalChatMessageHtml(m)).join(''));
+                listEl.insertAdjacentHTML(
+                    'afterbegin',
+                    older.map((m) => this.globalChatMessageHtml(m)).join('')
+                );
                 // Keep the message the user was looking at in place instead of snapping
                 // the view to the very top of the newly-prepended block.
                 listEl.scrollTop += listEl.scrollHeight - prevHeight;
@@ -315,7 +345,7 @@ Object.assign(DuoClone.prototype, {
         const MAX_TICKER_ITEMS = 20;
         const cutoff = Date.now() - MAX_TICKER_AGE_MS;
         return (events || [])
-            .filter(e => !e.created_at || new Date(e.created_at).getTime() >= cutoff)
+            .filter((e) => !e.created_at || new Date(e.created_at).getTime() >= cutoff)
             .slice(-MAX_TICKER_ITEMS);
     },
 
@@ -325,10 +355,14 @@ Object.assign(DuoClone.prototype, {
         // last 40 events even though the realtime subscription below keeps the list live
         // anyway. Within the TTL we just re-render what we already have.
         const TICKER_FETCH_TTL_MS = 5 * 60 * 1000;
-        const fresh = this._tickerFetchedAt && (Date.now() - this._tickerFetchedAt < TICKER_FETCH_TTL_MS)
-            && (this.state.activityTickerEvents || []).length;
+        const fresh =
+            this._tickerFetchedAt &&
+            Date.now() - this._tickerFetchedAt < TICKER_FETCH_TTL_MS &&
+            (this.state.activityTickerEvents || []).length;
         if (!fresh) {
-            this.state.activityTickerEvents = this.pruneTickerEvents(await window.ActivityFeed.getRecentEvents(40));
+            this.state.activityTickerEvents = this.pruneTickerEvents(
+                await window.ActivityFeed.getRecentEvents(40)
+            );
             this._tickerFetchedAt = Date.now();
         }
         this.renderActivityTicker();
@@ -336,7 +370,10 @@ Object.assign(DuoClone.prototype, {
         this.activityTickerUnsub = window.ActivityFeed.subscribeToNewEvents((event) => {
             const track = document.getElementById('activity-ticker-track');
             if (!track) return;
-            this.state.activityTickerEvents = this.pruneTickerEvents([...(this.state.activityTickerEvents || []), event]);
+            this.state.activityTickerEvents = this.pruneTickerEvents([
+                ...(this.state.activityTickerEvents || []),
+                event,
+            ]);
             this.renderActivityTicker();
         });
     },
@@ -359,7 +396,11 @@ Object.assign(DuoClone.prototype, {
         // Newest event FIRST: the marquee restarts from its beginning on every
         // (re)render, so fresh news must lead the strip.
         const SEP = '&nbsp;&nbsp;&nbsp;•&nbsp;&nbsp;&nbsp;';
-        const copy = [...events].reverse().map(e => this.escapeHtml(e.message)).join(SEP) + SEP;
+        const copy =
+            [...events]
+                .reverse()
+                .map((e) => this.escapeHtml(e.message))
+                .join(SEP) + SEP;
         track.innerHTML = `<span>${copy}</span><span aria-hidden="true">${copy}</span>`;
         // Scroll speed scales with content length so a short list doesn't fly by too fast
         // and a long one doesn't crawl - restarting the animation (removing then
@@ -381,13 +422,22 @@ Object.assign(DuoClone.prototype, {
     renderUnitStrip() {
         const strip = document.getElementById('unit-strip');
         if (!strip) return;
-        strip.innerHTML = this.state.courseData.units.map((u, idx) => {
-            const status = idx < this.state.currentUnitIdx ? 'done' : (idx === this.state.currentUnitIdx ? 'current' : 'locked');
-            const icon = status === 'done' ? '✅' : (status === 'current' ? '📍' : '🔒');
-            return `<button class="unit-chip unit-chip-${status}" data-unit-idx="${idx}">${icon} <span>${this.escapeHtml(u.title)}</span></button>`;
-        }).join('');
-        strip.querySelectorAll('.unit-chip').forEach(chip => {
-            chip.addEventListener('click', () => this.renderPathMap(parseInt(chip.dataset.unitIdx, 10)));
+        strip.innerHTML = this.state.courseData.units
+            .map((u, idx) => {
+                const status =
+                    idx < this.state.currentUnitIdx
+                        ? 'done'
+                        : idx === this.state.currentUnitIdx
+                          ? 'current'
+                          : 'locked';
+                const icon = status === 'done' ? '✅' : status === 'current' ? '📍' : '🔒';
+                return `<button class="unit-chip unit-chip-${status}" data-unit-idx="${idx}">${icon} <span>${this.escapeHtml(u.title)}</span></button>`;
+            })
+            .join('');
+        strip.querySelectorAll('.unit-chip').forEach((chip) => {
+            chip.addEventListener('click', () =>
+                this.renderPathMap(parseInt(chip.dataset.unitIdx, 10))
+            );
         });
     },
 
@@ -403,8 +453,11 @@ Object.assign(DuoClone.prototype, {
         const unit = this.state.courseData.units[viewedUnitIdx];
         if (!unit) return;
 
-        document.querySelectorAll('.unit-chip').forEach(chip => {
-            chip.classList.toggle('unit-chip-viewing', parseInt(chip.dataset.unitIdx, 10) === viewedUnitIdx);
+        document.querySelectorAll('.unit-chip').forEach((chip) => {
+            chip.classList.toggle(
+                'unit-chip-viewing',
+                parseInt(chip.dataset.unitIdx, 10) === viewedUnitIdx
+            );
         });
 
         // A fully locked future unit has nothing to show yet - one "fog of war" teaser
@@ -436,15 +489,24 @@ Object.assign(DuoClone.prototype, {
         const hiddenCount = unit.lessons.length - visibleCount;
 
         const offsets = [0, 1, 2, 1]; // zigzag pattern, repeats every 4 nodes
-        const nodesHtml = unit.lessons.slice(0, visibleCount).map((l, idx) => {
-            const status = isPastUnit
-                ? 'done'
-                : (idx < this.state.currentLessonIdx ? 'done' : (idx === this.state.currentLessonIdx ? 'current' : 'locked'));
+        const nodesHtml = unit.lessons
+            .slice(0, visibleCount)
+            .map((l, idx) => {
+                const status = isPastUnit
+                    ? 'done'
+                    : idx < this.state.currentLessonIdx
+                      ? 'done'
+                      : idx === this.state.currentLessonIdx
+                        ? 'current'
+                        : 'locked';
 
-            const icon = status === 'done' ? '✓' : (status === 'current' ? '★' : '🔒');
-            const offsetClass = `path-node-offset-${offsets[idx % offsets.length]}`;
-            const mascotHtml = status === 'current' ? `<div class="path-node-mascot">${getMascotSvg('happy', 40)}</div>` : '';
-            return `
+                const icon = status === 'done' ? '✓' : status === 'current' ? '★' : '🔒';
+                const offsetClass = `path-node-offset-${offsets[idx % offsets.length]}`;
+                const mascotHtml =
+                    status === 'current'
+                        ? `<div class="path-node-mascot">${getMascotSvg('happy', 40)}</div>`
+                        : '';
+                return `
                 <div class="path-node-row ${offsetClass}" data-node-idx="${idx}">
                     <div class="path-node-wrap">
                         ${mascotHtml}
@@ -455,14 +517,18 @@ Object.assign(DuoClone.prototype, {
                     <span class="path-node-label">${this.escapeHtml(l.title)}</span>
                 </div>
             `;
-        }).join('');
+            })
+            .join('');
 
-        const fogHtml = hiddenCount > 0 ? `
+        const fogHtml =
+            hiddenCount > 0
+                ? `
             <div class="path-fog-teaser path-fog-teaser-inline">
                 <div class="path-fog-icon">🌫️</div>
                 <p>Còn ${hiddenCount} bài học đang chờ khám phá phía trước!</p>
             </div>
-        ` : '';
+        `
+                : '';
 
         map.innerHTML = `
             <h3 class="path-map-unit-title">${this.escapeHtml(unit.title)}</h3>
@@ -478,9 +544,10 @@ Object.assign(DuoClone.prototype, {
         `;
 
         const scnUnitBtn = document.getElementById('scn-unit-btn');
-        if (scnUnitBtn) scnUnitBtn.addEventListener('click', () => this.launchUnitScenario(viewedUnitIdx));
+        if (scnUnitBtn)
+            scnUnitBtn.addEventListener('click', () => this.launchUnitScenario(viewedUnitIdx));
 
-        map.querySelectorAll('.path-node').forEach(nodeBtn => {
+        map.querySelectorAll('.path-node').forEach((nodeBtn) => {
             nodeBtn.addEventListener('click', () => {
                 if (nodeBtn.classList.contains('path-node-current')) {
                     this.renderLesson();
@@ -507,11 +574,11 @@ Object.assign(DuoClone.prototype, {
         const nodes = Array.from(track.querySelectorAll('.path-node'));
         if (nodes.length < 2) return;
 
-        const points = nodes.map(n => {
+        const points = nodes.map((n) => {
             const r = n.getBoundingClientRect();
             return {
                 x: r.left + r.width / 2 - trackRect.left,
-                y: r.top + r.height / 2 - trackRect.top
+                y: r.top + r.height / 2 - trackRect.top,
             };
         });
 
@@ -546,7 +613,7 @@ Object.assign(DuoClone.prototype, {
     },
 
     startCourse() {
-        this.ui.container.innerHTML = "";
+        this.ui.container.innerHTML = '';
         if (this.state.currentUnitIdx >= this.state.courseData.units.length) {
             this.renderCourseComplete();
         } else {
@@ -567,9 +634,9 @@ Object.assign(DuoClone.prototype, {
             const p = document.createElement('span');
             p.className = 'mascot-particle';
             p.textContent = emojis[Math.floor(Math.random() * emojis.length)];
-            const angle = (Math.random() - 0.5) * 160;      // -80..80deg spread
+            const angle = (Math.random() - 0.5) * 160; // -80..80deg spread
             const dist = 40 + Math.random() * 70;
-            p.style.setProperty('--dx', `${Math.sin(angle * Math.PI / 180) * dist}px`);
+            p.style.setProperty('--dx', `${Math.sin((angle * Math.PI) / 180) * dist}px`);
             p.style.setProperty('--dy', `${-40 - Math.random() * 80}px`);
             p.style.setProperty('--rot', `${(Math.random() - 0.5) * 120}deg`);
             p.style.left = `${45 + Math.random() * 10}%`;
@@ -587,14 +654,37 @@ Object.assign(DuoClone.prototype, {
     // short giggle is a quick hop and a long laugh is a full dance number.
     mascotPlay(el) {
         if (!el) return;
-        const ACTIONS = ['mascot-play-jump', 'mascot-play-spin', 'mascot-play-wiggle', 'mascot-play-bounce', 'mascot-play-flip', 'mascot-play-run', 'mascot-play-nod'];
-        const MOODS = ['wink', 'party', 'love', 'laugh', 'giggle', 'starstruck', 'excited', 'cool', 'blush'];
+        const ACTIONS = [
+            'mascot-play-jump',
+            'mascot-play-spin',
+            'mascot-play-wiggle',
+            'mascot-play-bounce',
+            'mascot-play-flip',
+            'mascot-play-run',
+            'mascot-play-nod',
+        ];
+        const MOODS = [
+            'wink',
+            'party',
+            'love',
+            'laugh',
+            'giggle',
+            'starstruck',
+            'excited',
+            'cool',
+            'blush',
+        ];
 
         // A fresh tap supersedes any play still in progress.
         clearInterval(this._mascotPlayInterval);
         clearTimeout(this._mascotPlayTimer);
-        if (this._mascotAudio) { try { this._mascotAudio.pause(); } catch (e) { } this._mascotAudio = null; }
-        const gen = this._mascotGen = (this._mascotGen || 0) + 1;
+        if (this._mascotAudio) {
+            try {
+                this._mascotAudio.pause();
+            } catch (e) {}
+            this._mascotAudio = null;
+        }
+        const gen = (this._mascotGen = (this._mascotGen || 0) + 1);
         const isCurrent = () => this._mascotGen === gen;
 
         let first = true;
@@ -603,16 +693,22 @@ Object.assign(DuoClone.prototype, {
             const mood = pickRandom(MOODS);
             el.innerHTML = getMascotSvg(mood, 100);
             el.classList.remove(...ACTIONS);
-            void el.offsetWidth;                   // retrigger the one-shot action
+            void el.offsetWidth; // retrigger the one-shot action
             el.classList.add(action, 'mascot-playing');
-            if (first || Math.random() < 0.5) this.spawnMascotParticles(el, moodParticles(mood), first ? 7 : 5);
+            if (first || Math.random() < 0.5)
+                this.spawnMascotParticles(el, moodParticles(mood), first ? 7 : 5);
             first = false;
         };
         const stop = () => {
             if (!isCurrent()) return;
             clearInterval(this._mascotPlayInterval);
             clearTimeout(this._mascotPlayTimer);
-            if (this._mascotAudio) { try { this._mascotAudio.pause(); } catch (e) { } this._mascotAudio = null; }
+            if (this._mascotAudio) {
+                try {
+                    this._mascotAudio.pause();
+                } catch (e) {}
+                this._mascotAudio = null;
+            }
             el.classList.remove(...ACTIONS, 'mascot-playing');
             if (document.body.contains(el)) el.innerHTML = getMascotSvg('happy', 100);
         };
@@ -624,14 +720,23 @@ Object.assign(DuoClone.prototype, {
         // Cycle actions until the sound ends; also bail if the user navigates away
         // (the greeting mascot leaves the DOM) so audio/animation never linger.
         this._mascotPlayInterval = setInterval(() => {
-            if (!isCurrent() || !document.body.contains(el)) { stop(); return; }
+            if (!isCurrent() || !document.body.contains(el)) {
+                stop();
+                return;
+            }
             doAction();
         }, 850);
 
         if (audio && typeof audio.addEventListener === 'function') {
             audio.addEventListener('ended', stop, { once: true });
-            audio.addEventListener('error', () => { this._mascotPlayTimer = setTimeout(stop, 900); }, { once: true });
-            this._mascotPlayTimer = setTimeout(stop, 65000);   // hard safety cap
+            audio.addEventListener(
+                'error',
+                () => {
+                    this._mascotPlayTimer = setTimeout(stop, 900);
+                },
+                { once: true }
+            );
+            this._mascotPlayTimer = setTimeout(stop, 65000); // hard safety cap
         } else {
             // no audio (missing file / blocked) - fall back to a short one-off action
             this._mascotPlayTimer = setTimeout(stop, 900);
@@ -639,7 +744,11 @@ Object.assign(DuoClone.prototype, {
     },
 
     updateNav() {
-        if (this.state.mode === 'practice' || this.state.mode === 'assessment' || this.state.mode === 'placement') {
+        if (
+            this.state.mode === 'practice' ||
+            this.state.mode === 'assessment' ||
+            this.state.mode === 'placement'
+        ) {
             const total = this.state.practiceQueue.length;
             const current = this.state.practiceIdx;
             this.ui.progress.style.width = `${total ? (current / total) * 100 : 0}%`;
@@ -678,7 +787,8 @@ Object.assign(DuoClone.prototype, {
     //   none: no streak yet
     streakInfo() {
         const count = this.state.streak || 0;
-        if (count <= 0) return { count: 0, state: 'none', message: 'Bắt đầu chuỗi học mới ngay hôm nay nhé!' };
+        if (count <= 0)
+            return { count: 0, state: 'none', message: 'Bắt đầu chuỗi học mới ngay hôm nay nhé!' };
         const practicedToday = this.state.lastActivityDate === new Date().toDateString();
         return practicedToday
             ? { count, state: 'safe', message: 'Tuyệt vời! Bạn đã giữ chuỗi hôm nay 🎉' }
@@ -717,12 +827,21 @@ Object.assign(DuoClone.prototype, {
     },
 
     async refreshStreakRank() {
-        if (!window.Leaderboard || !this.state.currentUser || !window.Leaderboard.getStreakLeaderboard) return;
-        if ((this.state.streak || 0) <= 0) { this.state.streakRank = null; this.updateStreakRankDom(); return; }
+        if (
+            !window.Leaderboard ||
+            !this.state.currentUser ||
+            !window.Leaderboard.getStreakLeaderboard
+        )
+            return;
+        if ((this.state.streak || 0) <= 0) {
+            this.state.streakRank = null;
+            this.updateStreakRankDom();
+            return;
+        }
         try {
             const res = await window.Leaderboard.getStreakLeaderboard(100);
             const entries = (res && res.entries) || [];
-            const idx = entries.findIndex(e => e.username === this.state.currentUser);
+            const idx = entries.findIndex((e) => e.username === this.state.currentUser);
             this.state.streakRank = idx >= 0 ? idx + 1 : null;
         } catch (e) {
             this.state.streakRank = null;
@@ -741,14 +860,27 @@ Object.assign(DuoClone.prototype, {
     // (bonus XP + hearts refilled to full - see awardLessonCompletion()).
     showStreakMilestone(m) {
         if (window.confetti) {
-            window.confetti({ particleCount: 180, spread: 95, startVelocity: 52, ticks: 160, origin: { y: 0.5 }, scalar: 1.05 });
+            window.confetti({
+                particleCount: 180,
+                spread: 95,
+                startVelocity: 52,
+                ticks: 160,
+                origin: { y: 0.5 },
+                scalar: 1.05,
+            });
             window.confetti({ particleCount: 60, angle: 60, spread: 60, origin: { x: 0, y: 0.7 } });
-            window.confetti({ particleCount: 60, angle: 120, spread: 60, origin: { x: 1, y: 0.7 } });
+            window.confetti({
+                particleCount: 60,
+                angle: 120,
+                spread: 60,
+                origin: { x: 1, y: 0.7 },
+            });
         }
         this.playTone('fanfare');
-        const heartLine = m.heartsRefilled > 0
-            ? `<div class="milestone-reward">❤️ Tim được nạp đầy (+${m.heartsRefilled})</div>`
-            : `<div class="milestone-reward">❤️ Tim đã đầy</div>`;
+        const heartLine =
+            m.heartsRefilled > 0
+                ? `<div class="milestone-reward">❤️ Tim được nạp đầy (+${m.heartsRefilled})</div>`
+                : `<div class="milestone-reward">❤️ Tim đã đầy</div>`;
         const overlay = document.createElement('div');
         overlay.className = 'milestone-overlay';
         overlay.innerHTML = `
@@ -768,24 +900,32 @@ Object.assign(DuoClone.prototype, {
         if (mascotEl) this.spawnMascotParticles(mascotEl, ['🔥', '⭐', '🎉', '✨', '💛'], 14);
         const close = () => overlay.remove();
         overlay.querySelector('#milestone-btn').addEventListener('click', close);
-        overlay.addEventListener('click', (e) => { if (e.target === overlay) close(); });
+        overlay.addEventListener('click', (e) => {
+            if (e.target === overlay) close();
+        });
     },
 
     // Only checked on days the streak actually extended (not every lesson), and only
     // announces once per session (announcedTop1ThisSession) so a user who's ALREADY #1
     // doesn't get re-broadcast on every single lesson they finish while holding the lead.
     async checkStreakTop1() {
-        if (!window.Leaderboard || !this.state.profile || this.state.announcedTop1ThisSession) return;
+        if (!window.Leaderboard || !this.state.profile || this.state.announcedTop1ThisSession)
+            return;
         // submitScore() inside syncLeaderboardScore() (called just above, fire-and-forget)
         // needs a moment to land before this query would see this session's own updated
         // streak value - a short wait here is simpler than threading an awaited promise
         // back through awardLessonCompletion()'s otherwise-synchronous call chain.
-        await new Promise(resolve => setTimeout(resolve, 800));
+        await new Promise((resolve) => setTimeout(resolve, 800));
         const result = await window.Leaderboard.getStreakLeaderboard(1);
         const top = result.entries && result.entries[0];
         if (top && top.username === this.state.currentUser && window.ActivityFeed) {
             this.state.announcedTop1ThisSession = true;
-            window.ActivityFeed.postEvent('streak_top1', this.state.profile.id, this.state.currentUser, `🔥 ${this.state.currentUser} đang giữ chuỗi ngày cao nhất bảng xếp hạng!`);
+            window.ActivityFeed.postEvent(
+                'streak_top1',
+                this.state.profile.id,
+                this.state.currentUser,
+                `🔥 ${this.state.currentUser} đang giữ chuỗi ngày cao nhất bảng xếp hạng!`
+            );
         }
     },
 
@@ -842,10 +982,13 @@ Object.assign(DuoClone.prototype, {
     applyKingFrameToNav() {
         const wrap = document.querySelector('.user-badge-avatar-wrap');
         if (!wrap) return;
-        const isKing = !!(this.state.weeklyKing && this.state.currentUser
-            && this.state.weeklyKing.username === this.state.currentUser);
+        const isKing = !!(
+            this.state.weeklyKing &&
+            this.state.currentUser &&
+            this.state.weeklyKing.username === this.state.currentUser
+        );
         wrap.classList.toggle('king-frame-nav', isKing);
         if (isKing) wrap.setAttribute('title', '👑 Vị Vua Của Tuần');
         else if (wrap.getAttribute('title') === '👑 Vị Vua Của Tuần') wrap.removeAttribute('title');
-    }
+    },
 });

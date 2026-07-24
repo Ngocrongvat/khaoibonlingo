@@ -40,7 +40,8 @@ function loadCourseData() {
 function main() {
     const CD = loadCourseData();
     if (!CD || !Array.isArray(CD.units)) {
-        console.error('Could not read COURSE_DATA.units'); process.exit(1);
+        console.error('Could not read COURSE_DATA.units');
+        process.exit(1);
     }
     const units = CD.units;
     const total = units.length;
@@ -57,7 +58,12 @@ function main() {
     for (let c = 0; c < chunkCount; c++) {
         const slice = units.slice(c * CHUNK_SIZE, (c + 1) * CHUNK_SIZE);
         const name = 'chunk-' + String(c).padStart(3, '0') + '.js';
-        const body = '(window.COURSE_CHUNKS=window.COURSE_CHUNKS||{})[' + c + ']=' + JSON.stringify(slice) + ';\n';
+        const body =
+            '(window.COURSE_CHUNKS=window.COURSE_CHUNKS||{})[' +
+            c +
+            ']=' +
+            JSON.stringify(slice) +
+            ';\n';
         fs.writeFileSync(path.join(OUT, name), body);
         bytes += Buffer.byteLength(body);
     }
@@ -74,8 +80,20 @@ function main() {
 
     console.log('Built lazy course data:');
     console.log('  units       : ' + total);
-    console.log('  chunks      : ' + chunkCount + ' x ' + CHUNK_SIZE + ' units  (' + (bytes / 1048576).toFixed(1) + ' MB total, unchanged)');
-    console.log('  manifest    : ' + (Buffer.byteLength(manBody) / 1024).toFixed(1) + ' KB  (loaded eagerly)');
+    console.log(
+        '  chunks      : ' +
+            chunkCount +
+            ' x ' +
+            CHUNK_SIZE +
+            ' units  (' +
+            (bytes / 1048576).toFixed(1) +
+            ' MB total, unchanged)'
+    );
+    console.log(
+        '  manifest    : ' +
+            (Buffer.byteLength(manBody) / 1024).toFixed(1) +
+            ' KB  (loaded eagerly)'
+    );
     console.log('  version     : ' + VERSION);
     console.log('  output      : data/course/');
 }

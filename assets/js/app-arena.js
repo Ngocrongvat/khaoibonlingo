@@ -7,14 +7,25 @@ Object.assign(DuoClone.prototype, {
     // checkWeeklyReset()'s comment for the full reasoning).
     syncLeaderboardScore() {
         if (window.Leaderboard && this.state.currentUser) {
-            window.Leaderboard.submitScore(this.state.currentUser, this.state.xp, this.state.streak, this.state.vibrancy || 0, this.state.lastActivityDate);
+            window.Leaderboard.submitScore(
+                this.state.currentUser,
+                this.state.xp,
+                this.state.streak,
+                this.state.vibrancy || 0,
+                this.state.lastActivityDate
+            );
             window.Leaderboard.checkAndAwardWeeklyPrize().then(() => this.refreshTeddyBears());
             // Parallel, independent weekly prize track for streak - does not touch or
             // interact with the XP prize above at all (see checkAndAwardStreakPrize()'s
             // own comment on why it needs an explicit teddy-bear RPC).
             window.Leaderboard.checkAndAwardStreakPrize().then((winner) => {
                 if (winner && window.ActivityFeed) {
-                    window.ActivityFeed.postEvent('teddy_bear', winner.userId, winner.username, `🧸 ${winner.username} vừa nhận gấu bông vì giữ chuỗi ${winner.streak} ngày cao nhất tuần!`);
+                    window.ActivityFeed.postEvent(
+                        'teddy_bear',
+                        winner.userId,
+                        winner.username,
+                        `🧸 ${winner.username} vừa nhận gấu bông vì giữ chuỗi ${winner.streak} ngày cao nhất tuần!`
+                    );
                 }
                 if (winner && this.state.profile && winner.userId === this.state.profile.id) {
                     this.refreshTeddyBears();
@@ -26,14 +37,14 @@ Object.assign(DuoClone.prototype, {
 
     async renderLeaderboard(sortBy = 'xp') {
         if (!this.state.currentUser) {
-            alert("Vui lòng đăng nhập trước khi xem bảng xếp hạng!");
+            alert('Vui lòng đăng nhập trước khi xem bảng xếp hạng!');
             return;
         }
         const tabs = [
             { key: 'xp', label: '⭐ XP' },
             { key: 'streak', label: '🔥 Chuỗi ngày' },
             { key: 'vibrancy', label: '⚡ Sôi nổi' },
-            { key: 'teddy', label: '🧸 Gấu bông' }
+            { key: 'teddy', label: '🧸 Gấu bông' },
         ];
         this.ui.container.innerHTML = `
             <div class="leaderboard-screen">
@@ -51,7 +62,8 @@ Object.assign(DuoClone.prototype, {
             // rows stays consistent; the big honor banner itself only shows on the XP tab.
             const kingPromise = window.Leaderboard.getLatestKing().catch(() => null);
             if (sortBy === 'streak') result = await window.Leaderboard.getStreakLeaderboard(50);
-            else if (sortBy === 'vibrancy') result = await window.Leaderboard.getVibrancyLeaderboard(50);
+            else if (sortBy === 'vibrancy')
+                result = await window.Leaderboard.getVibrancyLeaderboard(50);
             else if (sortBy === 'teddy') result = await window.Leaderboard.getTeddyLeaderboard(50);
             else result = await window.Leaderboard.fetchTop(50);
             king = await kingPromise;
@@ -70,25 +82,33 @@ Object.assign(DuoClone.prototype, {
         if (!result.configured) {
             bodyHtml = `<p style="text-align: center; color: #777;">Bảng xếp hạng đang được thiết lập, quay lại sau nhé!</p>`;
         } else if (result.error) {
-            bodyHtml = sortBy === 'vibrancy'
-                ? `<p style="text-align: center; color: #777;">Bảng Sôi nổi chưa sẵn sàng - quản trị viên cần chạy migration "self_service_inbox_vibrancy.sql" trên Supabase.</p>`
-                : `<p style="text-align: center; color: #777;">Không thể tải bảng xếp hạng lúc này. Vui lòng thử lại sau.</p>`;
+            bodyHtml =
+                sortBy === 'vibrancy'
+                    ? `<p style="text-align: center; color: #777;">Bảng Sôi nổi chưa sẵn sàng - quản trị viên cần chạy migration "self_service_inbox_vibrancy.sql" trên Supabase.</p>`
+                    : `<p style="text-align: center; color: #777;">Không thể tải bảng xếp hạng lúc này. Vui lòng thử lại sau.</p>`;
         } else if (!result.entries.length) {
-            bodyHtml = sortBy === 'teddy'
-                ? `<p style="text-align: center; color: #777;">Chưa ai có gấu bông. Dẫn đầu bảng XP hoặc Chuỗi ngày vào 19h thứ Bảy để nhận 🧸 đầu tiên!</p>`
-                : `<p style="text-align: center; color: #777;">Chưa có ai trên bảng xếp hạng. Hãy là người đầu tiên!</p>`;
+            bodyHtml =
+                sortBy === 'teddy'
+                    ? `<p style="text-align: center; color: #777;">Chưa ai có gấu bông. Dẫn đầu bảng XP hoặc Chuỗi ngày vào 19h thứ Bảy để nhận 🧸 đầu tiên!</p>`
+                    : `<p style="text-align: center; color: #777;">Chưa có ai trên bảng xếp hạng. Hãy là người đầu tiên!</p>`;
         } else {
-            bodyHtml = `<div class="leaderboard-list">` + result.entries.map((entry, idx) => {
-                const rank = idx + 1;
-                const medal = rank === 1 ? '🥇' : rank === 2 ? '🥈' : rank === 3 ? '🥉' : `#${rank}`;
-                const isMe = entry.username === this.state.currentUser;
-                const isKing = king && entry.username === king.username;
-                return `<div class="leaderboard-row ${isMe ? 'me' : ''} ${isKing ? 'lb-king-row' : ''}">
+            bodyHtml =
+                `<div class="leaderboard-list">` +
+                result.entries
+                    .map((entry, idx) => {
+                        const rank = idx + 1;
+                        const medal =
+                            rank === 1 ? '🥇' : rank === 2 ? '🥈' : rank === 3 ? '🥉' : `#${rank}`;
+                        const isMe = entry.username === this.state.currentUser;
+                        const isKing = king && entry.username === king.username;
+                        return `<div class="leaderboard-row ${isMe ? 'me' : ''} ${isKing ? 'lb-king-row' : ''}">
                             <span class="lb-rank">${medal}</span>
                             <span class="lb-name">${isKing ? '<span class="lb-king-crown" title="Vị Vua Của Tuần">👑</span>' : ''}${isMe ? this.escapeHtml(entry.username) : this.clickableUsername(null, entry.username)}</span>
                             <span class="lb-xp">${valueLabel(entry)}</span>
                         </div>`;
-            }).join('') + `</div>`;
+                    })
+                    .join('') +
+                `</div>`;
         }
 
         // Honor banner - only on the XP tab (the king IS the weekly XP teddy winner).
@@ -111,17 +131,18 @@ Object.assign(DuoClone.prototype, {
                 </div>`;
         }
 
-        const footNote = sortBy === 'vibrancy'
-            ? '⚡ Điểm Sôi nổi tăng khi bạn hoạt động: học bài, luyện tập, thách đấu, chơi game và trò chuyện cùng cộng đồng.'
-            : sortBy === 'teddy'
-                ? '🧸 Gấu bông là phần thưởng vinh danh mỗi tuần: dẫn đầu bảng XP hoặc bảng Chuỗi ngày lúc 19h thứ Bảy để nhận. Tích lũy mãi mãi, không bị reset!'
-                : '🧸 Người dẫn đầu lúc 19h thứ Bảy sẽ được tặng gấu bông và trở thành 👑 Vị Vua Của Tuần với khung avatar đặc quyền! Điểm không bị reset - nếu không ai vượt qua, người dẫn đầu vẫn tiếp tục được thưởng vào tuần sau.';
+        const footNote =
+            sortBy === 'vibrancy'
+                ? '⚡ Điểm Sôi nổi tăng khi bạn hoạt động: học bài, luyện tập, thách đấu, chơi game và trò chuyện cùng cộng đồng.'
+                : sortBy === 'teddy'
+                  ? '🧸 Gấu bông là phần thưởng vinh danh mỗi tuần: dẫn đầu bảng XP hoặc bảng Chuỗi ngày lúc 19h thứ Bảy để nhận. Tích lũy mãi mãi, không bị reset!'
+                  : '🧸 Người dẫn đầu lúc 19h thứ Bảy sẽ được tặng gấu bông và trở thành 👑 Vị Vua Của Tuần với khung avatar đặc quyền! Điểm không bị reset - nếu không ai vượt qua, người dẫn đầu vẫn tiếp tục được thưởng vào tuần sau.';
 
         this.ui.container.innerHTML = `
             <div class="leaderboard-screen">
                 <h2 style="text-align: center;">🏆 Bảng Xếp Hạng</h2>
                 <div class="game-picker-list" style="flex-direction:row; flex-wrap:wrap; justify-content:center; gap:8px; max-width:500px; margin:10px auto;">
-                    ${tabs.map(t => `<button class="btn-secondary user-lb-tab-btn ${t.key === sortBy ? 'group-lb-tab-active' : ''}" data-sort="${t.key}" style="padding:8px 14px; font-size:13px;">${t.label}</button>`).join('')}
+                    ${tabs.map((t) => `<button class="btn-secondary user-lb-tab-btn ${t.key === sortBy ? 'group-lb-tab-active' : ''}" data-sort="${t.key}" style="padding:8px 14px; font-size:13px;">${t.label}</button>`).join('')}
                 </div>
                 ${kingBannerHtml}
                 ${bodyHtml}
@@ -130,10 +151,12 @@ Object.assign(DuoClone.prototype, {
                 <button class="btn-primary" style="margin-top: 10px;" onclick="app.closeLeaderboard()">QUAY LẠI</button>
             </div>
         `;
-        this.ui.container.querySelectorAll('.user-lb-tab-btn').forEach(btn => {
+        this.ui.container.querySelectorAll('.user-lb-tab-btn').forEach((btn) => {
             btn.addEventListener('click', () => this.renderLeaderboard(btn.dataset.sort));
         });
-        document.getElementById('user-lb-groups-btn').addEventListener('click', () => this.renderGroupLeaderboards());
+        document
+            .getElementById('user-lb-groups-btn')
+            .addEventListener('click', () => this.renderGroupLeaderboards());
     },
 
     closeLeaderboard() {
@@ -142,7 +165,7 @@ Object.assign(DuoClone.prototype, {
 
     renderGamePicker() {
         if (!this.state.currentUser) {
-            alert("Vui lòng đăng nhập trước khi chơi game!");
+            alert('Vui lòng đăng nhập trước khi chơi game!');
             return;
         }
         this.ui.container.innerHTML = `
@@ -176,16 +199,31 @@ Object.assign(DuoClone.prototype, {
         this.ui.checkBtn.disabled = true;
         this.ui.checkBtn.classList.remove('active');
 
-        document.getElementById('pick-word-match').addEventListener('click', () => this.launchWordMatchGame());
-        document.getElementById('pick-memory').addEventListener('click', () => this.launchMemoryGame());
-        document.getElementById('pick-odd-one-out').addEventListener('click', () => this.launchOddOneOutGame());
-        document.getElementById('pick-reflex').addEventListener('click', () => this.launchReflexGame());
-        document.getElementById('pick-picture-word').addEventListener('click', () => this.launchPictureWordGame());
-        document.getElementById('game-picker-close').addEventListener('click', () => this.renderHomeDashboard());
-        this.ui.container.querySelectorAll('.game-pick-duel-btn').forEach(btn => {
+        document
+            .getElementById('pick-word-match')
+            .addEventListener('click', () => this.launchWordMatchGame());
+        document
+            .getElementById('pick-memory')
+            .addEventListener('click', () => this.launchMemoryGame());
+        document
+            .getElementById('pick-odd-one-out')
+            .addEventListener('click', () => this.launchOddOneOutGame());
+        document
+            .getElementById('pick-reflex')
+            .addEventListener('click', () => this.launchReflexGame());
+        document
+            .getElementById('pick-picture-word')
+            .addEventListener('click', () => this.launchPictureWordGame());
+        document
+            .getElementById('game-picker-close')
+            .addEventListener('click', () => this.renderHomeDashboard());
+        this.ui.container.querySelectorAll('.game-pick-duel-btn').forEach((btn) => {
             btn.addEventListener('click', (e) => {
                 e.stopPropagation();
-                if (!this.state.currentUser) { alert('Vui lòng đăng nhập trước khi thi đấu 1v1!'); return; }
+                if (!this.state.currentUser) {
+                    alert('Vui lòng đăng nhập trước khi thi đấu 1v1!');
+                    return;
+                }
                 this.renderDuelChallengeForm(btn.dataset.gameType);
             });
         });
@@ -195,7 +233,9 @@ Object.assign(DuoClone.prototype, {
     // (easy vocab + relaxed timers); otherwise it scales with the player's rank. Duels are
     // unaffected (they hand pre-generated rounds to the game).
     gameDifficulty() {
-        return (this.isBeginnerMode() || (this.state.stats && this.state.stats.easyMode)) ? 1 : getRankInfo(this.state.xp).difficulty;
+        return this.isBeginnerMode() || (this.state.stats && this.state.stats.easyMode)
+            ? 1
+            : getRankInfo(this.state.xp).difficulty;
     },
 
     launchWordMatchGame() {
@@ -203,7 +243,7 @@ Object.assign(DuoClone.prototype, {
             Games.renderWordMatchGame(this.ui.container, {
                 onRoundEnd: (matched, total) => this.applyGameReward(matched, total),
                 onExit: () => this.renderGamePicker(),
-                difficulty: this.gameDifficulty()
+                difficulty: this.gameDifficulty(),
             });
         }
     },
@@ -211,11 +251,15 @@ Object.assign(DuoClone.prototype, {
     launchMemoryGame() {
         if (window.Games) {
             const userId = this.state.profile ? this.state.profile.id : 'guest';
-            Games.renderMemoryGame(this.ui.container, {
-                onRoundEnd: (matched, total) => this.applyGameReward(matched, total),
-                onExit: () => this.renderGamePicker(),
-                difficulty: this.gameDifficulty()
-            }, userId);
+            Games.renderMemoryGame(
+                this.ui.container,
+                {
+                    onRoundEnd: (matched, total) => this.applyGameReward(matched, total),
+                    onExit: () => this.renderGamePicker(),
+                    difficulty: this.gameDifficulty(),
+                },
+                userId
+            );
         }
     },
 
@@ -224,7 +268,7 @@ Object.assign(DuoClone.prototype, {
             Games.renderOddOneOutGame(this.ui.container, {
                 onRoundEnd: (matched, total) => this.applyGameReward(matched, total),
                 onExit: () => this.renderGamePicker(),
-                difficulty: this.gameDifficulty()
+                difficulty: this.gameDifficulty(),
             });
         }
     },
@@ -234,7 +278,7 @@ Object.assign(DuoClone.prototype, {
             Games.renderReflexGame(this.ui.container, {
                 onRoundEnd: (matched, total) => this.applyGameReward(matched, total),
                 onExit: () => this.renderGamePicker(),
-                difficulty: this.gameDifficulty()
+                difficulty: this.gameDifficulty(),
             });
         }
     },
@@ -243,7 +287,7 @@ Object.assign(DuoClone.prototype, {
         if (window.Games) {
             Games.renderPictureWordGame(this.ui.container, {
                 onRoundEnd: (matched, total) => this.applyGameReward(matched, total),
-                onExit: () => this.renderGamePicker()
+                onExit: () => this.renderGamePicker(),
             });
         }
     },
@@ -255,7 +299,10 @@ Object.assign(DuoClone.prototype, {
     // app only ever disables it, and a display:none that relied on an exit callback to
     // undo once stuck forever when users left via the home button (bug 0fcdd79).
     launchUnitScenario(unitIdx) {
-        if (!window.Scenarios) { alert('Tính năng đang tải, thử lại sau giây lát nhé!'); return; }
+        if (!window.Scenarios) {
+            alert('Tính năng đang tải, thử lại sau giây lát nhé!');
+            return;
+        }
         // Lazy course data (GĐ0): the scenario is built from the unit's own content, so
         // make sure the chapter's chunk is loaded before reading it.
         if (window.CourseLoader && !window.CourseLoader.isLoaded(unitIdx)) {
@@ -267,7 +314,9 @@ Object.assign(DuoClone.prototype, {
         this.ui.checkBtn.disabled = true;
         this.ui.checkBtn.classList.remove('active');
         if (this.ui.skipBtn) this.ui.skipBtn.style.display = 'none';
-        window.Scenarios.openUnit(this.ui.container, unit, unitIdx, () => this.renderHomeDashboard());
+        window.Scenarios.openUnit(this.ui.container, unit, unitIdx, () =>
+            this.renderHomeDashboard()
+        );
     },
 
     applyGameReward(matched, total) {
@@ -280,7 +329,10 @@ Object.assign(DuoClone.prototype, {
             const before = this.state.hearts;
             // Game rewards still respect the cap - but never REDUCE hearts that are
             // already above it (achievement bonuses may have pushed them past MAX).
-            this.state.hearts = Math.max(this.state.hearts, Math.min(MAX_HEARTS, this.state.hearts + reward));
+            this.state.hearts = Math.max(
+                this.state.hearts,
+                Math.min(MAX_HEARTS, this.state.hearts + reward)
+            );
             const actualGained = this.state.hearts - before;
             this.updateHeartsDisplay();
             this.addVibrancy(3);
@@ -306,7 +358,7 @@ Object.assign(DuoClone.prototype, {
             assessmentsPassed: this.state.stats.assessmentsPassed,
             duelsPlayed: this.state.stats.duelsPlayed,
             duelWins: this.state.stats.duelWins,
-            friendCount: this.state.friendCount || 0
+            friendCount: this.state.friendCount || 0,
         };
         const newBadges = this.badgeTracker.checkAndAward(snapshot);
         // Each unlocked achievement grants +5 hearts ON TOP of the normal cap -
@@ -315,11 +367,16 @@ Object.assign(DuoClone.prototype, {
         // simply drains back down over time). completeLogin() was updated to stop
         // clamping stored hearts on load for the same reason.
         const BADGE_HEART_BONUS = 5;
-        newBadges.forEach(b => {
+        newBadges.forEach((b) => {
             this.state.hearts += BADGE_HEART_BONUS;
             this.showBadgeToast(b, BADGE_HEART_BONUS);
             if (window.ActivityFeed && this.state.profile) {
-                window.ActivityFeed.postEvent('badge', this.state.profile.id, this.state.currentUser, `🏅 ${this.state.currentUser} vừa mở khóa huy hiệu "${b.name}"!`);
+                window.ActivityFeed.postEvent(
+                    'badge',
+                    this.state.profile.id,
+                    this.state.currentUser,
+                    `🏅 ${this.state.currentUser} vừa mở khóa huy hiệu "${b.name}"!`
+                );
             }
         });
         if (newBadges.length) {
@@ -365,20 +422,24 @@ Object.assign(DuoClone.prototype, {
 
     async renderAchievements() {
         if (!this.state.currentUser) {
-            alert("Vui lòng đăng nhập trước khi xem thành tích!");
+            alert('Vui lòng đăng nhập trước khi xem thành tích!');
             return;
         }
         const badges = this.badgeTracker
             ? this.badgeTracker.getAllBadgesWithStatus()
-            : BADGE_DEFINITIONS.map(b => ({ ...b, earned: false }));
+            : BADGE_DEFINITIONS.map((b) => ({ ...b, earned: false }));
 
-        const badgeHtml = badges.map(b => `
+        const badgeHtml = badges
+            .map(
+                (b) => `
             <div class="badge-item ${b.earned ? 'earned' : 'locked'}">
                 <div class="badge-icon">${b.earned ? b.icon : '🔒'}</div>
                 <div class="badge-name">${this.escapeHtml(b.name)}</div>
                 <div class="badge-desc">${this.escapeHtml(b.description)}</div>
             </div>
-        `).join('');
+        `
+            )
+            .join('');
 
         this.ui.container.innerHTML = `
             <div class="achievements-screen">
@@ -393,23 +454,33 @@ Object.assign(DuoClone.prototype, {
         `;
         this.ui.checkBtn.disabled = true;
         this.ui.checkBtn.classList.remove('active');
-        document.getElementById('achievements-close').addEventListener('click', () => this.renderHomeDashboard());
-        document.getElementById('view-certificates').addEventListener('click', () => this.renderCertificateHistory());
+        document
+            .getElementById('achievements-close')
+            .addEventListener('click', () => this.renderHomeDashboard());
+        document
+            .getElementById('view-certificates')
+            .addEventListener('click', () => this.renderCertificateHistory());
 
         const teddyListEl = document.getElementById('teddy-list');
         if (window.Leaderboard && window.Leaderboard.isConfigured) {
             const winners = await window.Leaderboard.getHallOfFame(10);
             if (teddyListEl) {
-                teddyListEl.innerHTML = winners.length ? winners.map(w => `
+                teddyListEl.innerHTML = winners.length
+                    ? winners
+                          .map(
+                              (w) => `
                     <div class="leaderboard-row">
                         <span class="lb-rank">🧸</span>
                         <span class="lb-name">${this.clickableUsername(null, w.username)}</span>
                         <span class="lb-xp">${this.escapeHtml(window.Leaderboard.formatWeekLabel(w.week_id))} — ${w.weekly_xp} XP</span>
                     </div>
-                `).join('') : `<p style="text-align: center; color: #777;">Chưa có ai được trao gấu bông. Hãy dẫn đầu bảng xếp hạng vào tối thứ 7!</p>`;
+                `
+                          )
+                          .join('')
+                    : `<p style="text-align: center; color: #777;">Chưa có ai được trao gấu bông. Hãy dẫn đầu bảng xếp hạng vào tối thứ 7!</p>`;
             }
         } else if (teddyListEl) {
             teddyListEl.innerHTML = `<p style="text-align: center; color: #777;">Bảng xếp hạng đang được thiết lập, quay lại sau nhé!</p>`;
         }
-    }
+    },
 });

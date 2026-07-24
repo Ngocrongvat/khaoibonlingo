@@ -29,7 +29,12 @@
     // Pre-fill the units array with stubs so every synchronous consumer keeps working.
     var units = new Array(total);
     for (var i = 0; i < total; i++) {
-        units[i] = { title: man.units[i] ? man.units[i].t : '', description: '', lessons: [], __stub: true };
+        units[i] = {
+            title: man.units[i] ? man.units[i].t : '',
+            description: '',
+            lessons: [],
+            __stub: true,
+        };
     }
     window.COURSE_DATA = { settings: man.settings || {}, units: units };
 
@@ -56,7 +61,11 @@
         if (inflight[c]) return inflight[c];
         var p = new Promise(function (resolve) {
             var s = document.createElement('script');
-            s.src = 'data/course/chunk-' + String(c).padStart(3, '0') + '.js' + (version ? '?d=' + version : '');
+            s.src =
+                'data/course/chunk-' +
+                String(c).padStart(3, '0') +
+                '.js' +
+                (version ? '?d=' + version : '');
             s.async = true;
             s.onload = function () {
                 hydrate(c);

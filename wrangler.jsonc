@@ -1,0 +1,16 @@
+{
+  // Static-assets Worker for KhoaiBonlingo. Pinned to the exact settings Cloudflare's
+  // Workers Builds auto-detected (Worker "khoaibonlingo", Static, output dir ".") so the
+  // deploy is deterministic instead of re-running the non-interactive setup each build.
+  // A sibling .assetsignore keeps node_modules / dev tooling out of the uploaded assets.
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "khoaibonlingo",
+  "compatibility_date": "2026-07-24",
+  "compatibility_flags": ["nodejs_compat"],
+  "observability": {
+    "enabled": true
+  },
+  "assets": {
+    "directory": "."
+  }
+}

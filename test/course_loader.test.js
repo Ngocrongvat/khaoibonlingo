@@ -36,7 +36,17 @@ function makeSandbox() {
             ],
         },
     };
-    const sandbox = { window: win, document: documentStub, Promise, Array, Math, String, Object, JSON, console };
+    const sandbox = {
+        window: win,
+        document: documentStub,
+        Promise,
+        Array,
+        Math,
+        String,
+        Object,
+        JSON,
+        console,
+    };
     sandbox.self = sandbox;
     vm.createContext(sandbox);
     return sandbox;
@@ -52,26 +62,50 @@ function fireLoad(win, chunkIdx, unitsForChunk) {
 
 (async function () {
     const sb = makeSandbox();
-    vm.runInContext(fs.readFileSync(path.join(__dirname, '..', 'assets/js/course-loader.js'), 'utf8'), sb, { filename: 'course-loader.js' });
+    vm.runInContext(
+        fs.readFileSync(path.join(__dirname, '..', 'assets/js/course-loader.js'), 'utf8'),
+        sb,
+        { filename: 'course-loader.js' }
+    );
     const win = sb.window;
     const CL = win.CourseLoader;
 
     console.log('\n== COURSE_DATA built from manifest (stubs) ==');
     ok(!!win.COURSE_DATA, 'COURSE_DATA created');
-    ok(win.COURSE_DATA.units.length === 5, 'units.length === full manifest count (5), not what is loaded');
+    ok(
+        win.COURSE_DATA.units.length === 5,
+        'units.length === full manifest count (5), not what is loaded'
+    );
     ok(win.COURSE_DATA.settings.xp_per_lesson === 7, 'settings carried from manifest');
-    ok(win.COURSE_DATA.units[3].title === 'Delta' && win.COURSE_DATA.units[3].__stub === true, 'stub carries title + __stub flag');
-    ok(Array.isArray(win.COURSE_DATA.units[0].lessons) && win.COURSE_DATA.units[0].lessons.length === 0, 'stub lessons is an empty array (safe for .map/.length)');
-    ok(win.COURSE_DATA.units.map((u) => u.title).join(',') === 'Alpha,Beta,Gamma,Delta,Epsilon', 'path-strip .map(title) works on stubs');
+    ok(
+        win.COURSE_DATA.units[3].title === 'Delta' && win.COURSE_DATA.units[3].__stub === true,
+        'stub carries title + __stub flag'
+    );
+    ok(
+        Array.isArray(win.COURSE_DATA.units[0].lessons) &&
+            win.COURSE_DATA.units[0].lessons.length === 0,
+        'stub lessons is an empty array (safe for .map/.length)'
+    );
+    ok(
+        win.COURSE_DATA.units.map((u) => u.title).join(',') === 'Alpha,Beta,Gamma,Delta,Epsilon',
+        'path-strip .map(title) works on stubs'
+    );
 
     console.log('\n== isLoaded bounds ==');
-    ok(CL.isLoaded(-1) === true && CL.isLoaded(5) === true && CL.isLoaded(99) === true, 'out-of-range treated as loaded (never blocks a render)');
+    ok(
+        CL.isLoaded(-1) === true && CL.isLoaded(5) === true && CL.isLoaded(99) === true,
+        'out-of-range treated as loaded (never blocks a render)'
+    );
     ok(CL.isLoaded(0) === false && CL.isLoaded(3) === false, 'in-range chunks start not-loaded');
 
     console.log('\n== ensure() loads the right chunk + hydrates in place ==');
     appended.length = 0;
     const realGamma = { title: 'Gamma REAL', description: 'd', lessons: [{ id: 1 }] };
-    const realDelta = { title: 'Delta REAL', description: 'd', lessons: [{ id: 2 }, { id: 3 }, { id: 4 }] };
+    const realDelta = {
+        title: 'Delta REAL',
+        description: 'd',
+        lessons: [{ id: 2 }, { id: 3 }, { id: 4 }],
+    };
     const p = CL.ensure(3); // unit 3 -> chunk 1 (units 2,3)
     const p2 = CL.ensure(2); // same chunk 1 -> must dedupe to ONE script
     ok(appended.length === 1, 'two ensures on the same chunk append only one <script> (dedupe)');
@@ -79,11 +113,23 @@ function fireLoad(win, chunkIdx, unitsForChunk) {
     fireLoad(win, 1, [realGamma, realDelta]);
     await p;
     await p2;
-    ok(win.COURSE_DATA.units[2] === realGamma && win.COURSE_DATA.units[3] === realDelta, 'stubs replaced by real units at the right offset');
-    ok(!win.COURSE_DATA.units[3].__stub && win.COURSE_DATA.units[3].lessons.length === 3, 'hydrated unit has real content');
-    ok(CL.isLoaded(2) === true && CL.isLoaded(3) === true, 'both units of the chunk now report loaded');
+    ok(
+        win.COURSE_DATA.units[2] === realGamma && win.COURSE_DATA.units[3] === realDelta,
+        'stubs replaced by real units at the right offset'
+    );
+    ok(
+        !win.COURSE_DATA.units[3].__stub && win.COURSE_DATA.units[3].lessons.length === 3,
+        'hydrated unit has real content'
+    );
+    ok(
+        CL.isLoaded(2) === true && CL.isLoaded(3) === true,
+        'both units of the chunk now report loaded'
+    );
     ok(CL.isLoaded(0) === false, 'a different chunk stays unloaded');
-    ok(win.COURSE_CHUNKS[1] === undefined, 'raw chunk store freed after hydration (no double reference)');
+    ok(
+        win.COURSE_CHUNKS[1] === undefined,
+        'raw chunk store freed after hydration (no double reference)'
+    );
 
     console.log('\n== ensure() on an already-loaded chunk is instant (no new script) ==');
     appended.length = 0;
@@ -95,13 +141,18 @@ function fireLoad(win, chunkIdx, unitsForChunk) {
     CL.prefetch(0); // chunk 0 -> prefetch chunk 1... already loaded, so nothing
     ok(appended.length === 0, 'prefetch skips an already-loaded next chunk');
     CL.prefetch(2); // chunk 1 -> prefetch chunk 2 (unit 4), not loaded
-    ok(appended.length === 1 && /chunk-002\.js/.test(appended[0].src), 'prefetch loads the following chunk in the background');
+    ok(
+        appended.length === 1 && /chunk-002\.js/.test(appended[0].src),
+        'prefetch loads the following chunk in the background'
+    );
 
     console.log('\n== ensure() out of range resolves without a script ==');
     appended.length = 0;
     await CL.ensure(999);
     ok(appended.length === 0, 'out-of-range ensure is a no-op');
 
-    console.log(`\n=========================================\nRESULT: ${PASS} passed, ${FAIL} failed`);
+    console.log(
+        `\n=========================================\nRESULT: ${PASS} passed, ${FAIL} failed`
+    );
     process.exit(FAIL ? 1 : 0);
 })();

@@ -9,11 +9,15 @@ Object.assign(DuoClone.prototype, {
         this.state.authUser = user;
         const profile = await window.AuthService.ensureProfile(user, fallbackUsername);
         if (!profile) {
-            alert('Không tải được hồ sơ người dùng. Có thể bảng "profiles" chưa được tạo trên Supabase, hoặc đã có lỗi khi tạo hồ sơ. Vui lòng thử lại.');
+            alert(
+                'Không tải được hồ sơ người dùng. Có thể bảng "profiles" chưa được tạo trên Supabase, hoặc đã có lỗi khi tạo hồ sơ. Vui lòng thử lại.'
+            );
             return;
         }
         if (profile.usernameWasTaken) {
-            alert(`Tên hiển thị "${profile.usernameWasTaken}" đã có người dùng khác sử dụng. Bạn sẽ dùng tên "${profile.username}" thay thế.`);
+            alert(
+                `Tên hiển thị "${profile.usernameWasTaken}" đã có người dùng khác sử dụng. Bạn sẽ dùng tên "${profile.username}" thay thế.`
+            );
         }
         if (profile.banned) {
             alert('Tài khoản của bạn đã bị khóa. Vui lòng liên hệ quản trị viên.');
@@ -85,7 +89,12 @@ Object.assign(DuoClone.prototype, {
         if (isNewSignup) {
             this.showWelcomeToast(profile.username);
             if (window.ActivityFeed) {
-                window.ActivityFeed.postEvent('welcome', profile.id, profile.username, `🎉 Chào mừng thành viên mới ${profile.username} đã gia nhập KhoaiBonlingo!`);
+                window.ActivityFeed.postEvent(
+                    'welcome',
+                    profile.id,
+                    profile.username,
+                    `🎉 Chào mừng thành viên mới ${profile.username} đã gia nhập KhoaiBonlingo!`
+                );
             }
         }
 
@@ -114,7 +123,12 @@ Object.assign(DuoClone.prototype, {
         if (this.state.mode === 'duel') {
             return this.state.duelQueue[this.state.duelIdx];
         }
-        if (this.state.mode === 'practice' || this.state.mode === 'assessment' || this.state.mode === 'placement' || this.state.mode === 'gate') {
+        if (
+            this.state.mode === 'practice' ||
+            this.state.mode === 'assessment' ||
+            this.state.mode === 'placement' ||
+            this.state.mode === 'gate'
+        ) {
             return this.state.practiceQueue[this.state.practiceIdx];
         }
         if (this.state.reviewMode) {
@@ -136,8 +150,12 @@ Object.assign(DuoClone.prototype, {
     // don't reshuffle, dictation phase stays put).
     presentedExerciseFor(lesson, idx) {
         const key = `${this.state.currentUnitIdx}:${this.state.currentLessonIdx}:${this.state.stats.easyMode ? 'E' : 'N'}`;
-        if (this._presentKey !== key) { this._presentKey = key; this._presentCache = {}; }
-        if (!this._presentCache[idx]) this._presentCache[idx] = this.presentExercise(lesson.exercises[idx], idx);
+        if (this._presentKey !== key) {
+            this._presentKey = key;
+            this._presentCache = {};
+        }
+        if (!this._presentCache[idx])
+            this._presentCache[idx] = this.presentExercise(lesson.exercises[idx], idx);
         return this._presentCache[idx];
     },
 
@@ -148,28 +166,53 @@ Object.assign(DuoClone.prototype, {
             // Word-first on-ramp (Phase 2): strip the decoy tiles from 'translate' so young
             // learners assemble the sentence from ONLY the needed words. Safe because the
             // answer check compares the assembled WORDS to ex.correct, not the tile order.
-            if (raw.type === 'translate' && Array.isArray(raw.correct) && Array.isArray(raw.options)
-                && raw.options.length > raw.correct.length) {
+            if (
+                raw.type === 'translate' &&
+                Array.isArray(raw.correct) &&
+                Array.isArray(raw.options) &&
+                raw.options.length > raw.correct.length
+            ) {
                 return { ...raw, options: shuffleArray(raw.correct), _beginnerized: true };
             }
             // Make it MARKEDLY easier for kids mode: reduce multiple_choice / listening to
             // just the answer + ONE decoy — a clear, confidence-building 2-way pick. The
             // correct index is remapped to the trimmed, reshuffled options.
-            if ((raw.type === 'multiple_choice' || raw.type === 'listening')
-                && Array.isArray(raw.options) && typeof raw.correct === 'number' && raw.options.length > 2) {
+            if (
+                (raw.type === 'multiple_choice' || raw.type === 'listening') &&
+                Array.isArray(raw.options) &&
+                typeof raw.correct === 'number' &&
+                raw.options.length > 2
+            ) {
                 const answer = raw.options[raw.correct];
-                const decoy = shuffleArray(raw.options.filter((_, i) => i !== raw.correct)).slice(0, 1);
+                const decoy = shuffleArray(raw.options.filter((_, i) => i !== raw.correct)).slice(
+                    0,
+                    1
+                );
                 const opts = shuffleArray([answer, ...decoy]);
-                return { ...raw, options: opts, correct: opts.indexOf(answer), _beginnerized: true };
+                return {
+                    ...raw,
+                    options: opts,
+                    correct: opts.indexOf(answer),
+                    _beginnerized: true,
+                };
             }
             return raw;
         }
         // Normal chapters: sprinkle in the 3-phase dictation (listen → type → read aloud)
         // by upgrading ~1/3 of the multi-word 'translate' drills. dictationWordBank() only
         // needs ex.target (which translate already has), so the swap is a clean type flip.
-        if (raw.type === 'translate' && raw.target && String(raw.target).trim().split(/\s+/).length >= 3
-            && ((this.state.currentUnitIdx + this.state.currentLessonIdx + exIdx) % 3 === 0)) {
-            return { ...raw, type: 'dictation', question: 'Nghe và gõ lại câu:', _threePhase: true };
+        if (
+            raw.type === 'translate' &&
+            raw.target &&
+            String(raw.target).trim().split(/\s+/).length >= 3 &&
+            (this.state.currentUnitIdx + this.state.currentLessonIdx + exIdx) % 3 === 0
+        ) {
+            return {
+                ...raw,
+                type: 'dictation',
+                question: 'Nghe và gõ lại câu:',
+                _threePhase: true,
+            };
         }
         return raw;
     },
@@ -212,7 +255,9 @@ Object.assign(DuoClone.prototype, {
     startPresenceHeartbeat() {
         setInterval(() => {
             if (this.state.profile && window.AuthService) {
-                window.AuthService.updateProfile(this.state.profile.id, { last_active_at: new Date().toISOString() });
+                window.AuthService.updateProfile(this.state.profile.id, {
+                    last_active_at: new Date().toISOString(),
+                });
             }
         }, 60000);
     },
@@ -274,11 +319,16 @@ Object.assign(DuoClone.prototype, {
         // Lazy course data (GĐ0): the current chapter's content must be resident before
         // ANY unit read below — including the gate reroute and getCurrentExercise. Load
         // then re-enter if needed; prefetch the next chapter so advancing stays seamless.
-        if (this.state.mode === 'curriculum' && window.CourseLoader && !window.CourseLoader.isLoaded(this.state.currentUnitIdx)) {
+        if (
+            this.state.mode === 'curriculum' &&
+            window.CourseLoader &&
+            !window.CourseLoader.isLoaded(this.state.currentUnitIdx)
+        ) {
             window.CourseLoader.ensure(this.state.currentUnitIdx).then(() => this.renderLesson());
             return;
         }
-        if (this.state.mode === 'curriculum' && window.CourseLoader) window.CourseLoader.prefetch(this.state.currentUnitIdx);
+        if (this.state.mode === 'curriculum' && window.CourseLoader)
+            window.CourseLoader.prefetch(this.state.currentUnitIdx);
         // Held between chapters until the mandatory gate test is passed (Cluster B). Any
         // entry into the lesson view (Home "TIẾP TỤC HỌC", reload) reroutes to the gate.
         if (this.state.mode === 'curriculum' && this.state.pendingChapterGate != null) {
@@ -290,7 +340,10 @@ Object.assign(DuoClone.prototype, {
         // Dictation is a 3-phase reinforcement drill (assemble → type → read). The phase
         // resets whenever we land on a DIFFERENT exercise instance; a phase transition
         // re-renders the SAME instance (see checkAnswer) and keeps its phase.
-        if (this.state._dictExRef !== ex) { this.state._dictExRef = ex; this.state.dictationPhase = 0; }
+        if (this.state._dictExRef !== ex) {
+            this.state._dictExRef = ex;
+            this.state.dictationPhase = 0;
+        }
 
         this.ensureSessionAnswerContext();
         this.updateNav();
@@ -298,11 +351,19 @@ Object.assign(DuoClone.prototype, {
         const progressLabel = this.getLessonProgressLabel();
         let html = progressLabel ? `<div class="lesson-progress-label">${progressLabel}</div>` : '';
         // Clear visual cue that kids/Easy mode is on and the questions are made easier.
-        if (this.state.mode === 'curriculum' && (this.isBeginnerMode() || (this.state.stats && this.state.stats.easyMode))) {
+        if (
+            this.state.mode === 'curriculum' &&
+            (this.isBeginnerMode() || (this.state.stats && this.state.stats.easyMode))
+        ) {
             html += `<div class="easy-mode-badge">🧸 Chế độ dễ cho trẻ nhỏ · câu hỏi đã được làm dễ hơn</div>`;
         }
         // dictation renders its own phase-specific prompt inside its branch.
-        if (ex.type !== 'reading' && ex.type !== 'dialogue' && ex.type !== 'listening_comprehension' && ex.type !== 'dictation') {
+        if (
+            ex.type !== 'reading' &&
+            ex.type !== 'dialogue' &&
+            ex.type !== 'listening_comprehension' &&
+            ex.type !== 'dictation'
+        ) {
             html += `<div class="exercise-title">${this.escapeHtml(ex.question || 'Dịch câu này')}</div>`;
         }
 
@@ -313,7 +374,10 @@ Object.assign(DuoClone.prototype, {
             });
             html += `</div>`;
         } else if (ex.type === 'preposition' || ex.type === 'fill_blank') {
-            const blanked = this.escapeHtml(ex.sentence).replace('___', '<span class="blank">_____</span>');
+            const blanked = this.escapeHtml(ex.sentence).replace(
+                '___',
+                '<span class="blank">_____</span>'
+            );
             html += `<div class="exercise-prompt preposition-sentence" style="font-size: 22px; margin-bottom: 20px; color: #333; font-weight: 600;">${blanked}</div>`;
             html += `<div class="options-grid">`;
             ex.options.forEach((opt, i) => {
@@ -369,7 +433,9 @@ Object.assign(DuoClone.prototype, {
                 html += audioBtns;
                 const bank = this.dictationWordBank(ex);
                 html += `<div class="word-bank">`;
-                bank.forEach((word, i) => { html += `<div class="word-chip" data-idx="${i}">${this.escapeHtml(word)}</div>`; });
+                bank.forEach((word, i) => {
+                    html += `<div class="word-chip" data-idx="${i}">${this.escapeHtml(word)}</div>`;
+                });
                 html += `</div><div class="answer-slot" id="answer-slot"></div>`;
             } else if (phase === 1) {
                 // Phase 2: type the SAME sentence from memory, no word bank - deepens recall.
@@ -397,7 +463,7 @@ Object.assign(DuoClone.prototype, {
             html += `</div>`;
         } else if (ex.type === 'dialogue') {
             html += `<div class="dialogue-box">`;
-            ex.lines.forEach(line => {
+            ex.lines.forEach((line) => {
                 html += `<div class="dialogue-line">${this.escapeHtml(line)}</div>`;
             });
             html += `</div>`;
@@ -408,17 +474,21 @@ Object.assign(DuoClone.prototype, {
             });
             html += `</div>`;
         } else if (ex.type === 'matching') {
-            const leftItems = shuffleArray(ex.pairs.map(p => ({ id: p.id, text: p.en })));
-            const rightItems = shuffleArray(ex.pairs.map(p => ({ id: p.id, text: p.vi })));
-            this.state.matchingState = { matchedIds: new Set(), mistakenIds: new Set(), selectedLeftId: null };
+            const leftItems = shuffleArray(ex.pairs.map((p) => ({ id: p.id, text: p.en })));
+            const rightItems = shuffleArray(ex.pairs.map((p) => ({ id: p.id, text: p.vi })));
+            this.state.matchingState = {
+                matchedIds: new Set(),
+                mistakenIds: new Set(),
+                selectedLeftId: null,
+            };
             html += `<div class="match-game-area" id="match-area">
                         <svg class="match-lines-svg" id="match-svg"></svg>
                         <div class="match-game-grid">
                             <div class="match-column" id="match-left">
-                                ${leftItems.map(item => `<div class="match-card" data-id="${item.id}">${this.escapeHtml(item.text)}</div>`).join('')}
+                                ${leftItems.map((item) => `<div class="match-card" data-id="${item.id}">${this.escapeHtml(item.text)}</div>`).join('')}
                             </div>
                             <div class="match-column" id="match-right">
-                                ${rightItems.map(item => `<div class="match-card" data-id="${item.id}">${this.escapeHtml(item.text)}</div>`).join('')}
+                                ${rightItems.map((item) => `<div class="match-card" data-id="${item.id}">${this.escapeHtml(item.text)}</div>`).join('')}
                             </div>
                         </div>
                      </div>`;
@@ -435,7 +505,7 @@ Object.assign(DuoClone.prototype, {
                 html += `<div class="reading-passage">${this.escapeHtml(ex.text)}</div>`;
             } else {
                 const label = ex.kind === 'song' ? '(Lời bài hát)' : '';
-                html += `${label ? `<p style="text-align:center; color:#999; font-size:13px; margin-bottom:4px;">${label}</p>` : ''}<div class="dialogue-box">${ex.lines.map(l => `<div class="dialogue-line">${this.escapeHtml(l)}</div>`).join('')}</div>`;
+                html += `${label ? `<p style="text-align:center; color:#999; font-size:13px; margin-bottom:4px;">${label}</p>` : ''}<div class="dialogue-box">${ex.lines.map((l) => `<div class="dialogue-line">${this.escapeHtml(l)}</div>`).join('')}</div>`;
             }
             html += `<div class="exercise-title" style="margin-top: 20px;">${this.escapeHtml(ex.question)}</div>`;
             html += `<div class="pronunciation-controls">
@@ -482,7 +552,7 @@ Object.assign(DuoClone.prototype, {
 
     playAudio(text, rate = 0.9) {
         if (!('speechSynthesis' in window)) {
-            console.log("Speech synthesis not supported on this device.");
+            console.log('Speech synthesis not supported on this device.');
             return;
         }
         speechSynthesis.cancel();
@@ -503,21 +573,31 @@ Object.assign(DuoClone.prototype, {
         // Tap-to-toggle: a second tap WHILE listening stops and scores. This is the fix
         // for iPhone Safari where onend often never fires on its own, leaving the mic
         // stuck on "Đang nghe..." with no way to stop.
-        if (this.recognitionActive) { this.stopRecording(); return; }
+        if (this.recognitionActive) {
+            this.stopRecording();
+            return;
+        }
 
         const resultEl = document.getElementById('pronunciation-result');
         const micBtn = document.getElementById('mic-btn');
 
         const SpeechRecognitionCtor = window.SpeechRecognition || window.webkitSpeechRecognition;
         if (!SpeechRecognitionCtor) {
-            if (resultEl) resultEl.innerText = 'Trình duyệt của bạn không hỗ trợ nhận diện giọng nói.';
+            if (resultEl)
+                resultEl.innerText = 'Trình duyệt của bạn không hỗ trợ nhận diện giọng nói.';
             return;
         }
 
         // Tear the previous session down hard (abort, not stop) - iOS Safari can throw
         // "recognition has already started" if a stale instance lingers.
         if (this.recognition) {
-            try { this.recognition.onresult = this.recognition.onend = this.recognition.onerror = null; this.recognition.abort(); } catch (e) { }
+            try {
+                this.recognition.onresult =
+                    this.recognition.onend =
+                    this.recognition.onerror =
+                        null;
+                this.recognition.abort();
+            } catch (e) {}
             this.recognition = null;
         }
 
@@ -544,7 +624,10 @@ Object.assign(DuoClone.prototype, {
             if (score > best.score) best = { transcript, score };
         };
         const idleMic = () => {
-            if (micBtn) { micBtn.classList.remove('recording'); micBtn.innerHTML = '<span style="font-size: 32px;">🎤</span><br>Nhấn để nói'; }
+            if (micBtn) {
+                micBtn.classList.remove('recording');
+                micBtn.innerHTML = '<span style="font-size: 32px;">🎤</span><br>Nhấn để nói';
+            }
         };
 
         // Commit exactly once - on natural end, manual stop, error, or the safety timeout.
@@ -564,7 +647,8 @@ Object.assign(DuoClone.prototype, {
                     let html = `Bạn nói: "${this.escapeHtml(best.transcript)}"`;
                     if (target) {
                         const s = this.pronunciationScore(best.transcript, target);
-                        const color = s >= 80 ? 'var(--duo-green)' : (s >= 50 ? '#ffc800' : 'var(--duo-red)');
+                        const color =
+                            s >= 80 ? 'var(--duo-green)' : s >= 50 ? '#ffc800' : 'var(--duo-red)';
                         html += `<br><span style="font-weight:800; color:${color};">Độ chính xác: ${s}%</span>`;
                     }
                     resultEl.innerHTML = html;
@@ -582,9 +666,13 @@ Object.assign(DuoClone.prototype, {
         this.recognitionActive = true;
         if (micBtn) {
             micBtn.classList.add('recording');
-            micBtn.innerHTML = '<span style="font-size: 30px;">🎙️</span><br>Đang nghe... (chạm để dừng)';
+            micBtn.innerHTML =
+                '<span style="font-size: 30px;">🎙️</span><br>Đang nghe... (chạm để dừng)';
         }
-        if (resultEl) { resultEl.innerText = ''; delete resultEl.dataset.err; }
+        if (resultEl) {
+            resultEl.innerText = '';
+            delete resultEl.dataset.err;
+        }
 
         recognition.onresult = (event) => {
             for (let i = event.resultIndex; i < event.results.length; i++) {
@@ -593,13 +681,18 @@ Object.assign(DuoClone.prototype, {
             }
             // Live interim preview ONLY (grey, no score, Check stays disabled) so the
             // result isn't shown before the user has finished speaking.
-            if (resultEl && lastInterim) resultEl.innerHTML = `<span style="color:#999;">Đang nghe: "${this.escapeHtml(lastInterim)}"…</span>`;
+            if (resultEl && lastInterim)
+                resultEl.innerHTML = `<span style="color:#999;">Đang nghe: "${this.escapeHtml(lastInterim)}"…</span>`;
         };
 
         recognition.onerror = (e) => {
             const err = e && e.error;
             if (err === 'not-allowed' || err === 'service-not-allowed' || err === 'audio-capture') {
-                if (resultEl) { resultEl.dataset.err = '1'; resultEl.innerText = 'Hãy cho phép truy cập micro (và có mạng) để chấm phát âm nhé.'; }
+                if (resultEl) {
+                    resultEl.dataset.err = '1';
+                    resultEl.innerText =
+                        'Hãy cho phép truy cập micro (và có mạng) để chấm phát âm nhé.';
+                }
                 finalize();
             }
             // no-speech / aborted / network: let onend commit whatever (if anything) we heard.
@@ -621,11 +714,15 @@ Object.assign(DuoClone.prototype, {
     // Stop listening and score. Called by the mic toggle and the safety timeout.
     stopRecording() {
         if (!this.recognitionActive) return;
-        try { if (this.recognition) this.recognition.stop(); } catch (e) { }
+        try {
+            if (this.recognition) this.recognition.stop();
+        } catch (e) {}
         // iOS may never fire onend after stop(); force-commit shortly after so the mic
         // button always returns to idle and the score is shown.
         clearTimeout(this._recStopFallback);
-        this._recStopFallback = setTimeout(() => { if (this._recFinalize) this._recFinalize(); }, 1400);
+        this._recStopFallback = setTimeout(() => {
+            if (this._recFinalize) this._recFinalize();
+        }, 1400);
     },
 
     // Character-level similarity (0-100) between what was recognized and the target
@@ -660,13 +757,13 @@ Object.assign(DuoClone.prototype, {
         const normalizedUser = this.normalizeSpeech(userText);
         if (!normalizedUser) return false;
         const userWords = normalizedUser.split(' ');
-        return acceptedAnswers.some(accepted => {
+        return acceptedAnswers.some((accepted) => {
             const normalizedAccepted = this.normalizeSpeech(accepted);
             if (!normalizedAccepted) return false;
             if (normalizedUser.includes(normalizedAccepted)) return true;
             const acceptedWords = normalizedAccepted.split(' ');
             if (acceptedWords.length === 1) return false;
-            const matches = acceptedWords.filter(w => userWords.includes(w)).length;
+            const matches = acceptedWords.filter((w) => userWords.includes(w)).length;
             return matches / acceptedWords.length >= 0.8;
         });
     },
@@ -685,10 +782,34 @@ Object.assign(DuoClone.prototype, {
     dictationWordBank(ex) {
         if (ex._dictBank) return ex._dictBank;
         const words = (ex.target || '').split(' ').filter(Boolean);
-        const inSentence = new Set(words.map(w => w.toLowerCase()));
-        const POOL = ['the', 'a', 'an', 'is', 'are', 'was', 'were', 'you', 'we', 'they', 'and', 'very', 'today', 'not', 'do', 'have', 'his', 'her', 'this', 'that', 'can', 'will', 'my'];
+        const inSentence = new Set(words.map((w) => w.toLowerCase()));
+        const POOL = [
+            'the',
+            'a',
+            'an',
+            'is',
+            'are',
+            'was',
+            'were',
+            'you',
+            'we',
+            'they',
+            'and',
+            'very',
+            'today',
+            'not',
+            'do',
+            'have',
+            'his',
+            'her',
+            'this',
+            'that',
+            'can',
+            'will',
+            'my',
+        ];
         const n = Math.min(3, Math.max(1, Math.floor(words.length / 2)));
-        const distractors = shuffleArray(POOL.filter(w => !inSentence.has(w))).slice(0, n);
+        const distractors = shuffleArray(POOL.filter((w) => !inSentence.has(w))).slice(0, n);
         ex._dictBank = shuffleArray([...words, ...distractors]);
         return ex._dictBank;
     },
@@ -701,9 +822,12 @@ Object.assign(DuoClone.prototype, {
     // wrong summary.
     ensureSessionAnswerContext() {
         const mode = this.state.mode;
-        const key = mode === 'curriculum'
-            ? `curriculum:${this.state.currentUnitIdx}:${this.state.currentLessonIdx}`
-            : (mode === 'duel' ? `duel:${this.state.duelId}` : mode);
+        const key =
+            mode === 'curriculum'
+                ? `curriculum:${this.state.currentUnitIdx}:${this.state.currentLessonIdx}`
+                : mode === 'duel'
+                  ? `duel:${this.state.duelId}`
+                  : mode;
         if (this.state.sessionAnswersKey !== key) {
             this.state.sessionAnswersKey = key;
             this.resetSessionAnswers();
@@ -714,7 +838,16 @@ Object.assign(DuoClone.prototype, {
         const ex = this.getCurrentExercise();
         let isCorrect = false;
 
-        const optionBasedTypes = ['multiple_choice', 'listening', 'preposition', 'fill_blank', 'synonym', 'meaning', 'reading', 'dialogue'];
+        const optionBasedTypes = [
+            'multiple_choice',
+            'listening',
+            'preposition',
+            'fill_blank',
+            'synonym',
+            'meaning',
+            'reading',
+            'dialogue',
+        ];
         if (optionBasedTypes.includes(ex.type)) {
             isCorrect = this.state.selectedOption === ex.correct;
         } else if (ex.type === 'translate' || ex.type === 'ordering') {
@@ -724,7 +857,9 @@ Object.assign(DuoClone.prototype, {
         } else if (ex.type === 'dictation') {
             const phase = this.state.dictationPhase || 0;
             if (phase === 0) {
-                isCorrect = JSON.stringify(this.state.currentAnswer) === JSON.stringify((ex.target || '').split(' '));
+                isCorrect =
+                    JSON.stringify(this.state.currentAnswer) ===
+                    JSON.stringify((ex.target || '').split(' '));
             } else if (phase === 1) {
                 isCorrect = this.comparePronunciation(this.state.dictationText, ex.target);
             } else {
@@ -734,9 +869,10 @@ Object.assign(DuoClone.prototype, {
             const ms = this.state.matchingState;
             isCorrect = !!ms && ms.mistakenIds.size === 0;
         } else if (ex.type === 'listening_comprehension') {
-            const answerText = this.state.comprehensionMode === 'speak'
-                ? this.state.recognizedSpeech
-                : this.state.comprehensionText;
+            const answerText =
+                this.state.comprehensionMode === 'speak'
+                    ? this.state.recognizedSpeech
+                    : this.state.comprehensionText;
             isCorrect = this.checkComprehensionAnswer(answerText, ex.acceptedAnswers);
         }
 
@@ -755,7 +891,7 @@ Object.assign(DuoClone.prototype, {
         if (this.errorTracker) {
             if (ex.type === 'matching') {
                 const ms = this.state.matchingState;
-                ex.pairs.forEach(pair => {
+                ex.pairs.forEach((pair) => {
                     this.errorTracker.recordResult(pair.en, !(ms && ms.mistakenIds.has(pair.id)));
                 });
             } else if (ex.type === 'listening_comprehension' && ex.meta) {
@@ -820,7 +956,7 @@ Object.assign(DuoClone.prototype, {
         // flag) is a low-stakes drill - skipping there costs no XP either (announced in
         // its intro). Only the main curriculum keeps the skip penalty.
         const isFreePractice = this.state.mode === 'practice' && !isCoreReview;
-        const skipPenalty = (isCoreReview || isFreePractice) ? 0 : SKIP_XP_PENALTY;
+        const skipPenalty = isCoreReview || isFreePractice ? 0 : SKIP_XP_PENALTY;
 
         // Bug fix: skipping used to ALWAYS queue the skipped exercise into reviewQueue,
         // then advance - but if this was the lesson's last remaining question (nothing
@@ -829,21 +965,30 @@ Object.assign(DuoClone.prototype, {
         // though XP was already deducted. Detect that case up front so it can be
         // handled as "finish the lesson without the completion reward" instead of
         // silently looping back.
-        const isLastBeforeLessonComplete = this.state.mode === 'curriculum' && (() => {
-            if (this.state.reviewMode) return this.state.reviewQueue.length === 1;
-            const unit = this.state.courseData.units[this.state.currentUnitIdx];
-            const lesson = unit.lessons[this.state.currentLessonIdx];
-            return this.state.currentExIdx === lesson.exercises.length - 1 && this.state.reviewQueue.length === 0;
-        })();
+        const isLastBeforeLessonComplete =
+            this.state.mode === 'curriculum' &&
+            (() => {
+                if (this.state.reviewMode) return this.state.reviewQueue.length === 1;
+                const unit = this.state.courseData.units[this.state.currentUnitIdx];
+                const lesson = unit.lessons[this.state.currentLessonIdx];
+                return (
+                    this.state.currentExIdx === lesson.exercises.length - 1 &&
+                    this.state.reviewQueue.length === 0
+                );
+            })();
 
         const confirmMsg = isCoreReview
             ? 'Bỏ qua câu ôn luyện này? Vòng ôn luyện củng cố không tính tim hay XP - bạn sẽ không bị trừ gì cả.'
             : isFreePractice
-                ? 'Bỏ qua câu luyện tập này? Luyện tập tự do không bị trừ tim hay XP nhé.'
-                : (isLastBeforeLessonComplete
-                    ? `Đây là câu điều kiện để hoàn thành bài học! Nếu bỏ qua, bạn sẽ KHÔNG nhận được điểm thưởng hoàn thành bài (vẫn bị trừ ${SKIP_XP_PENALTY} XP). Bạn có chắc muốn bỏ qua không?`
-                    : `Bỏ qua câu này sẽ bị trừ ${SKIP_XP_PENALTY} XP. Bạn có chắc muốn bỏ qua không?`);
-        this.showConfirmDialog(confirmMsg, () => this.performSkip(isLastBeforeLessonComplete, skipPenalty), { okLabel: 'BỎ QUA' });
+              ? 'Bỏ qua câu luyện tập này? Luyện tập tự do không bị trừ tim hay XP nhé.'
+              : isLastBeforeLessonComplete
+                ? `Đây là câu điều kiện để hoàn thành bài học! Nếu bỏ qua, bạn sẽ KHÔNG nhận được điểm thưởng hoàn thành bài (vẫn bị trừ ${SKIP_XP_PENALTY} XP). Bạn có chắc muốn bỏ qua không?`
+                : `Bỏ qua câu này sẽ bị trừ ${SKIP_XP_PENALTY} XP. Bạn có chắc muốn bỏ qua không?`;
+        this.showConfirmDialog(
+            confirmMsg,
+            () => this.performSkip(isLastBeforeLessonComplete, skipPenalty),
+            { okLabel: 'BỎ QUA' }
+        );
     },
 
     // ============== Ôn luyện củng cố (post-lesson review round) ==============
@@ -861,18 +1006,24 @@ Object.assign(DuoClone.prototype, {
 
         // distractor pool: every word answer appearing anywhere in this unit
         const wordPool = [];
-        unit.lessons.forEach(l => l.exercises.forEach(e => {
-            if ((e.type === 'multiple_choice' || e.type === 'listening') && Array.isArray(e.options)) {
-                const ans = String(e.options[e.correct]);
-                if (!wordPool.some(w => w.toLowerCase() === ans.toLowerCase())) wordPool.push(ans);
-            }
-        }));
+        unit.lessons.forEach((l) =>
+            l.exercises.forEach((e) => {
+                if (
+                    (e.type === 'multiple_choice' || e.type === 'listening') &&
+                    Array.isArray(e.options)
+                ) {
+                    const ans = String(e.options[e.correct]);
+                    if (!wordPool.some((w) => w.toLowerCase() === ans.toLowerCase()))
+                        wordPool.push(ans);
+                }
+            })
+        );
         const distractors = (word, n) => {
             const out = [];
             for (const c of shuffleArray(wordPool)) {
                 if (out.length >= n) break;
                 if (c.toLowerCase() === word.toLowerCase()) continue;
-                if (out.some(o => o.toLowerCase() === c.toLowerCase())) continue;
+                if (out.some((o) => o.toLowerCase() === c.toLowerCase())) continue;
                 out.push(c);
             }
             return out.length >= n ? out : null;
@@ -882,8 +1033,13 @@ Object.assign(DuoClone.prototype, {
         const viFor = (en) => {
             if (typeof VOCAB_BANK === 'undefined') return null;
             for (const cat of ['nouns', 'verbs', 'adjectives', 'adverbs']) {
-                const hit = (VOCAB_BANK[cat] || []).find(w =>
-                    w.en && w.en.toLowerCase() === en.toLowerCase() && w.vi && !/[(),\/;]/.test(w.vi));
+                const hit = (VOCAB_BANK[cat] || []).find(
+                    (w) =>
+                        w.en &&
+                        w.en.toLowerCase() === en.toLowerCase() &&
+                        w.vi &&
+                        !/[(),\/;]/.test(w.vi)
+                );
                 if (hit) return hit.vi;
             }
             return null;
@@ -898,37 +1054,96 @@ Object.assign(DuoClone.prototype, {
             const d = distractors(word, 3);
             if (!d) return null;
             const options = shuffleArray([word, ...d]);
-            return { id: rid(), type: 'listening', question: 'Listen and choose the correct word', options, correct: options.indexOf(word) };
+            return {
+                id: rid(),
+                type: 'listening',
+                question: 'Listen and choose the correct word',
+                options,
+                correct: options.indexOf(word),
+            };
         };
         const mkMc = (word) => {
             const vi = viFor(word);
             const d = distractors(word, 3);
             if (!vi || !d) return null;
             const options = shuffleArray([word, ...d]);
-            return { id: rid(), type: 'multiple_choice', question: `How do you say '${vi}'?`, options, correct: options.indexOf(word) };
+            return {
+                id: rid(),
+                type: 'multiple_choice',
+                question: `How do you say '${vi}'?`,
+                options,
+                correct: options.indexOf(word),
+            };
         };
         const mkOrdering = (sentence, vi) => {
             const words = (sentence || '').split(' ');
             if (words.length < 3 || !vi) return null;
-            return { id: rid(), type: 'ordering', source: vi, sentence, shuffled: reshuffledDifferent(words), correct: words };
+            return {
+                id: rid(),
+                type: 'ordering',
+                source: vi,
+                sentence,
+                shuffled: reshuffledDifferent(words),
+                correct: words,
+            };
         };
         const mkTranslate = (sentence, vi) => {
             const words = (sentence || '').split(' ');
             if (words.length < 3 || !vi) return null;
-            const lower = words.map(w => w.toLowerCase());
-            const extras = shuffleArray(['yesterday', 'always', 'because', 'quickly', 'many', 'blue', 'never', 'small'].filter(d => !lower.includes(d))).slice(0, 2);
-            return { id: rid(), type: 'translate', source: vi, target: sentence, options: shuffleArray([...words, ...extras]), correct: words };
+            const lower = words.map((w) => w.toLowerCase());
+            const extras = shuffleArray(
+                [
+                    'yesterday',
+                    'always',
+                    'because',
+                    'quickly',
+                    'many',
+                    'blue',
+                    'never',
+                    'small',
+                ].filter((d) => !lower.includes(d))
+            ).slice(0, 2);
+            return {
+                id: rid(),
+                type: 'translate',
+                source: vi,
+                target: sentence,
+                options: shuffleArray([...words, ...extras]),
+                correct: words,
+            };
         };
-        const mkDictation = (sentence) => ({ id: rid(), type: 'dictation', question: 'Nghe và gõ lại câu:', target: sentence });
-        const mkPronSent = (sentence) => ({ id: rid(), type: 'pronunciation', question: 'Hãy đọc to câu này thật chuẩn:', target: sentence });
-        const mkPronWord = (word) => ({ id: rid(), type: 'pronunciation', question: 'Hãy phát âm từ này thật chuẩn:', target: word });
+        const mkDictation = (sentence) => ({
+            id: rid(),
+            type: 'dictation',
+            question: 'Nghe và gõ lại câu:',
+            target: sentence,
+        });
+        const mkPronSent = (sentence) => ({
+            id: rid(),
+            type: 'pronunciation',
+            question: 'Hãy đọc to câu này thật chuẩn:',
+            target: sentence,
+        });
+        const mkPronWord = (word) => ({
+            id: rid(),
+            type: 'pronunciation',
+            question: 'Hãy phát âm từ này thật chuẩn:',
+            target: word,
+        });
 
         // A review form only counts as "new" if the lesson didn't ALREADY quiz this
         // exact content in that form (e.g. a word taught by BOTH multiple-choice and
         // listening must come back as pronunciation, not as either of those again) -
         // and if the review round itself hasn't claimed that form for it yet.
-        const contentOf = (ex) => ((ex.target || ex.sentence || (Array.isArray(ex.options) ? String(ex.options[ex.correct]) : '')) + '').toLowerCase().trim();
-        const takenPairs = new Set(lesson.exercises.map(e => e.type + '|' + contentOf(e)));
+        const contentOf = (ex) =>
+            (
+                (ex.target ||
+                    ex.sentence ||
+                    (Array.isArray(ex.options) ? String(ex.options[ex.correct]) : '')) + ''
+            )
+                .toLowerCase()
+                .trim();
+        const takenPairs = new Set(lesson.exercises.map((e) => e.type + '|' + contentOf(e)));
         const pickForm = (builders) => {
             for (const build of builders) {
                 const alt = build();
@@ -942,23 +1157,36 @@ Object.assign(DuoClone.prototype, {
         };
 
         const queue = [];
-        lesson.exercises.forEach(e => {
+        lesson.exercises.forEach((e) => {
             let alt = null;
-            if ((e.type === 'multiple_choice' || e.type === 'listening') && Array.isArray(e.options)) {
+            if (
+                (e.type === 'multiple_choice' || e.type === 'listening') &&
+                Array.isArray(e.options)
+            ) {
                 const w = String(e.options[e.correct]);
-                const order = e.type === 'multiple_choice'
-                    ? [() => mkListening(w), () => mkMc(w), () => mkPronWord(w)]
-                    : [() => mkMc(w), () => mkListening(w), () => mkPronWord(w)];
+                const order =
+                    e.type === 'multiple_choice'
+                        ? [() => mkListening(w), () => mkMc(w), () => mkPronWord(w)]
+                        : [() => mkMc(w), () => mkListening(w), () => mkPronWord(w)];
                 alt = pickForm(order);
             } else if (e.type === 'pronunciation') {
                 const t = e.target || '';
-                alt = t.split(' ').length === 1
-                    ? pickForm([() => mkMc(t), () => mkListening(t)])
-                    : pickForm([() => mkDictation(t), () => mkTranslate(t, null)]);
+                alt =
+                    t.split(' ').length === 1
+                        ? pickForm([() => mkMc(t), () => mkListening(t)])
+                        : pickForm([() => mkDictation(t), () => mkTranslate(t, null)]);
             } else if (e.type === 'translate') {
-                alt = pickForm([() => mkOrdering(e.target, e.source), () => mkDictation(e.target), () => mkPronSent(e.target)]);
+                alt = pickForm([
+                    () => mkOrdering(e.target, e.source),
+                    () => mkDictation(e.target),
+                    () => mkPronSent(e.target),
+                ]);
             } else if (e.type === 'ordering') {
-                alt = pickForm([() => mkTranslate(e.sentence, e.source), () => mkDictation(e.sentence), () => mkPronSent(e.sentence)]);
+                alt = pickForm([
+                    () => mkTranslate(e.sentence, e.source),
+                    () => mkDictation(e.sentence),
+                    () => mkPronSent(e.sentence),
+                ]);
             } else if (e.type === 'dictation') {
                 alt = pickForm([() => mkPronSent(e.target), () => mkOrdering(e.target, e.source)]);
             } else if (e.type === 'preposition' && Array.isArray(e.options)) {
@@ -1001,8 +1229,12 @@ Object.assign(DuoClone.prototype, {
         this.ui.checkBtn.classList.remove('active');
         if (this.ui.skipBtn) this.ui.skipBtn.style.display = 'none';
         this.playBigCelebration();
-        document.getElementById('review-done-continue').addEventListener('click', () => this.continueAfterLesson());
-        document.getElementById('review-done-home').addEventListener('click', () => this.renderHomeDashboard());
+        document
+            .getElementById('review-done-continue')
+            .addEventListener('click', () => this.continueAfterLesson());
+        document
+            .getElementById('review-done-home')
+            .addEventListener('click', () => this.renderHomeDashboard());
     },
 
     // End-of-lesson "Tổng kết" screen (replaces the old blocking alert()): celebrates
@@ -1020,17 +1252,23 @@ Object.assign(DuoClone.prototype, {
 
         // Optional reinforcement round: same structures, brand-new questions pulled
         // from the unit's sibling lessons (needs at least 3 to be worth offering).
-        const completedLesson = completedCtx ? completedCtx.unit.lessons[completedCtx.lessonIdx] : null;
-        const reviewQueue = completedCtx ? this.buildLessonReviewQueue(completedCtx.unit, completedCtx.lessonIdx) : [];
+        const completedLesson = completedCtx
+            ? completedCtx.unit.lessons[completedCtx.lessonIdx]
+            : null;
+        const reviewQueue = completedCtx
+            ? this.buildLessonReviewQueue(completedCtx.unit, completedCtx.lessonIdx)
+            : [];
         const coreItems = this.buildLessonCoreSummary(completedLesson);
 
         // Perfect lesson (no wrong answers this session) gets the heart-eyed 'love'
         // face; a normal clear gets 'excited'; a skipped-condition clear stays sheepish.
-        const perfect = (this.state.sessionAnswers || []).length > 0 && (this.state.sessionAnswers || []).every(r => r.isCorrect && !r.hadMistake);
+        const perfect =
+            (this.state.sessionAnswers || []).length > 0 &&
+            (this.state.sessionAnswers || []).every((r) => r.isCorrect && !r.hadMistake);
         // Skipping the condition gets a sheepish, apologetic little face (varied so
         // it isn't always identical) instead of the celebratory one.
         const sheepishMood = pickRandom(['surprised', 'pout', 'dizzy']);
-        const summaryMood = skippedReward ? sheepishMood : (perfect ? 'love' : 'excited');
+        const summaryMood = skippedReward ? sheepishMood : perfect ? 'love' : 'excited';
         const summaryMascot = skippedReward
             ? `<div class="duo-character mascot-wobble-sad" id="skip-mascot">${getMascotSvg(summaryMood, 96)}<span class="mascot-accessory">${pickRandom(['💧', '😅', '🥺'])}</span></div>`
             : this.bigCelebrateMascotHtml(summaryMood, 96);
@@ -1041,10 +1279,14 @@ Object.assign(DuoClone.prototype, {
                 <p style="text-align: center; color: #777;">${this.escapeHtml(subtitle)}</p>
                 ${this.sessionSummaryHtml()}
                 ${this.lessonCoreSummaryHtml(coreItems)}
-                ${reviewQueue.length >= 3 ? `
+                ${
+                    reviewQueue.length >= 3
+                        ? `
                     <button class="btn-primary" id="lesson-review-btn" style="display: block; margin: 20px auto 0; padding: 15px 30px;">🔄 ÔN LUYỆN CỦNG CỐ (${reviewQueue.length} câu)</button>
                     <p style="text-align:center; color:#999; font-size:12.5px; margin:6px 0 0;">Bắt buộc ôn lại cốt lõi vừa học dưới dạng câu hỏi mới - không tốn tim, giúp nhớ thật lâu</p>
-                ` : `<button class="btn-primary" id="lesson-summary-continue" style="display: block; margin: 15px auto; padding: 15px 30px;">TIẾP TỤC</button>`}
+                `
+                        : `<button class="btn-primary" id="lesson-summary-continue" style="display: block; margin: 15px auto; padding: 15px 30px;">TIẾP TỤC</button>`
+                }
             </div>
         `;
         this.ui.checkBtn.disabled = true;
@@ -1060,7 +1302,10 @@ Object.assign(DuoClone.prototype, {
             if (sm) this.spawnMascotParticles(sm, ['💧', '😅', '💦', '💫'], 6);
         }
         const reviewBtn = document.getElementById('lesson-review-btn');
-        if (reviewBtn) reviewBtn.addEventListener('click', () => this.startLessonReview(reviewQueue, coreItems));
+        if (reviewBtn)
+            reviewBtn.addEventListener('click', () =>
+                this.startLessonReview(reviewQueue, coreItems)
+            );
         const continueBtn = document.getElementById('lesson-summary-continue');
         if (continueBtn) continueBtn.addEventListener('click', () => this.continueAfterLesson());
 
@@ -1087,16 +1332,25 @@ Object.assign(DuoClone.prototype, {
         this.ui.checkBtn.classList.remove('active');
         this.playBigCelebration();
         // an extra confetti wave for the biggest moment in the app
-        if (window.confetti) setTimeout(() => confetti({ particleCount: 160, spread: 100, origin: { y: 0.5 } }), 350);
+        if (window.confetti)
+            setTimeout(
+                () => confetti({ particleCount: 160, spread: 100, origin: { y: 0.5 } }),
+                350
+            );
     },
 
     returnToApp() {
-        const inLimitedMode = ['practice', 'assessment', 'placement', 'gate'].includes(this.state.mode);
+        const inLimitedMode = ['practice', 'assessment', 'placement', 'gate'].includes(
+            this.state.mode
+        );
         if (!this.state.currentUser) {
             this.renderAuthScreen();
         } else if (!inLimitedMode && this.state.hearts <= 0) {
             this.renderOutOfHearts();
-        } else if (!inLimitedMode && this.state.currentUnitIdx >= this.state.courseData.units.length) {
+        } else if (
+            !inLimitedMode &&
+            this.state.currentUnitIdx >= this.state.courseData.units.length
+        ) {
             this.renderCourseComplete();
         } else {
             this.renderLesson();
@@ -1143,7 +1397,9 @@ Object.assign(DuoClone.prototype, {
         `;
         this.ui.checkBtn.disabled = true;
         this.ui.checkBtn.classList.remove('active');
-        document.getElementById('out-of-hearts-games').addEventListener('click', () => this.renderGamePicker());
+        document
+            .getElementById('out-of-hearts-games')
+            .addEventListener('click', () => this.renderGamePicker());
         this.playTone('whimper');
 
         this.updateHeartCountdown();
@@ -1165,7 +1421,7 @@ Object.assign(DuoClone.prototype, {
 
     startPracticeMode() {
         if (!this.state.currentUser) {
-            alert("Vui lòng đăng nhập trước khi luyện tập!");
+            alert('Vui lòng đăng nhập trước khi luyện tập!');
             return;
         }
         if (!window.ExerciseGenerator) return;
@@ -1200,12 +1456,17 @@ Object.assign(DuoClone.prototype, {
         // The "Chế độ Dễ (cho trẻ nhỏ)" toggle and the first-10-chapters beginner zone must
         // also make FREE PRACTICE gentle - otherwise a high-level user who turns Easy mode
         // on still gets hard generated drills here (the reported gap).
-        if (this.isBeginnerMode() || (this.state.stats && this.state.stats.easyMode)) difficulty = 1;
-        const weakKeys = this.errorTracker ? new Set(this.errorTracker.getWeakItems(30)) : new Set();
+        if (this.isBeginnerMode() || (this.state.stats && this.state.stats.easyMode))
+            difficulty = 1;
+        const weakKeys = this.errorTracker
+            ? new Set(this.errorTracker.getWeakItems(30))
+            : new Set();
         // Match ALL_TYPES.length so every exercise type appears at least once per session -
         // generateBatch round-robins by index, so a fixed count smaller than the type list
         // would permanently starve whichever types sit at the tail of ALL_TYPES.
-        const batchSize = window.ExerciseGenerator.ALL_TYPES ? window.ExerciseGenerator.ALL_TYPES.length : 10;
+        const batchSize = window.ExerciseGenerator.ALL_TYPES
+            ? window.ExerciseGenerator.ALL_TYPES.length
+            : 10;
 
         this.state.mode = 'practice';
         // A FREE practice session must never inherit the core-review flag: if the user
@@ -1215,7 +1476,11 @@ Object.assign(DuoClone.prototype, {
         // practice XP reward. (User-reported: review and free practice jumping into
         // each other.)
         this.state.lessonReviewCore = null;
-        this.state.practiceQueue = window.ExerciseGenerator.generateBatch(batchSize, difficulty, weakKeys);
+        this.state.practiceQueue = window.ExerciseGenerator.generateBatch(
+            batchSize,
+            difficulty,
+            weakKeys
+        );
         this.state.practiceIdx = 0;
         this.resetSessionAnswers();
         this.renderLesson();
@@ -1247,7 +1512,7 @@ Object.assign(DuoClone.prototype, {
         const PASS_PCT = 55;
         const answers = this.state.sessionAnswers || [];
         const total = this.state.practiceQueue.length || answers.length || 1;
-        const correct = answers.filter(r => r.isCorrect).length;
+        const correct = answers.filter((r) => r.isCorrect).length;
         const pct = Math.round((correct / total) * 100);
         const xpReward = (this.state.courseData.settings || {}).xp_per_lesson || 0;
         const passed = pct > PASS_PCT;
@@ -1276,7 +1541,9 @@ Object.assign(DuoClone.prototype, {
         this.ui.checkBtn.disabled = true;
         this.ui.checkBtn.classList.remove('active');
         this.playBigCelebration(passed);
-        document.getElementById('practice-again').addEventListener('click', () => this.startPracticeMode());
+        document
+            .getElementById('practice-again')
+            .addEventListener('click', () => this.startPracticeMode());
         document.getElementById('practice-exit').addEventListener('click', () => {
             this.state.mode = 'curriculum';
             this.renderHomeDashboard();
@@ -1285,7 +1552,7 @@ Object.assign(DuoClone.prototype, {
 
     startAssessment() {
         if (!this.state.currentUser) {
-            alert("Vui lòng đăng nhập trước khi làm bài kiểm tra!");
+            alert('Vui lòng đăng nhập trước khi làm bài kiểm tra!');
             return;
         }
         if (!window.ExerciseGenerator) return;
@@ -1306,12 +1573,21 @@ Object.assign(DuoClone.prototype, {
     // are staked (it's a knowledge check, not a survival run).
     buildChapterGateQueue(unit) {
         let q = [];
-        (unit.lessons || []).forEach((l, i) => { q = q.concat(this.buildLessonReviewQueue(unit, i) || []); });
-        const seen = new Set(); const out = [];
+        (unit.lessons || []).forEach((l, i) => {
+            q = q.concat(this.buildLessonReviewQueue(unit, i) || []);
+        });
+        const seen = new Set();
+        const out = [];
         for (const ex of shuffleArray(q)) {
-            const key = (ex.question || ex.target || ex.source || JSON.stringify(ex.correct || '')).toLowerCase();
+            const key = (
+                ex.question ||
+                ex.target ||
+                ex.source ||
+                JSON.stringify(ex.correct || '')
+            ).toLowerCase();
             if (seen.has(key)) continue;
-            seen.add(key); out.push(ex);
+            seen.add(key);
+            out.push(ex);
             if (out.length >= 12) break;
         }
         return out;
@@ -1319,11 +1595,17 @@ Object.assign(DuoClone.prototype, {
 
     startChapterGate() {
         const unit = this.state.courseData.units[this.state.currentUnitIdx];
-        if (!unit) { this.advanceChapterAfterGate(); this.renderLesson(); return; }
-        const queue = this.buildChapterGateQueue(unit);
-        if (queue.length < 3) { // not enough distinct core to test - just unlock
+        if (!unit) {
             this.advanceChapterAfterGate();
-            if (this.state.currentUnitIdx >= this.state.courseData.units.length) this.renderCourseComplete();
+            this.renderLesson();
+            return;
+        }
+        const queue = this.buildChapterGateQueue(unit);
+        if (queue.length < 3) {
+            // not enough distinct core to test - just unlock
+            this.advanceChapterAfterGate();
+            if (this.state.currentUnitIdx >= this.state.courseData.units.length)
+                this.renderCourseComplete();
             else this.renderLesson();
             return;
         }
@@ -1401,9 +1683,11 @@ Object.assign(DuoClone.prototype, {
                 ${passed ? this.bigCelebrateMascotHtml('love', 100) : `<div class="duo-character">${getMascotSvg('surprised', 100)}</div>`}
                 <h1 style="text-align: center;">${passed ? `🎉 Vượt qua Chương ${chapterNum}!` : 'Chưa đạt, cố lên nhé!'}</h1>
                 <p style="text-align: center; color: #777;">Bạn trả lời đúng ${correct}/${total} câu (${pct}%).</p>
-                ${passed
-                    ? `<div class="practice-reward practice-reward-win">🏆 Thưởng GẤP ĐÔI: +${reward} XP!</div>`
-                    : `<div class="practice-reward practice-reward-miss">Cần đúng ≥ 70% để qua chương. Ôn lại rồi thử lại nhé!</div>`}
+                ${
+                    passed
+                        ? `<div class="practice-reward practice-reward-win">🏆 Thưởng GẤP ĐÔI: +${reward} XP!</div>`
+                        : `<div class="practice-reward practice-reward-miss">Cần đúng ≥ 70% để qua chương. Ôn lại rồi thử lại nhé!</div>`
+                }
                 <button class="btn-primary" id="gate-continue" style="display: block; margin: 20px auto; padding: 15px 30px;">${passed ? 'HỌC CHƯƠNG MỚI ➜' : 'LÀM LẠI'}</button>
                 <button class="btn-secondary" id="gate-home" style="display: block; margin: 0 auto; padding: 12px 26px;">VỀ TRANG CHÍNH</button>
             </div>`;
@@ -1414,13 +1698,16 @@ Object.assign(DuoClone.prototype, {
         document.getElementById('gate-continue').addEventListener('click', () => {
             this.resetSessionAnswers();
             if (passed) {
-                if (this.state.currentUnitIdx >= this.state.courseData.units.length) this.renderCourseComplete();
+                if (this.state.currentUnitIdx >= this.state.courseData.units.length)
+                    this.renderCourseComplete();
                 else this.renderLesson();
             } else {
                 this.startChapterGate(); // retry the same chapter's gate
             }
         });
-        document.getElementById('gate-home').addEventListener('click', () => this.renderHomeDashboard());
+        document
+            .getElementById('gate-home')
+            .addEventListener('click', () => this.renderHomeDashboard());
     },
 
     // Shown once, right before a brand-new account's very first placement test - without
@@ -1438,7 +1725,9 @@ Object.assign(DuoClone.prototype, {
         `;
         this.ui.checkBtn.disabled = true;
         this.ui.checkBtn.classList.remove('active');
-        document.getElementById('placement-intro-start').addEventListener('click', () => this.startPlacementTest());
+        document
+            .getElementById('placement-intro-start')
+            .addEventListener('click', () => this.startPlacementTest());
     },
 
     startPlacementTest() {
@@ -1453,7 +1742,9 @@ Object.assign(DuoClone.prototype, {
     buildPlacementQueue() {
         const types = ['multiple_choice', 'translate', 'ordering', 'fill_blank'];
         const difficulties = [1, 1, 1, 2, 2, 2, 2, 3, 3, 3];
-        return difficulties.map((d, i) => window.ExerciseGenerator.generateExercise(types[i % types.length], d, null));
+        return difficulties.map((d, i) =>
+            window.ExerciseGenerator.generateExercise(types[i % types.length], d, null)
+        );
     },
 
     nextPlacementExercise() {
@@ -1480,7 +1771,7 @@ Object.assign(DuoClone.prototype, {
         // granting a bonus here is the only way for the placement result to actually
         // move the needle on rank; a strong result lands around Vàng (Gold), a middling
         // one around Bạc (Silver), a weak one starts at the very bottom (Đồng/Bronze).
-        const placementXpBonus = ratio >= 0.75 ? 2000 : (ratio >= 0.4 ? 1000 : 0);
+        const placementXpBonus = ratio >= 0.75 ? 2000 : ratio >= 0.4 ? 1000 : 0;
         this.state.xp += placementXpBonus;
         this.state.weeklyXp = this.state.xp;
 
@@ -1502,7 +1793,9 @@ Object.assign(DuoClone.prototype, {
         `;
         this.ui.checkBtn.disabled = true;
         this.ui.checkBtn.classList.remove('active');
-        document.getElementById('placement-done').addEventListener('click', () => this.startCourse());
+        document
+            .getElementById('placement-done')
+            .addEventListener('click', () => this.startCourse());
     },
 
     nextAssessmentExercise() {
@@ -1519,13 +1812,18 @@ Object.assign(DuoClone.prototype, {
         const correct = this.state.assessmentCorrect;
         const scorePct = Math.round((correct / total) * 100);
         const passed = scorePct >= 70;
-        const level = scorePct >= 90 ? 'Xuất sắc' : (scorePct >= 70 ? 'Đạt yêu cầu' : 'Cần cố gắng thêm');
+        const level =
+            scorePct >= 90 ? 'Xuất sắc' : scorePct >= 70 ? 'Đạt yêu cầu' : 'Cần cố gắng thêm';
         const dateStr = new Date().toLocaleDateString('vi-VN');
 
         if (passed) {
             this.state.stats.assessmentsPassed++;
             this.state.stats.certificates = this.state.stats.certificates || [];
-            this.state.stats.certificates.push({ score: scorePct, level, awardedAt: new Date().toISOString() });
+            this.state.stats.certificates.push({
+                score: scorePct,
+                level,
+                awardedAt: new Date().toISOString(),
+            });
             this.ui.container.innerHTML = `
                 <div class="certificate">
                     <div class="certificate-badge">🏅</div>
@@ -1576,16 +1874,20 @@ Object.assign(DuoClone.prototype, {
             const before = this.state.hearts;
             // Same overflow-safe capping as applyGameReward(): gifts respect MAX_HEARTS
             // but must never clamp DOWN hearts already above it (achievement bonuses).
-            this.state.hearts = Math.max(this.state.hearts, Math.min(MAX_HEARTS, this.state.hearts + 1));
+            this.state.hearts = Math.max(
+                this.state.hearts,
+                Math.min(MAX_HEARTS, this.state.hearts + 1)
+            );
             totalGained += this.state.hearts - before;
             await window.Friends.claimGift(gift.id);
         }
         this.updateHeartsDisplay();
         this.saveUserProgress();
         const lastSender = gifts[gifts.length - 1].from_username;
-        const label = gifts.length > 1
-            ? `🎁 Bạn nhận được ${totalGained} tim từ bạn bè!`
-            : `🎁 Bạn nhận được 1 tim từ ${this.escapeHtml(lastSender)}!`;
+        const label =
+            gifts.length > 1
+                ? `🎁 Bạn nhận được ${totalGained} tim từ bạn bè!`
+                : `🎁 Bạn nhận được 1 tim từ ${this.escapeHtml(lastSender)}!`;
         this.showHeartGiftToast(label);
     },
 
@@ -1603,7 +1905,10 @@ Object.assign(DuoClone.prototype, {
 
     renderCertificateHistory() {
         const certificates = (this.state.stats.certificates || []).slice().reverse();
-        const listHtml = certificates.length ? certificates.map(c => `
+        const listHtml = certificates.length
+            ? certificates
+                  .map(
+                      (c) => `
             <div class="certificate">
                 <div class="certificate-badge">🏅</div>
                 <h2>CHỨNG CHỈ HOÀN THÀNH</h2>
@@ -1612,7 +1917,10 @@ Object.assign(DuoClone.prototype, {
                 <p class="certificate-score">${c.score}% — ${this.escapeHtml(c.level)}</p>
                 <p class="certificate-date">Ngày ${new Date(c.awardedAt).toLocaleDateString('vi-VN')}</p>
             </div>
-        `).join('') : `<p style="text-align: center; color: #777;">Bạn chưa có chứng chỉ nào. Hãy vượt qua bài kiểm tra đánh giá (≥70%) để nhận chứng chỉ đầu tiên!</p>`;
+        `
+                  )
+                  .join('')
+            : `<p style="text-align: center; color: #777;">Bạn chưa có chứng chỉ nào. Hãy vượt qua bài kiểm tra đánh giá (≥70%) để nhận chứng chỉ đầu tiên!</p>`;
 
         this.ui.container.innerHTML = `
             <div class="achievements-screen">
@@ -1623,6 +1931,8 @@ Object.assign(DuoClone.prototype, {
         `;
         this.ui.checkBtn.disabled = true;
         this.ui.checkBtn.classList.remove('active');
-        document.getElementById('cert-history-close').addEventListener('click', () => this.renderHomeDashboard());
-    }
+        document
+            .getElementById('cert-history-close')
+            .addEventListener('click', () => this.renderHomeDashboard());
+    },
 });
