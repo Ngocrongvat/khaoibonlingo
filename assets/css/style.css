@@ -565,6 +565,56 @@ body.ielts-hide-footer .bottom-nav {
     color: var(--duo-blue);
 }
 
+/* ---- Context-first theme lessons: picture prompt + picture choices ---- */
+.pic-prompt {
+    display: flex;
+    justify-content: center;
+    margin: 6px auto 14px;
+}
+.pic-prompt svg,
+.pic-prompt .theme-emoji {
+    width: 150px;
+    height: 150px;
+    max-width: 55vw;
+    max-height: 55vw;
+}
+.pic-listen-row {
+    display: flex;
+    justify-content: center;
+    margin: 4px 0 10px;
+}
+.theme-emoji {
+    font-size: 120px;
+    line-height: 1;
+    display: inline-block;
+}
+.options-grid-pic .option-card-pic {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    padding: 12px 8px;
+}
+.option-card-pic .opt-pic {
+    width: 96px;
+    height: 96px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.option-card-pic .opt-pic svg {
+    width: 100%;
+    height: 100%;
+}
+.option-card-pic .opt-pic .theme-emoji {
+    font-size: 72px;
+}
+.option-card-pic .opt-label {
+    font-weight: 800;
+    color: var(--duo-text, #3c3c3c);
+    font-size: 15px;
+}
+
 .word-bank {
     display: flex;
     flex-wrap: wrap;

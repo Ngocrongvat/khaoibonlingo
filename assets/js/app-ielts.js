@@ -73,7 +73,7 @@ Object.assign(DuoClone.prototype, {
 
     renderIeltsMenu() {
         if (!this.state.currentUser) {
-            alert("Vui lòng đăng nhập trước khi luyện thi IELTS!");
+            alert('Vui lòng đăng nhập trước khi luyện thi IELTS!');
             return;
         }
         this.ui.container.innerHTML = `
@@ -89,15 +89,29 @@ Object.assign(DuoClone.prototype, {
         `;
         this.ui.checkBtn.disabled = true;
         this.ui.checkBtn.classList.remove('active');
-        document.getElementById('ielts-pick-reading').addEventListener('click', () => this.startIeltsReading());
-        document.getElementById('ielts-pick-listening').addEventListener('click', () => this.startIeltsListening());
-        document.getElementById('ielts-pick-writing').addEventListener('click', () => this.renderIeltsWritingMenu());
-        document.getElementById('ielts-pick-speaking').addEventListener('click', () => this.renderIeltsSpeakingMenu());
+        document
+            .getElementById('ielts-pick-reading')
+            .addEventListener('click', () => this.startIeltsReading());
+        document
+            .getElementById('ielts-pick-listening')
+            .addEventListener('click', () => this.startIeltsListening());
+        document
+            .getElementById('ielts-pick-writing')
+            .addEventListener('click', () => this.renderIeltsWritingMenu());
+        document
+            .getElementById('ielts-pick-speaking')
+            .addEventListener('click', () => this.renderIeltsSpeakingMenu());
     },
 
     startIeltsReading() {
         this.state.mode = 'ielts';
-        this.state.ielts = { skill: 'reading', items: IELTS_READING, idx: 0, correctTotal: 0, questionsTotal: 0 };
+        this.state.ielts = {
+            skill: 'reading',
+            items: IELTS_READING,
+            idx: 0,
+            correctTotal: 0,
+            questionsTotal: 0,
+        };
         this.renderIeltsReadingPassage();
         this.startIeltsTimer(60, () => this.finishIeltsTest());
     },
@@ -116,12 +130,20 @@ Object.assign(DuoClone.prototype, {
         this.ui.checkBtn.classList.remove('active');
         this.bindIeltsQuestionEvents(passage.questions);
         this.bindIeltsExitButton();
-        document.getElementById('ielts-submit').addEventListener('click', () => this.submitIeltsSection(passage.questions));
+        document
+            .getElementById('ielts-submit')
+            .addEventListener('click', () => this.submitIeltsSection(passage.questions));
     },
 
     startIeltsListening() {
         this.state.mode = 'ielts';
-        this.state.ielts = { skill: 'listening', items: IELTS_LISTENING, idx: 0, correctTotal: 0, questionsTotal: 0 };
+        this.state.ielts = {
+            skill: 'listening',
+            items: IELTS_LISTENING,
+            idx: 0,
+            correctTotal: 0,
+            questionsTotal: 0,
+        };
         this.renderIeltsListeningSection();
         this.startIeltsTimer(30, () => this.finishIeltsTest());
     },
@@ -141,11 +163,17 @@ Object.assign(DuoClone.prototype, {
         this.ui.container.innerHTML = html;
         this.ui.checkBtn.disabled = true;
         this.ui.checkBtn.classList.remove('active');
-        document.getElementById('listen-btn').addEventListener('click', () => this.playAudio(section.audioText));
-        document.getElementById('listen-slow-btn').addEventListener('click', () => this.playAudioSlow(section.audioText));
+        document
+            .getElementById('listen-btn')
+            .addEventListener('click', () => this.playAudio(section.audioText));
+        document
+            .getElementById('listen-slow-btn')
+            .addEventListener('click', () => this.playAudioSlow(section.audioText));
         this.bindIeltsQuestionEvents(section.questions);
         this.bindIeltsExitButton();
-        document.getElementById('ielts-submit').addEventListener('click', () => this.submitIeltsSection(section.questions));
+        document
+            .getElementById('ielts-submit')
+            .addEventListener('click', () => this.submitIeltsSection(section.questions));
         this.playAudio(section.audioText);
     },
 
@@ -176,15 +204,17 @@ Object.assign(DuoClone.prototype, {
 
     bindIeltsQuestionEvents(questions) {
         this.ieltsAnswers = {};
-        this.ui.container.querySelectorAll('.ielts-opt').forEach(el => {
+        this.ui.container.querySelectorAll('.ielts-opt').forEach((el) => {
             el.addEventListener('click', () => {
                 const qidx = el.dataset.qidx;
-                this.ui.container.querySelectorAll(`.ielts-opt[data-qidx="${qidx}"]`).forEach(c => c.classList.remove('selected'));
+                this.ui.container
+                    .querySelectorAll(`.ielts-opt[data-qidx="${qidx}"]`)
+                    .forEach((c) => c.classList.remove('selected'));
                 el.classList.add('selected');
                 this.ieltsAnswers[qidx] = parseInt(el.dataset.oidx, 10);
             });
         });
-        this.ui.container.querySelectorAll('.ielts-fill-input').forEach(el => {
+        this.ui.container.querySelectorAll('.ielts-fill-input').forEach((el) => {
             el.addEventListener('input', () => {
                 this.ieltsAnswers[el.dataset.qidx] = el.value;
             });
@@ -250,16 +280,28 @@ Object.assign(DuoClone.prototype, {
     // { ok: false, notConfigured: true } if the function/API key isn't set up yet, or
     // { ok: false, message } for any other failure - never throws.
     async callIeltsGradeFunction(payload) {
-        if (!window.SupabaseClient || !window.SupabaseClient.client || !window.SupabaseClient.isConfigured) {
+        if (
+            !window.SupabaseClient ||
+            !window.SupabaseClient.client ||
+            !window.SupabaseClient.isConfigured
+        ) {
             return { ok: false, notConfigured: true };
         }
         try {
-            const { data, error } = await window.SupabaseClient.client.functions.invoke('ielts-grade', { body: payload });
+            const { data, error } = await window.SupabaseClient.client.functions.invoke(
+                'ielts-grade',
+                { body: payload }
+            );
             // Any failure to reach/complete the Edge Function - whether it's not deployed
             // yet, missing its ANTHROPIC_API_KEY secret, or a network error - all mean the
             // same thing to the user: AI grading isn't set up yet. Surface one consistent,
             // actionable message rather than a raw technical error string.
-            if (error || (data && data.error)) return { ok: false, notConfigured: true, debug: (error && error.message) || (data && data.message) };
+            if (error || (data && data.error))
+                return {
+                    ok: false,
+                    notConfigured: true,
+                    debug: (error && error.message) || (data && data.message),
+                };
             return { ok: true, data };
         } catch (e) {
             return { ok: false, notConfigured: true, debug: e.message };
@@ -293,12 +335,16 @@ Object.assign(DuoClone.prototype, {
             `;
         } else {
             const g = result.data;
-            const criteriaHtml = (g.criteria || []).map(c => `
+            const criteriaHtml = (g.criteria || [])
+                .map(
+                    (c) => `
                 <div style="margin: 10px 0; padding: 10px; border: 2px solid var(--duo-border); border-radius: 10px;">
                     <strong>${this.escapeHtml(c.name)}: ${c.band}</strong>
                     <p style="color:#777; margin: 5px 0 0;">${this.escapeHtml(c.comment || '')}</p>
                 </div>
-            `).join('');
+            `
+                )
+                .join('');
             this.ui.container.innerHTML = `
                 <div class="certificate">
                     <div class="certificate-badge">🎓</div>
@@ -332,9 +378,15 @@ Object.assign(DuoClone.prototype, {
         `;
         this.ui.checkBtn.disabled = true;
         this.ui.checkBtn.classList.remove('active');
-        document.getElementById('ielts-write-task1').addEventListener('click', () => this.startIeltsWriting('task1'));
-        document.getElementById('ielts-write-task2').addEventListener('click', () => this.startIeltsWriting('task2'));
-        document.getElementById('ielts-write-back').addEventListener('click', () => this.renderHomeDashboard());
+        document
+            .getElementById('ielts-write-task1')
+            .addEventListener('click', () => this.startIeltsWriting('task1'));
+        document
+            .getElementById('ielts-write-task2')
+            .addEventListener('click', () => this.startIeltsWriting('task2'));
+        document
+            .getElementById('ielts-write-back')
+            .addEventListener('click', () => this.renderHomeDashboard());
     },
 
     startIeltsWriting(taskType) {
@@ -356,19 +408,32 @@ Object.assign(DuoClone.prototype, {
             const words = input.value.trim().split(/\s+/).filter(Boolean).length;
             document.getElementById('ielts-word-count').innerText = words;
         });
-        document.getElementById('ielts-write-submit').addEventListener('click', () => this.submitIeltsWriting(taskType, promptObj, input.value));
-        this.startIeltsTimer(promptObj.minutes, () => this.submitIeltsWriting(taskType, promptObj, input.value));
+        document
+            .getElementById('ielts-write-submit')
+            .addEventListener('click', () =>
+                this.submitIeltsWriting(taskType, promptObj, input.value)
+            );
+        this.startIeltsTimer(promptObj.minutes, () =>
+            this.submitIeltsWriting(taskType, promptObj, input.value)
+        );
     },
 
     async submitIeltsWriting(taskType, promptObj, essayText) {
         this.stopIeltsTimer();
         if (!essayText || !essayText.trim()) {
             alert('Bạn chưa viết gì để nộp bài.');
-            this.startIeltsTimer(promptObj.minutes, () => this.submitIeltsWriting(taskType, promptObj, essayText));
+            this.startIeltsTimer(promptObj.minutes, () =>
+                this.submitIeltsWriting(taskType, promptObj, essayText)
+            );
             return;
         }
         this.renderIeltsGradeWaiting('Đang chấm bài Writing...');
-        const result = await this.callIeltsGradeFunction({ skill: 'writing', taskType, prompt: promptObj.prompt, userText: essayText });
+        const result = await this.callIeltsGradeFunction({
+            skill: 'writing',
+            taskType,
+            prompt: promptObj.prompt,
+            userText: essayText,
+        });
         this.renderIeltsGradeResult('Writing', result);
     },
 
@@ -386,14 +451,22 @@ Object.assign(DuoClone.prototype, {
         `;
         this.ui.checkBtn.disabled = true;
         this.ui.checkBtn.classList.remove('active');
-        document.getElementById('ielts-speak-start').addEventListener('click', () => this.startIeltsSpeaking());
-        document.getElementById('ielts-speak-back').addEventListener('click', () => this.renderHomeDashboard());
+        document
+            .getElementById('ielts-speak-start')
+            .addEventListener('click', () => this.startIeltsSpeaking());
+        document
+            .getElementById('ielts-speak-back')
+            .addEventListener('click', () => this.renderHomeDashboard());
     },
 
     startIeltsSpeaking() {
         this.state.mode = 'ielts';
         const promptSet = pickRandom(IELTS_SPEAKING_PROMPTS);
-        this.state.ieltsSpeaking = { promptSet, part: 1, transcripts: { part1: '', part2: '', part3: '' } };
+        this.state.ieltsSpeaking = {
+            promptSet,
+            part: 1,
+            transcripts: { part1: '', part2: '', part3: '' },
+        };
         this.renderIeltsSpeakingPart();
     },
 
@@ -402,12 +475,12 @@ Object.assign(DuoClone.prototype, {
         const partNum = st.part;
         let questionsHtml = '';
         if (partNum === 1) {
-            questionsHtml = `<ul>${st.promptSet.part1.map(q => `<li>${this.escapeHtml(q)}</li>`).join('')}</ul>`;
+            questionsHtml = `<ul>${st.promptSet.part1.map((q) => `<li>${this.escapeHtml(q)}</li>`).join('')}</ul>`;
         } else if (partNum === 2) {
             const cue = st.promptSet.part2;
-            questionsHtml = `<p style="font-weight:700;">${this.escapeHtml(cue.cueCard)}</p><ul>${cue.points.map(p => `<li>${this.escapeHtml(p)}</li>`).join('')}</ul>`;
+            questionsHtml = `<p style="font-weight:700;">${this.escapeHtml(cue.cueCard)}</p><ul>${cue.points.map((p) => `<li>${this.escapeHtml(p)}</li>`).join('')}</ul>`;
         } else {
-            questionsHtml = `<ul>${st.promptSet.part3.map(q => `<li>${this.escapeHtml(q)}</li>`).join('')}</ul>`;
+            questionsHtml = `<ul>${st.promptSet.part3.map((q) => `<li>${this.escapeHtml(q)}</li>`).join('')}</ul>`;
         }
         this.ui.container.innerHTML = `
             ${this.renderIeltsExitButton()}
@@ -452,7 +525,12 @@ Object.assign(DuoClone.prototype, {
         const st = this.state.ieltsSpeaking;
         const fullTranscript = `Part 1: ${st.transcripts.part1}\nPart 2 (${st.promptSet.part2.cueCard}): ${st.transcripts.part2}\nPart 3: ${st.transcripts.part3}`;
         this.renderIeltsGradeWaiting('Đang chấm bài Speaking...');
-        const result = await this.callIeltsGradeFunction({ skill: 'speaking', taskType: 'full_interview', prompt: st.promptSet.part2.cueCard, userText: fullTranscript });
+        const result = await this.callIeltsGradeFunction({
+            skill: 'speaking',
+            taskType: 'full_interview',
+            prompt: st.promptSet.part2.cueCard,
+            userText: fullTranscript,
+        });
         this.renderIeltsGradeResult('Speaking', result);
-    }
+    },
 });

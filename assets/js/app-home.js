@@ -99,6 +99,8 @@ Object.assign(DuoClone.prototype, {
                     🧸 Chế độ Dễ (cho trẻ nhỏ): <b>${this.state.stats && this.state.stats.easyMode ? 'BẬT' : 'TẮT'}</b>
                 </button>
 
+                <button class="btn-primary home-theme-btn" id="theme-lessons-btn" style="display:block; margin:10px auto; padding:13px 24px; max-width:340px; background:#ff9600;" title="Học tiếng Anh qua tranh và tình huống">🎨 Chủ đề mẫu — học qua tranh</button>
+
                 ${
                     lesson
                         ? `
@@ -137,6 +139,9 @@ Object.assign(DuoClone.prototype, {
 
         const easyToggle = document.getElementById('easy-mode-toggle');
         if (easyToggle) easyToggle.addEventListener('click', () => this.toggleEasyMode());
+
+        const themeBtn = document.getElementById('theme-lessons-btn');
+        if (themeBtn) themeBtn.addEventListener('click', () => this.renderThemeMenu());
 
         // "Play with me": tapping the greeting mascot triggers a random cute action.
         const greetMascot = document.querySelector('.home-greeting-mascot');

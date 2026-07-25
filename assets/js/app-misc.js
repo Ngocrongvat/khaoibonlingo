@@ -533,6 +533,17 @@ Object.assign(DuoClone.prototype, {
                         this.playAudioSlow(ex.options[ex.correct])
                     );
             }
+            // Picture/audio multiple_choice (theme lessons): wire the 🔊 button + auto-play the
+            // target word once so the child hears it on arrival.
+            if (ex.speak) {
+                const lb = document.getElementById('listen-btn');
+                if (lb) lb.addEventListener('click', () => this.playAudio(ex.speak));
+                try {
+                    this.playAudio(ex.speak);
+                } catch (e) {
+                    /* autoplay may be blocked; the button still works */
+                }
+            }
         } else if (ex.type === 'translate' || ex.type === 'ordering') {
             const words = ex.options || ex.shuffled;
             this.ui.container.querySelectorAll('.word-bank .word-chip').forEach((el, i) => {

@@ -384,9 +384,20 @@ Object.assign(DuoClone.prototype, {
         }
 
         if (ex.type === 'multiple_choice' || ex.type === 'synonym' || ex.type === 'meaning') {
-            html += `<div class="options-grid">`;
+            // Context-first kid lessons: an optional picture prompt and/or a "listen" button
+            // above the choices, and the choices themselves can be pictures (optionPics).
+            // Selection + scoring reuse the standard multiple_choice engine (.option-card).
+            if (ex.promptPic) html += `<div class="pic-prompt">${ex.promptPic}</div>`;
+            if (ex.speak)
+                html += `<div class="pic-listen-row"><button class="btn-listen" id="listen-btn"><span style="font-size:30px;">🔊</span><br>Nghe</button></div>`;
+            const usePics = Array.isArray(ex.optionPics);
+            html += `<div class="options-grid${usePics ? ' options-grid-pic' : ''}">`;
             ex.options.forEach((opt, i) => {
-                html += `<div class="option-card" data-idx="${i}">${this.escapeHtml(opt)}</div>`;
+                if (usePics && ex.optionPics[i]) {
+                    html += `<div class="option-card option-card-pic" data-idx="${i}"><div class="opt-pic">${ex.optionPics[i]}</div><div class="opt-label">${this.escapeHtml(opt)}</div></div>`;
+                } else {
+                    html += `<div class="option-card" data-idx="${i}">${this.escapeHtml(opt)}</div>`;
+                }
             });
             html += `</div>`;
         } else if (ex.type === 'preposition' || ex.type === 'fill_blank') {
@@ -714,7 +725,9 @@ Object.assign(DuoClone.prototype, {
                 if (isIelts) {
                     // Accumulate finished sentences; keep the latest interim as a live tail.
                     if (res.isFinal) {
-                        ieltsFinal = (ieltsFinal + ' ' + (res[0].transcript || '')).replace(/\s+/g, ' ').trim();
+                        ieltsFinal = (ieltsFinal + ' ' + (res[0].transcript || ''))
+                            .replace(/\s+/g, ' ')
+                            .trim();
                         lastInterim = '';
                     } else {
                         lastInterim = res[0].transcript || '';
@@ -1468,6 +1481,59 @@ Object.assign(DuoClone.prototype, {
             toast.classList.remove('show');
             setTimeout(() => toast.remove(), 400);
         }, 3000);
+    },
+
+    // ---- Context-first theme sample lessons (GĐ2 preview) ----
+    // Lists the sample themes. Tapping one runs a short picture + context lesson. It rides
+    // the Practice machinery (which never touches the saved curriculum position), so it can
+    // never corrupt the learner's real progress.
+    renderThemeMenu() {
+        if (!window.ThemeLessons) {
+            this.showBriefToast('Chủ đề mẫu đang tải, thử lại nhé!');
+            return;
+        }
+        const themes = window.ThemeLessons.themes;
+        this.ui.container.innerHTML = `
+            <div class="welcome-screen">
+                <div class="duo-character">🎨</div>
+                <h1 style="text-align:center;">Chủ đề mẫu</h1>
+                <p style="text-align:center; color:#777;">Học qua tranh + tình huống — thử cảm giác các bài chủ đề mới cho bé.</p>
+                <div class="game-picker-list" style="max-width:340px; margin:10px auto;">
+                    ${themes
+                        .map(
+                            (t) =>
+                                `<button class="btn-primary game-pick-btn theme-pick-btn" data-theme="${t.id}">${t.icon} ${this.escapeHtml(t.title)} <span style="opacity:.7;">(${t.count} từ)</span></button>`
+                        )
+                        .join('')}
+                </div>
+                <button class="btn-secondary" id="theme-back" style="display:block; margin:12px auto; padding:14px 28px;">QUAY LẠI</button>
+            </div>`;
+        this.ui.checkBtn.disabled = true;
+        this.ui.checkBtn.classList.remove('active');
+        if (this.ui.skipBtn) this.ui.skipBtn.style.display = 'none';
+        document.getElementById('theme-back').addEventListener('click', () => this.renderHomeDashboard());
+        this.ui.container.querySelectorAll('.theme-pick-btn').forEach((b) => {
+            b.addEventListener('click', () => this.startThemeLesson(b.dataset.theme));
+        });
+    },
+
+    startThemeLesson(themeId) {
+        if (!window.ThemeLessons) return;
+        const exercises = window.ThemeLessons.build(themeId);
+        if (!exercises || !exercises.length) {
+            this.showBriefToast('Chủ đề này chưa sẵn sàng.');
+            return;
+        }
+        // Reuse the Practice session machinery (safe: it never persists the curriculum
+        // position). Each theme is a fixed hand-authored queue, not generated.
+        this.state.mode = 'practice';
+        this.state.practiceQueue = exercises;
+        this.state.practiceIdx = 0;
+        this.state.reviewQueue = [];
+        this.state.reviewMode = false;
+        this.state.lessonReviewCore = null;
+        this.resetSessionAnswers();
+        this.renderLesson();
     },
 
     startPracticeMode() {
