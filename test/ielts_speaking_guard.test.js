@@ -32,7 +32,11 @@ const sandbox = {
     document: { getElementById: () => null },
 };
 vm.createContext(sandbox);
-vm.runInContext(fs.readFileSync(path.join(__dirname, '..', 'assets/js/app-lesson.js'), 'utf8'), sandbox, { filename: 'app-lesson.js' });
+vm.runInContext(
+    fs.readFileSync(path.join(__dirname, '..', 'assets/js/app-lesson.js'), 'utf8'),
+    sandbox,
+    { filename: 'app-lesson.js' }
+);
 const P = sandbox.DuoClone.prototype;
 ok(typeof P.checkAnswer === 'function', 'checkAnswer attached');
 
@@ -55,10 +59,15 @@ ok(typeof P.checkAnswer === 'function', 'checkAnswer attached');
             threw = true;
         }
         ok(!threw, 'checkAnswer does not throw during IELTS speaking');
-        ok(exReached === false, 'checkAnswer returns BEFORE touching the lesson (getCurrentExercise never called)');
+        ok(
+            exReached === false,
+            'checkAnswer returns BEFORE touching the lesson (getCurrentExercise never called)'
+        );
     }
 
-    console.log('\n== control: without ieltsSpeaking, checkAnswer proceeds into the lesson flow ==');
+    console.log(
+        '\n== control: without ieltsSpeaking, checkAnswer proceeds into the lesson flow =='
+    );
     {
         let exReached = false;
         const t = {
@@ -77,6 +86,8 @@ ok(typeof P.checkAnswer === 'function', 'checkAnswer attached');
         ok(exReached === true, 'normal context still enters the lesson answer flow');
     }
 
-    console.log(`\n=========================================\nRESULT: ${PASS} passed, ${FAIL} failed`);
+    console.log(
+        `\n=========================================\nRESULT: ${PASS} passed, ${FAIL} failed`
+    );
     process.exit(FAIL ? 1 : 0);
 })();

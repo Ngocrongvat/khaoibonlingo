@@ -421,6 +421,9 @@ Object.assign(DuoClone.prototype, {
         `;
         this.ui.checkBtn.disabled = true;
         this.ui.checkBtn.classList.remove('active');
+        // Hide the global footer here — Speaking uses the mic + PHẦN TIẾP THEO/NỘP BÀI, so a
+        // greyed "KIỂM TRA" at the bottom is only confusing. Removed on any nav-away.
+        document.body.classList.add('ielts-hide-footer');
         this.bindIeltsExitButton();
         const nextBtn = document.getElementById('ielts-speak-next');
         document.getElementById('mic-btn').addEventListener('click', () => {

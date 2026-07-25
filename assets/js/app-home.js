@@ -46,6 +46,7 @@ Object.assign(DuoClone.prototype, {
         // checkAnswer IELTS-guard would linger and block answer-checking in later lessons.
         this.state.ielts = null;
         this.state.ieltsSpeaking = null;
+        document.body.classList.remove('ielts-hide-footer');
         // Load this user's block list once (idempotent) so chat/DM renders can hide blocked
         // users' messages synchronously.
         if (window.Moderation && this.state.profile)

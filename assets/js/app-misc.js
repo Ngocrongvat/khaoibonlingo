@@ -56,6 +56,7 @@ Object.assign(DuoClone.prototype, {
                     // linger into a later lesson (re-set when a skill is picked again).
                     this.state.ielts = null;
                     this.state.ieltsSpeaking = null;
+                    document.body.classList.remove('ielts-hide-footer');
                     this.ui.navMoreMenu.classList.add('hidden');
                 });
             });

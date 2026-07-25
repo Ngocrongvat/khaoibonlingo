@@ -490,6 +490,14 @@ body {
     border-top: 2px solid var(--duo-border);
 }
 
+/* IELTS Speaking has its own in-content controls (mic + PHẦN TIẾP THEO / NỘP BÀI); the
+   global footer "KIỂM TRA" is irrelevant there and only confuses. Hide the whole footer
+   for that screen. The class is added by renderIeltsSpeakingPart and removed on any
+   nav-away (renderHomeDashboard / renderLesson / nav-menu), so it can never get stuck. */
+body.ielts-hide-footer .bottom-nav {
+    display: none;
+}
+
 #check-btn {
     width: 100%;
     max-width: 400px;

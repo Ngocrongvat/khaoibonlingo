@@ -549,6 +549,9 @@ Object.assign(DuoClone.prototype, {
         // without this, one missed restore would silently kill answering for the whole
         // session (that exact bug shipped once via the scenario screens).
         this.ui.checkBtn.style.display = '';
+        // Belt-and-suspenders: a lesson always needs the footer, so drop any lingering
+        // IELTS footer-hide class (normally already removed on nav-away).
+        document.body.classList.remove('ielts-hide-footer');
         // Not offered in duels - skipping mid-race would let you advance your own
         // progress bar without actually answering, which is unfair in a head-to-head
         // wager. Every other mode (including matching, which has no check-button step)
@@ -617,10 +620,13 @@ Object.assign(DuoClone.prototype, {
             this.recognition = null;
         }
 
+        const isIelts = !!this.state.ieltsSpeaking;
         const recognition = new SpeechRecognitionCtor();
         this.recognition = recognition;
         recognition.lang = 'en-US';
-        recognition.continuous = false;
+        // IELTS Speaking answers are long + multi-sentence → keep listening through pauses and
+        // accumulate the whole transcript. A lesson pronunciation drill is one short phrase.
+        recognition.continuous = isIelts;
         // interimResults ON keeps iPhone reliable (with them off it often returns nothing),
         // and we keep the BEST transcript across every interim + final result and across
         // alternatives - but we DON'T score/commit on interims (that made Android show a
@@ -628,9 +634,12 @@ Object.assign(DuoClone.prototype, {
         recognition.interimResults = true;
         recognition.maxAlternatives = 5;
 
-        const ex = this.getCurrentExercise();
+        // No lesson target in IELTS (getCurrentExercise would otherwise return the CURRENT
+        // lesson exercise and skew scoring): capture speech verbatim; the AI grades it later.
+        const ex = isIelts ? null : this.getCurrentExercise();
         const target = (ex && ex.target) || '';
         let best = { transcript: '', score: -1 };
+        let ieltsFinal = ''; // IELTS: concatenated FINAL results = the whole answer
         let lastInterim = '';
         const consider = (raw) => {
             const transcript = (raw || '').trim();
@@ -655,8 +664,11 @@ Object.assign(DuoClone.prototype, {
             clearTimeout(this._recTimeout);
             clearTimeout(this._recStopFallback);
             idleMic();
-            this.state.recognizedSpeech = best.transcript;
-            if (best.transcript) {
+            const finalText = isIelts
+                ? (ieltsFinal + ' ' + lastInterim).replace(/\s+/g, ' ').trim()
+                : best.transcript;
+            this.state.recognizedSpeech = finalText;
+            if (finalText) {
                 // The footer "KIỂM TRA" button submits the main-lesson answer (checkAnswer).
                 // Do NOT arm it during IELTS Speaking — that screen has its own PHẦN TIẾP
                 // THEO / NỘP BÀI button, and arming checkAnswer here jumped the user into the
@@ -666,9 +678,9 @@ Object.assign(DuoClone.prototype, {
                     this.ui.checkBtn.classList.add('active');
                 }
                 if (resultEl) {
-                    let html = `Bạn nói: "${this.escapeHtml(best.transcript)}"`;
+                    let html = `Bạn nói: "${this.escapeHtml(finalText)}"`;
                     if (target) {
-                        const s = this.pronunciationScore(best.transcript, target);
+                        const s = this.pronunciationScore(finalText, target);
                         const color =
                             s >= 80 ? 'var(--duo-green)' : s >= 50 ? '#ffc800' : 'var(--duo-red)';
                         html += `<br><span style="font-weight:800; color:${color};">Độ chính xác: ${s}%</span>`;
@@ -699,12 +711,23 @@ Object.assign(DuoClone.prototype, {
         recognition.onresult = (event) => {
             for (let i = event.resultIndex; i < event.results.length; i++) {
                 const res = event.results[i];
-                for (let a = 0; a < res.length; a++) consider(res[a].transcript);
+                if (isIelts) {
+                    // Accumulate finished sentences; keep the latest interim as a live tail.
+                    if (res.isFinal) {
+                        ieltsFinal = (ieltsFinal + ' ' + (res[0].transcript || '')).replace(/\s+/g, ' ').trim();
+                        lastInterim = '';
+                    } else {
+                        lastInterim = res[0].transcript || '';
+                    }
+                } else {
+                    for (let a = 0; a < res.length; a++) consider(res[a].transcript);
+                }
             }
             // Live interim preview ONLY (grey, no score, Check stays disabled) so the
             // result isn't shown before the user has finished speaking.
-            if (resultEl && lastInterim)
-                resultEl.innerHTML = `<span style="color:#999;">Đang nghe: "${this.escapeHtml(lastInterim)}"…</span>`;
+            const preview = isIelts ? (ieltsFinal + ' ' + lastInterim).trim() : lastInterim;
+            if (resultEl && preview)
+                resultEl.innerHTML = `<span style="color:#999;">Đang nghe: "${this.escapeHtml(preview)}"…</span>`;
         };
 
         recognition.onerror = (e) => {
@@ -722,8 +745,10 @@ Object.assign(DuoClone.prototype, {
 
         recognition.onend = () => finalize();
 
-        // Safety: iPhone Safari can hang without ever firing onend - auto-stop after 12s.
-        this._recTimeout = setTimeout(() => this.stopRecording(), 12000);
+        // Safety auto-stop (iPhone Safari can hang without firing onend). A lesson phrase is
+        // short (12s); IELTS answers run long, so give them up to 2 minutes — the user taps
+        // the mic again to stop whenever they finish.
+        this._recTimeout = setTimeout(() => this.stopRecording(), isIelts ? 120000 : 12000);
 
         try {
             recognition.start();
