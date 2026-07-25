@@ -657,8 +657,14 @@ Object.assign(DuoClone.prototype, {
             idleMic();
             this.state.recognizedSpeech = best.transcript;
             if (best.transcript) {
-                this.ui.checkBtn.disabled = false;
-                this.ui.checkBtn.classList.add('active');
+                // The footer "KIỂM TRA" button submits the main-lesson answer (checkAnswer).
+                // Do NOT arm it during IELTS Speaking — that screen has its own PHẦN TIẾP
+                // THEO / NỘP BÀI button, and arming checkAnswer here jumped the user into the
+                // main lesson (its checkInterval already watches recognizedSpeech instead).
+                if (!this.state.ieltsSpeaking) {
+                    this.ui.checkBtn.disabled = false;
+                    this.ui.checkBtn.classList.add('active');
+                }
                 if (resultEl) {
                     let html = `Bạn nói: "${this.escapeHtml(best.transcript)}"`;
                     if (target) {
@@ -851,6 +857,10 @@ Object.assign(DuoClone.prototype, {
     },
 
     async checkAnswer() {
+        // Safety net: the footer "KIỂM TRA" button is the main-lesson answer submit. If it is
+        // ever reachable while the user is in IELTS Speaking (which reuses startRecording),
+        // do nothing — running the lesson flow here would jump them into the main lesson.
+        if (this.state.ieltsSpeaking) return;
         const ex = this.getCurrentExercise();
         let isCorrect = false;
 

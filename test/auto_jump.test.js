@@ -39,7 +39,11 @@ console.log('\n== stopBattleBoardLive clears channel + board id (auto-jump fix) 
         parseInt,
     };
     vm.createContext(sandbox);
-    vm.runInContext(fs.readFileSync(path.join(__dirname, '..', 'assets/js/app-groups2.js'), 'utf8'), sandbox, { filename: 'app-groups2.js' });
+    vm.runInContext(
+        fs.readFileSync(path.join(__dirname, '..', 'assets/js/app-groups2.js'), 'utf8'),
+        sandbox,
+        { filename: 'app-groups2.js' }
+    );
     const P = sandbox.DuoClone.prototype;
     ok(typeof P.stopBattleBoardLive === 'function', 'stopBattleBoardLive attached');
 
@@ -51,7 +55,10 @@ console.log('\n== stopBattleBoardLive clears channel + board id (auto-jump fix) 
     };
     t.stopBattleBoardLive();
     ok(t._battleBoardChannel === null, 'realtime channel reference cleared');
-    ok(t._battleBoardGroupId === null, 'board group id cleared — stray countdown-refresh cannot re-open the board');
+    ok(
+        t._battleBoardGroupId === null,
+        'board group id cleared — stray countdown-refresh cannot re-open the board'
+    );
     ok(removed.length === 1, 'removeChannel() called on the live channel');
 }
 
@@ -71,7 +78,12 @@ console.log('\n== handleSessionLost flags + reloads once (session-expiry fix) ==
             delete this._d[k];
         },
     };
-    const loc = { count: 0, reload() { this.count++; } };
+    const loc = {
+        count: 0,
+        reload() {
+            this.count++;
+        },
+    };
     const sandbox = {
         DuoClone,
         window: {},
@@ -88,7 +100,11 @@ console.log('\n== handleSessionLost flags + reloads once (session-expiry fix) ==
         Date,
     };
     vm.createContext(sandbox);
-    vm.runInContext(fs.readFileSync(path.join(__dirname, '..', 'assets/js/app-misc.js'), 'utf8'), sandbox, { filename: 'app-misc.js' });
+    vm.runInContext(
+        fs.readFileSync(path.join(__dirname, '..', 'assets/js/app-misc.js'), 'utf8'),
+        sandbox,
+        { filename: 'app-misc.js' }
+    );
     const P = sandbox.DuoClone.prototype;
     ok(typeof P.handleSessionLost === 'function', 'handleSessionLost attached');
 

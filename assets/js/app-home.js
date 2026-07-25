@@ -42,6 +42,10 @@ Object.assign(DuoClone.prototype, {
         // Stop the group battle-board realtime channel if we came here from it — otherwise a
         // score/pairing change keeps re-rendering the board and yanks the user off Home.
         if (this.stopBattleBoardLive) this.stopBattleBoardLive();
+        // Leaving IELTS via Home (not its own exit button) must clear its state, or the
+        // checkAnswer IELTS-guard would linger and block answer-checking in later lessons.
+        this.state.ielts = null;
+        this.state.ieltsSpeaking = null;
         // Load this user's block list once (idempotent) so chat/DM renders can hide blocked
         // users' messages synchronously.
         if (window.Moderation && this.state.profile)

@@ -52,6 +52,10 @@ Object.assign(DuoClone.prototype, {
                     // background update can't yank the user back to the board.
                     this.cleanupCatchMascot();
                     if (this.stopBattleBoardLive) this.stopBattleBoardLive();
+                    // Clear IELTS state on nav-away so the checkAnswer IELTS-guard can't
+                    // linger into a later lesson (re-set when a skill is picked again).
+                    this.state.ielts = null;
+                    this.state.ieltsSpeaking = null;
                     this.ui.navMoreMenu.classList.add('hidden');
                 });
             });
