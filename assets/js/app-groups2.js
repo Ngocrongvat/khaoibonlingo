@@ -741,6 +741,9 @@ Object.assign(DuoClone.prototype, {
         if (this._battleBoardChannel && sb) { try { sb.removeChannel(this._battleBoardChannel); } catch (e) { } }
         this._battleBoardChannel = null;
         clearTimeout(this._boardReloadT);
+        // Clear the board id too so a stray countdown-refresh (renderCountdowns) can't re-open
+        // the battle board after the user has navigated away.
+        this._battleBoardGroupId = null;
     },
     onBattleChatInsert(msg) {
         if (!msg) return;

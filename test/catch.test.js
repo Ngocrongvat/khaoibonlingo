@@ -248,12 +248,14 @@ console.log('\n== cleanupCatchMascot removes leftover elements (nav-away fix) ==
     t.cleanupCatchMascot = P.cleanupCatchMascot;
     t.showCatchResult(false);
     ok(
-        BODY.find((x) => x._id === 'catch-mascot') && BODY.find((x) => x._id === 'catch-result-banner'),
+        BODY.find((x) => x._id === 'catch-mascot') &&
+            BODY.find((x) => x._id === 'catch-result-banner'),
         'catch mascot + banner exist after answering'
     );
     t.cleanupCatchMascot();
     ok(
-        !BODY.find((x) => x._id === 'catch-mascot') && !BODY.find((x) => x._id === 'catch-result-banner'),
+        !BODY.find((x) => x._id === 'catch-mascot') &&
+            !BODY.find((x) => x._id === 'catch-result-banner'),
         'cleanupCatchMascot removes both (leftover-overlay-on-nav fix)'
     );
 }

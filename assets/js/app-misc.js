@@ -47,8 +47,11 @@ Object.assign(DuoClone.prototype, {
             this.ui.navMoreMenu.addEventListener('click', (e) => e.stopPropagation());
             this.ui.navMoreMenu.querySelectorAll('button').forEach((btn) => {
                 btn.addEventListener('click', () => {
-                    // Leaving the lesson via any menu item: drop a leftover catch-mascot/banner.
+                    // Leaving the current screen via any menu item: drop a leftover
+                    // catch-mascot/banner and stop the battle-board realtime channel so a
+                    // background update can't yank the user back to the board.
                     this.cleanupCatchMascot();
+                    if (this.stopBattleBoardLive) this.stopBattleBoardLive();
                     this.ui.navMoreMenu.classList.add('hidden');
                 });
             });
@@ -101,6 +104,15 @@ Object.assign(DuoClone.prototype, {
 
     async resumeSession() {
         if (!window.AuthService || !window.AuthService.isConfigured) return;
+        // Bounce to the login screen if the auth session is ever lost mid-use (failed token
+        // refresh, expiry, or signed out in another tab) rather than sitting on a broken
+        // logged-in UI where every DB write silently fails. `_signingOut` guards the
+        // intentional "Đăng xuất" path so it doesn't show the "expired" notice.
+        window.AuthService.onAuthStateChange((event) => {
+            if (event === 'SIGNED_OUT' && this.state.currentUser && !this._signingOut) {
+                this.handleSessionLost();
+            }
+        });
         // Arriving via the "quên mật khẩu" email link: Supabase puts type=recovery in
         // the URL hash and emits PASSWORD_RECOVERY once the recovery session is set up.
         // Both signals are checked because the hash can be consumed/cleared by the SDK
@@ -121,8 +133,25 @@ Object.assign(DuoClone.prototype, {
 
     async handleSignOut() {
         if (!this.state.currentUser) return;
+        this._signingOut = true; // tell the onAuthStateChange listener this is intentional
         if (window.AuthService) {
             await window.AuthService.signOut();
+        }
+        location.reload();
+    },
+
+    // The Supabase session was lost while the app was running (token refresh failed / expired
+    // / signed out elsewhere). Flag it and hard-reload: resumeSession() then finds no session
+    // and shows the login screen, and renderAuthScreen() surfaces the "phiên hết hạn" notice.
+    // Reloading is the robust choice — it tears down every background watcher/timer bound to
+    // the now-dead session in one shot.
+    handleSessionLost() {
+        if (this._sessionLostHandled) return;
+        this._sessionLostHandled = true;
+        try {
+            sessionStorage.setItem('khoai_session_expired', '1');
+        } catch (e) {
+            /* sessionStorage may be unavailable */
         }
         location.reload();
     },

@@ -118,6 +118,17 @@ Object.assign(DuoClone.prototype, {
 
         this.ui.checkBtn.disabled = true;
         this.ui.checkBtn.classList.remove('active');
+
+        // If we were bounced here by a lost session (see handleSessionLost), tell the user why.
+        try {
+            if (sessionStorage.getItem('khoai_session_expired')) {
+                sessionStorage.removeItem('khoai_session_expired');
+                const err = document.getElementById('auth-error');
+                if (err) err.innerText = 'Phiên đăng nhập đã hết hạn. Vui lòng đăng nhập lại.';
+            }
+        } catch (e) {
+            /* sessionStorage may be unavailable */
+        }
     },
 
     applyAuthMode() {

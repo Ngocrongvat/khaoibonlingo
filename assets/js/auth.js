@@ -223,6 +223,14 @@ const AuthService = (() => {
         });
     }
 
+    // Fires on every auth transition (SIGNED_IN, SIGNED_OUT, TOKEN_REFRESHED, ...). The app
+    // uses this to notice a session lost mid-use (failed token refresh / expiry / signed out
+    // in another tab) and bounce back to the login screen instead of a broken logged-in UI.
+    function onAuthStateChange(callback) {
+        if (!client) return;
+        client.auth.onAuthStateChange(callback);
+    }
+
     // Both of these call SECURITY DEFINER SQL functions (see
     // supabase/migrations/self_service_inbox_vibrancy.sql) because the work fans out
     // across tables the client's own RLS grants can't reach (denormalized username
@@ -300,6 +308,7 @@ const AuthService = (() => {
         updatePassword,
         requestPasswordReset,
         onPasswordRecovery,
+        onAuthStateChange,
         renameAccount,
         deleteOwnAccount,
     };

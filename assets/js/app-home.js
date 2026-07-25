@@ -39,6 +39,9 @@ Object.assign(DuoClone.prototype, {
         if (window.CourseLoader) window.CourseLoader.prefetch(this.state.currentUnitIdx);
         // Drop any leftover catch-mascot/verdict banner from a lesson exited via Home.
         if (this.cleanupCatchMascot) this.cleanupCatchMascot();
+        // Stop the group battle-board realtime channel if we came here from it — otherwise a
+        // score/pairing change keeps re-rendering the board and yanks the user off Home.
+        if (this.stopBattleBoardLive) this.stopBattleBoardLive();
         // Load this user's block list once (idempotent) so chat/DM renders can hide blocked
         // users' messages synchronously.
         if (window.Moderation && this.state.profile)
