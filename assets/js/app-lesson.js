@@ -633,9 +633,9 @@ Object.assign(DuoClone.prototype, {
                 u.pitch = 1.25;
                 u.rate = 0.9;
             } else if (g === 'male') {
-                u.voice = maleVoice || femaleVoice || null;
-                u.pitch = 0.95; // trầm ấm hơn (warmer + a touch deeper) than Mai
-                u.rate = 0.88;
+                u.voice = maleVoice || null; // a male char never borrows the female voice
+                u.pitch = 0.75; // trầm + nam tính hơn (deeper, more masculine) than Mai
+                u.rate = 0.85;
             } else {
                 u.pitch = 1.1;
             }
