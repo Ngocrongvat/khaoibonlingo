@@ -92,7 +92,14 @@
             var e = EMOJI[en];
             if (e) return '<span class="theme-emoji" role="img" aria-label="' + en + '">' + e + '</span>';
         }
-        var bank = typeof window !== 'undefined' ? window.PICTURE_WORD_BANK : null;
+        // PICTURE_WORD_BANK is a `const` global (lexical, NOT window.PICTURE_WORD_BANK), so
+        // reference it by bare name like games.js does; fall back to window for the tests.
+        var bank =
+            typeof PICTURE_WORD_BANK !== 'undefined'
+                ? PICTURE_WORD_BANK
+                : typeof window !== 'undefined'
+                  ? window.PICTURE_WORD_BANK
+                  : null;
         if (bank) {
             for (var i = 0; i < bank.length; i++) {
                 if (bank[i].en && bank[i].en.toLowerCase() === en.toLowerCase()) return bank[i].svg;
