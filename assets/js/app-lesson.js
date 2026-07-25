@@ -601,6 +601,48 @@ Object.assign(DuoClone.prototype, {
         this.playAudio(text, 0.35);
     },
 
+    // Reads a dialogue line-by-line with a DIFFERENT voice per character. If the device
+    // exposes distinct male/female en voices we use them; otherwise we fall back to PITCH
+    // (male = lower, female = higher) which works everywhere. Lines play sequentially by
+    // chaining on each utterance's onend.
+    speakDialogue(lines, voices) {
+        if (!('speechSynthesis' in window) || !Array.isArray(lines) || !lines.length) return;
+        speechSynthesis.cancel();
+        const all = speechSynthesis.getVoices() || [];
+        const en = all.filter((v) => /^en(-|_|$)/i.test(v.lang));
+        const pool = en.length ? en : all;
+        const pick = (re) => pool.find((v) => re.test(v.name));
+        const femaleVoice = pick(/female|samantha|victoria|karen|tessa|zira|susan|fiona|moira|serena|allison|ava|nicky|english female/i) || null;
+        const maleVoice = pick(/male|daniel|alex|fred|rishi|george|david|oliver|arthur|aaron|english male/i) || null;
+        let i = 0;
+        const speakNext = () => {
+            if (i >= lines.length) return;
+            const g = (voices && voices[i]) || 'neutral';
+            const u = new SpeechSynthesisUtterance(lines[i]);
+            u.lang = 'en-US';
+            u.rate = 0.9;
+            if (g === 'male') {
+                u.voice = maleVoice || femaleVoice || null;
+                u.pitch = maleVoice ? 0.9 : 0.6; // low pitch if no dedicated male voice
+            } else if (g === 'female') {
+                u.voice = femaleVoice || maleVoice || null;
+                u.pitch = femaleVoice ? 1.1 : 1.5; // high pitch if no dedicated female voice
+            } else {
+                u.pitch = 1;
+            }
+            u.onend = () => {
+                i++;
+                speakNext();
+            };
+            u.onerror = () => {
+                i++;
+                speakNext();
+            };
+            speechSynthesis.speak(u);
+        };
+        speakNext();
+    },
+
     startRecording() {
         // Tap-to-toggle: a second tap WHILE listening stops and scores. This is the fix
         // for iPhone Safari where onend often never fires on its own, leaving the mic

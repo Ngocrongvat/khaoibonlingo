@@ -51,7 +51,7 @@
             ],
             phrases: ['I want an apple.', 'The banana is yellow.', 'I like fruit.'],
             dialogue: {
-                lines: ['👧 Mai: I want an apple, please.', '🧑 Seller: Here you are!', '👧 Mai: And two bananas, please.', '🧑 Seller: OK! Here you go.'],
+                lines: ['👧 Mai: I want an apple, please.', '👨 Seller: Here you are!', '👧 Mai: And two bananas, please.', '👨 Seller: OK! Here you go.'],
                 audioLines: ['I want an apple, please.', 'Here you are!', 'And two bananas, please.', 'OK! Here you go.'],
                 question: 'Mai muốn gì đầu tiên?',
                 options: ['An apple.', 'A banana.', 'An orange.'], correct: 0,
@@ -200,12 +200,24 @@
         };
     }
 
-    // Situational dialogue (read + hear the conversation, then a comprehension question).
+    // Which voice reads a line, inferred from the speaker emoji in the display line's prefix
+    // (👦/👨 = male, 👧/👩 = female, anything else = neutral). Drives per-character TTS.
+    function speakerGender(line) {
+        var prefix = String(line || '').split(':')[0];
+        if (/👦|👨|🧒|👴/.test(prefix)) return 'male';
+        if (/👧|👩|👵/.test(prefix)) return 'female';
+        return 'neutral';
+    }
+
+    // Situational dialogue (read + hear the conversation with per-character voices, then a
+    // comprehension question). `voices[i]` pairs with `audioLines[i]`.
     function dialogueEx(theme) {
         var d = theme.dialogue;
         return {
             id: nid(), type: 'dialogue', question: d.question,
-            lines: d.lines, audioLines: d.audioLines, options: d.options, correct: d.correct,
+            lines: d.lines, audioLines: d.audioLines,
+            voices: d.lines.map(speakerGender),
+            options: d.options, correct: d.correct,
         };
     }
 

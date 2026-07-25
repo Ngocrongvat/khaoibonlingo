@@ -125,6 +125,14 @@ for (const t of TL.themes) {
         dlg && dlg.audioLines.every((l) => !/[👦👧🧑]/.test(l)),
         t.id + ': dialogue audioLines are speaker-free (clean TTS)'
     );
+    ok(
+        dlg && Array.isArray(dlg.voices) && dlg.voices.length === dlg.audioLines.length,
+        t.id + ': dialogue has a per-line voices array aligned to audioLines'
+    );
+    ok(
+        dlg && dlg.voices.includes('male') && dlg.voices.includes('female'),
+        t.id + ': dialogue voices distinguish a male + a female speaker'
+    );
     // every picture-choice picture resolved (no bare word fallback leaking as the only pic)
     const picEx = ex.filter((e) => Array.isArray(e.optionPics));
     ok(
