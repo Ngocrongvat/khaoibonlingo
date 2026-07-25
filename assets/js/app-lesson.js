@@ -612,8 +612,13 @@ Object.assign(DuoClone.prototype, {
         const en = all.filter((v) => /^en(-|_|$)/i.test(v.lang));
         const pool = en.length ? en : all;
         const pick = (re) => pool.find((v) => re.test(v.name));
-        const femaleVoice = pick(/female|samantha|victoria|karen|tessa|zira|susan|fiona|moira|serena|allison|ava|nicky|english female/i) || null;
-        const maleVoice = pick(/male|daniel|alex|fred|rishi|george|david|oliver|arthur|aaron|english male/i) || null;
+        const femaleVoice =
+            pick(
+                /female|samantha|victoria|karen|tessa|zira|susan|fiona|moira|serena|allison|ava|nicky|english female/i
+            ) || null;
+        const maleVoice =
+            pick(/male|daniel|alex|fred|rishi|george|david|oliver|arthur|aaron|english male/i) ||
+            null;
         let i = 0;
         const speakNext = () => {
             if (i >= lines.length) return;
@@ -621,14 +626,18 @@ Object.assign(DuoClone.prototype, {
             const u = new SpeechSynthesisUtterance(lines[i]);
             u.lang = 'en-US';
             u.rate = 0.9;
+            // Both characters are CHILDREN → child-range pitch (higher than adults). Nam (boy)
+            // = warm + a touch lower; Mai (girl) = light + airy + a touch faster/higher.
             if (g === 'male') {
-                u.voice = maleVoice || femaleVoice || null;
-                u.pitch = maleVoice ? 0.9 : 0.6; // low pitch if no dedicated male voice
+                u.voice = maleVoice || null; // real male voice if present, else default + pitch
+                u.pitch = 1.25; // warm young boy (not a deep adult)
+                u.rate = 0.9;
             } else if (g === 'female') {
-                u.voice = femaleVoice || maleVoice || null;
-                u.pitch = femaleVoice ? 1.1 : 1.5; // high pitch if no dedicated female voice
+                u.voice = femaleVoice || null;
+                u.pitch = 1.75; // light, airy young girl
+                u.rate = 0.98;
             } else {
-                u.pitch = 1;
+                u.pitch = 1.2;
             }
             u.onend = () => {
                 i++;

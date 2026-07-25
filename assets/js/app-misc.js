@@ -549,7 +549,9 @@ Object.assign(DuoClone.prototype, {
             if (ex.type === 'dialogue' && Array.isArray(ex.audioLines)) {
                 const db = document.getElementById('dialogue-listen-btn');
                 if (db)
-                    db.addEventListener('click', () => this.speakDialogue(ex.audioLines, ex.voices));
+                    db.addEventListener('click', () =>
+                        this.speakDialogue(ex.audioLines, ex.voices)
+                    );
             }
         } else if (ex.type === 'translate' || ex.type === 'ordering') {
             const words = ex.options || ex.shuffled;
