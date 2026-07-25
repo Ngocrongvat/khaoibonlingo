@@ -14,7 +14,7 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
     <meta name="apple-mobile-web-app-title" content="KhoaiBonlingo">
-    <link rel="stylesheet" href="assets/css/style.css?v=20260745">
+    <link rel="stylesheet" href="assets/css/style.css?v=20260746">
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
     <script defer src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     <!-- Boot splash: shows INSTANTLY while the (large) course data + app JS download and
@@ -146,7 +146,7 @@
          first-ever download from ~32MB to <1MB. The old data/course-part*.js still exist but
          are no longer loaded. Order matters: manifest -> loader -> (app.js reads COURSE_DATA). -->
     <script defer src="data/course/manifest.js?d=20260724"></script>
-    <script defer src="assets/js/course-loader.js?v=20260745"></script>
+    <script defer src="assets/js/course-loader.js?v=20260746"></script>
     <script defer src="data/vocab-bank.js?d=20260720d"></script>
     <script defer src="data/grammar-patterns.js?d=20260720d"></script>
     <script defer src="data/reading-templates.js?d=20260720d"></script>
@@ -160,49 +160,49 @@
     <script defer src="data/picture-word-bank.js?d=20260720d"></script>
     <!-- Context-first theme sample lessons (GĐ2). Loads AFTER picture-word-bank.js (it reuses
          those SVGs) and exposes window.ThemeLessons for the "Chủ đề mẫu" preview. -->
-    <script defer src="data/theme-lessons.js?d=20260725b"></script>
+    <script defer src="data/theme-lessons.js?d=20260725c"></script>
     <script defer src="data/scenario-bank.js?d=20260720d"></script>
     <!-- Content safety (Compliance & Child-Safety): gates all user-generated text (chat, DMs,
          usernames, group names) against profanity + sharing of personal contact info. Loaded
          early; the chat/auth modules call window.ContentSafety before any send. -->
-    <script defer src="assets/js/content-safety.js?v=20260745"></script>
-    <script defer src="assets/js/exercise-generator.js?v=20260745"></script>
-    <script defer src="assets/js/error-tracker.js?v=20260745"></script>
-    <script defer src="assets/js/games.js?v=20260745"></script>
-    <script defer src="assets/js/badges.js?v=20260745"></script>
+    <script defer src="assets/js/content-safety.js?v=20260746"></script>
+    <script defer src="assets/js/exercise-generator.js?v=20260746"></script>
+    <script defer src="assets/js/error-tracker.js?v=20260746"></script>
+    <script defer src="assets/js/games.js?v=20260746"></script>
+    <script defer src="assets/js/badges.js?v=20260746"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script defer src="assets/js/supabase-config.js?v=20260745"></script>
-    <script defer src="assets/js/supabase-client.js?v=20260745"></script>
+    <script defer src="assets/js/supabase-config.js?v=20260746"></script>
+    <script defer src="assets/js/supabase-client.js?v=20260746"></script>
     <!-- Error monitoring (GĐ0 item 4): captures uncaught JS errors + promise rejections to
          Supabase (self-hosted, no vendor). Loads right after the Supabase client and before
          the app so its handlers are installed before app code runs. -->
-    <script defer src="assets/js/error-monitor.js?v=20260745"></script>
-    <script defer src="assets/js/leaderboard.js?v=20260745"></script>
-    <script defer src="assets/js/duel.js?v=20260745"></script>
-    <script defer src="assets/js/friends.js?v=20260745"></script>
-    <script defer src="assets/js/global-chat.js?v=20260745"></script>
-    <script defer src="assets/js/inbox.js?v=20260745"></script>
+    <script defer src="assets/js/error-monitor.js?v=20260746"></script>
+    <script defer src="assets/js/leaderboard.js?v=20260746"></script>
+    <script defer src="assets/js/duel.js?v=20260746"></script>
+    <script defer src="assets/js/friends.js?v=20260746"></script>
+    <script defer src="assets/js/global-chat.js?v=20260746"></script>
+    <script defer src="assets/js/inbox.js?v=20260746"></script>
     <!-- Moderation (Compliance & Child-Safety): report + block users; the chat/DM renders
          hide blocked users' messages via window.Moderation.isBlocked(). -->
-    <script defer src="assets/js/moderation.js?v=20260745"></script>
-    <script defer src="assets/js/groups.js?v=20260745"></script>
-    <script defer src="assets/js/activity-feed.js?v=20260745"></script>
-    <script defer src="assets/js/auth.js?v=20260745"></script>
-    <script defer src="assets/js/mascot-voice.js?v=20260745"></script>
+    <script defer src="assets/js/moderation.js?v=20260746"></script>
+    <script defer src="assets/js/groups.js?v=20260746"></script>
+    <script defer src="assets/js/activity-feed.js?v=20260746"></script>
+    <script defer src="assets/js/auth.js?v=20260746"></script>
+    <script defer src="assets/js/mascot-voice.js?v=20260746"></script>
     <!-- app.js is split by feature: app.js holds the constants/helpers + DuoClone class
          shell; each app-*.js attaches its feature's methods to DuoClone.prototype;
          app-main.js instantiates the app so it MUST stay the last app-* tag. -->
-    <script defer src="assets/js/app.js?v=20260745"></script>
-    <script defer src="assets/js/app-lesson.js?v=20260745"></script>
-    <script defer src="assets/js/app-home.js?v=20260745"></script>
-    <script defer src="assets/js/app-social.js?v=20260745"></script>
-    <script defer src="assets/js/app-ielts.js?v=20260745"></script>
-    <script defer src="assets/js/app-arena.js?v=20260745"></script>
-    <script defer src="assets/js/app-admin.js?v=20260745"></script>
-    <script defer src="assets/js/app-misc.js?v=20260745"></script>
-    <script defer src="assets/js/app-groups2.js?v=20260745"></script>
-    <script defer src="assets/js/scenarios.js?v=20260745"></script>
-    <script defer src="assets/js/app-main.js?v=20260745"></script>
+    <script defer src="assets/js/app.js?v=20260746"></script>
+    <script defer src="assets/js/app-lesson.js?v=20260746"></script>
+    <script defer src="assets/js/app-home.js?v=20260746"></script>
+    <script defer src="assets/js/app-social.js?v=20260746"></script>
+    <script defer src="assets/js/app-ielts.js?v=20260746"></script>
+    <script defer src="assets/js/app-arena.js?v=20260746"></script>
+    <script defer src="assets/js/app-admin.js?v=20260746"></script>
+    <script defer src="assets/js/app-misc.js?v=20260746"></script>
+    <script defer src="assets/js/app-groups2.js?v=20260746"></script>
+    <script defer src="assets/js/scenarios.js?v=20260746"></script>
+    <script defer src="assets/js/app-main.js?v=20260746"></script>
     <script>
         // Register the Service Worker for offline support + instant repeat loads (PWA).
         // Best-effort: never block or break the app if unsupported/failed.

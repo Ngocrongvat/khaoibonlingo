@@ -489,6 +489,8 @@ Object.assign(DuoClone.prototype, {
             });
             html += `</div>`;
         } else if (ex.type === 'dialogue') {
+            if (ex.audioLines)
+                html += `<div class="pic-listen-row"><button class="btn-listen" id="dialogue-listen-btn"><span style="font-size:28px;">🔊</span><br>Nghe hội thoại</button></div>`;
             html += `<div class="dialogue-box">`;
             ex.lines.forEach((line) => {
                 html += `<div class="dialogue-line">${this.escapeHtml(line)}</div>`;
@@ -1511,7 +1513,9 @@ Object.assign(DuoClone.prototype, {
         this.ui.checkBtn.disabled = true;
         this.ui.checkBtn.classList.remove('active');
         if (this.ui.skipBtn) this.ui.skipBtn.style.display = 'none';
-        document.getElementById('theme-back').addEventListener('click', () => this.renderHomeDashboard());
+        document
+            .getElementById('theme-back')
+            .addEventListener('click', () => this.renderHomeDashboard());
         this.ui.container.querySelectorAll('.theme-pick-btn').forEach((b) => {
             b.addEventListener('click', () => this.startThemeLesson(b.dataset.theme));
         });

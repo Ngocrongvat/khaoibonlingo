@@ -544,6 +544,11 @@ Object.assign(DuoClone.prototype, {
                     /* autoplay may be blocked; the button still works */
                 }
             }
+            // Situational dialogue (theme lessons): read the whole conversation aloud on tap.
+            if (ex.type === 'dialogue' && Array.isArray(ex.audioLines)) {
+                const db = document.getElementById('dialogue-listen-btn');
+                if (db) db.addEventListener('click', () => this.playAudio(ex.audioLines.join('. ')));
+            }
         } else if (ex.type === 'translate' || ex.type === 'ordering') {
             const words = ex.options || ex.shuffled;
             this.ui.container.querySelectorAll('.word-bank .word-chip').forEach((el, i) => {
