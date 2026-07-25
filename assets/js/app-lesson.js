@@ -626,18 +626,18 @@ Object.assign(DuoClone.prototype, {
             const u = new SpeechSynthesisUtterance(lines[i]);
             u.lang = 'en-US';
             u.rate = 0.9;
-            // Both characters are CHILDREN → child-range pitch (higher than adults). Nam (boy)
-            // = warm + a touch lower; Mai (girl) = light + airy + a touch faster/higher.
-            if (g === 'male') {
-                u.voice = maleVoice || null; // real male voice if present, else default + pitch
-                u.pitch = 1.25; // warm young boy (not a deep adult)
+            // Mai now uses NAM's previous voice (same base voice + pitch 1.25); Nam is warmer
+            // and a touch deeper on top of the same base voice, so the two stay distinct.
+            if (g === 'female') {
+                u.voice = maleVoice || femaleVoice || null; // Mai = Nam's previous voice
+                u.pitch = 1.25;
                 u.rate = 0.9;
-            } else if (g === 'female') {
-                u.voice = femaleVoice || null;
-                u.pitch = 1.75; // light, airy young girl
-                u.rate = 0.98;
+            } else if (g === 'male') {
+                u.voice = maleVoice || femaleVoice || null;
+                u.pitch = 0.95; // trầm ấm hơn (warmer + a touch deeper) than Mai
+                u.rate = 0.88;
             } else {
-                u.pitch = 1.2;
+                u.pitch = 1.1;
             }
             u.onend = () => {
                 i++;
