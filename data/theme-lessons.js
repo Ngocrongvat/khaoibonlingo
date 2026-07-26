@@ -134,9 +134,18 @@
         },
     ];
 
+    // Merge in the data-driven generated themes (data/theme-course.js), built at scale from the
+    // OLD VOCAB_BANK. Same shape → build()/pic() handle them unchanged. Loaded before this file.
+    if (typeof window !== 'undefined' && Array.isArray(window.ThemeCourse)) {
+        THEMES = THEMES.concat(window.ThemeCourse);
+    }
+
     // Picture (emoji span first, SVG fallback) for an English word, or the word as last resort.
+    // Consults the big reusable EmojiMap (610 words + plural morphology) so generated themes
+    // resolve too, then the local EMOJI, then the illustrated SVG bank.
     function pic(en) {
         var e = EMOJI[en];
+        if (!e && typeof window !== 'undefined' && window.EmojiMap) e = window.EmojiMap.get(en);
         if (e) return '<span class="theme-emoji" role="img" aria-label="' + en + '">' + e + '</span>';
         // Fallback to the illustrated SVG bank (a `const` global, not window.PICTURE_WORD_BANK).
         var bank =

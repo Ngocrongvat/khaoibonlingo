@@ -57,22 +57,52 @@ const PICTURE_WORD_BANK = words.map((w) => ({
 
 const sandbox = { window: { PICTURE_WORD_BANK }, Math, Object, Array, String, JSON };
 vm.createContext(sandbox);
+// Load emoji-map (window.EmojiMap) + generated theme-course (window.ThemeCourse) FIRST, exactly
+// like index.html's load order, so theme-lessons.js merges the data-driven themes.
+vm.runInContext(
+    fs.readFileSync(path.join(__dirname, '..', 'data/emoji-map.js'), 'utf8'),
+    sandbox,
+    { filename: 'emoji-map.js' }
+);
+vm.runInContext(
+    fs.readFileSync(path.join(__dirname, '..', 'data/theme-course.js'), 'utf8'),
+    sandbox,
+    { filename: 'theme-course.js' }
+);
 vm.runInContext(
     fs.readFileSync(path.join(__dirname, '..', 'data/theme-lessons.js'), 'utf8'),
     sandbox,
     { filename: 'theme-lessons.js' }
 );
 const TL = sandbox.window.ThemeLessons;
+const GEN = sandbox.window.ThemeCourse;
 
 ok(TL && typeof TL.build === 'function', 'window.ThemeLessons.build exposed');
 ok(
-    Array.isArray(TL.themes) && TL.themes.length === 7,
-    'exactly 7 sample themes (incl. ẩm thực + cờ quốc gia)'
-);
-ok(
     TL.themes.some((t) => t.id === 'cuisine') && TL.themes.some((t) => t.id === 'flags'),
-    'the two new themes are present'
+    'the two hand-authored themes (ẩm thực + cờ quốc gia) are present'
 );
+ok(Array.isArray(GEN) && GEN.length >= 15, 'data-driven course generated >=15 themes');
+ok(
+    GEN.every((t) => TL.themes.some((x) => x.id === t.id)),
+    'every generated theme is merged into ThemeLessons.themes'
+);
+// Every generated theme picture must resolve to an EMOJI (no bare-word fallback), and its
+// dialogue must be a valid, in-range shape with both a male and a female voice.
+for (const t of GEN) {
+    const ex = TL.build(t.id);
+    ok(Array.isArray(ex) && ex.length >= 8, 'gen ' + t.id + ': builds >=8 exercises');
+    const picEx = ex.filter((e) => Array.isArray(e.optionPics) || e.promptPic);
+    ok(
+        picEx.length > 0 &&
+            picEx.every((e) =>
+                (e.optionPics || []).concat(e.promptPic ? [e.promptPic] : []).every(
+                    (p) => typeof p === 'string' && p.includes('theme-emoji')
+                )
+            ),
+        'gen ' + t.id + ': every picture resolves to a clear emoji'
+    );
+}
 
 function validExercise(e) {
     if (!e || !e.type) return false;
