@@ -489,12 +489,21 @@ Object.assign(DuoClone.prototype, {
             });
             html += `</div>`;
         } else if (ex.type === 'dialogue') {
-            // "Hoạt cảnh" scene banner: setting + key objects + the two speakers, so the child
-            // pictures the situation before reading the conversation.
-            if (ex.scene)
-                html += `<div class="dialogue-scene"><div class="dialogue-scene-emojis">${this.escapeHtml(ex.scene)}</div>${ex.sceneCaption ? `<div class="dialogue-scene-caption">${this.escapeHtml(ex.sceneCaption)}</div>` : ''}</div>`;
+            // Animated "hoạt cảnh" stage: a themed background, the two characters (the speaker
+            // lights up + bounces), a speech bubble, and the object mentioned popping in — all
+            // synced to the TTS playback so the child SEES the situation act itself out.
+            if (ex.setting) {
+                html += `<div class="dialogue-stage" id="dialogue-stage">
+                    <div class="stage-setting" aria-hidden="true">${this.escapeHtml(ex.setting)}</div>
+                    <div class="stage-actor stage-actor-left" id="stage-male" aria-hidden="true">👦</div>
+                    <div class="stage-prop" id="stage-prop" aria-hidden="true"></div>
+                    <div class="stage-actor stage-actor-right" id="stage-female" aria-hidden="true">👧</div>
+                    <div class="stage-bubble" id="stage-bubble" aria-live="polite"></div>
+                    ${ex.sceneCaption ? `<div class="stage-caption">${this.escapeHtml(ex.sceneCaption)}</div>` : ''}
+                </div>`;
+            }
             if (ex.audioLines)
-                html += `<div class="pic-listen-row"><button class="btn-listen" id="dialogue-listen-btn"><span style="font-size:28px;">🔊</span><br>Nghe hội thoại</button></div>`;
+                html += `<div class="pic-listen-row"><button class="btn-listen" id="dialogue-listen-btn"><span style="font-size:28px;">▶️</span><br>Xem &amp; nghe hoạt cảnh</button></div>`;
             html += `<div class="dialogue-box">`;
             ex.lines.forEach((line) => {
                 html += `<div class="dialogue-line">${this.escapeHtml(line)}</div>`;
@@ -609,8 +618,11 @@ Object.assign(DuoClone.prototype, {
     // exposes distinct male/female en voices we use them; otherwise we fall back to PITCH
     // (male = lower, female = higher) which works everywhere. Lines play sequentially by
     // chaining on each utterance's onend.
-    speakDialogue(lines, voices) {
-        if (!('speechSynthesis' in window) || !Array.isArray(lines) || !lines.length) return;
+    speakDialogue(lines, voices, onStep) {
+        if (!('speechSynthesis' in window) || !Array.isArray(lines) || !lines.length) {
+            if (typeof onStep === 'function') onStep(-1); // nothing to play → reset the stage
+            return;
+        }
         speechSynthesis.cancel();
         const all = speechSynthesis.getVoices() || [];
         const en = all.filter((v) => /^en(-|_|$)/i.test(v.lang));
@@ -625,7 +637,11 @@ Object.assign(DuoClone.prototype, {
             null;
         let i = 0;
         const speakNext = () => {
-            if (i >= lines.length) return;
+            if (i >= lines.length) {
+                if (typeof onStep === 'function') onStep(-1); // finished → reset the stage
+                return;
+            }
+            if (typeof onStep === 'function') onStep(i); // drive the animated stage for this line
             const g = (voices && voices[i]) || 'neutral';
             const u = new SpeechSynthesisUtterance(lines[i]);
             u.lang = 'en-US';
@@ -654,6 +670,59 @@ Object.assign(DuoClone.prototype, {
             speechSynthesis.speak(u);
         };
         speakNext();
+    },
+
+    // Play the animated dialogue stage: for each line, light up + bounce the speaking character,
+    // show a speech bubble, and pop the object the line mentions — all synced to speakDialogue's
+    // per-line callback so the scene acts itself out as it is spoken.
+    playThemeScene(ex, btn) {
+        const stage = document.getElementById('dialogue-stage');
+        const male = document.getElementById('stage-male');
+        const female = document.getElementById('stage-female');
+        const bubble = document.getElementById('stage-bubble');
+        const prop = document.getElementById('stage-prop');
+        const steps = ex.sceneSteps || [];
+        // Force-retrigger a CSS animation by removing the class, flushing layout, re-adding it.
+        const retrigger = (el, cls) => {
+            if (!el) return;
+            el.classList.remove(cls);
+            void el.offsetWidth;
+            el.classList.add(cls);
+        };
+        const reset = () => {
+            if (male) male.classList.remove('talking');
+            if (female) female.classList.remove('talking');
+            if (bubble) bubble.classList.remove('show', 'bubble-left', 'bubble-right');
+            if (prop) prop.classList.remove('pop');
+            if (btn) btn.disabled = false;
+        };
+        if (btn) btn.disabled = true;
+        const onStep = (idx) => {
+            if (idx < 0) {
+                reset();
+                return;
+            }
+            const step = steps[idx] || {};
+            const isMale = step.actor === 'male';
+            if (male) male.classList.toggle('talking', isMale);
+            if (female) female.classList.toggle('talking', !isMale && step.actor === 'female');
+            if (bubble) {
+                bubble.textContent = (ex.audioLines && ex.audioLines[idx]) || '';
+                bubble.classList.remove('bubble-left', 'bubble-right');
+                bubble.classList.add(isMale ? 'bubble-left' : 'bubble-right');
+                retrigger(bubble, 'show');
+            }
+            if (prop) {
+                if (step.emoji) {
+                    prop.textContent = step.emoji;
+                    retrigger(prop, 'pop');
+                } else {
+                    prop.classList.remove('pop');
+                }
+            }
+        };
+        if (stage) stage.classList.add('playing');
+        this.speakDialogue(ex.audioLines, ex.voices, onStep);
     },
 
     startRecording() {

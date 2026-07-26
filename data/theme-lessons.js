@@ -220,23 +220,35 @@
 
     // Situational dialogue (read + hear the conversation with per-character voices, then a
     // comprehension question). `voices[i]` pairs with `audioLines[i]`.
+    // The theme-word emoji mentioned in a dialogue line (drives the per-line animated prop), or ''.
+    function lineEmoji(theme, line) {
+        if (!(typeof window !== 'undefined' && window.EmojiMap)) return '';
+        for (var k = 0; k < theme.words.length; k++) {
+            var en = theme.words[k].en;
+            var re = new RegExp('\\b' + en.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&') + '\\b', 'i');
+            if (re.test(line)) {
+                var g = window.EmojiMap.get(en);
+                if (g) return g;
+            }
+        }
+        return '';
+    }
+
     function dialogueEx(theme) {
         var d = theme.dialogue;
-        // Scene ("hoạt cảnh"): use the generated one, else build a fallback from the first words.
-        var scene = d.scene, cap = d.sceneCaption;
-        if (!scene) {
-            var em = [];
-            for (var i = 0; i < Math.min(3, theme.words.length); i++) {
-                var g = typeof window !== 'undefined' && window.EmojiMap
-                    ? window.EmojiMap.get(theme.words[i].en) : null;
-                if (g) em.push(g);
-            }
-            scene = '💬 ' + em.join(' ') + ' 👦👧';
-            cap = 'Nam và Mai trò chuyện';
+        // Scene ("hoạt cảnh"): setting (bg emoji) + caption, from the generated data or a fallback.
+        var setting = d.setting, cap = d.sceneCaption;
+        if (!setting) {
+            setting = '💬';
+            cap = cap || 'Nam và Mai trò chuyện';
         }
+        // Per-line steps drive the ANIMATED stage: which actor speaks + which object pops up.
+        var sceneSteps = d.lines.map(function (line) {
+            return { actor: speakerGender(line), emoji: lineEmoji(theme, line) };
+        });
         return {
             id: nid(), type: 'dialogue', question: d.question,
-            scene: scene, sceneCaption: cap,
+            setting: setting, sceneCaption: cap, sceneSteps: sceneSteps,
             lines: d.lines, audioLines: d.audioLines,
             voices: d.lines.map(speakerGender),
             options: d.options, correct: d.correct,

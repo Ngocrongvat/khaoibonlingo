@@ -9,6 +9,14 @@
   "icon": "🐾",
   "words": [
    {
+    "en": "Dog",
+    "vi": "Con chó"
+   },
+   {
+    "en": "Cat",
+    "vi": "Con mèo"
+   },
+   {
     "en": "Turtle",
     "vi": "Rùa"
    },
@@ -31,45 +39,38 @@
    {
     "en": "Monkey",
     "vi": "Khỉ"
-   },
-   {
-    "en": "Rabbit",
-    "vi": "Thỏ"
-   },
-   {
-    "en": "Fox",
-    "vi": "Cáo"
    }
   ],
   "phrases": [
-   "I like the turtle.",
-   "Look at the lion!",
-   "This is the tiger."
+   "I like the dog.",
+   "Look at the cat!",
+   "This is the turtle."
   ],
   "dialogue": {
-   "scene": "💬 🐢 🦁 🐯 👦👧",
+   "scene": "💬 🐶 🐱 🐢 👦👧",
+   "setting": "💬",
    "sceneCaption": "Nam và Mai đang trò chuyện",
    "lines": [
     "👧 Mai: Hi Nam! What do you like?",
-    "👦 Nam: Hi Mai! I like the turtle. And you?",
-    "👧 Mai: I like the lion. It is nice.",
-    "👦 Nam: Look! The tiger is over there.",
-    "👧 Mai: Wow! I like the tiger too.",
+    "👦 Nam: Hi Mai! I like the dog. And you?",
+    "👧 Mai: I like the cat. It is nice.",
+    "👦 Nam: Look! The turtle is over there.",
+    "👧 Mai: Wow! I like the turtle too.",
     "👦 Nam: Me too! Let's look together."
    ],
    "audioLines": [
     "Hi Nam! What do you like?",
-    "Hi Mai! I like the turtle. And you?",
-    "I like the lion. It is nice.",
-    "Look! The tiger is over there.",
-    "Wow! I like the tiger too.",
+    "Hi Mai! I like the dog. And you?",
+    "I like the cat. It is nice.",
+    "Look! The turtle is over there.",
+    "Wow! I like the turtle too.",
     "Me too! Let's look together."
    ],
    "question": "Mai thích cái nào đầu tiên?",
    "options": [
-    "the lion",
-    "the turtle",
-    "the tiger"
+    "the cat",
+    "the dog",
+    "the turtle"
    ],
    "correct": 0
   }
@@ -79,6 +80,10 @@
   "title": "Loài chim",
   "icon": "🐦",
   "words": [
+   {
+    "en": "Bird",
+    "vi": "Con chim"
+   },
    {
     "en": "Chicken",
     "vi": "Thịt gà"
@@ -100,47 +105,44 @@
     "vi": "Vịt"
    },
    {
-    "en": "Pigeon",
-    "vi": "Chim bồ câu"
-   },
-   {
     "en": "Penguin",
     "vi": "Chim cánh cụt"
    },
    {
-    "en": "Bird",
-    "vi": "Con chim"
+    "en": "Peacock",
+    "vi": "Công"
    }
   ],
   "phrases": [
-   "I like the chicken.",
-   "Look at the eagle!",
-   "This is the owl."
+   "I like the bird.",
+   "Look at the chicken!",
+   "This is the eagle."
   ],
   "dialogue": {
-   "scene": "💬 🐔 🦅 🦉 👦👧",
+   "scene": "💬 🐦 🐔 🦅 👦👧",
+   "setting": "💬",
    "sceneCaption": "Nam và Mai đang trò chuyện",
    "lines": [
     "👧 Mai: Hi Nam! What do you like?",
-    "👦 Nam: Hi Mai! I like the chicken. And you?",
-    "👧 Mai: I like the eagle. It is nice.",
-    "👦 Nam: Look! The owl is over there.",
-    "👧 Mai: Wow! I like the owl too.",
+    "👦 Nam: Hi Mai! I like the bird. And you?",
+    "👧 Mai: I like the chicken. It is nice.",
+    "👦 Nam: Look! The eagle is over there.",
+    "👧 Mai: Wow! I like the eagle too.",
     "👦 Nam: Me too! Let's look together."
    ],
    "audioLines": [
     "Hi Nam! What do you like?",
-    "Hi Mai! I like the chicken. And you?",
-    "I like the eagle. It is nice.",
-    "Look! The owl is over there.",
-    "Wow! I like the owl too.",
+    "Hi Mai! I like the bird. And you?",
+    "I like the chicken. It is nice.",
+    "Look! The eagle is over there.",
+    "Wow! I like the eagle too.",
     "Me too! Let's look together."
    ],
    "question": "Mai thích cái nào đầu tiên?",
    "options": [
-    "the eagle",
     "the chicken",
-    "the owl"
+    "the bird",
+    "the eagle"
    ],
    "correct": 0
   }
@@ -151,8 +153,8 @@
   "icon": "🐠",
   "words": [
    {
-    "en": "Shrimp",
-    "vi": "Tôm"
+    "en": "Fish",
+    "vi": "Con cá"
    },
    {
     "en": "Shark",
@@ -167,33 +169,34 @@
     "vi": "Cá heo"
    },
    {
-    "en": "Octopus",
-    "vi": "Bạch tuộc"
-   },
-   {
     "en": "Crab",
     "vi": "Cua"
    },
    {
-    "en": "Squid",
-    "vi": "Mực"
+    "en": "Shrimp",
+    "vi": "Tôm"
    },
    {
-    "en": "Fish",
-    "vi": "Con cá"
+    "en": "Octopus",
+    "vi": "Bạch tuộc"
+   },
+   {
+    "en": "Lobster",
+    "vi": "Tôm hùm"
    }
   ],
   "phrases": [
-   "I like the shrimp.",
+   "I like the fish.",
    "Look at the shark!",
    "This is the whale."
   ],
   "dialogue": {
-   "scene": "💬 🦐 🦈 🐳 👦👧",
+   "scene": "💬 🐟 🦈 🐳 👦👧",
+   "setting": "💬",
    "sceneCaption": "Nam và Mai đang trò chuyện",
    "lines": [
     "👧 Mai: Hi Nam! What do you like?",
-    "👦 Nam: Hi Mai! I like the shrimp. And you?",
+    "👦 Nam: Hi Mai! I like the fish. And you?",
     "👧 Mai: I like the shark. It is nice.",
     "👦 Nam: Look! The whale is over there.",
     "👧 Mai: Wow! I like the whale too.",
@@ -201,7 +204,7 @@
    ],
    "audioLines": [
     "Hi Nam! What do you like?",
-    "Hi Mai! I like the shrimp. And you?",
+    "Hi Mai! I like the fish. And you?",
     "I like the shark. It is nice.",
     "Look! The whale is over there.",
     "Wow! I like the whale too.",
@@ -210,7 +213,7 @@
    "question": "Mai thích cái nào đầu tiên?",
    "options": [
     "the shark",
-    "the shrimp",
+    "the fish",
     "the whale"
    ],
    "correct": 0
@@ -238,6 +241,10 @@
     "vi": "Nhện"
    },
    {
+    "en": "Snail",
+    "vi": "Ốc sên"
+   },
+   {
     "en": "Mosquito",
     "vi": "Muỗi"
    },
@@ -248,10 +255,6 @@
    {
     "en": "Worm",
     "vi": "Giun"
-   },
-   {
-    "en": "Snail",
-    "vi": "Ốc sên"
    }
   ],
   "phrases": [
@@ -261,6 +264,7 @@
   ],
   "dialogue": {
    "scene": "💬 🐜 🐝 🦋 👦👧",
+   "setting": "💬",
    "sceneCaption": "Nam và Mai đang trò chuyện",
    "lines": [
     "👧 Mai: Hi Nam! What do you like?",
@@ -313,16 +317,16 @@
     "vi": "Xoài"
    },
    {
-    "en": "Pineapple",
-    "vi": "Dứa"
-   },
-   {
     "en": "Watermelon",
     "vi": "Dưa hấu"
    },
    {
     "en": "Strawberry",
     "vi": "Dâu tây"
+   },
+   {
+    "en": "Lemon",
+    "vi": "Chanh vàng"
    }
   ],
   "phrases": [
@@ -332,6 +336,7 @@
   ],
   "dialogue": {
    "scene": "🍽️ 🍎 🍌 🍊 👦👧",
+   "setting": "🍽️",
    "sceneCaption": "Ở quán ăn",
    "lines": [
     "👦 Nam: I am so hungry!",
@@ -376,10 +381,6 @@
     "vi": "Hành tây"
    },
    {
-    "en": "Garlic",
-    "vi": "Tỏi"
-   },
-   {
     "en": "Carrot",
     "vi": "Cà rốt"
    },
@@ -388,12 +389,16 @@
     "vi": "Dưa chuột"
    },
    {
-    "en": "Cabbage",
-    "vi": "Bắp cải"
+    "en": "Corn",
+    "vi": "Ngô"
    },
    {
-    "en": "Lettuce",
-    "vi": "Xà lách"
+    "en": "Mushroom",
+    "vi": "Nấm"
+   },
+   {
+    "en": "Garlic",
+    "vi": "Tỏi"
    }
   ],
   "phrases": [
@@ -403,6 +408,7 @@
   ],
   "dialogue": {
    "scene": "🍽️ 🫑 🥔 🧅 👦👧",
+   "setting": "🍽️",
    "sceneCaption": "Ở quán ăn",
    "lines": [
     "👦 Nam: I am so hungry!",
@@ -463,8 +469,8 @@
     "vi": "Trà"
    },
    {
-    "en": "Coffee",
-    "vi": "Cà phê"
+    "en": "Juice",
+    "vi": "Nước ép"
    }
   ],
   "phrases": [
@@ -474,6 +480,7 @@
   ],
   "dialogue": {
    "scene": "🍽️ 🍚 🍞 🍲 👦👧",
+   "setting": "🍽️",
    "sceneCaption": "Ở quán ăn",
    "lines": [
     "👦 Nam: I am so hungry!",
@@ -510,10 +517,6 @@
     "vi": "Áo sơ mi"
    },
    {
-    "en": "T-shirt",
-    "vi": "Áo thun"
-   },
-   {
     "en": "Skirt",
     "vi": "Váy"
    },
@@ -526,47 +529,52 @@
     "vi": "Áo khoác"
    },
    {
-    "en": "Sweater",
-    "vi": "Áo len"
+    "en": "Coat",
+    "vi": "Áo choàng"
    },
    {
     "en": "Shoes",
     "vi": "Giày"
    },
    {
-    "en": "Sandals",
-    "vi": "Dép quai"
+    "en": "Hat",
+    "vi": "Mũ"
+   },
+   {
+    "en": "Cap",
+    "vi": "Mũ lưỡi trai"
    }
   ],
   "phrases": [
    "I like my shirt.",
-   "Look at my t-shirt!",
-   "This is my skirt."
+   "Look at my skirt!",
+   "This is my dress."
   ],
   "dialogue": {
-   "scene": "🛍️ 👕 👕 👗 👦👧",
+   "scene": "🛍️ 👕 👗 👗 👦👧",
+   "setting": "🛍️",
    "sceneCaption": "Đi mua sắm quần áo",
    "lines": [
     "👧 Mai: Nam, look at my new shirt!",
     "👦 Nam: Wow, Mai! I like your shirt.",
-    "👧 Mai: Thank you! I like your t-shirt too.",
-    "👦 Nam: This is my favorite t-shirt.",
-    "👧 Mai: And look, my skirt is new!",
+    "👧 Mai: Thank you! I like your skirt too.",
+    "👦 Nam: This is my favorite skirt.",
+    "👧 Mai: And look, my dress is new!",
     "👦 Nam: It is beautiful. You look great!"
    ],
    "audioLines": [
     "Nam, look at my new shirt!",
     "Wow, Mai! I like your shirt.",
-    "Thank you! I like your t-shirt too.",
-    "This is my favorite t-shirt.",
-    "And look, my skirt is new!",
+    "Thank you! I like your skirt too.",
+    "This is my favorite skirt.",
+    "And look, my dress is new!",
     "It is beautiful. You look great!"
    ],
    "question": "Mai khoe món nào đầu tiên?",
    "options": [
     "shirt",
-    "t-shirt",
-    "skirt"
+    "skirt",
+    "dress"
    ],
    "correct": 0
   }
@@ -577,16 +585,24 @@
   "icon": "🚗",
   "words": [
    {
-    "en": "Rocket",
-    "vi": "Tên lửa"
+    "en": "Bus",
+    "vi": "Xe buýt"
    },
    {
-    "en": "Ambulance",
-    "vi": "Xe cứu thương"
+    "en": "Car",
+    "vi": "Ô tô"
    },
    {
-    "en": "Tractor",
-    "vi": "Máy kéo"
+    "en": "Airplane",
+    "vi": "Máy bay"
+   },
+   {
+    "en": "Train",
+    "vi": "Tàu hỏa"
+   },
+   {
+    "en": "Bicycle",
+    "vi": "Xe đạp"
    },
    {
     "en": "Taxi",
@@ -599,45 +615,38 @@
    {
     "en": "Boat",
     "vi": "Thuyền"
-   },
-   {
-    "en": "Ship",
-    "vi": "Tàu thủy"
-   },
-   {
-    "en": "Scooter",
-    "vi": "Xe tay ga"
    }
   ],
   "phrases": [
-   "I go by rocket.",
-   "Look at the ambulance!",
-   "I like the tractor."
+   "I go by bus.",
+   "Look at the car!",
+   "I like the airplane."
   ],
   "dialogue": {
-   "scene": "🚸 🚀 🚑 🚜 👦👧",
+   "scene": "🚸 🚌 🚗 ✈️ 👦👧",
+   "setting": "🚸",
    "sceneCaption": "Trên đường tới trường",
    "lines": [
     "👧 Mai: Hi Nam! How do you go to school?",
-    "👦 Nam: Hi Mai! I go by rocket. And you?",
-    "👧 Mai: I go by ambulance. It is fast.",
-    "👦 Nam: Look at that big tractor!",
-    "👧 Mai: Wow! I like the tractor.",
+    "👦 Nam: Hi Mai! I go by bus. And you?",
+    "👧 Mai: I go by car. It is fast.",
+    "👦 Nam: Look at that big airplane!",
+    "👧 Mai: Wow! I like the airplane.",
     "👦 Nam: Me too! See you at school."
    ],
    "audioLines": [
     "Hi Nam! How do you go to school?",
-    "Hi Mai! I go by rocket. And you?",
-    "I go by ambulance. It is fast.",
-    "Look at that big tractor!",
-    "Wow! I like the tractor.",
+    "Hi Mai! I go by bus. And you?",
+    "I go by car. It is fast.",
+    "Look at that big airplane!",
+    "Wow! I like the airplane.",
     "Me too! See you at school."
    ],
    "question": "Nam đi học bằng gì?",
    "options": [
-    "rocket",
-    "ambulance",
-    "tractor"
+    "bus",
+    "car",
+    "airplane"
    ],
    "correct": 0
   }
@@ -648,67 +657,68 @@
   "icon": "🏙️",
   "words": [
    {
+    "en": "School",
+    "vi": "Trường học"
+   },
+   {
     "en": "House",
     "vi": "Ngôi nhà"
-   },
-   {
-    "en": "City",
-    "vi": "Thành phố"
-   },
-   {
-    "en": "Road",
-    "vi": "Con đường"
-   },
-   {
-    "en": "Bridge",
-    "vi": "Cây cầu"
    },
    {
     "en": "Park",
     "vi": "Công viên"
    },
    {
-    "en": "Bank",
-    "vi": "Ngân hàng"
+    "en": "Store",
+    "vi": "Cửa hàng"
    },
    {
-    "en": "Office",
-    "vi": "Văn phòng"
+    "en": "Hospital",
+    "vi": "Bệnh viện"
    },
    {
-    "en": "Farm",
-    "vi": "Nông trại"
+    "en": "Airport",
+    "vi": "Sân bay"
+   },
+   {
+    "en": "Mountain",
+    "vi": "Núi"
+   },
+   {
+    "en": "City",
+    "vi": "Thành phố"
    }
   ],
   "phrases": [
-   "I like the house.",
-   "Look at the city!",
-   "This is the road."
+   "I like the school.",
+   "Look at the house!",
+   "This is the park."
   ],
   "dialogue": {
-   "scene": "💬 🏠 🏙️ 🛣️ 👦👧",
+   "scene": "💬 🏫 🏠 🏞️ 👦👧",
+   "setting": "💬",
    "sceneCaption": "Nam và Mai đang trò chuyện",
    "lines": [
     "👧 Mai: Hi Nam! What do you like?",
-    "👦 Nam: Hi Mai! I like the house. And you?",
-    "👧 Mai: I like the city. It is nice.",
-    "👦 Nam: Look! The road is over there.",
-    "👧 Mai: Wow! I like the road too.",
+    "👦 Nam: Hi Mai! I like the school. And you?",
+    "👧 Mai: I like the house. It is nice.",
+    "👦 Nam: Look! The park is over there.",
+    "👧 Mai: Wow! I like the park too.",
     "👦 Nam: Me too! Let's look together."
    ],
    "audioLines": [
     "Hi Nam! What do you like?",
-    "Hi Mai! I like the house. And you?",
-    "I like the city. It is nice.",
-    "Look! The road is over there.",
-    "Wow! I like the road too.",
+    "Hi Mai! I like the school. And you?",
+    "I like the house. It is nice.",
+    "Look! The park is over there.",
+    "Wow! I like the park too.",
     "Me too! Let's look together."
    ],
    "question": "Mai thích cái nào đầu tiên?",
    "options": [
-    "the city",
     "the house",
-    "the road"
+    "the school",
+    "the park"
    ],
    "correct": 0
   }
@@ -735,20 +745,20 @@
     "vi": "Cái ghế"
    },
    {
-    "en": "Sofa",
-    "vi": "Ghế sofa"
-   },
-   {
     "en": "Bed",
     "vi": "Cái giường"
    },
    {
-    "en": "Mirror",
-    "vi": "Cái gương"
-   },
-   {
     "en": "Lamp",
     "vi": "Đèn bàn"
+   },
+   {
+    "en": "Clock",
+    "vi": "Đồng hồ treo tường"
+   },
+   {
+    "en": "Sofa",
+    "vi": "Ghế sofa"
    }
   ],
   "phrases": [
@@ -758,6 +768,7 @@
   ],
   "dialogue": {
    "scene": "💬 🚪 🪟 🪑 👦👧",
+   "setting": "💬",
    "sceneCaption": "Nam và Mai đang trò chuyện",
    "lines": [
     "👧 Mai: Hi Nam! What do you like?",
@@ -790,14 +801,6 @@
   "icon": "🍽️",
   "words": [
    {
-    "en": "Pot",
-    "vi": "Nồi"
-   },
-   {
-    "en": "Pan",
-    "vi": "Chảo"
-   },
-   {
     "en": "Knife",
     "vi": "Dao"
    },
@@ -818,39 +821,48 @@
     "vi": "Bát/Tô"
    },
    {
+    "en": "Pot",
+    "vi": "Nồi"
+   },
+   {
+    "en": "Pan",
+    "vi": "Chảo"
+   },
+   {
     "en": "Glass",
     "vi": "Ly thủy tinh"
    }
   ],
   "phrases": [
-   "I like the pot.",
-   "Look at the pan!",
-   "This is the knife."
+   "I like the knife.",
+   "Look at the fork!",
+   "This is the spoon."
   ],
   "dialogue": {
-   "scene": "💬 🍲 🍳 🔪 👦👧",
+   "scene": "💬 🔪 🍴 🥄 👦👧",
+   "setting": "💬",
    "sceneCaption": "Nam và Mai đang trò chuyện",
    "lines": [
     "👧 Mai: Hi Nam! What do you like?",
-    "👦 Nam: Hi Mai! I like the pot. And you?",
-    "👧 Mai: I like the pan. It is nice.",
-    "👦 Nam: Look! The knife is over there.",
-    "👧 Mai: Wow! I like the knife too.",
+    "👦 Nam: Hi Mai! I like the knife. And you?",
+    "👧 Mai: I like the fork. It is nice.",
+    "👦 Nam: Look! The spoon is over there.",
+    "👧 Mai: Wow! I like the spoon too.",
     "👦 Nam: Me too! Let's look together."
    ],
    "audioLines": [
     "Hi Nam! What do you like?",
-    "Hi Mai! I like the pot. And you?",
-    "I like the pan. It is nice.",
-    "Look! The knife is over there.",
-    "Wow! I like the knife too.",
+    "Hi Mai! I like the knife. And you?",
+    "I like the fork. It is nice.",
+    "Look! The spoon is over there.",
+    "Wow! I like the spoon too.",
     "Me too! Let's look together."
    ],
    "question": "Mai thích cái nào đầu tiên?",
    "options": [
-    "the pan",
-    "the pot",
-    "the knife"
+    "the fork",
+    "the knife",
+    "the spoon"
    ],
    "correct": 0
   }
@@ -861,67 +873,68 @@
   "icon": "🎒",
   "words": [
    {
-    "en": "Watch",
-    "vi": "Đồng hồ"
-   },
-   {
-    "en": "Television",
-    "vi": "Ti vi"
+    "en": "Phone",
+    "vi": "Điện thoại"
    },
    {
     "en": "Key",
     "vi": "Chìa khóa"
    },
    {
-    "en": "Lock",
-    "vi": "Ổ khóa"
-   },
-   {
-    "en": "Paper",
-    "vi": "Giấy"
-   },
-   {
     "en": "Ball",
     "vi": "Quả bóng"
    },
    {
-    "en": "Letter",
-    "vi": "Bức thư"
+    "en": "book",
+    "vi": "đặt"
    },
    {
-    "en": "Newspaper",
-    "vi": "Báo giấy"
+    "en": "Money",
+    "vi": "Tiền"
+   },
+   {
+    "en": "Computer",
+    "vi": "Máy tính"
+   },
+   {
+    "en": "Battery",
+    "vi": "Pin"
+   },
+   {
+    "en": "Pen",
+    "vi": "Bút"
    }
   ],
   "phrases": [
-   "I like the watch.",
-   "Look at the television!",
-   "This is the key."
+   "I like the phone.",
+   "Look at the key!",
+   "This is the ball."
   ],
   "dialogue": {
-   "scene": "💬 ⌚ 📺 🔑 👦👧",
+   "scene": "💬 📱 🔑 ⚽ 👦👧",
+   "setting": "💬",
    "sceneCaption": "Nam và Mai đang trò chuyện",
    "lines": [
     "👧 Mai: Hi Nam! What do you like?",
-    "👦 Nam: Hi Mai! I like the watch. And you?",
-    "👧 Mai: I like the television. It is nice.",
-    "👦 Nam: Look! The key is over there.",
-    "👧 Mai: Wow! I like the key too.",
+    "👦 Nam: Hi Mai! I like the phone. And you?",
+    "👧 Mai: I like the key. It is nice.",
+    "👦 Nam: Look! The ball is over there.",
+    "👧 Mai: Wow! I like the ball too.",
     "👦 Nam: Me too! Let's look together."
    ],
    "audioLines": [
     "Hi Nam! What do you like?",
-    "Hi Mai! I like the watch. And you?",
-    "I like the television. It is nice.",
-    "Look! The key is over there.",
-    "Wow! I like the key too.",
+    "Hi Mai! I like the phone. And you?",
+    "I like the key. It is nice.",
+    "Look! The ball is over there.",
+    "Wow! I like the ball too.",
     "Me too! Let's look together."
    ],
    "question": "Mai thích cái nào đầu tiên?",
    "options": [
-    "the television",
-    "the watch",
-    "the key"
+    "the key",
+    "the phone",
+    "the ball"
    ],
    "correct": 0
   }
@@ -931,6 +944,18 @@
   "title": "Cơ thể",
   "icon": "🖐️",
   "words": [
+   {
+    "en": "Hand",
+    "vi": "Tay"
+   },
+   {
+    "en": "Leg",
+    "vi": "Chân"
+   },
+   {
+    "en": "Eye",
+    "vi": "Mắt"
+   },
    {
     "en": "Face",
     "vi": "Khuôn mặt"
@@ -950,49 +975,38 @@
    {
     "en": "Ear",
     "vi": "Tai"
-   },
-   {
-    "en": "Arm",
-    "vi": "Cánh tay"
-   },
-   {
-    "en": "Finger",
-    "vi": "Ngón tay"
-   },
-   {
-    "en": "Knee",
-    "vi": "Đầu gối"
    }
   ],
   "phrases": [
-   "I like the face.",
-   "Look at the hair!",
-   "This is the nose."
+   "I like the hand.",
+   "Look at the leg!",
+   "This is the eye."
   ],
   "dialogue": {
-   "scene": "💬 😀 💇 👃 👦👧",
+   "scene": "💬 ✋ 🦵 👁️ 👦👧",
+   "setting": "💬",
    "sceneCaption": "Nam và Mai đang trò chuyện",
    "lines": [
     "👧 Mai: Hi Nam! What do you like?",
-    "👦 Nam: Hi Mai! I like the face. And you?",
-    "👧 Mai: I like the hair. It is nice.",
-    "👦 Nam: Look! The nose is over there.",
-    "👧 Mai: Wow! I like the nose too.",
+    "👦 Nam: Hi Mai! I like the hand. And you?",
+    "👧 Mai: I like the leg. It is nice.",
+    "👦 Nam: Look! The eye is over there.",
+    "👧 Mai: Wow! I like the eye too.",
     "👦 Nam: Me too! Let's look together."
    ],
    "audioLines": [
     "Hi Nam! What do you like?",
-    "Hi Mai! I like the face. And you?",
-    "I like the hair. It is nice.",
-    "Look! The nose is over there.",
-    "Wow! I like the nose too.",
+    "Hi Mai! I like the hand. And you?",
+    "I like the leg. It is nice.",
+    "Look! The eye is over there.",
+    "Wow! I like the eye too.",
     "Me too! Let's look together."
    ],
    "question": "Mai thích cái nào đầu tiên?",
    "options": [
-    "the hair",
-    "the face",
-    "the nose"
+    "the leg",
+    "the hand",
+    "the eye"
    ],
    "correct": 0
   }
@@ -1005,10 +1019,6 @@
    {
     "en": "Family",
     "vi": "Gia đình"
-   },
-   {
-    "en": "Parent",
-    "vi": "Cha mẹ"
    },
    {
     "en": "Father",
@@ -1027,43 +1037,48 @@
     "vi": "Chị/Em gái"
    },
    {
-    "en": "Grandfather",
-    "vi": "Ông"
+    "en": "Baby",
+    "vi": "Em bé"
    },
    {
-    "en": "Grandmother",
-    "vi": "Bà"
+    "en": "Parent",
+    "vi": "Cha mẹ"
+   },
+   {
+    "en": "Grandfather",
+    "vi": "Ông"
    }
   ],
   "phrases": [
    "I like the family.",
-   "Look at the parent!",
-   "This is the father."
+   "Look at the father!",
+   "This is the mother."
   ],
   "dialogue": {
-   "scene": "💬 👪 👪 👨 👦👧",
+   "scene": "💬 👪 👨 👩 👦👧",
+   "setting": "💬",
    "sceneCaption": "Nam và Mai đang trò chuyện",
    "lines": [
     "👧 Mai: Hi Nam! What do you like?",
     "👦 Nam: Hi Mai! I like the family. And you?",
-    "👧 Mai: I like the parent. It is nice.",
-    "👦 Nam: Look! The father is over there.",
-    "👧 Mai: Wow! I like the father too.",
+    "👧 Mai: I like the father. It is nice.",
+    "👦 Nam: Look! The mother is over there.",
+    "👧 Mai: Wow! I like the mother too.",
     "👦 Nam: Me too! Let's look together."
    ],
    "audioLines": [
     "Hi Nam! What do you like?",
     "Hi Mai! I like the family. And you?",
-    "I like the parent. It is nice.",
-    "Look! The father is over there.",
-    "Wow! I like the father too.",
+    "I like the father. It is nice.",
+    "Look! The mother is over there.",
+    "Wow! I like the mother too.",
     "Me too! Let's look together."
    ],
    "question": "Mai thích cái nào đầu tiên?",
    "options": [
-    "the parent",
+    "the father",
     "the family",
-    "the father"
+    "the mother"
    ],
    "correct": 0
   }
@@ -1074,67 +1089,68 @@
   "icon": "👩‍🏫",
   "words": [
    {
-    "en": "Waiter",
-    "vi": "Người phục vụ"
+    "en": "Doctor",
+    "vi": "Bác sĩ"
    },
    {
-    "en": "Chef",
-    "vi": "Đầu bếp"
-   },
-   {
-    "en": "Engineer",
-    "vi": "Kỹ sư"
+    "en": "Teacher",
+    "vi": "Giáo viên"
    },
    {
     "en": "Nurse",
     "vi": "Y tá"
    },
    {
-    "en": "Police officer",
-    "vi": "Cảnh sát"
-   },
-   {
-    "en": "Firefighter",
-    "vi": "Lính cứu hỏa"
-   },
-   {
     "en": "Farmer",
     "vi": "Nông dân"
    },
    {
-    "en": "Driver",
-    "vi": "Tài xế"
+    "en": "Cook",
+    "vi": "Đầu bếp"
+   },
+   {
+    "en": "Student",
+    "vi": "Học sinh"
+   },
+   {
+    "en": "Waiter",
+    "vi": "Người phục vụ"
+   },
+   {
+    "en": "Chef",
+    "vi": "Đầu bếp"
    }
   ],
   "phrases": [
-   "I like the waiter.",
-   "Look at the chef!",
-   "This is the engineer."
+   "I like the doctor.",
+   "Look at the teacher!",
+   "This is the nurse."
   ],
   "dialogue": {
-   "scene": "💬 🧑‍🍳 👨‍🍳 👷 👦👧",
+   "scene": "💬 👨‍⚕️ 👩‍🏫 👩‍⚕️ 👦👧",
+   "setting": "💬",
    "sceneCaption": "Nam và Mai đang trò chuyện",
    "lines": [
     "👧 Mai: Hi Nam! What do you like?",
-    "👦 Nam: Hi Mai! I like the waiter. And you?",
-    "👧 Mai: I like the chef. It is nice.",
-    "👦 Nam: Look! The engineer is over there.",
-    "👧 Mai: Wow! I like the engineer too.",
+    "👦 Nam: Hi Mai! I like the doctor. And you?",
+    "👧 Mai: I like the teacher. It is nice.",
+    "👦 Nam: Look! The nurse is over there.",
+    "👧 Mai: Wow! I like the nurse too.",
     "👦 Nam: Me too! Let's look together."
    ],
    "audioLines": [
     "Hi Nam! What do you like?",
-    "Hi Mai! I like the waiter. And you?",
-    "I like the chef. It is nice.",
-    "Look! The engineer is over there.",
-    "Wow! I like the engineer too.",
+    "Hi Mai! I like the doctor. And you?",
+    "I like the teacher. It is nice.",
+    "Look! The nurse is over there.",
+    "Wow! I like the nurse too.",
     "Me too! Let's look together."
    ],
    "question": "Mai thích cái nào đầu tiên?",
    "options": [
-    "the chef",
-    "the waiter",
-    "the engineer"
+    "the teacher",
+    "the doctor",
+    "the nurse"
    ],
    "correct": 0
   }
@@ -1145,67 +1161,68 @@
   "icon": "🌳",
   "words": [
    {
-    "en": "Stone",
-    "vi": "Đá"
+    "en": "Cloud",
+    "vi": "Mây"
    },
    {
-    "en": "Rock",
-    "vi": "Tảng đá"
+    "en": "Tree",
+    "vi": "Cây cối"
    },
    {
-    "en": "Ocean",
-    "vi": "Đại dương"
+    "en": "Flower",
+    "vi": "Hoa"
    },
    {
-    "en": "Grass",
-    "vi": "Cỏ"
+    "en": "Sun",
+    "vi": "Mặt trời"
    },
    {
-    "en": "Leaf",
-    "vi": "Chiếc lá"
-   },
-   {
-    "en": "Rose",
-    "vi": "Hoa hồng"
-   },
-   {
-    "en": "Sunflower",
-    "vi": "Hoa hướng dương"
+    "en": "Moon",
+    "vi": "Mặt trăng"
    },
    {
     "en": "Star",
     "vi": "Ngôi sao"
+   },
+   {
+    "en": "Wind",
+    "vi": "Gió"
+   },
+   {
+    "en": "Storm",
+    "vi": "Bão"
    }
   ],
   "phrases": [
-   "I like the stone.",
-   "Look at the rock!",
-   "This is the ocean."
+   "I like the cloud.",
+   "Look at the tree!",
+   "This is the flower."
   ],
   "dialogue": {
-   "scene": "💬 🪨 🪨 🌊 👦👧",
+   "scene": "💬 ☁️ 🌳 🌸 👦👧",
+   "setting": "💬",
    "sceneCaption": "Nam và Mai đang trò chuyện",
    "lines": [
     "👧 Mai: Hi Nam! What do you like?",
-    "👦 Nam: Hi Mai! I like the stone. And you?",
-    "👧 Mai: I like the rock. It is nice.",
-    "👦 Nam: Look! The ocean is over there.",
-    "👧 Mai: Wow! I like the ocean too.",
+    "👦 Nam: Hi Mai! I like the cloud. And you?",
+    "👧 Mai: I like the tree. It is nice.",
+    "👦 Nam: Look! The flower is over there.",
+    "👧 Mai: Wow! I like the flower too.",
     "👦 Nam: Me too! Let's look together."
    ],
    "audioLines": [
     "Hi Nam! What do you like?",
-    "Hi Mai! I like the stone. And you?",
-    "I like the rock. It is nice.",
-    "Look! The ocean is over there.",
-    "Wow! I like the ocean too.",
+    "Hi Mai! I like the cloud. And you?",
+    "I like the tree. It is nice.",
+    "Look! The flower is over there.",
+    "Wow! I like the flower too.",
     "Me too! Let's look together."
    ],
    "question": "Mai thích cái nào đầu tiên?",
    "options": [
-    "the rock",
-    "the stone",
-    "the ocean"
+    "the tree",
+    "the cloud",
+    "the flower"
    ],
    "correct": 0
   }
@@ -1216,26 +1233,6 @@
   "icon": "⚽",
   "words": [
    {
-    "en": "Basketball",
-    "vi": "Bóng rổ"
-   },
-   {
-    "en": "Volleyball",
-    "vi": "Bóng chuyền"
-   },
-   {
-    "en": "Tennis",
-    "vi": "Quần vợt"
-   },
-   {
-    "en": "Badminton",
-    "vi": "Cầu lông"
-   },
-   {
-    "en": "Cycling",
-    "vi": "Đạp xe"
-   },
-   {
     "en": "Football",
     "vi": "Bóng đá"
    },
@@ -1244,39 +1241,60 @@
     "vi": "Bơi lội"
    },
    {
+    "en": "Basketball",
+    "vi": "Bóng rổ"
+   },
+   {
+    "en": "Tennis",
+    "vi": "Quần vợt"
+   },
+   {
     "en": "Fishing",
     "vi": "Câu cá"
+   },
+   {
+    "en": "Volleyball",
+    "vi": "Bóng chuyền"
+   },
+   {
+    "en": "Badminton",
+    "vi": "Cầu lông"
+   },
+   {
+    "en": "Golf",
+    "vi": "Gôn"
    }
   ],
   "phrases": [
-   "I like basketball.",
-   "I like volleyball.",
-   "Tennis is fun!"
+   "I like football.",
+   "I like swimming.",
+   "Basketball is fun!"
   ],
   "dialogue": {
-   "scene": "🏟️ 🏀 🏐 🎾 👦👧",
+   "scene": "🏟️ ⚽ 🏊 🏀 👦👧",
+   "setting": "🏟️",
    "sceneCaption": "Ở sân chơi thể thao",
    "lines": [
     "👧 Mai: Hi Nam! What sport do you like?",
-    "👦 Nam: Hi Mai! I like basketball. And you?",
-    "👧 Mai: I like volleyball. It is fun!",
-    "👦 Nam: Do you like tennis?",
-    "👧 Mai: Yes! I like tennis very much.",
+    "👦 Nam: Hi Mai! I like football. And you?",
+    "👧 Mai: I like swimming. It is fun!",
+    "👦 Nam: Do you like basketball?",
+    "👧 Mai: Yes! I like basketball very much.",
     "👦 Nam: Cool! Let's play together."
    ],
    "audioLines": [
     "Hi Nam! What sport do you like?",
-    "Hi Mai! I like basketball. And you?",
-    "I like volleyball. It is fun!",
-    "Do you like tennis?",
-    "Yes! I like tennis very much.",
+    "Hi Mai! I like football. And you?",
+    "I like swimming. It is fun!",
+    "Do you like basketball?",
+    "Yes! I like basketball very much.",
     "Cool! Let's play together."
    ],
    "question": "Nam thích môn nào?",
    "options": [
-    "basketball",
-    "volleyball",
-    "tennis"
+    "football",
+    "swimming",
+    "basketball"
    ],
    "correct": 0
   }
@@ -1286,10 +1304,6 @@
   "title": "Âm nhạc & Nhạc cụ",
   "icon": "🎵",
   "words": [
-   {
-    "en": "Music",
-    "vi": "Âm nhạc"
-   },
    {
     "en": "Song",
     "vi": "Bài hát"
@@ -1307,8 +1321,8 @@
     "vi": "Trống"
    },
    {
-    "en": "Microphone",
-    "vi": "Micro"
+    "en": "Music",
+    "vi": "Âm nhạc"
    },
    {
     "en": "Violin",
@@ -1317,37 +1331,42 @@
    {
     "en": "Flute",
     "vi": "Sáo"
+   },
+   {
+    "en": "Trumpet",
+    "vi": "Kèn trumpet"
    }
   ],
   "phrases": [
-   "I like the music.",
-   "Look at the song!",
-   "This is the guitar."
+   "I like the song.",
+   "Look at the guitar!",
+   "This is the piano."
   ],
   "dialogue": {
-   "scene": "💬 🎵 🎶 🎸 👦👧",
+   "scene": "💬 🎶 🎸 🎹 👦👧",
+   "setting": "💬",
    "sceneCaption": "Nam và Mai đang trò chuyện",
    "lines": [
     "👧 Mai: Hi Nam! What do you like?",
-    "👦 Nam: Hi Mai! I like the music. And you?",
-    "👧 Mai: I like the song. It is nice.",
-    "👦 Nam: Look! The guitar is over there.",
-    "👧 Mai: Wow! I like the guitar too.",
+    "👦 Nam: Hi Mai! I like the song. And you?",
+    "👧 Mai: I like the guitar. It is nice.",
+    "👦 Nam: Look! The piano is over there.",
+    "👧 Mai: Wow! I like the piano too.",
     "👦 Nam: Me too! Let's look together."
    ],
    "audioLines": [
     "Hi Nam! What do you like?",
-    "Hi Mai! I like the music. And you?",
-    "I like the song. It is nice.",
-    "Look! The guitar is over there.",
-    "Wow! I like the guitar too.",
+    "Hi Mai! I like the song. And you?",
+    "I like the guitar. It is nice.",
+    "Look! The piano is over there.",
+    "Wow! I like the piano too.",
     "Me too! Let's look together."
    ],
    "question": "Mai thích cái nào đầu tiên?",
    "options": [
+    "the guitar",
     "the song",
-    "the music",
-    "the guitar"
+    "the piano"
    ],
    "correct": 0
   }
@@ -1374,10 +1393,6 @@
     "vi": "Pháp"
    },
    {
-    "en": "Germany",
-    "vi": "Đức"
-   },
-   {
     "en": "Japan",
     "vi": "Nhật Bản"
    },
@@ -1388,6 +1403,10 @@
    {
     "en": "China",
     "vi": "Trung Quốc"
+   },
+   {
+    "en": "Germany",
+    "vi": "Đức"
    }
   ],
   "phrases": [
@@ -1397,6 +1416,7 @@
   ],
   "dialogue": {
    "scene": "🌍 🇻🇳 🇺🇸 🏴 👦👧",
+   "setting": "🌍",
    "sceneCaption": "Gặp gỡ bạn mới",
    "lines": [
     "👦 Nam: Hello! I am Nam. Where are you from?",

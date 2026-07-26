@@ -100,20 +100,36 @@ for (const t of GEN) {
             ),
         'gen ' + t.id + ': every picture resolves to a clear emoji'
     );
-    // longer, professional dialogue (6 lines) with a scene banner ("hoạt cảnh")
+    // longer, professional dialogue (6 lines) with an ANIMATED stage ("hoạt cảnh động")
     const dlg = ex.find((e) => e.type === 'dialogue');
     ok(dlg && dlg.lines.length >= 6, 'gen ' + t.id + ': dialogue is a longer 6-line conversation');
     ok(
-        dlg && typeof dlg.scene === 'string' && dlg.scene.includes('👦👧') && !!dlg.sceneCaption,
-        'gen ' + t.id + ': dialogue has a scene banner (emojis + caption)'
+        dlg && typeof dlg.setting === 'string' && dlg.setting.length > 0 && !!dlg.sceneCaption,
+        'gen ' + t.id + ': dialogue has a setting + caption'
+    );
+    // per-line steps drive the animation: one aligned to each line, actors incl. male+female,
+    // and at least one line pops a context-matched object emoji
+    ok(
+        dlg && Array.isArray(dlg.sceneSteps) && dlg.sceneSteps.length === dlg.lines.length,
+        'gen ' + t.id + ': sceneSteps aligned to every line'
+    );
+    ok(
+        dlg &&
+            dlg.sceneSteps.some((s) => s.actor === 'male') &&
+            dlg.sceneSteps.some((s) => s.actor === 'female'),
+        'gen ' + t.id + ': scene has both a male + a female speaker'
+    );
+    ok(
+        dlg && dlg.sceneSteps.some((s) => s.emoji && s.emoji.length > 0),
+        'gen ' + t.id + ': at least one line pops a context-matched object'
     );
 }
-// every theme (incl. the 7 hand-authored) gets a scene banner via the dialogueEx fallback
+// every theme (incl. the 7 hand-authored) gets an animated stage via dialogueEx
 for (const meta of TL.themes) {
     const dlg = TL.build(meta.id).find((e) => e.type === 'dialogue');
     ok(
-        dlg && typeof dlg.scene === 'string' && dlg.scene.includes('👦👧'),
-        meta.id + ': dialogue exposes a scene banner'
+        dlg && typeof dlg.setting === 'string' && Array.isArray(dlg.sceneSteps),
+        meta.id + ': dialogue exposes an animated stage (setting + sceneSteps)'
     );
 }
 

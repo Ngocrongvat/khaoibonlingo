@@ -96,24 +96,62 @@ const PLURAL = new Set([
 ]);
 const isPlural = (en) => PLURAL.has(String(en).toLowerCase());
 
+// Everyday kid words that should LEAD a theme (so the sentence slots feel natural — "I go by
+// car", not "I go by rocket"). VOCAB difficulty ≠ familiarity, so we float these to the front.
+// Exotic words (rocket, ambulance…) still ride along for the picture drills.
+const COMMON = new Set([
+    // vehicles
+    'car', 'bus', 'bike', 'bicycle', 'train', 'boat', 'plane', 'airplane', 'taxi', 'truck', 'ship',
+    // animals
+    'dog', 'cat', 'lion', 'tiger', 'elephant', 'monkey', 'bear', 'rabbit', 'horse', 'cow', 'pig',
+    'duck', 'fox', 'sheep', 'goat', 'deer', 'panda',
+    // birds / sea / insects
+    'bird', 'chicken', 'owl', 'parrot', 'penguin', 'eagle', 'fish', 'shark', 'whale', 'dolphin',
+    'crab', 'turtle', 'bee', 'ant', 'butterfly', 'spider', 'snail',
+    // fruit / vegetable
+    'apple', 'banana', 'orange', 'grape', 'mango', 'watermelon', 'strawberry', 'lemon', 'peach',
+    'carrot', 'potato', 'tomato', 'onion', 'corn', 'cucumber', 'pepper', 'mushroom',
+    // food / drink
+    'rice', 'bread', 'egg', 'milk', 'water', 'noodles', 'soup', 'cake', 'pizza', 'juice', 'tea',
+    // clothing
+    'shirt', 'dress', 'hat', 'shoes', 'skirt', 'jacket', 'pants', 'socks', 'cap', 'coat',
+    // body / family
+    'face', 'hair', 'eye', 'ear', 'nose', 'mouth', 'hand', 'arm', 'leg', 'foot',
+    'father', 'mother', 'brother', 'sister', 'baby', 'family',
+    // home / kitchen / objects / place
+    'house', 'door', 'window', 'table', 'chair', 'bed', 'lamp', 'clock', 'cup', 'spoon', 'fork',
+    'knife', 'plate', 'bowl', 'book', 'ball', 'key', 'phone', 'school', 'park', 'shop',
+    // nature / sport / music / jobs / countries
+    'sun', 'moon', 'star', 'tree', 'flower', 'rain', 'cloud',
+    'soccer', 'football', 'basketball', 'tennis', 'swimming', 'running',
+    'guitar', 'piano', 'drum', 'song',
+    'teacher', 'doctor', 'nurse', 'farmer', 'cook', 'police',
+    'vietnam', 'america', 'japan', 'china', 'korea', 'france', 'england',
+]);
+const isCommon = (en) => COMMON.has(String(en).toLowerCase());
+
 // ---- word selection: bucket old-vocab words by their emoji group ---------------------------
 function pickWords(theme, cap) {
     const groups = new Set(theme.groups);
     const seen = new Set();
     const out = [];
     ALL.filter((w) => groups.has(EmojiMap.groupOf(w.en))) // clean semantic bucket
-        .sort((a, b) => (a.difficulty || 3) - (b.difficulty || 3))
         .forEach((w) => {
             const key = EmojiMap.resolveKey(w.en); // dedupe by resolved emoji key (bananas==banana)
             if (!key || seen.has(key)) return;
             seen.add(key);
             out.push({ en: w.en, vi: w.vi });
         });
-    // singular/mass nouns first so the sentence slots (words[0..2]) are grammatical; plurals
-    // still ride along for the picture-only drills.
-    const singular = out.filter((w) => !isPlural(w.en));
-    const plural = out.filter((w) => isPlural(w.en));
-    return singular.concat(plural).slice(0, cap);
+    // Rank: everyday/common words first, then singular before inherent-plural, then by difficulty.
+    // This keeps the sentence slots (words[0..2]) natural while exotic words still fill later
+    // picture-only slots.
+    const rank = (w) =>
+        (isCommon(w.en) ? 0 : 100) + (isPlural(w.en) ? 40 : 0);
+    return out
+        .map((w, idx) => ({ w, idx }))
+        .sort((a, b) => rank(a.w) - rank(b.w) || a.idx - b.idx)
+        .map((x) => x.w)
+        .slice(0, cap);
 }
 
 // ---- phrase + dialogue templates (grammar-safe: "the"/"my"/"from"/"by") -------------------
@@ -260,6 +298,7 @@ function buildTheme(theme) {
             phrases: t.phrases,
             dialogue: {
                 scene: scene,
+                setting: setting.set,
                 sceneCaption: setting.cap,
                 lines: t.dialogue.lines,
                 audioLines: audio,

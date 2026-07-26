@@ -892,30 +892,121 @@ body.ielts-hide-footer .bottom-nav {
     color: #4b4b4b;
 }
 
-/* "Hoạt cảnh" scene banner above a situational dialogue — sets the context visually. */
-.dialogue-scene {
-    text-align: center;
-    background: linear-gradient(135deg, #e8f7ff 0%, #eafbe7 100%);
-    border: 2px dashed #b7e2c8;
-    border-radius: 16px;
-    padding: 16px 14px;
-    margin-bottom: 14px;
+/* Animated "hoạt cảnh" stage above a situational dialogue: a themed background, the two
+   characters (the speaker lights up + bounces), a speech bubble, and the mentioned object
+   popping in — all synced to TTS by playThemeScene(). */
+.dialogue-stage {
+    position: relative;
+    height: 170px;
+    margin-bottom: 16px;
+    border-radius: 18px;
+    overflow: hidden;
+    background: linear-gradient(135deg, #eaf6ff 0%, #eafbe7 55%, #fff6e6 100%);
+    border: 2px solid #d5efdd;
+    box-shadow: inset 0 -18px 30px -20px rgba(0, 0, 0, 0.12);
 }
-.dialogue-scene-emojis {
-    font-size: 40px;
-    line-height: 1.25;
-    letter-spacing: 4px;
-    word-break: break-word;
+/* big faded background emoji that sets the place */
+.stage-setting {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -55%);
+    font-size: 96px;
+    opacity: 0.16;
+    filter: grayscale(0.1);
+    animation: stageDrift 6s ease-in-out infinite;
+    pointer-events: none;
 }
-.dialogue-scene-caption {
-    margin-top: 6px;
+.stage-actor {
+    position: absolute;
+    bottom: 30px;
+    font-size: 58px;
+    line-height: 1;
+    filter: drop-shadow(0 6px 5px rgba(0, 0, 0, 0.18));
+    animation: stageBob 2.2s ease-in-out infinite;
+    transition: transform 0.2s ease;
+}
+.stage-actor-left { left: 16%; }
+.stage-actor-right { right: 16%; transform: scaleX(-1); } /* Mai faces Nam */
+/* the character currently speaking: brighter, bigger, livelier */
+.stage-actor.talking {
+    animation: stageTalk 0.5s ease-in-out infinite;
+    filter: drop-shadow(0 0 14px #ffd84d) drop-shadow(0 6px 5px rgba(0, 0, 0, 0.18));
+}
+.stage-actor-right.talking { animation: stageTalkFlip 0.5s ease-in-out infinite; }
+/* object the current line mentions, popping up between the two kids */
+.stage-prop {
+    position: absolute;
+    top: 26px;
+    left: 50%;
+    transform: translateX(-50%) scale(0);
+    font-size: 46px;
+    opacity: 0;
+    pointer-events: none;
+}
+.stage-prop.pop { animation: stagePop 0.9s cubic-bezier(0.18, 1.4, 0.4, 1) forwards; }
+/* speech bubble above the speaker */
+.stage-bubble {
+    position: absolute;
+    top: 12px;
+    max-width: 62%;
+    padding: 9px 13px;
+    background: #fff;
+    border: 2px solid #58cc02;
+    border-radius: 14px;
     font-size: 14px;
+    font-weight: 700;
+    color: #3c3c3c;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.12);
+    opacity: 0;
+    transform: translateY(6px) scale(0.9);
+    pointer-events: none;
+}
+.stage-bubble.show { animation: bubbleIn 0.32s ease forwards; }
+.stage-bubble.bubble-left { left: 10px; }
+.stage-bubble.bubble-right { right: 10px; }
+.stage-caption {
+    position: absolute;
+    bottom: 8px;
+    left: 0;
+    right: 0;
+    text-align: center;
+    font-size: 13px;
     font-weight: 800;
     color: #3a8f5b;
     letter-spacing: 0.2px;
+    text-shadow: 0 1px 0 #fff;
+}
+@keyframes stageBob { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
+@keyframes stageTalk {
+    0%, 100% { transform: translateY(-6px) scale(1.08); }
+    50% { transform: translateY(-12px) scale(1.14); }
+}
+@keyframes stageTalkFlip {
+    0%, 100% { transform: translateY(-6px) scale(1.08) scaleX(-1); }
+    50% { transform: translateY(-12px) scale(1.14) scaleX(-1); }
+}
+@keyframes stagePop {
+    0% { transform: translateX(-50%) scale(0) translateY(10px); opacity: 0; }
+    35% { transform: translateX(-50%) scale(1.15) translateY(-6px); opacity: 1; }
+    70% { transform: translateX(-50%) scale(1) translateY(-10px); opacity: 1; }
+    100% { transform: translateX(-50%) scale(1) translateY(-14px); opacity: 0; }
+}
+@keyframes bubbleIn { to { opacity: 1; transform: translateY(0) scale(1); } }
+@keyframes stageDrift {
+    0%, 100% { transform: translate(-50%, -55%) rotate(-3deg); }
+    50% { transform: translate(-50%, -50%) rotate(3deg); }
 }
 @media (max-width: 480px) {
-    .dialogue-scene-emojis { font-size: 32px; letter-spacing: 2px; }
+    .dialogue-stage { height: 150px; }
+    .stage-actor { font-size: 48px; bottom: 26px; }
+    .stage-setting { font-size: 78px; }
+    .stage-bubble { font-size: 13px; max-width: 66%; }
+}
+@media (prefers-reduced-motion: reduce) {
+    .stage-setting, .stage-actor, .stage-actor.talking, .stage-actor-right.talking { animation: none; }
+    .stage-prop.pop { animation: none; opacity: 1; transform: translateX(-50%) scale(1); }
+    .stage-bubble.show { animation: none; opacity: 1; transform: none; }
 }
 
 .dialogue-box {

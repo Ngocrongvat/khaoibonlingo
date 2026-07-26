@@ -544,14 +544,17 @@ Object.assign(DuoClone.prototype, {
                     /* autoplay may be blocked; the button still works */
                 }
             }
-            // Situational dialogue (theme lessons): read the conversation aloud with a
-            // DIFFERENT voice per character (male/female) on tap.
+            // Situational dialogue (theme lessons): play the ANIMATED stage — each line lights up
+            // the speaking character, shows a bubble, and pops the mentioned object, synced to a
+            // DIFFERENT voice per character (male/female). Falls back to plain speech if no stage.
             if (ex.type === 'dialogue' && Array.isArray(ex.audioLines)) {
                 const db = document.getElementById('dialogue-listen-btn');
                 if (db)
-                    db.addEventListener('click', () =>
-                        this.speakDialogue(ex.audioLines, ex.voices)
-                    );
+                    db.addEventListener('click', () => {
+                        if (ex.sceneSteps && typeof this.playThemeScene === 'function')
+                            this.playThemeScene(ex, db);
+                        else this.speakDialogue(ex.audioLines, ex.voices);
+                    });
             }
         } else if (ex.type === 'translate' || ex.type === 'ordering') {
             const words = ex.options || ex.shuffled;
