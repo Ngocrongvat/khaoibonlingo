@@ -59,11 +59,9 @@ const sandbox = { window: { PICTURE_WORD_BANK }, Math, Object, Array, String, JS
 vm.createContext(sandbox);
 // Load emoji-map (window.EmojiMap) + generated theme-course (window.ThemeCourse) FIRST, exactly
 // like index.html's load order, so theme-lessons.js merges the data-driven themes.
-vm.runInContext(
-    fs.readFileSync(path.join(__dirname, '..', 'data/emoji-map.js'), 'utf8'),
-    sandbox,
-    { filename: 'emoji-map.js' }
-);
+vm.runInContext(fs.readFileSync(path.join(__dirname, '..', 'data/emoji-map.js'), 'utf8'), sandbox, {
+    filename: 'emoji-map.js',
+});
 vm.runInContext(
     fs.readFileSync(path.join(__dirname, '..', 'data/theme-course.js'), 'utf8'),
     sandbox,
@@ -96,11 +94,26 @@ for (const t of GEN) {
     ok(
         picEx.length > 0 &&
             picEx.every((e) =>
-                (e.optionPics || []).concat(e.promptPic ? [e.promptPic] : []).every(
-                    (p) => typeof p === 'string' && p.includes('theme-emoji')
-                )
+                (e.optionPics || [])
+                    .concat(e.promptPic ? [e.promptPic] : [])
+                    .every((p) => typeof p === 'string' && p.includes('theme-emoji'))
             ),
         'gen ' + t.id + ': every picture resolves to a clear emoji'
+    );
+    // longer, professional dialogue (6 lines) with a scene banner ("hoạt cảnh")
+    const dlg = ex.find((e) => e.type === 'dialogue');
+    ok(dlg && dlg.lines.length >= 6, 'gen ' + t.id + ': dialogue is a longer 6-line conversation');
+    ok(
+        dlg && typeof dlg.scene === 'string' && dlg.scene.includes('👦👧') && !!dlg.sceneCaption,
+        'gen ' + t.id + ': dialogue has a scene banner (emojis + caption)'
+    );
+}
+// every theme (incl. the 7 hand-authored) gets a scene banner via the dialogueEx fallback
+for (const meta of TL.themes) {
+    const dlg = TL.build(meta.id).find((e) => e.type === 'dialogue');
+    ok(
+        dlg && typeof dlg.scene === 'string' && dlg.scene.includes('👦👧'),
+        meta.id + ': dialogue exposes a scene banner'
     );
 }
 

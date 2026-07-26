@@ -47,19 +47,25 @@
    "This is the tiger."
   ],
   "dialogue": {
+   "scene": "💬 🐢 🦁 🐯 👦👧",
+   "sceneCaption": "Nam và Mai đang trò chuyện",
    "lines": [
-    "👧 Mai: What do you like?",
-    "👦 Nam: I like the turtle. And you?",
-    "👧 Mai: I like the lion.",
-    "👦 Nam: Nice!"
+    "👧 Mai: Hi Nam! What do you like?",
+    "👦 Nam: Hi Mai! I like the turtle. And you?",
+    "👧 Mai: I like the lion. It is nice.",
+    "👦 Nam: Look! The tiger is over there.",
+    "👧 Mai: Wow! I like the tiger too.",
+    "👦 Nam: Me too! Let's look together."
    ],
    "audioLines": [
-    "What do you like?",
-    "I like the turtle. And you?",
-    "I like the lion.",
-    "Nice!"
+    "Hi Nam! What do you like?",
+    "Hi Mai! I like the turtle. And you?",
+    "I like the lion. It is nice.",
+    "Look! The tiger is over there.",
+    "Wow! I like the tiger too.",
+    "Me too! Let's look together."
    ],
-   "question": "Mai thích cái nào?",
+   "question": "Mai thích cái nào đầu tiên?",
    "options": [
     "the lion",
     "the turtle",
@@ -112,19 +118,25 @@
    "This is the owl."
   ],
   "dialogue": {
+   "scene": "💬 🐔 🦅 🦉 👦👧",
+   "sceneCaption": "Nam và Mai đang trò chuyện",
    "lines": [
-    "👧 Mai: What do you like?",
-    "👦 Nam: I like the chicken. And you?",
-    "👧 Mai: I like the eagle.",
-    "👦 Nam: Nice!"
+    "👧 Mai: Hi Nam! What do you like?",
+    "👦 Nam: Hi Mai! I like the chicken. And you?",
+    "👧 Mai: I like the eagle. It is nice.",
+    "👦 Nam: Look! The owl is over there.",
+    "👧 Mai: Wow! I like the owl too.",
+    "👦 Nam: Me too! Let's look together."
    ],
    "audioLines": [
-    "What do you like?",
-    "I like the chicken. And you?",
-    "I like the eagle.",
-    "Nice!"
+    "Hi Nam! What do you like?",
+    "Hi Mai! I like the chicken. And you?",
+    "I like the eagle. It is nice.",
+    "Look! The owl is over there.",
+    "Wow! I like the owl too.",
+    "Me too! Let's look together."
    ],
-   "question": "Mai thích cái nào?",
+   "question": "Mai thích cái nào đầu tiên?",
    "options": [
     "the eagle",
     "the chicken",
@@ -177,19 +189,25 @@
    "This is the whale."
   ],
   "dialogue": {
+   "scene": "💬 🦐 🦈 🐳 👦👧",
+   "sceneCaption": "Nam và Mai đang trò chuyện",
    "lines": [
-    "👧 Mai: What do you like?",
-    "👦 Nam: I like the shrimp. And you?",
-    "👧 Mai: I like the shark.",
-    "👦 Nam: Nice!"
+    "👧 Mai: Hi Nam! What do you like?",
+    "👦 Nam: Hi Mai! I like the shrimp. And you?",
+    "👧 Mai: I like the shark. It is nice.",
+    "👦 Nam: Look! The whale is over there.",
+    "👧 Mai: Wow! I like the whale too.",
+    "👦 Nam: Me too! Let's look together."
    ],
    "audioLines": [
-    "What do you like?",
-    "I like the shrimp. And you?",
-    "I like the shark.",
-    "Nice!"
+    "Hi Nam! What do you like?",
+    "Hi Mai! I like the shrimp. And you?",
+    "I like the shark. It is nice.",
+    "Look! The whale is over there.",
+    "Wow! I like the whale too.",
+    "Me too! Let's look together."
    ],
-   "question": "Mai thích cái nào?",
+   "question": "Mai thích cái nào đầu tiên?",
    "options": [
     "the shark",
     "the shrimp",
@@ -242,19 +260,25 @@
    "This is the butterfly."
   ],
   "dialogue": {
+   "scene": "💬 🐜 🐝 🦋 👦👧",
+   "sceneCaption": "Nam và Mai đang trò chuyện",
    "lines": [
-    "👧 Mai: What do you like?",
-    "👦 Nam: I like the ant. And you?",
-    "👧 Mai: I like the bee.",
-    "👦 Nam: Nice!"
+    "👧 Mai: Hi Nam! What do you like?",
+    "👦 Nam: Hi Mai! I like the ant. And you?",
+    "👧 Mai: I like the bee. It is nice.",
+    "👦 Nam: Look! The butterfly is over there.",
+    "👧 Mai: Wow! I like the butterfly too.",
+    "👦 Nam: Me too! Let's look together."
    ],
    "audioLines": [
-    "What do you like?",
-    "I like the ant. And you?",
-    "I like the bee.",
-    "Nice!"
+    "Hi Nam! What do you like?",
+    "Hi Mai! I like the ant. And you?",
+    "I like the bee. It is nice.",
+    "Look! The butterfly is over there.",
+    "Wow! I like the butterfly too.",
+    "Me too! Let's look together."
    ],
-   "question": "Mai thích cái nào?",
+   "question": "Mai thích cái nào đầu tiên?",
    "options": [
     "the bee",
     "the ant",
@@ -307,17 +331,23 @@
    "The orange is good."
   ],
   "dialogue": {
+   "scene": "🍽️ 🍎 🍌 🍊 👦👧",
+   "sceneCaption": "Ở quán ăn",
    "lines": [
-    "👦 Nam: I am hungry!",
-    "👧 Mai: Me too. I like the apple.",
-    "👦 Nam: I like the banana.",
-    "👧 Mai: Let's eat together!"
+    "👦 Nam: I am so hungry!",
+    "👧 Mai: Me too, Nam. I like the apple.",
+    "👦 Nam: I like the banana. It is yummy.",
+    "👧 Mai: Do you want some orange?",
+    "👦 Nam: Yes, please! The orange is good.",
+    "👧 Mai: Great! Let's eat together."
    ],
    "audioLines": [
-    "I am hungry!",
-    "Me too. I like the apple.",
-    "I like the banana.",
-    "Let's eat together!"
+    "I am so hungry!",
+    "Me too, Nam. I like the apple.",
+    "I like the banana. It is yummy.",
+    "Do you want some orange?",
+    "Yes, please! The orange is good.",
+    "Great! Let's eat together."
    ],
    "question": "Mai thích món nào?",
    "options": [
@@ -372,17 +402,23 @@
    "The onion is good."
   ],
   "dialogue": {
+   "scene": "🍽️ 🫑 🥔 🧅 👦👧",
+   "sceneCaption": "Ở quán ăn",
    "lines": [
-    "👦 Nam: I am hungry!",
-    "👧 Mai: Me too. I like the pepper.",
-    "👦 Nam: I like the potato.",
-    "👧 Mai: Let's eat together!"
+    "👦 Nam: I am so hungry!",
+    "👧 Mai: Me too, Nam. I like the pepper.",
+    "👦 Nam: I like the potato. It is yummy.",
+    "👧 Mai: Do you want some onion?",
+    "👦 Nam: Yes, please! The onion is good.",
+    "👧 Mai: Great! Let's eat together."
    ],
    "audioLines": [
-    "I am hungry!",
-    "Me too. I like the pepper.",
-    "I like the potato.",
-    "Let's eat together!"
+    "I am so hungry!",
+    "Me too, Nam. I like the pepper.",
+    "I like the potato. It is yummy.",
+    "Do you want some onion?",
+    "Yes, please! The onion is good.",
+    "Great! Let's eat together."
    ],
    "question": "Mai thích món nào?",
    "options": [
@@ -437,17 +473,23 @@
    "The soup is good."
   ],
   "dialogue": {
+   "scene": "🍽️ 🍚 🍞 🍲 👦👧",
+   "sceneCaption": "Ở quán ăn",
    "lines": [
-    "👦 Nam: I am hungry!",
-    "👧 Mai: Me too. I like the rice.",
-    "👦 Nam: I like the bread.",
-    "👧 Mai: Let's eat together!"
+    "👦 Nam: I am so hungry!",
+    "👧 Mai: Me too, Nam. I like the rice.",
+    "👦 Nam: I like the bread. It is yummy.",
+    "👧 Mai: Do you want some soup?",
+    "👦 Nam: Yes, please! The soup is good.",
+    "👧 Mai: Great! Let's eat together."
    ],
    "audioLines": [
-    "I am hungry!",
-    "Me too. I like the rice.",
-    "I like the bread.",
-    "Let's eat together!"
+    "I am so hungry!",
+    "Me too, Nam. I like the rice.",
+    "I like the bread. It is yummy.",
+    "Do you want some soup?",
+    "Yes, please! The soup is good.",
+    "Great! Let's eat together."
    ],
    "question": "Mai thích món nào?",
    "options": [
@@ -502,23 +544,29 @@
    "This is my skirt."
   ],
   "dialogue": {
+   "scene": "🛍️ 👕 👕 👗 👦👧",
+   "sceneCaption": "Đi mua sắm quần áo",
    "lines": [
-    "👧 Mai: I like my shirt.",
-    "👦 Nam: Nice! I like my t-shirt.",
-    "👧 Mai: Cool! And my skirt?",
-    "👦 Nam: I like it too!"
+    "👧 Mai: Nam, look at my new shirt!",
+    "👦 Nam: Wow, Mai! I like your shirt.",
+    "👧 Mai: Thank you! I like your t-shirt too.",
+    "👦 Nam: This is my favorite t-shirt.",
+    "👧 Mai: And look, my skirt is new!",
+    "👦 Nam: It is beautiful. You look great!"
    ],
    "audioLines": [
-    "I like my shirt.",
-    "Nice! I like my t-shirt.",
-    "Cool! And my skirt?",
-    "I like it too!"
+    "Nam, look at my new shirt!",
+    "Wow, Mai! I like your shirt.",
+    "Thank you! I like your t-shirt too.",
+    "This is my favorite t-shirt.",
+    "And look, my skirt is new!",
+    "It is beautiful. You look great!"
    ],
-   "question": "Mai thích gì đầu tiên?",
+   "question": "Mai khoe món nào đầu tiên?",
    "options": [
-    "my shirt",
-    "my t-shirt",
-    "my skirt"
+    "shirt",
+    "t-shirt",
+    "skirt"
    ],
    "correct": 0
   }
@@ -567,22 +615,28 @@
    "I like the tractor."
   ],
   "dialogue": {
+   "scene": "🚸 🚀 🚑 🚜 👦👧",
+   "sceneCaption": "Trên đường tới trường",
    "lines": [
-    "👧 Mai: How do you go to school?",
-    "👦 Nam: I go by rocket. And you?",
-    "👧 Mai: I go by ambulance.",
-    "👦 Nam: That's fun!"
+    "👧 Mai: Hi Nam! How do you go to school?",
+    "👦 Nam: Hi Mai! I go by rocket. And you?",
+    "👧 Mai: I go by ambulance. It is fast.",
+    "👦 Nam: Look at that big tractor!",
+    "👧 Mai: Wow! I like the tractor.",
+    "👦 Nam: Me too! See you at school."
    ],
    "audioLines": [
-    "How do you go to school?",
-    "I go by rocket. And you?",
-    "I go by ambulance.",
-    "That's fun!"
+    "Hi Nam! How do you go to school?",
+    "Hi Mai! I go by rocket. And you?",
+    "I go by ambulance. It is fast.",
+    "Look at that big tractor!",
+    "Wow! I like the tractor.",
+    "Me too! See you at school."
    ],
-   "question": "Mai đi học bằng gì?",
+   "question": "Nam đi học bằng gì?",
    "options": [
-    "ambulance",
     "rocket",
+    "ambulance",
     "tractor"
    ],
    "correct": 0
@@ -632,19 +686,25 @@
    "This is the road."
   ],
   "dialogue": {
+   "scene": "💬 🏠 🏙️ 🛣️ 👦👧",
+   "sceneCaption": "Nam và Mai đang trò chuyện",
    "lines": [
-    "👧 Mai: What do you like?",
-    "👦 Nam: I like the house. And you?",
-    "👧 Mai: I like the city.",
-    "👦 Nam: Nice!"
+    "👧 Mai: Hi Nam! What do you like?",
+    "👦 Nam: Hi Mai! I like the house. And you?",
+    "👧 Mai: I like the city. It is nice.",
+    "👦 Nam: Look! The road is over there.",
+    "👧 Mai: Wow! I like the road too.",
+    "👦 Nam: Me too! Let's look together."
    ],
    "audioLines": [
-    "What do you like?",
-    "I like the house. And you?",
-    "I like the city.",
-    "Nice!"
+    "Hi Nam! What do you like?",
+    "Hi Mai! I like the house. And you?",
+    "I like the city. It is nice.",
+    "Look! The road is over there.",
+    "Wow! I like the road too.",
+    "Me too! Let's look together."
    ],
-   "question": "Mai thích cái nào?",
+   "question": "Mai thích cái nào đầu tiên?",
    "options": [
     "the city",
     "the house",
@@ -697,19 +757,25 @@
    "This is the table."
   ],
   "dialogue": {
+   "scene": "💬 🚪 🪟 🪑 👦👧",
+   "sceneCaption": "Nam và Mai đang trò chuyện",
    "lines": [
-    "👧 Mai: What do you like?",
-    "👦 Nam: I like the door. And you?",
-    "👧 Mai: I like the window.",
-    "👦 Nam: Nice!"
+    "👧 Mai: Hi Nam! What do you like?",
+    "👦 Nam: Hi Mai! I like the door. And you?",
+    "👧 Mai: I like the window. It is nice.",
+    "👦 Nam: Look! The table is over there.",
+    "👧 Mai: Wow! I like the table too.",
+    "👦 Nam: Me too! Let's look together."
    ],
    "audioLines": [
-    "What do you like?",
-    "I like the door. And you?",
-    "I like the window.",
-    "Nice!"
+    "Hi Nam! What do you like?",
+    "Hi Mai! I like the door. And you?",
+    "I like the window. It is nice.",
+    "Look! The table is over there.",
+    "Wow! I like the table too.",
+    "Me too! Let's look together."
    ],
-   "question": "Mai thích cái nào?",
+   "question": "Mai thích cái nào đầu tiên?",
    "options": [
     "the window",
     "the door",
@@ -762,19 +828,25 @@
    "This is the knife."
   ],
   "dialogue": {
+   "scene": "💬 🍲 🍳 🔪 👦👧",
+   "sceneCaption": "Nam và Mai đang trò chuyện",
    "lines": [
-    "👧 Mai: What do you like?",
-    "👦 Nam: I like the pot. And you?",
-    "👧 Mai: I like the pan.",
-    "👦 Nam: Nice!"
+    "👧 Mai: Hi Nam! What do you like?",
+    "👦 Nam: Hi Mai! I like the pot. And you?",
+    "👧 Mai: I like the pan. It is nice.",
+    "👦 Nam: Look! The knife is over there.",
+    "👧 Mai: Wow! I like the knife too.",
+    "👦 Nam: Me too! Let's look together."
    ],
    "audioLines": [
-    "What do you like?",
-    "I like the pot. And you?",
-    "I like the pan.",
-    "Nice!"
+    "Hi Nam! What do you like?",
+    "Hi Mai! I like the pot. And you?",
+    "I like the pan. It is nice.",
+    "Look! The knife is over there.",
+    "Wow! I like the knife too.",
+    "Me too! Let's look together."
    ],
-   "question": "Mai thích cái nào?",
+   "question": "Mai thích cái nào đầu tiên?",
    "options": [
     "the pan",
     "the pot",
@@ -827,19 +899,25 @@
    "This is the key."
   ],
   "dialogue": {
+   "scene": "💬 ⌚ 📺 🔑 👦👧",
+   "sceneCaption": "Nam và Mai đang trò chuyện",
    "lines": [
-    "👧 Mai: What do you like?",
-    "👦 Nam: I like the watch. And you?",
-    "👧 Mai: I like the television.",
-    "👦 Nam: Nice!"
+    "👧 Mai: Hi Nam! What do you like?",
+    "👦 Nam: Hi Mai! I like the watch. And you?",
+    "👧 Mai: I like the television. It is nice.",
+    "👦 Nam: Look! The key is over there.",
+    "👧 Mai: Wow! I like the key too.",
+    "👦 Nam: Me too! Let's look together."
    ],
    "audioLines": [
-    "What do you like?",
-    "I like the watch. And you?",
-    "I like the television.",
-    "Nice!"
+    "Hi Nam! What do you like?",
+    "Hi Mai! I like the watch. And you?",
+    "I like the television. It is nice.",
+    "Look! The key is over there.",
+    "Wow! I like the key too.",
+    "Me too! Let's look together."
    ],
-   "question": "Mai thích cái nào?",
+   "question": "Mai thích cái nào đầu tiên?",
    "options": [
     "the television",
     "the watch",
@@ -892,19 +970,25 @@
    "This is the nose."
   ],
   "dialogue": {
+   "scene": "💬 😀 💇 👃 👦👧",
+   "sceneCaption": "Nam và Mai đang trò chuyện",
    "lines": [
-    "👧 Mai: What do you like?",
-    "👦 Nam: I like the face. And you?",
-    "👧 Mai: I like the hair.",
-    "👦 Nam: Nice!"
+    "👧 Mai: Hi Nam! What do you like?",
+    "👦 Nam: Hi Mai! I like the face. And you?",
+    "👧 Mai: I like the hair. It is nice.",
+    "👦 Nam: Look! The nose is over there.",
+    "👧 Mai: Wow! I like the nose too.",
+    "👦 Nam: Me too! Let's look together."
    ],
    "audioLines": [
-    "What do you like?",
-    "I like the face. And you?",
-    "I like the hair.",
-    "Nice!"
+    "Hi Nam! What do you like?",
+    "Hi Mai! I like the face. And you?",
+    "I like the hair. It is nice.",
+    "Look! The nose is over there.",
+    "Wow! I like the nose too.",
+    "Me too! Let's look together."
    ],
-   "question": "Mai thích cái nào?",
+   "question": "Mai thích cái nào đầu tiên?",
    "options": [
     "the hair",
     "the face",
@@ -957,19 +1041,25 @@
    "This is the father."
   ],
   "dialogue": {
+   "scene": "💬 👪 👪 👨 👦👧",
+   "sceneCaption": "Nam và Mai đang trò chuyện",
    "lines": [
-    "👧 Mai: What do you like?",
-    "👦 Nam: I like the family. And you?",
-    "👧 Mai: I like the parent.",
-    "👦 Nam: Nice!"
+    "👧 Mai: Hi Nam! What do you like?",
+    "👦 Nam: Hi Mai! I like the family. And you?",
+    "👧 Mai: I like the parent. It is nice.",
+    "👦 Nam: Look! The father is over there.",
+    "👧 Mai: Wow! I like the father too.",
+    "👦 Nam: Me too! Let's look together."
    ],
    "audioLines": [
-    "What do you like?",
-    "I like the family. And you?",
-    "I like the parent.",
-    "Nice!"
+    "Hi Nam! What do you like?",
+    "Hi Mai! I like the family. And you?",
+    "I like the parent. It is nice.",
+    "Look! The father is over there.",
+    "Wow! I like the father too.",
+    "Me too! Let's look together."
    ],
-   "question": "Mai thích cái nào?",
+   "question": "Mai thích cái nào đầu tiên?",
    "options": [
     "the parent",
     "the family",
@@ -1022,19 +1112,25 @@
    "This is the engineer."
   ],
   "dialogue": {
+   "scene": "💬 🧑‍🍳 👨‍🍳 👷 👦👧",
+   "sceneCaption": "Nam và Mai đang trò chuyện",
    "lines": [
-    "👧 Mai: What do you like?",
-    "👦 Nam: I like the waiter. And you?",
-    "👧 Mai: I like the chef.",
-    "👦 Nam: Nice!"
+    "👧 Mai: Hi Nam! What do you like?",
+    "👦 Nam: Hi Mai! I like the waiter. And you?",
+    "👧 Mai: I like the chef. It is nice.",
+    "👦 Nam: Look! The engineer is over there.",
+    "👧 Mai: Wow! I like the engineer too.",
+    "👦 Nam: Me too! Let's look together."
    ],
    "audioLines": [
-    "What do you like?",
-    "I like the waiter. And you?",
-    "I like the chef.",
-    "Nice!"
+    "Hi Nam! What do you like?",
+    "Hi Mai! I like the waiter. And you?",
+    "I like the chef. It is nice.",
+    "Look! The engineer is over there.",
+    "Wow! I like the engineer too.",
+    "Me too! Let's look together."
    ],
-   "question": "Mai thích cái nào?",
+   "question": "Mai thích cái nào đầu tiên?",
    "options": [
     "the chef",
     "the waiter",
@@ -1087,19 +1183,25 @@
    "This is the ocean."
   ],
   "dialogue": {
+   "scene": "💬 🪨 🪨 🌊 👦👧",
+   "sceneCaption": "Nam và Mai đang trò chuyện",
    "lines": [
-    "👧 Mai: What do you like?",
-    "👦 Nam: I like the stone. And you?",
-    "👧 Mai: I like the rock.",
-    "👦 Nam: Nice!"
+    "👧 Mai: Hi Nam! What do you like?",
+    "👦 Nam: Hi Mai! I like the stone. And you?",
+    "👧 Mai: I like the rock. It is nice.",
+    "👦 Nam: Look! The ocean is over there.",
+    "👧 Mai: Wow! I like the ocean too.",
+    "👦 Nam: Me too! Let's look together."
    ],
    "audioLines": [
-    "What do you like?",
-    "I like the stone. And you?",
-    "I like the rock.",
-    "Nice!"
+    "Hi Nam! What do you like?",
+    "Hi Mai! I like the stone. And you?",
+    "I like the rock. It is nice.",
+    "Look! The ocean is over there.",
+    "Wow! I like the ocean too.",
+    "Me too! Let's look together."
    ],
-   "question": "Mai thích cái nào?",
+   "question": "Mai thích cái nào đầu tiên?",
    "options": [
     "the rock",
     "the stone",
@@ -1152,22 +1254,28 @@
    "Tennis is fun!"
   ],
   "dialogue": {
+   "scene": "🏟️ 🏀 🏐 🎾 👦👧",
+   "sceneCaption": "Ở sân chơi thể thao",
    "lines": [
-    "👧 Mai: What do you like?",
-    "👦 Nam: I like basketball. And you?",
-    "👧 Mai: I like volleyball.",
-    "👦 Nam: That's fun!"
+    "👧 Mai: Hi Nam! What sport do you like?",
+    "👦 Nam: Hi Mai! I like basketball. And you?",
+    "👧 Mai: I like volleyball. It is fun!",
+    "👦 Nam: Do you like tennis?",
+    "👧 Mai: Yes! I like tennis very much.",
+    "👦 Nam: Cool! Let's play together."
    ],
    "audioLines": [
-    "What do you like?",
-    "I like basketball. And you?",
-    "I like volleyball.",
-    "That's fun!"
+    "Hi Nam! What sport do you like?",
+    "Hi Mai! I like basketball. And you?",
+    "I like volleyball. It is fun!",
+    "Do you like tennis?",
+    "Yes! I like tennis very much.",
+    "Cool! Let's play together."
    ],
-   "question": "Mai thích môn nào?",
+   "question": "Nam thích môn nào?",
    "options": [
-    "volleyball",
     "basketball",
+    "volleyball",
     "tennis"
    ],
    "correct": 0
@@ -1217,19 +1325,25 @@
    "This is the guitar."
   ],
   "dialogue": {
+   "scene": "💬 🎵 🎶 🎸 👦👧",
+   "sceneCaption": "Nam và Mai đang trò chuyện",
    "lines": [
-    "👧 Mai: What do you like?",
-    "👦 Nam: I like the music. And you?",
-    "👧 Mai: I like the song.",
-    "👦 Nam: Nice!"
+    "👧 Mai: Hi Nam! What do you like?",
+    "👦 Nam: Hi Mai! I like the music. And you?",
+    "👧 Mai: I like the song. It is nice.",
+    "👦 Nam: Look! The guitar is over there.",
+    "👧 Mai: Wow! I like the guitar too.",
+    "👦 Nam: Me too! Let's look together."
    ],
    "audioLines": [
-    "What do you like?",
-    "I like the music. And you?",
-    "I like the song.",
-    "Nice!"
+    "Hi Nam! What do you like?",
+    "Hi Mai! I like the music. And you?",
+    "I like the song. It is nice.",
+    "Look! The guitar is over there.",
+    "Wow! I like the guitar too.",
+    "Me too! Let's look together."
    ],
-   "question": "Mai thích cái nào?",
+   "question": "Mai thích cái nào đầu tiên?",
    "options": [
     "the song",
     "the music",
@@ -1282,22 +1396,28 @@
    "I like England."
   ],
   "dialogue": {
+   "scene": "🌍 🇻🇳 🇺🇸 🏴 👦👧",
+   "sceneCaption": "Gặp gỡ bạn mới",
    "lines": [
-    "👦 Nam: Where are you from?",
-    "👧 Mai: I am from Vietnam. And you?",
-    "👦 Nam: I am from America.",
-    "👧 Mai: Nice to meet you!"
+    "👦 Nam: Hello! I am Nam. Where are you from?",
+    "👧 Mai: Hi Nam! I am from Vietnam. And you?",
+    "👦 Nam: I am from America. Nice to meet you!",
+    "👧 Mai: My friend is from England.",
+    "👦 Nam: Wonderful! I like England.",
+    "👧 Mai: Let's be friends!"
    ],
    "audioLines": [
-    "Where are you from?",
-    "I am from Vietnam. And you?",
-    "I am from America.",
-    "Nice to meet you!"
+    "Hello! I am Nam. Where are you from?",
+    "Hi Nam! I am from Vietnam. And you?",
+    "I am from America. Nice to meet you!",
+    "My friend is from England.",
+    "Wonderful! I like England.",
+    "Let's be friends!"
    ],
-   "question": "Nam đến từ đâu?",
+   "question": "Mai đến từ đâu?",
    "options": [
-    "America",
     "Vietnam",
+    "America",
     "England"
    ],
    "correct": 0

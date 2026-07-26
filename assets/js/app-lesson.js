@@ -489,6 +489,10 @@ Object.assign(DuoClone.prototype, {
             });
             html += `</div>`;
         } else if (ex.type === 'dialogue') {
+            // "Hoạt cảnh" scene banner: setting + key objects + the two speakers, so the child
+            // pictures the situation before reading the conversation.
+            if (ex.scene)
+                html += `<div class="dialogue-scene"><div class="dialogue-scene-emojis">${this.escapeHtml(ex.scene)}</div>${ex.sceneCaption ? `<div class="dialogue-scene-caption">${this.escapeHtml(ex.sceneCaption)}</div>` : ''}</div>`;
             if (ex.audioLines)
                 html += `<div class="pic-listen-row"><button class="btn-listen" id="dialogue-listen-btn"><span style="font-size:28px;">🔊</span><br>Nghe hội thoại</button></div>`;
             html += `<div class="dialogue-box">`;

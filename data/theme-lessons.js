@@ -222,8 +222,21 @@
     // comprehension question). `voices[i]` pairs with `audioLines[i]`.
     function dialogueEx(theme) {
         var d = theme.dialogue;
+        // Scene ("hoạt cảnh"): use the generated one, else build a fallback from the first words.
+        var scene = d.scene, cap = d.sceneCaption;
+        if (!scene) {
+            var em = [];
+            for (var i = 0; i < Math.min(3, theme.words.length); i++) {
+                var g = typeof window !== 'undefined' && window.EmojiMap
+                    ? window.EmojiMap.get(theme.words[i].en) : null;
+                if (g) em.push(g);
+            }
+            scene = '💬 ' + em.join(' ') + ' 👦👧';
+            cap = 'Nam và Mai trò chuyện';
+        }
         return {
             id: nid(), type: 'dialogue', question: d.question,
+            scene: scene, sceneCaption: cap,
             lines: d.lines, audioLines: d.audioLines,
             voices: d.lines.map(speakerGender),
             options: d.options, correct: d.correct,
