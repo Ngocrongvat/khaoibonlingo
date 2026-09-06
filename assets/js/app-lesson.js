@@ -1619,20 +1619,33 @@ Object.assign(DuoClone.prototype, {
             return;
         }
         const themes = window.ThemeLessons.themes;
+        // Grouped into the two ways a theme teaches, so a long list stays scannable for a kid:
+        // picture themes (a real object to look at) vs context themes (an idea — numbers,
+        // feelings, days — taught through matching, gap-fill and a scene).
+        const card = (t) =>
+            `<button class="theme-card theme-pick-btn" data-theme="${t.id}" title="${this.escapeHtml(t.title)}">
+                <span class="theme-card-icon">${t.icon}</span>
+                <span class="theme-card-title">${this.escapeHtml(t.title)}</span>
+                <span class="theme-card-count">${t.count} từ</span>
+             </button>`;
+        const section = (icon, title, hint, list) =>
+            !list.length
+                ? ''
+                : `<div class="theme-section">
+                       <h2 class="theme-section-title"><span>${icon}</span> ${title}</h2>
+                       <p class="theme-section-hint">${hint}</p>
+                       <div class="theme-grid">${list.map(card).join('')}</div>
+                   </div>`;
+        const pictures = themes.filter((t) => t.kind !== 'context');
+        const contexts = themes.filter((t) => t.kind === 'context');
         this.ui.container.innerHTML = `
-            <div class="welcome-screen">
+            <div class="welcome-screen theme-menu">
                 <div class="duo-character">🎨</div>
                 <h1 style="text-align:center;">Chủ đề mẫu</h1>
                 <p style="text-align:center; color:#777;">Học qua tranh + tình huống — thử cảm giác các bài chủ đề mới cho bé.</p>
-                <div class="game-picker-list" style="max-width:340px; margin:10px auto;">
-                    ${themes
-                        .map(
-                            (t) =>
-                                `<button class="btn-primary game-pick-btn theme-pick-btn" data-theme="${t.id}">${t.icon} ${this.escapeHtml(t.title)} <span style="opacity:.7;">(${t.count} từ)</span></button>`
-                        )
-                        .join('')}
-                </div>
-                <button class="btn-secondary" id="theme-back" style="display:block; margin:12px auto; padding:14px 28px;">QUAY LẠI</button>
+                ${section('🖼️', 'Học qua tranh', 'Nhìn tranh — nghe — nói. Đồ vật, con vật, món ăn…', pictures)}
+                ${section('💭', 'Học qua ngữ cảnh', 'Số đếm, màu sắc, cảm xúc, thứ &amp; tháng… có trò nối từ và điền câu.', contexts)}
+                <button class="btn-secondary" id="theme-back" style="display:block; margin:18px auto; padding:14px 28px;">QUAY LẠI</button>
             </div>`;
         this.ui.checkBtn.disabled = true;
         this.ui.checkBtn.classList.remove('active');

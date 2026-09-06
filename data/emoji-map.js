@@ -189,6 +189,53 @@
             thailand: '🇹🇭', canada: '🇨🇦', australia: '🇦🇺', brazil: '🇧🇷',
             mexico: '🇲🇽', egypt: '🇪🇬', greece: '🇬🇷',
         },
+
+        // ---- CONTEXT concept groups (added for the no-picture themes) -------------------
+        // These are the "CONTEXT" bucket from the topic classification: kid concepts that
+        // aren't concrete objects (numbers, feelings, days, months...). They live LAST on
+        // purpose — flattening is first-wins, so nothing above can be overwritten and the
+        // existing picture themes keep their exact word buckets.
+        number: {
+            zero: '0️⃣', one: '1️⃣', two: '2️⃣', three: '3️⃣', four: '4️⃣', five: '5️⃣',
+            six: '6️⃣', seven: '7️⃣', eight: '8️⃣', nine: '9️⃣', ten: '🔟',
+        },
+        emotion: {
+            happy: '😊', sad: '😢', tired: '😴', scared: '😨', surprised: '😲',
+            excited: '🤩', proud: '😌', shy: '😳', joy: '😊', fear: '😨',
+            sadness: '😢', surprise: '😲', cry: '😭', tears: '😢', laugh: '😂',
+            laughter: '😂', hug: '🤗', kiss: '😘', handshake: '🤝', wave: '👋',
+            frown: '😦',
+        },
+        shape: {
+            circle: '⭕', square: '🟦', triangle: '🔺', rectangle: '▭', oval: '⬭',
+            line: '➖', point: '🔘', angle: '📐', curve: '〰️',
+        },
+        school: {
+            homework: '📝', exam: '📄', test: '📄', textbook: '📚', classroom: '🚪',
+            library: '🏛️', lesson: '📖', grade: '💯', ruler: '📏', eraser: '🧽',
+            backpack: '🎒', blackboard: '📋', whiteboard: '📋',
+        },
+        season: { spring: '🌸', summer: '🌞', autumn: '🍂', fall: '🍂', winter: '⛄' },
+        // Weekdays/months have no literal emoji — these are MNEMONIC anchors (a picture the
+        // child links to the name), which is how the day/month drills stay visual.
+        weekday: {
+            monday: '📚', tuesday: '✏️', wednesday: '🎨', thursday: '🎵',
+            friday: '🎉', saturday: '⚽', sunday: '🏠',
+        },
+        month: {
+            january: '❄️', february: '💝', march: '🌱', april: '🌧️', may: '🌺',
+            june: '☀️', july: '🏖️', august: '🌻', september: '🍎', october: '🎃',
+            november: '🍂', december: '🎄',
+        },
+        time: {
+            morning: '🌅', noon: '🌞', afternoon: '🌤️', evening: '🌆', night: '🌙',
+            midnight: '🌚', hour: '⏰', minute: '⏱️', second: '⏲️', week: '📅',
+            weekend: '🎠', calendar: '🗓️', today: '📆', birthday: '🎂',
+        },
+        celebration: {
+            fireworks: '🎆', festival: '🎊', celebration: '🎊', wedding: '💒',
+            holiday: '🏖️', ceremony: '🎓',
+        },
     };
 
     // Flatten (first definition wins = earlier group is more canonical). Also record which

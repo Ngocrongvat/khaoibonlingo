@@ -140,6 +140,14 @@
         THEMES = THEMES.concat(window.ThemeCourse);
     }
 
+    // Merge in the CONTEXT-bucket themes (data/context-course.js): numbers, colours, feelings,
+    // shapes, school, seasons, weekdays, months, times of day, celebrations. They carry
+    // kind:'context' and an extra `fills` array, which routes build() to the livelier context
+    // queue (word↔meaning matching + fill-in-the-blank on top of the usual drills).
+    if (typeof window !== 'undefined' && Array.isArray(window.ContextCourse)) {
+        THEMES = THEMES.concat(window.ContextCourse);
+    }
+
     // Picture (emoji span first, SVG fallback) for an English word, or the word as last resort.
     // Consults the big reusable EmojiMap (610 words + plural morphology) so generated themes
     // resolve too, then the local EMOJI, then the illustrated SVG bank.
@@ -160,6 +168,14 @@
             }
         }
         return null;
+    }
+
+    // The BARE emoji character for a word (no markup). The matching engine escapes its card
+    // text, so those cards need the raw glyph rather than the <span> that pic() returns.
+    function rawEmoji(en) {
+        if (EMOJI[en]) return EMOJI[en];
+        if (typeof window !== 'undefined' && window.EmojiMap) return window.EmojiMap.get(en) || '';
+        return '';
     }
 
     function shuffle(a) {
@@ -225,7 +241,12 @@
         if (!(typeof window !== 'undefined' && window.EmojiMap)) return '';
         for (var k = 0; k < theme.words.length; k++) {
             var en = theme.words[k].en;
-            var re = new RegExp('\\b' + en.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&') + '\\b', 'i');
+            // Allow a simple plural so a line like "I love the balloons too" still pops the
+            // balloon prop. Words that already end in "s" keep their own \b boundary.
+            var re = new RegExp(
+                '\\b' + en.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&') + '(?:e?s)?\\b',
+                'i'
+            );
             if (re.test(line)) {
                 var g = window.EmojiMap.get(en);
                 if (g) return g;
@@ -255,9 +276,62 @@
         };
     }
 
+    // ---- CONTEXT-theme exercises (kind:'context') -------------------------------------------
+    // Abstract concepts (numbers, feelings, days…) stick better when the child meets them in
+    // several different shapes, so these themes get two drills the picture themes don't have.
+
+    // Drag-free word↔meaning matching. The right-hand card leads with the concept's emoji so
+    // the pairing stays visual even though the engine renders plain text.
+    function matchingEx(theme) {
+        var pairs = shuffle(theme.words).slice(0, 5).map(function (w, i) {
+            var e = rawEmoji(w.en);
+            return { id: theme.id + '_m' + i, en: w.en, vi: (e ? e + ' ' : '') + w.vi };
+        });
+        return {
+            id: nid(), type: 'matching',
+            question: 'Nối từ tiếng Anh với nghĩa của nó:',
+            pairs: pairs,
+        };
+    }
+
+    // Fill the gap in a real sentence — the concept has to be USED, not just recognised.
+    function fillBlankEx(theme, fill) {
+        var pool = shuffle([fill.answer].concat(fill.distract || []));
+        return {
+            id: nid(), type: 'fill_blank',
+            question: 'Chọn từ đúng để hoàn thành câu:',
+            sentence: fill.sentence,
+            options: pool,
+            correct: pool.indexOf(fill.answer),
+        };
+    }
+
+    // Context queue: see → hear → match → use → converse → speak. Longer and more varied than
+    // the picture queue because these concepts are abstract.
+    function buildContext(theme) {
+        var w = theme.words;
+        var fills = theme.fills || [];
+        var ex = [];
+        ex.push(audioToPicture(theme, w[0]));
+        ex.push(pictureToWord(theme, w[1]));
+        ex.push(matchingEx(theme));
+        ex.push(audioToPicture(theme, w[2]));
+        if (fills[0]) ex.push(fillBlankEx(theme, fills[0]));
+        ex.push(phraseListen(theme, theme.phrases[0]));
+        ex.push(dialogueEx(theme));
+        ex.push({
+            id: nid(), type: 'pronunciation', question: 'Đọc to câu này nhé:',
+            target: theme.phrases[Math.min(1, theme.phrases.length - 1)],
+        });
+        ex.push(pictureToWord(theme, w[3]));
+        if (fills[1]) ex.push(fillBlankEx(theme, fills[1]));
+        return ex;
+    }
+
     function build(themeId) {
         var theme = THEMES.filter(function (t) { return t.id === themeId; })[0];
         if (!theme) return null;
+        if (theme.kind === 'context') return buildContext(theme);
         var w = theme.words;
         var ex = [];
         ex.push(audioToPicture(theme, w[0]));
@@ -273,7 +347,15 @@
     }
 
     window.ThemeLessons = {
-        themes: THEMES.map(function (t) { return { id: t.id, title: t.title, icon: t.icon, count: t.words.length }; }),
+        themes: THEMES.map(function (t) {
+            return {
+                id: t.id, title: t.title, icon: t.icon,
+                count: t.words.length,
+                // 'context' = abstract-concept theme (numbers/feelings/days…); anything else is
+                // a picture theme. The theme menu groups by this.
+                kind: t.kind || 'picture',
+            };
+        }),
         build: build,
         picFor: pic,
     };

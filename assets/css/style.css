@@ -1112,6 +1112,107 @@ body.ielts-hide-footer .bottom-nav {
     font-size: 16px;
 }
 
+/* ---- Theme menu ("🎨 Chủ đề mẫu") -------------------------------------------------------
+   37 themes is far too many for a single column of buttons, so they are grouped into the two
+   ways a theme teaches (picture vs context) and laid out as a responsive card grid. The card
+   leads with a big emoji because that is what a young child actually reads first. */
+.theme-menu {
+    max-width: 640px;
+    margin: 0 auto;
+}
+
+.theme-section {
+    margin: 26px 0 10px;
+}
+
+.theme-section-title {
+    font-size: 18px;
+    font-weight: 800;
+    color: #3c3c3c;
+    margin: 0 0 2px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.theme-section-title span {
+    font-size: 22px;
+}
+
+.theme-section-hint {
+    margin: 0 0 12px;
+    font-size: 13px;
+    color: #999;
+    font-weight: 600;
+}
+
+.theme-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(104px, 1fr));
+    gap: 10px;
+}
+
+.theme-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 3px;
+    padding: 14px 6px 11px;
+    background: #fff;
+    border: 2px solid #e5e5e5;
+    border-bottom-width: 4px;
+    border-radius: 16px;
+    cursor: pointer;
+    font-family: inherit;
+    transition:
+        transform 0.12s ease,
+        border-color 0.12s ease,
+        background 0.12s ease;
+}
+
+.theme-card-icon {
+    font-size: 32px;
+    line-height: 1.1;
+}
+
+.theme-card-title {
+    font-size: 13px;
+    font-weight: 800;
+    color: #3c3c3c;
+    text-align: center;
+    line-height: 1.25;
+}
+
+.theme-card-count {
+    font-size: 11px;
+    font-weight: 700;
+    color: #afafaf;
+}
+
+.theme-card:hover,
+.theme-card:focus-visible {
+    background: #f7fff0;
+    border-color: #58cc02;
+    transform: translateY(-2px);
+}
+
+.theme-card:active {
+    transform: translateY(1px);
+    border-bottom-width: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .theme-card {
+        transition: none;
+    }
+    .theme-card:hover,
+    .theme-card:focus-visible,
+    .theme-card:active {
+        transform: none;
+    }
+}
+
 /* Wraps a solo-play game button + its "⚔️ Đấu 1v1" duel button on the same line -
    .game-picker-list already caps width/centers the column, this just adds the
    side-by-side row inside it. */
