@@ -1152,6 +1152,26 @@ body.ielts-hide-footer .bottom-nav {
     gap: 10px;
 }
 
+/* Part number for a chunked theme ("Con vật · Phần 2"), as a corner badge so the card can
+   still show the short parent name on one line. */
+.theme-card {
+    position: relative;
+}
+
+.theme-card-part {
+    position: absolute;
+    top: 5px;
+    right: 6px;
+    min-width: 16px;
+    padding: 1px 4px;
+    border-radius: 999px;
+    background: #e5f5d5;
+    color: #4b9a02;
+    font-size: 10px;
+    font-weight: 800;
+    line-height: 1.5;
+}
+
 .theme-card {
     display: flex;
     flex-direction: column;

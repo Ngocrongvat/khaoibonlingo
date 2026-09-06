@@ -1622,12 +1622,20 @@ Object.assign(DuoClone.prototype, {
         // Grouped into the two ways a theme teaches, so a long list stays scannable for a kid:
         // picture themes (a real object to look at) vs context themes (an idea — numbers,
         // feelings, days — taught through matching, gap-fill and a scene).
-        const card = (t) =>
-            `<button class="theme-card theme-pick-btn" data-theme="${t.id}" title="${this.escapeHtml(t.title)}">
+        // Chunked themes are titled "Con vật · Phần 2". Showing that whole string inside a
+        // ~104px card wraps to three lines, so the part becomes a compact corner badge and the
+        // card keeps the short parent name.
+        const card = (t) => {
+            const m = /^(.*?) · Phần (\d+)$/.exec(t.title);
+            const name = m ? m[1] : t.title;
+            const badge = m ? `<span class="theme-card-part">${m[2]}</span>` : '';
+            return `<button class="theme-card theme-pick-btn" data-theme="${t.id}" title="${this.escapeHtml(t.title)}">
+                ${badge}
                 <span class="theme-card-icon">${t.icon}</span>
-                <span class="theme-card-title">${this.escapeHtml(t.title)}</span>
+                <span class="theme-card-title">${this.escapeHtml(name)}</span>
                 <span class="theme-card-count">${t.count} từ</span>
              </button>`;
+        };
         const section = (icon, title, hint, list) =>
             !list.length
                 ? ''

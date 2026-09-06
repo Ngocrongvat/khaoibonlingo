@@ -203,8 +203,11 @@
             happy: '😊', sad: '😢', tired: '😴', scared: '😨', surprised: '😲',
             excited: '🤩', proud: '😌', shy: '😳', joy: '😊', fear: '😨',
             sadness: '😢', surprise: '😲', cry: '😭', tears: '😢', laugh: '😂',
-            laughter: '😂', hug: '🤗', kiss: '😘', handshake: '🤝', wave: '👋',
+            laughter: '😂', hug: '🤗', kiss: '😘', handshake: '🤝',
             frown: '😦',
+            // NOTE: no `wave` here. `nature` claims it first (🌊 the ocean wave), and
+            // flattening is first-wins, so an emotion entry could never win — listing it
+            // would only look like a waving hand was available when it is not.
         },
         shape: {
             circle: '⭕', square: '🟦', triangle: '🔺', rectangle: '▭', oval: '⬭',

@@ -5,7 +5,7 @@
   window.ThemeCourse = [
  {
   "id": "gen_animals",
-  "title": "Con vật",
+  "title": "Con vật · Phần 1",
   "icon": "🐾",
   "words": [
    {
@@ -76,6 +76,218 @@
   }
  },
  {
+  "id": "gen_animals_2",
+  "title": "Con vật · Phần 2",
+  "icon": "🐾",
+  "words": [
+   {
+    "en": "Rabbit",
+    "vi": "Thỏ"
+   },
+   {
+    "en": "Fox",
+    "vi": "Cáo"
+   },
+   {
+    "en": "Deer",
+    "vi": "Hươu nai"
+   },
+   {
+    "en": "Panda",
+    "vi": "Gấu trúc"
+   },
+   {
+    "en": "Cow",
+    "vi": "Con bò"
+   },
+   {
+    "en": "Pig",
+    "vi": "Con heo"
+   },
+   {
+    "en": "Sheep",
+    "vi": "Con cừu"
+   },
+   {
+    "en": "Goat",
+    "vi": "Con dê"
+   }
+  ],
+  "phrases": [
+   "I like the rabbit.",
+   "Look at the fox!",
+   "This is the deer."
+  ],
+  "dialogue": {
+   "scene": "🔦 🐰 🦊 🦌 👦👧",
+   "setting": "🔦",
+   "sceneCaption": "Đi khám phá cùng nhau",
+   "lines": [
+    "👦 Nam: Mai, come and see what I found!",
+    "👧 Mai: Oh! Is that the rabbit?",
+    "👦 Nam: Yes. And look, there is the fox too.",
+    "👧 Mai: Amazing. Where is the deer?",
+    "👦 Nam: The deer is behind the tree.",
+    "👧 Mai: What a wonderful day!"
+   ],
+   "audioLines": [
+    "Mai, come and see what I found!",
+    "Oh! Is that the rabbit?",
+    "Yes. And look, there is the fox too.",
+    "Amazing. Where is the deer?",
+    "The deer is behind the tree.",
+    "What a wonderful day!"
+   ],
+   "question": "Cái gì ở sau gốc cây?",
+   "options": [
+    "the deer",
+    "the rabbit",
+    "the fox"
+   ],
+   "correct": 0
+  }
+ },
+ {
+  "id": "gen_animals_3",
+  "title": "Con vật · Phần 3",
+  "icon": "🐾",
+  "words": [
+   {
+    "en": "Horse",
+    "vi": "Con ngựa"
+   },
+   {
+    "en": "Wolf",
+    "vi": "Sói"
+   },
+   {
+    "en": "Snake",
+    "vi": "Rắn"
+   },
+   {
+    "en": "Lizard",
+    "vi": "Thằn lằn"
+   },
+   {
+    "en": "Crocodile",
+    "vi": "Cá sấu"
+   },
+   {
+    "en": "Zebra",
+    "vi": "Ngựa vằn"
+   },
+   {
+    "en": "Giraffe",
+    "vi": "Hươu cao cổ"
+   },
+   {
+    "en": "Kangaroo",
+    "vi": "Chuột túi"
+   }
+  ],
+  "phrases": [
+   "I like the horse.",
+   "Look at the wolf!",
+   "This is the snake."
+  ],
+  "dialogue": {
+   "scene": "💬 🐴 🐺 🐍 👦👧",
+   "setting": "💬",
+   "sceneCaption": "Nam và Mai đang trò chuyện",
+   "lines": [
+    "👧 Mai: Hi Nam! What do you like?",
+    "👦 Nam: Hi Mai! I like the horse. And you?",
+    "👧 Mai: I like the wolf. It is nice.",
+    "👦 Nam: Look! The snake is over there.",
+    "👧 Mai: Wow! I like the snake too.",
+    "👦 Nam: Me too! Let's look together."
+   ],
+   "audioLines": [
+    "Hi Nam! What do you like?",
+    "Hi Mai! I like the horse. And you?",
+    "I like the wolf. It is nice.",
+    "Look! The snake is over there.",
+    "Wow! I like the snake too.",
+    "Me too! Let's look together."
+   ],
+   "question": "Mai thích cái nào đầu tiên?",
+   "options": [
+    "the wolf",
+    "the horse",
+    "the snake"
+   ],
+   "correct": 0
+  }
+ },
+ {
+  "id": "gen_animals_4",
+  "title": "Con vật · Phần 4",
+  "icon": "🐾",
+  "words": [
+   {
+    "en": "Camel",
+    "vi": "Lạc đà"
+   },
+   {
+    "en": "Mouse",
+    "vi": "Chuột máy tính"
+   },
+   {
+    "en": "Puppy",
+    "vi": "Chó con"
+   },
+   {
+    "en": "Kitten",
+    "vi": "Mèo con"
+   },
+   {
+    "en": "Hamster",
+    "vi": "Chuột hamster"
+   },
+   {
+    "en": "Hedgehog",
+    "vi": "Nhím cảnh"
+   },
+   {
+    "en": "dragon",
+    "vi": "rồng"
+   }
+  ],
+  "phrases": [
+   "I like the camel.",
+   "Look at the mouse!",
+   "This is the puppy."
+  ],
+  "dialogue": {
+   "scene": "🔦 🐫 🐭 🐶 👦👧",
+   "setting": "🔦",
+   "sceneCaption": "Đi khám phá cùng nhau",
+   "lines": [
+    "👦 Nam: Mai, come and see what I found!",
+    "👧 Mai: Oh! Is that the camel?",
+    "👦 Nam: Yes. And look, there is the mouse too.",
+    "👧 Mai: Amazing. Where is the puppy?",
+    "👦 Nam: The puppy is behind the tree.",
+    "👧 Mai: What a wonderful day!"
+   ],
+   "audioLines": [
+    "Mai, come and see what I found!",
+    "Oh! Is that the camel?",
+    "Yes. And look, there is the mouse too.",
+    "Amazing. Where is the puppy?",
+    "The puppy is behind the tree.",
+    "What a wonderful day!"
+   ],
+   "question": "Cái gì ở sau gốc cây?",
+   "options": [
+    "the puppy",
+    "the camel",
+    "the mouse"
+   ],
+   "correct": 0
+  }
+ },
+ {
   "id": "gen_birds",
   "title": "Loài chim",
   "icon": "🐦",
@@ -111,6 +323,22 @@
    {
     "en": "Peacock",
     "vi": "Công"
+   },
+   {
+    "en": "Rooster",
+    "vi": "Gà trống"
+   },
+   {
+    "en": "Swan",
+    "vi": "Thiên nga"
+   },
+   {
+    "en": "Pigeon",
+    "vi": "Chim bồ câu"
+   },
+   {
+    "en": "Hen",
+    "vi": "Gà mái"
    }
   ],
   "phrases": [
@@ -183,6 +411,22 @@
    {
     "en": "Lobster",
     "vi": "Tôm hùm"
+   },
+   {
+    "en": "Jellyfish",
+    "vi": "Sứa"
+   },
+   {
+    "en": "Seal",
+    "vi": "Hải cẩu"
+   },
+   {
+    "en": "Starfish",
+    "vi": "Sao biển"
+   },
+   {
+    "en": "Squid",
+    "vi": "Mực"
    }
   ],
   "phrases": [
@@ -221,7 +465,7 @@
  },
  {
   "id": "gen_insects",
-  "title": "Côn trùng",
+  "title": "Côn trùng · Phần 1",
   "icon": "🐝",
   "words": [
    {
@@ -292,8 +536,72 @@
   }
  },
  {
+  "id": "gen_insects_2",
+  "title": "Côn trùng · Phần 2",
+  "icon": "🐝",
+  "words": [
+   {
+    "en": "Beetle",
+    "vi": "Bọ cánh cứng"
+   },
+   {
+    "en": "Ladybug",
+    "vi": "Bọ rùa"
+   },
+   {
+    "en": "Caterpillar",
+    "vi": "Sâu bướm"
+   },
+   {
+    "en": "Scorpion",
+    "vi": "Bọ cạp"
+   },
+   {
+    "en": "Cricket",
+    "vi": "Dế"
+   },
+   {
+    "en": "Bug",
+    "vi": "Lỗi phần mềm"
+   }
+  ],
+  "phrases": [
+   "I like the beetle.",
+   "Look at the ladybug!",
+   "This is the caterpillar."
+  ],
+  "dialogue": {
+   "scene": "🔦 🪲 🐞 🐛 👦👧",
+   "setting": "🔦",
+   "sceneCaption": "Đi khám phá cùng nhau",
+   "lines": [
+    "👦 Nam: Mai, come and see what I found!",
+    "👧 Mai: Oh! Is that the beetle?",
+    "👦 Nam: Yes. And look, there is the ladybug too.",
+    "👧 Mai: Amazing. Where is the caterpillar?",
+    "👦 Nam: The caterpillar is behind the tree.",
+    "👧 Mai: What a wonderful day!"
+   ],
+   "audioLines": [
+    "Mai, come and see what I found!",
+    "Oh! Is that the beetle?",
+    "Yes. And look, there is the ladybug too.",
+    "Amazing. Where is the caterpillar?",
+    "The caterpillar is behind the tree.",
+    "What a wonderful day!"
+   ],
+   "question": "Cái gì ở sau gốc cây?",
+   "options": [
+    "the caterpillar",
+    "the beetle",
+    "the ladybug"
+   ],
+   "correct": 0
+  }
+ },
+ {
   "id": "gen_fruit",
-  "title": "Trái cây",
+  "title": "Trái cây · Phần 1",
   "icon": "🍎",
   "words": [
    {
@@ -364,8 +672,96 @@
   }
  },
  {
+  "id": "gen_fruit_2",
+  "title": "Trái cây · Phần 2",
+  "icon": "🍎",
+  "words": [
+   {
+    "en": "Peach",
+    "vi": "Đào"
+   },
+   {
+    "en": "Tomato",
+    "vi": "Cà chua"
+   },
+   {
+    "en": "Pineapple",
+    "vi": "Dứa"
+   },
+   {
+    "en": "Lime",
+    "vi": "Chanh xanh"
+   },
+   {
+    "en": "Pear",
+    "vi": "Lê"
+   },
+   {
+    "en": "Cherry",
+    "vi": "Anh đào"
+   },
+   {
+    "en": "Coconut",
+    "vi": "Dừa"
+   },
+   {
+    "en": "Avocado",
+    "vi": "Bơ"
+   },
+   {
+    "en": "Melon",
+    "vi": "Dưa lưới"
+   },
+   {
+    "en": "Kiwi",
+    "vi": "Kiwi"
+   },
+   {
+    "en": "Blueberry",
+    "vi": "Việt quất"
+   },
+   {
+    "en": "Tangerine",
+    "vi": "Quýt"
+   }
+  ],
+  "phrases": [
+   "I like the peach.",
+   "I eat the tomato.",
+   "The pineapple is good."
+  ],
+  "dialogue": {
+   "scene": "🛒 🍑 🍅 🍍 👦👧",
+   "setting": "🛒",
+   "sceneCaption": "Đi chợ với mẹ",
+   "lines": [
+    "👧 Mai: Nam, my mum is buying food today.",
+    "👦 Nam: Nice! Please buy the tomato.",
+    "👧 Mai: OK. We also need the peach.",
+    "👦 Nam: Is the pineapple fresh today?",
+    "👧 Mai: Yes, the pineapple is very fresh.",
+    "👦 Nam: Then let's take it home!"
+   ],
+   "audioLines": [
+    "Nam, my mum is buying food today.",
+    "Nice! Please buy the tomato.",
+    "OK. We also need the peach.",
+    "Is the pineapple fresh today?",
+    "Yes, the pineapple is very fresh.",
+    "Then let's take it home!"
+   ],
+   "question": "Nam nhờ mua món nào?",
+   "options": [
+    "the tomato",
+    "the peach",
+    "the pineapple"
+   ],
+   "correct": 0
+  }
+ },
+ {
   "id": "gen_vegetable",
-  "title": "Rau củ",
+  "title": "Rau củ · Phần 1",
   "icon": "🥕",
   "words": [
    {
@@ -436,8 +832,80 @@
   }
  },
  {
+  "id": "gen_vegetable_2",
+  "title": "Rau củ · Phần 2",
+  "icon": "🥕",
+  "words": [
+   {
+    "en": "Cabbage",
+    "vi": "Bắp cải"
+   },
+   {
+    "en": "Lettuce",
+    "vi": "Xà lách"
+   },
+   {
+    "en": "Broccoli",
+    "vi": "Bông cải xanh"
+   },
+   {
+    "en": "Eggplant",
+    "vi": "Cà tím"
+   },
+   {
+    "en": "Pea",
+    "vi": "Đậu Hà Lan"
+   },
+   {
+    "en": "Bean",
+    "vi": "Đậu"
+   },
+   {
+    "en": "Ginger",
+    "vi": "Gừng"
+   },
+   {
+    "en": "Chili",
+    "vi": "Ớt"
+   }
+  ],
+  "phrases": [
+   "I like the cabbage.",
+   "I eat the lettuce.",
+   "The broccoli is good."
+  ],
+  "dialogue": {
+   "scene": "🛒 🥬 🥬 🥦 👦👧",
+   "setting": "🛒",
+   "sceneCaption": "Đi chợ với mẹ",
+   "lines": [
+    "👧 Mai: Nam, my mum is buying food today.",
+    "👦 Nam: Nice! Please buy the lettuce.",
+    "👧 Mai: OK. We also need the cabbage.",
+    "👦 Nam: Is the broccoli fresh today?",
+    "👧 Mai: Yes, the broccoli is very fresh.",
+    "👦 Nam: Then let's take it home!"
+   ],
+   "audioLines": [
+    "Nam, my mum is buying food today.",
+    "Nice! Please buy the lettuce.",
+    "OK. We also need the cabbage.",
+    "Is the broccoli fresh today?",
+    "Yes, the broccoli is very fresh.",
+    "Then let's take it home!"
+   ],
+   "question": "Nam nhờ mua món nào?",
+   "options": [
+    "the lettuce",
+    "the cabbage",
+    "the broccoli"
+   ],
+   "correct": 0
+  }
+ },
+ {
   "id": "gen_food",
-  "title": "Món ăn & Đồ uống",
+  "title": "Món ăn & Đồ uống · Phần 1",
   "icon": "🍜",
   "words": [
    {
@@ -508,8 +976,296 @@
   }
  },
  {
+  "id": "gen_food_2",
+  "title": "Món ăn & Đồ uống · Phần 2",
+  "icon": "🍜",
+  "words": [
+   {
+    "en": "Pizza",
+    "vi": "Pizza"
+   },
+   {
+    "en": "Cake",
+    "vi": "Bánh ngọt"
+   },
+   {
+    "en": "Cup",
+    "vi": "Cốc"
+   },
+   {
+    "en": "Noodles",
+    "vi": "Mì"
+   },
+   {
+    "en": "Coffee",
+    "vi": "Cà phê"
+   },
+   {
+    "en": "Salt",
+    "vi": "Muối"
+   },
+   {
+    "en": "Butter",
+    "vi": "Bơ"
+   },
+   {
+    "en": "Cheese",
+    "vi": "Phô mai"
+   }
+  ],
+  "phrases": [
+   "I like the pizza.",
+   "I eat the cake.",
+   "The cup is good."
+  ],
+  "dialogue": {
+   "scene": "🛒 🍕 🍰 ☕ 👦👧",
+   "setting": "🛒",
+   "sceneCaption": "Đi chợ với mẹ",
+   "lines": [
+    "👧 Mai: Nam, my mum is buying food today.",
+    "👦 Nam: Nice! Please buy the cake.",
+    "👧 Mai: OK. We also need the pizza.",
+    "👦 Nam: Is the cup fresh today?",
+    "👧 Mai: Yes, the cup is very fresh.",
+    "👦 Nam: Then let's take it home!"
+   ],
+   "audioLines": [
+    "Nam, my mum is buying food today.",
+    "Nice! Please buy the cake.",
+    "OK. We also need the pizza.",
+    "Is the cup fresh today?",
+    "Yes, the cup is very fresh.",
+    "Then let's take it home!"
+   ],
+   "question": "Nam nhờ mua món nào?",
+   "options": [
+    "the cake",
+    "the pizza",
+    "the cup"
+   ],
+   "correct": 0
+  }
+ },
+ {
+  "id": "gen_food_3",
+  "title": "Món ăn & Đồ uống · Phần 3",
+  "icon": "🍜",
+  "words": [
+   {
+    "en": "Meat",
+    "vi": "Thịt"
+   },
+   {
+    "en": "Honey",
+    "vi": "Mật ong"
+   },
+   {
+    "en": "Jam",
+    "vi": "Mứt"
+   },
+   {
+    "en": "Sandwich",
+    "vi": "Bánh sandwich"
+   },
+   {
+    "en": "Burger",
+    "vi": "Bánh burger"
+   },
+   {
+    "en": "Candy",
+    "vi": "Kẹo"
+   },
+   {
+    "en": "Chocolate",
+    "vi": "Sô cô la"
+   },
+   {
+    "en": "Cookie",
+    "vi": "Bánh quy"
+   }
+  ],
+  "phrases": [
+   "I like the meat.",
+   "I eat the honey.",
+   "The jam is good."
+  ],
+  "dialogue": {
+   "scene": "🍽️ 🍖 🍯 🍓 👦👧",
+   "setting": "🍽️",
+   "sceneCaption": "Ở quán ăn",
+   "lines": [
+    "👦 Nam: I am so hungry!",
+    "👧 Mai: Me too, Nam. I like the meat.",
+    "👦 Nam: I like the honey. It is yummy.",
+    "👧 Mai: Do you want some jam?",
+    "👦 Nam: Yes, please! The jam is good.",
+    "👧 Mai: Great! Let's eat together."
+   ],
+   "audioLines": [
+    "I am so hungry!",
+    "Me too, Nam. I like the meat.",
+    "I like the honey. It is yummy.",
+    "Do you want some jam?",
+    "Yes, please! The jam is good.",
+    "Great! Let's eat together."
+   ],
+   "question": "Mai thích món nào?",
+   "options": [
+    "the meat",
+    "the honey",
+    "the jam"
+   ],
+   "correct": 0
+  }
+ },
+ {
+  "id": "gen_food_4",
+  "title": "Món ăn & Đồ uống · Phần 4",
+  "icon": "🍜",
+  "words": [
+   {
+    "en": "Soda",
+    "vi": "Nước ngọt"
+   },
+   {
+    "en": "Wine",
+    "vi": "Rượu vang"
+   },
+   {
+    "en": "Beer",
+    "vi": "Bia"
+   },
+   {
+    "en": "Bottle",
+    "vi": "Chai"
+   },
+   {
+    "en": "Smoothie",
+    "vi": "Sinh tố"
+   },
+   {
+    "en": "Pie",
+    "vi": "Bánh pie"
+   },
+   {
+    "en": "Donut",
+    "vi": "Bánh donut"
+   },
+   {
+    "en": "Pancake",
+    "vi": "Bánh pancake"
+   }
+  ],
+  "phrases": [
+   "I like the soda.",
+   "I eat the wine.",
+   "The beer is good."
+  ],
+  "dialogue": {
+   "scene": "🛒 🥤 🍷 🍺 👦👧",
+   "setting": "🛒",
+   "sceneCaption": "Đi chợ với mẹ",
+   "lines": [
+    "👧 Mai: Nam, my mum is buying food today.",
+    "👦 Nam: Nice! Please buy the wine.",
+    "👧 Mai: OK. We also need the soda.",
+    "👦 Nam: Is the beer fresh today?",
+    "👧 Mai: Yes, the beer is very fresh.",
+    "👦 Nam: Then let's take it home!"
+   ],
+   "audioLines": [
+    "Nam, my mum is buying food today.",
+    "Nice! Please buy the wine.",
+    "OK. We also need the soda.",
+    "Is the beer fresh today?",
+    "Yes, the beer is very fresh.",
+    "Then let's take it home!"
+   ],
+   "question": "Nam nhờ mua món nào?",
+   "options": [
+    "the wine",
+    "the soda",
+    "the beer"
+   ],
+   "correct": 0
+  }
+ },
+ {
+  "id": "gen_food_5",
+  "title": "Món ăn & Đồ uống · Phần 5",
+  "icon": "🍜",
+  "words": [
+   {
+    "en": "Waffle",
+    "vi": "Bánh waffle"
+   },
+   {
+    "en": "Pasta",
+    "vi": "Mì Ý"
+   },
+   {
+    "en": "Popcorn",
+    "vi": "Bắp rang bơ"
+   },
+   {
+    "en": "dumpling",
+    "vi": "bánh bao/sủi cảo"
+   },
+   {
+    "en": "croissant",
+    "vi": "bánh sừng bò"
+   },
+   {
+    "en": "baguette",
+    "vi": "bánh mì baguette"
+   },
+   {
+    "en": "burrito",
+    "vi": "bánh burrito"
+   },
+   {
+    "en": "taco",
+    "vi": "bánh taco"
+   }
+  ],
+  "phrases": [
+   "I like the waffle.",
+   "I eat the pasta.",
+   "The popcorn is good."
+  ],
+  "dialogue": {
+   "scene": "🍽️ 🧇 🍝 🍿 👦👧",
+   "setting": "🍽️",
+   "sceneCaption": "Ở quán ăn",
+   "lines": [
+    "👦 Nam: I am so hungry!",
+    "👧 Mai: Me too, Nam. I like the waffle.",
+    "👦 Nam: I like the pasta. It is yummy.",
+    "👧 Mai: Do you want some popcorn?",
+    "👦 Nam: Yes, please! The popcorn is good.",
+    "👧 Mai: Great! Let's eat together."
+   ],
+   "audioLines": [
+    "I am so hungry!",
+    "Me too, Nam. I like the waffle.",
+    "I like the pasta. It is yummy.",
+    "Do you want some popcorn?",
+    "Yes, please! The popcorn is good.",
+    "Great! Let's eat together."
+   ],
+   "question": "Mai thích món nào?",
+   "options": [
+    "the waffle",
+    "the pasta",
+    "the popcorn"
+   ],
+   "correct": 0
+  }
+ },
+ {
   "id": "gen_clothing",
-  "title": "Quần áo",
+  "title": "Quần áo · Phần 1",
   "icon": "👕",
   "words": [
    {
@@ -580,8 +1336,168 @@
   }
  },
  {
+  "id": "gen_clothing_2",
+  "title": "Quần áo · Phần 2",
+  "icon": "👕",
+  "words": [
+   {
+    "en": "Pants",
+    "vi": "Quần dài"
+   },
+   {
+    "en": "Socks",
+    "vi": "Tất"
+   },
+   {
+    "en": "Bag",
+    "vi": "Túi xách"
+   },
+   {
+    "en": "T-shirt",
+    "vi": "Áo thun"
+   },
+   {
+    "en": "Sweater",
+    "vi": "Áo len"
+   },
+   {
+    "en": "Sandals",
+    "vi": "Dép quai"
+   },
+   {
+    "en": "Scarf",
+    "vi": "Khăn quàng"
+   },
+   {
+    "en": "Glove",
+    "vi": "Găng tay"
+   }
+  ],
+  "phrases": [
+   "I like my pants.",
+   "Look at my socks!",
+   "This is my bag."
+  ],
+  "dialogue": {
+   "scene": "🎒 👖 🧦 👜 👦👧",
+   "setting": "🎒",
+   "sceneCaption": "Chuẩn bị đi học buổi sáng",
+   "lines": [
+    "👦 Nam: Mai, we go to school in ten minutes!",
+    "👧 Mai: Wait! Where is my socks?",
+    "👦 Nam: It is here. I have my pants already.",
+    "👧 Mai: Thank you. Is it cold? I need my bag.",
+    "👦 Nam: Yes, take your bag with you.",
+    "👧 Mai: Ready! Let's go."
+   ],
+   "audioLines": [
+    "Mai, we go to school in ten minutes!",
+    "Wait! Where is my socks?",
+    "It is here. I have my pants already.",
+    "Thank you. Is it cold? I need my bag.",
+    "Yes, take your bag with you.",
+    "Ready! Let's go."
+   ],
+   "question": "Mai tìm món nào?",
+   "options": [
+    "socks",
+    "pants",
+    "bag"
+   ],
+   "correct": 0
+  }
+ },
+ {
+  "id": "gen_clothing_3",
+  "title": "Quần áo · Phần 3",
+  "icon": "👕",
+  "words": [
+   {
+    "en": "Tie",
+    "vi": "Cà vạt"
+   },
+   {
+    "en": "Ring",
+    "vi": "Nhẫn"
+   },
+   {
+    "en": "Umbrella",
+    "vi": "Ô/Dù"
+   },
+   {
+    "en": "Wallet",
+    "vi": "Ví"
+   },
+   {
+    "en": "Backpack",
+    "vi": "Ba lô"
+   },
+   {
+    "en": "crown",
+    "vi": "vương miện"
+   },
+   {
+    "en": "Jeans",
+    "vi": "Quần jean"
+   },
+   {
+    "en": "Shorts",
+    "vi": "Quần short"
+   },
+   {
+    "en": "Boots",
+    "vi": "Giày bốt"
+   },
+   {
+    "en": "Glasses",
+    "vi": "Kính mắt"
+   },
+   {
+    "en": "Sunglasses",
+    "vi": "Kính râm"
+   },
+   {
+    "en": "gloves",
+    "vi": "găng tay"
+   }
+  ],
+  "phrases": [
+   "I like my tie.",
+   "Look at my ring!",
+   "This is my umbrella."
+  ],
+  "dialogue": {
+   "scene": "🛍️ 👔 💍 ☂️ 👦👧",
+   "setting": "🛍️",
+   "sceneCaption": "Đi mua sắm quần áo",
+   "lines": [
+    "👧 Mai: Nam, look at my new tie!",
+    "👦 Nam: Wow, Mai! I like your tie.",
+    "👧 Mai: Thank you! I like your ring too.",
+    "👦 Nam: This is my favorite ring.",
+    "👧 Mai: And look, my umbrella is new!",
+    "👦 Nam: It is beautiful. You look great!"
+   ],
+   "audioLines": [
+    "Nam, look at my new tie!",
+    "Wow, Mai! I like your tie.",
+    "Thank you! I like your ring too.",
+    "This is my favorite ring.",
+    "And look, my umbrella is new!",
+    "It is beautiful. You look great!"
+   ],
+   "question": "Mai khoe món nào đầu tiên?",
+   "options": [
+    "tie",
+    "ring",
+    "umbrella"
+   ],
+   "correct": 0
+  }
+ },
+ {
   "id": "gen_vehicle",
-  "title": "Xe cộ",
+  "title": "Xe cộ · Phần 1",
   "icon": "🚗",
   "words": [
    {
@@ -652,8 +1568,100 @@
   }
  },
  {
+  "id": "gen_vehicle_2",
+  "title": "Xe cộ · Phần 2",
+  "icon": "🚗",
+  "words": [
+   {
+    "en": "Ship",
+    "vi": "Tàu thủy"
+   },
+   {
+    "en": "Motorbike",
+    "vi": "Xe máy"
+   },
+   {
+    "en": "Rocket",
+    "vi": "Tên lửa"
+   },
+   {
+    "en": "Ambulance",
+    "vi": "Xe cứu thương"
+   },
+   {
+    "en": "Tractor",
+    "vi": "Máy kéo"
+   },
+   {
+    "en": "Van",
+    "vi": "Xe van"
+   },
+   {
+    "en": "Subway",
+    "vi": "Tàu điện ngầm"
+   },
+   {
+    "en": "Ferry",
+    "vi": "Phà"
+   },
+   {
+    "en": "Helicopter",
+    "vi": "Trực thăng"
+   },
+   {
+    "en": "Scooter",
+    "vi": "Xe tay ga"
+   },
+   {
+    "en": "Wheel",
+    "vi": "Bánh xe"
+   },
+   {
+    "en": "Fire truck",
+    "vi": "Xe cứu hỏa"
+   },
+   {
+    "en": "anchor",
+    "vi": "cái mỏ neo"
+   }
+  ],
+  "phrases": [
+   "I go by ship.",
+   "Look at the motorbike!",
+   "I like the rocket."
+  ],
+  "dialogue": {
+   "scene": "🗺️ 🚢 🏍️ 🚀 👦👧",
+   "setting": "🗺️",
+   "sceneCaption": "Lên kế hoạch đi chơi xa",
+   "lines": [
+    "👦 Nam: Mai, my family will travel this summer.",
+    "👧 Mai: How nice! Will you go by ship?",
+    "👦 Nam: No, we will go by motorbike. It is far.",
+    "👧 Mai: I want to see a big rocket one day.",
+    "👦 Nam: Me too. The rocket is amazing.",
+    "👧 Mai: Have a safe trip!"
+   ],
+   "audioLines": [
+    "Mai, my family will travel this summer.",
+    "How nice! Will you go by ship?",
+    "No, we will go by motorbike. It is far.",
+    "I want to see a big rocket one day.",
+    "Me too. The rocket is amazing.",
+    "Have a safe trip!"
+   ],
+   "question": "Nhà Nam sẽ đi bằng gì?",
+   "options": [
+    "motorbike",
+    "ship",
+    "rocket"
+   ],
+   "correct": 0
+  }
+ },
+ {
   "id": "gen_place",
-  "title": "Nơi chốn",
+  "title": "Nơi chốn · Phần 1",
   "icon": "🏙️",
   "words": [
    {
@@ -724,8 +1732,156 @@
   }
  },
  {
+  "id": "gen_place_2",
+  "title": "Nơi chốn · Phần 2",
+  "icon": "🏙️",
+  "words": [
+   {
+    "en": "Road",
+    "vi": "Con đường"
+   },
+   {
+    "en": "Bridge",
+    "vi": "Cây cầu"
+   },
+   {
+    "en": "Stadium",
+    "vi": "Sân vận động"
+   },
+   {
+    "en": "Bank",
+    "vi": "Ngân hàng"
+   },
+   {
+    "en": "Factory",
+    "vi": "Nhà máy"
+   },
+   {
+    "en": "Office",
+    "vi": "Văn phòng"
+   },
+   {
+    "en": "Farm",
+    "vi": "Nông trại"
+   },
+   {
+    "en": "Church",
+    "vi": "Nhà thờ"
+   }
+  ],
+  "phrases": [
+   "I like the road.",
+   "Look at the bridge!",
+   "This is the stadium."
+  ],
+  "dialogue": {
+   "scene": "🔦 🛣️ 🌉 🏟️ 👦👧",
+   "setting": "🔦",
+   "sceneCaption": "Đi khám phá cùng nhau",
+   "lines": [
+    "👦 Nam: Mai, come and see what I found!",
+    "👧 Mai: Oh! Is that the road?",
+    "👦 Nam: Yes. And look, there is the bridge too.",
+    "👧 Mai: Amazing. Where is the stadium?",
+    "👦 Nam: The stadium is behind the tree.",
+    "👧 Mai: What a wonderful day!"
+   ],
+   "audioLines": [
+    "Mai, come and see what I found!",
+    "Oh! Is that the road?",
+    "Yes. And look, there is the bridge too.",
+    "Amazing. Where is the stadium?",
+    "The stadium is behind the tree.",
+    "What a wonderful day!"
+   ],
+   "question": "Cái gì ở sau gốc cây?",
+   "options": [
+    "the stadium",
+    "the road",
+    "the bridge"
+   ],
+   "correct": 0
+  }
+ },
+ {
+  "id": "gen_place_3",
+  "title": "Nơi chốn · Phần 3",
+  "icon": "🏙️",
+  "words": [
+   {
+    "en": "Temple",
+    "vi": "Ngôi chùa"
+   },
+   {
+    "en": "Mosque",
+    "vi": "Nhà thờ Hồi giáo"
+   },
+   {
+    "en": "Castle",
+    "vi": "Lâu đài"
+   },
+   {
+    "en": "Island",
+    "vi": "Hòn đảo"
+   },
+   {
+    "en": "Beach",
+    "vi": "Bãi biển"
+   },
+   {
+    "en": "Desert",
+    "vi": "Sa mạc"
+   },
+   {
+    "en": "Volcano",
+    "vi": "Núi lửa"
+   },
+   {
+    "en": "Hotel",
+    "vi": "Khách sạn"
+   },
+   {
+    "en": "Tent",
+    "vi": "Lều"
+   }
+  ],
+  "phrases": [
+   "I like the temple.",
+   "Look at the mosque!",
+   "This is the castle."
+  ],
+  "dialogue": {
+   "scene": "💬 🛕 🕌 🏰 👦👧",
+   "setting": "💬",
+   "sceneCaption": "Nam và Mai đang trò chuyện",
+   "lines": [
+    "👧 Mai: Hi Nam! What do you like?",
+    "👦 Nam: Hi Mai! I like the temple. And you?",
+    "👧 Mai: I like the mosque. It is nice.",
+    "👦 Nam: Look! The castle is over there.",
+    "👧 Mai: Wow! I like the castle too.",
+    "👦 Nam: Me too! Let's look together."
+   ],
+   "audioLines": [
+    "Hi Nam! What do you like?",
+    "Hi Mai! I like the temple. And you?",
+    "I like the mosque. It is nice.",
+    "Look! The castle is over there.",
+    "Wow! I like the castle too.",
+    "Me too! Let's look together."
+   ],
+   "question": "Mai thích cái nào đầu tiên?",
+   "options": [
+    "the mosque",
+    "the temple",
+    "the castle"
+   ],
+   "correct": 0
+  }
+ },
+ {
   "id": "gen_furniture",
-  "title": "Đồ trong nhà",
+  "title": "Đồ trong nhà · Phần 1",
   "icon": "🛋️",
   "words": [
    {
@@ -796,6 +1952,86 @@
   }
  },
  {
+  "id": "gen_furniture_2",
+  "title": "Đồ trong nhà · Phần 2",
+  "icon": "🛋️",
+  "words": [
+   {
+    "en": "Mirror",
+    "vi": "Cái gương"
+   },
+   {
+    "en": "Light",
+    "vi": "Đèn"
+   },
+   {
+    "en": "Vase",
+    "vi": "Bình hoa"
+   },
+   {
+    "en": "Frame",
+    "vi": "Khung ảnh"
+   },
+   {
+    "en": "Broom",
+    "vi": "Cây chổi"
+   },
+   {
+    "en": "Candle",
+    "vi": "Nến"
+   },
+   {
+    "en": "Desk",
+    "vi": "Bàn làm việc"
+   },
+   {
+    "en": "Box",
+    "vi": "Cái hộp"
+   },
+   {
+    "en": "Basket",
+    "vi": "Cái giỏ"
+   },
+   {
+    "en": "Bathtub",
+    "vi": "Bồn tắm"
+   }
+  ],
+  "phrases": [
+   "I like the mirror.",
+   "Look at the light!",
+   "This is the vase."
+  ],
+  "dialogue": {
+   "scene": "🔦 🪞 💡 🏺 👦👧",
+   "setting": "🔦",
+   "sceneCaption": "Đi khám phá cùng nhau",
+   "lines": [
+    "👦 Nam: Mai, come and see what I found!",
+    "👧 Mai: Oh! Is that the mirror?",
+    "👦 Nam: Yes. And look, there is the light too.",
+    "👧 Mai: Amazing. Where is the vase?",
+    "👦 Nam: The vase is behind the tree.",
+    "👧 Mai: What a wonderful day!"
+   ],
+   "audioLines": [
+    "Mai, come and see what I found!",
+    "Oh! Is that the mirror?",
+    "Yes. And look, there is the light too.",
+    "Amazing. Where is the vase?",
+    "The vase is behind the tree.",
+    "What a wonderful day!"
+   ],
+   "question": "Cái gì ở sau gốc cây?",
+   "options": [
+    "the vase",
+    "the mirror",
+    "the light"
+   ],
+   "correct": 0
+  }
+ },
+ {
   "id": "gen_kitchen",
   "title": "Nhà bếp",
   "icon": "🍽️",
@@ -831,6 +2067,22 @@
    {
     "en": "Glass",
     "vi": "Ly thủy tinh"
+   },
+   {
+    "en": "Jar",
+    "vi": "Lọ"
+   },
+   {
+    "en": "Kettle",
+    "vi": "Ấm đun nước"
+   },
+   {
+    "en": "Chopsticks",
+    "vi": "Đũa"
+   },
+   {
+    "en": "Scissors",
+    "vi": "Kéo"
    }
   ],
   "phrases": [
@@ -869,7 +2121,7 @@
  },
  {
   "id": "gen_object",
-  "title": "Đồ vật quanh bé",
+  "title": "Đồ vật quanh bé · Phần 1",
   "icon": "🎒",
   "words": [
    {
@@ -940,8 +2192,308 @@
   }
  },
  {
+  "id": "gen_object_2",
+  "title": "Đồ vật quanh bé · Phần 2",
+  "icon": "🎒",
+  "words": [
+   {
+    "en": "Notebook",
+    "vi": "Vở"
+   },
+   {
+    "en": "Watch",
+    "vi": "Đồng hồ"
+   },
+   {
+    "en": "Television",
+    "vi": "Ti vi"
+   },
+   {
+    "en": "Lock",
+    "vi": "Ổ khóa"
+   },
+   {
+    "en": "Paper",
+    "vi": "Giấy"
+   },
+   {
+    "en": "Letter",
+    "vi": "Bức thư"
+   },
+   {
+    "en": "Newspaper",
+    "vi": "Báo giấy"
+   },
+   {
+    "en": "Radio",
+    "vi": "Radio"
+   }
+  ],
+  "phrases": [
+   "I like the notebook.",
+   "Look at the watch!",
+   "This is the television."
+  ],
+  "dialogue": {
+   "scene": "🔦 📓 ⌚ 📺 👦👧",
+   "setting": "🔦",
+   "sceneCaption": "Đi khám phá cùng nhau",
+   "lines": [
+    "👦 Nam: Mai, come and see what I found!",
+    "👧 Mai: Oh! Is that the notebook?",
+    "👦 Nam: Yes. And look, there is the watch too.",
+    "👧 Mai: Amazing. Where is the television?",
+    "👦 Nam: The television is behind the tree.",
+    "👧 Mai: What a wonderful day!"
+   ],
+   "audioLines": [
+    "Mai, come and see what I found!",
+    "Oh! Is that the notebook?",
+    "Yes. And look, there is the watch too.",
+    "Amazing. Where is the television?",
+    "The television is behind the tree.",
+    "What a wonderful day!"
+   ],
+   "question": "Cái gì ở sau gốc cây?",
+   "options": [
+    "the television",
+    "the notebook",
+    "the watch"
+   ],
+   "correct": 0
+  }
+ },
+ {
+  "id": "gen_object_3",
+  "title": "Đồ vật quanh bé · Phần 3",
+  "icon": "🎒",
+  "words": [
+   {
+    "en": "Gift",
+    "vi": "Món quà"
+   },
+   {
+    "en": "Present",
+    "vi": "Quà tặng"
+   },
+   {
+    "en": "Card",
+    "vi": "Thiệp chúc mừng"
+   },
+   {
+    "en": "Balloon",
+    "vi": "Bong bóng"
+   },
+   {
+    "en": "Pill",
+    "vi": "Viên thuốc"
+   },
+   {
+    "en": "Bandage",
+    "vi": "Băng gạc"
+   },
+   {
+    "en": "Rope",
+    "vi": "Dây thừng"
+   },
+   {
+    "en": "Glue",
+    "vi": "Keo dán"
+   }
+  ],
+  "phrases": [
+   "I like the gift.",
+   "Look at the present!",
+   "This is the card."
+  ],
+  "dialogue": {
+   "scene": "💬 🎁 🎁 💳 👦👧",
+   "setting": "💬",
+   "sceneCaption": "Nam và Mai đang trò chuyện",
+   "lines": [
+    "👧 Mai: Hi Nam! What do you like?",
+    "👦 Nam: Hi Mai! I like the gift. And you?",
+    "👧 Mai: I like the present. It is nice.",
+    "👦 Nam: Look! The card is over there.",
+    "👧 Mai: Wow! I like the card too.",
+    "👦 Nam: Me too! Let's look together."
+   ],
+   "audioLines": [
+    "Hi Nam! What do you like?",
+    "Hi Mai! I like the gift. And you?",
+    "I like the present. It is nice.",
+    "Look! The card is over there.",
+    "Wow! I like the card too.",
+    "Me too! Let's look together."
+   ],
+   "question": "Mai thích cái nào đầu tiên?",
+   "options": [
+    "the present",
+    "the gift",
+    "the card"
+   ],
+   "correct": 0
+  }
+ },
+ {
+  "id": "gen_object_4",
+  "title": "Đồ vật quanh bé · Phần 4",
+  "icon": "🎒",
+  "words": [
+   {
+    "en": "Ruler",
+    "vi": "Thước kẻ"
+   },
+   {
+    "en": "Flashlight",
+    "vi": "Đèn pin"
+   },
+   {
+    "en": "Magnet",
+    "vi": "Nam châm"
+   },
+   {
+    "en": "Eraser",
+    "vi": "Cục tẩy"
+   },
+   {
+    "en": "Laptop",
+    "vi": "Máy tính xách tay"
+   },
+   {
+    "en": "Keyboard",
+    "vi": "Bàn phím"
+   },
+   {
+    "en": "Camera",
+    "vi": "Máy ảnh"
+   },
+   {
+    "en": "Map",
+    "vi": "Bản đồ"
+   }
+  ],
+  "phrases": [
+   "I like the ruler.",
+   "Look at the flashlight!",
+   "This is the magnet."
+  ],
+  "dialogue": {
+   "scene": "🔦 📏 🔦 🧲 👦👧",
+   "setting": "🔦",
+   "sceneCaption": "Đi khám phá cùng nhau",
+   "lines": [
+    "👦 Nam: Mai, come and see what I found!",
+    "👧 Mai: Oh! Is that the ruler?",
+    "👦 Nam: Yes. And look, there is the flashlight too.",
+    "👧 Mai: Amazing. Where is the magnet?",
+    "👦 Nam: The magnet is behind the tree.",
+    "👧 Mai: What a wonderful day!"
+   ],
+   "audioLines": [
+    "Mai, come and see what I found!",
+    "Oh! Is that the ruler?",
+    "Yes. And look, there is the flashlight too.",
+    "Amazing. Where is the magnet?",
+    "The magnet is behind the tree.",
+    "What a wonderful day!"
+   ],
+   "question": "Cái gì ở sau gốc cây?",
+   "options": [
+    "the magnet",
+    "the ruler",
+    "the flashlight"
+   ],
+   "correct": 0
+  }
+ },
+ {
+  "id": "gen_object_5",
+  "title": "Đồ vật quanh bé · Phần 5",
+  "icon": "🎒",
+  "words": [
+   {
+    "en": "Toy",
+    "vi": "Đồ chơi"
+   },
+   {
+    "en": "Doll",
+    "vi": "Búp bê"
+   },
+   {
+    "en": "Kite",
+    "vi": "Diều"
+   },
+   {
+    "en": "Thermometer",
+    "vi": "Nhiệt kế"
+   },
+   {
+    "en": "Coin",
+    "vi": "Đồng xu"
+   },
+   {
+    "en": "Envelope",
+    "vi": "Phong bì"
+   },
+   {
+    "en": "Stamp",
+    "vi": "Con tem"
+   },
+   {
+    "en": "Telephone",
+    "vi": "Điện thoại bàn"
+   },
+   {
+    "en": "Compass",
+    "vi": "Compa"
+   },
+   {
+    "en": "Crayon",
+    "vi": "Bút sáp màu"
+   },
+   {
+    "en": "Syringe",
+    "vi": "Ống tiêm"
+   }
+  ],
+  "phrases": [
+   "I like the toy.",
+   "Look at the doll!",
+   "This is the kite."
+  ],
+  "dialogue": {
+   "scene": "💬 🧸 🪆 🪁 👦👧",
+   "setting": "💬",
+   "sceneCaption": "Nam và Mai đang trò chuyện",
+   "lines": [
+    "👧 Mai: Hi Nam! What do you like?",
+    "👦 Nam: Hi Mai! I like the toy. And you?",
+    "👧 Mai: I like the doll. It is nice.",
+    "👦 Nam: Look! The kite is over there.",
+    "👧 Mai: Wow! I like the kite too.",
+    "👦 Nam: Me too! Let's look together."
+   ],
+   "audioLines": [
+    "Hi Nam! What do you like?",
+    "Hi Mai! I like the toy. And you?",
+    "I like the doll. It is nice.",
+    "Look! The kite is over there.",
+    "Wow! I like the kite too.",
+    "Me too! Let's look together."
+   ],
+   "question": "Mai thích cái nào đầu tiên?",
+   "options": [
+    "the doll",
+    "the toy",
+    "the kite"
+   ],
+   "correct": 0
+  }
+ },
+ {
   "id": "gen_body",
-  "title": "Cơ thể",
+  "title": "Cơ thể · Phần 1",
   "icon": "🖐️",
   "words": [
    {
@@ -1012,6 +2564,90 @@
   }
  },
  {
+  "id": "gen_body_2",
+  "title": "Cơ thể · Phần 2",
+  "icon": "🖐️",
+  "words": [
+   {
+    "en": "Arm",
+    "vi": "Cánh tay"
+   },
+   {
+    "en": "Foot",
+    "vi": "Bàn chân"
+   },
+   {
+    "en": "Finger",
+    "vi": "Ngón tay"
+   },
+   {
+    "en": "Thumb",
+    "vi": "Ngón cái"
+   },
+   {
+    "en": "Knee",
+    "vi": "Đầu gối"
+   },
+   {
+    "en": "Bone",
+    "vi": "Xương"
+   },
+   {
+    "en": "Heart",
+    "vi": "Tim"
+   },
+   {
+    "en": "Brain",
+    "vi": "Não"
+   },
+   {
+    "en": "Tongue",
+    "vi": "Lưỡi"
+   },
+   {
+    "en": "Lip",
+    "vi": "Môi"
+   },
+   {
+    "en": "Tooth",
+    "vi": "Răng"
+   }
+  ],
+  "phrases": [
+   "I like the arm.",
+   "Look at the foot!",
+   "This is the finger."
+  ],
+  "dialogue": {
+   "scene": "🔦 💪 🦶 👆 👦👧",
+   "setting": "🔦",
+   "sceneCaption": "Đi khám phá cùng nhau",
+   "lines": [
+    "👦 Nam: Mai, come and see what I found!",
+    "👧 Mai: Oh! Is that the arm?",
+    "👦 Nam: Yes. And look, there is the foot too.",
+    "👧 Mai: Amazing. Where is the finger?",
+    "👦 Nam: The finger is behind the tree.",
+    "👧 Mai: What a wonderful day!"
+   ],
+   "audioLines": [
+    "Mai, come and see what I found!",
+    "Oh! Is that the arm?",
+    "Yes. And look, there is the foot too.",
+    "Amazing. Where is the finger?",
+    "The finger is behind the tree.",
+    "What a wonderful day!"
+   ],
+   "question": "Cái gì ở sau gốc cây?",
+   "options": [
+    "the finger",
+    "the arm",
+    "the foot"
+   ],
+   "correct": 0
+  }
+ },
+ {
   "id": "gen_family",
   "title": "Gia đình",
   "icon": "👪",
@@ -1047,6 +2683,22 @@
    {
     "en": "Grandfather",
     "vi": "Ông"
+   },
+   {
+    "en": "Grandmother",
+    "vi": "Bà"
+   },
+   {
+    "en": "Child",
+    "vi": "Đứa trẻ"
+   },
+   {
+    "en": "Friend",
+    "vi": "Bạn"
+   },
+   {
+    "en": "Couple",
+    "vi": "Cặp đôi"
    }
   ],
   "phrases": [
@@ -1085,7 +2737,7 @@
  },
  {
   "id": "gen_jobs",
-  "title": "Nghề nghiệp",
+  "title": "Nghề nghiệp · Phần 1",
   "icon": "👩‍🏫",
   "words": [
    {
@@ -1156,8 +2808,156 @@
   }
  },
  {
+  "id": "gen_jobs_2",
+  "title": "Nghề nghiệp · Phần 2",
+  "icon": "👩‍🏫",
+  "words": [
+   {
+    "en": "Engineer",
+    "vi": "Kỹ sư"
+   },
+   {
+    "en": "Police officer",
+    "vi": "Cảnh sát"
+   },
+   {
+    "en": "Firefighter",
+    "vi": "Lính cứu hỏa"
+   },
+   {
+    "en": "Soldier",
+    "vi": "Người lính"
+   },
+   {
+    "en": "Driver",
+    "vi": "Tài xế"
+   },
+   {
+    "en": "Pilot",
+    "vi": "Phi công"
+   },
+   {
+    "en": "Scientist",
+    "vi": "Nhà khoa học"
+   },
+   {
+    "en": "Artist",
+    "vi": "Nghệ sĩ"
+   }
+  ],
+  "phrases": [
+   "I like the engineer.",
+   "Look at the police officer!",
+   "This is the firefighter."
+  ],
+  "dialogue": {
+   "scene": "🔦 👷 👮 👨‍🚒 👦👧",
+   "setting": "🔦",
+   "sceneCaption": "Đi khám phá cùng nhau",
+   "lines": [
+    "👦 Nam: Mai, come and see what I found!",
+    "👧 Mai: Oh! Is that the engineer?",
+    "👦 Nam: Yes. And look, there is the police officer too.",
+    "👧 Mai: Amazing. Where is the firefighter?",
+    "👦 Nam: The firefighter is behind the tree.",
+    "👧 Mai: What a wonderful day!"
+   ],
+   "audioLines": [
+    "Mai, come and see what I found!",
+    "Oh! Is that the engineer?",
+    "Yes. And look, there is the police officer too.",
+    "Amazing. Where is the firefighter?",
+    "The firefighter is behind the tree.",
+    "What a wonderful day!"
+   ],
+   "question": "Cái gì ở sau gốc cây?",
+   "options": [
+    "the firefighter",
+    "the engineer",
+    "the police officer"
+   ],
+   "correct": 0
+  }
+ },
+ {
+  "id": "gen_jobs_3",
+  "title": "Nghề nghiệp · Phần 3",
+  "icon": "👩‍🏫",
+  "words": [
+   {
+    "en": "Singer",
+    "vi": "Ca sĩ"
+   },
+   {
+    "en": "Mechanic",
+    "vi": "Thợ máy"
+   },
+   {
+    "en": "Guard",
+    "vi": "Bảo vệ"
+   },
+   {
+    "en": "Judge",
+    "vi": "Thẩm phán"
+   },
+   {
+    "en": "Astronaut",
+    "vi": "Phi hành gia"
+   },
+   {
+    "en": "Clown",
+    "vi": "Chú hề"
+   },
+   {
+    "en": "Detective",
+    "vi": "Thám tử"
+   },
+   {
+    "en": "fairy",
+    "vi": "nàng tiên"
+   },
+   {
+    "en": "wizard",
+    "vi": "pháp sư"
+   }
+  ],
+  "phrases": [
+   "I like the singer.",
+   "Look at the mechanic!",
+   "This is the guard."
+  ],
+  "dialogue": {
+   "scene": "💬 👩‍🎤 👨‍🔧 💂 👦👧",
+   "setting": "💬",
+   "sceneCaption": "Nam và Mai đang trò chuyện",
+   "lines": [
+    "👧 Mai: Hi Nam! What do you like?",
+    "👦 Nam: Hi Mai! I like the singer. And you?",
+    "👧 Mai: I like the mechanic. It is nice.",
+    "👦 Nam: Look! The guard is over there.",
+    "👧 Mai: Wow! I like the guard too.",
+    "👦 Nam: Me too! Let's look together."
+   ],
+   "audioLines": [
+    "Hi Nam! What do you like?",
+    "Hi Mai! I like the singer. And you?",
+    "I like the mechanic. It is nice.",
+    "Look! The guard is over there.",
+    "Wow! I like the guard too.",
+    "Me too! Let's look together."
+   ],
+   "question": "Mai thích cái nào đầu tiên?",
+   "options": [
+    "the mechanic",
+    "the singer",
+    "the guard"
+   ],
+   "correct": 0
+  }
+ },
+ {
   "id": "gen_nature",
-  "title": "Thiên nhiên",
+  "title": "Thiên nhiên · Phần 1",
   "icon": "🌳",
   "words": [
    {
@@ -1228,8 +3028,228 @@
   }
  },
  {
+  "id": "gen_nature_2",
+  "title": "Thiên nhiên · Phần 2",
+  "icon": "🌳",
+  "words": [
+   {
+    "en": "Snow",
+    "vi": "Tuyết"
+   },
+   {
+    "en": "Sea",
+    "vi": "Biển"
+   },
+   {
+    "en": "River",
+    "vi": "Sông"
+   },
+   {
+    "en": "Stone",
+    "vi": "Đá"
+   },
+   {
+    "en": "Rock",
+    "vi": "Tảng đá"
+   },
+   {
+    "en": "Ocean",
+    "vi": "Đại dương"
+   },
+   {
+    "en": "Grass",
+    "vi": "Cỏ"
+   },
+   {
+    "en": "Leaf",
+    "vi": "Chiếc lá"
+   }
+  ],
+  "phrases": [
+   "I like the snow.",
+   "Look at the sea!",
+   "This is the river."
+  ],
+  "dialogue": {
+   "scene": "🔦 ❄️ 🌊 🏞️ 👦👧",
+   "setting": "🔦",
+   "sceneCaption": "Đi khám phá cùng nhau",
+   "lines": [
+    "👦 Nam: Mai, come and see what I found!",
+    "👧 Mai: Oh! Is that the snow?",
+    "👦 Nam: Yes. And look, there is the sea too.",
+    "👧 Mai: Amazing. Where is the river?",
+    "👦 Nam: The river is behind the tree.",
+    "👧 Mai: What a wonderful day!"
+   ],
+   "audioLines": [
+    "Mai, come and see what I found!",
+    "Oh! Is that the snow?",
+    "Yes. And look, there is the sea too.",
+    "Amazing. Where is the river?",
+    "The river is behind the tree.",
+    "What a wonderful day!"
+   ],
+   "question": "Cái gì ở sau gốc cây?",
+   "options": [
+    "the river",
+    "the snow",
+    "the sea"
+   ],
+   "correct": 0
+  }
+ },
+ {
+  "id": "gen_nature_3",
+  "title": "Thiên nhiên · Phần 3",
+  "icon": "🌳",
+  "words": [
+   {
+    "en": "Bush",
+    "vi": "Bụi cây"
+   },
+   {
+    "en": "Palm tree",
+    "vi": "Cây cọ"
+   },
+   {
+    "en": "Rose",
+    "vi": "Hoa hồng"
+   },
+   {
+    "en": "Sunflower",
+    "vi": "Hoa hướng dương"
+   },
+   {
+    "en": "Cactus",
+    "vi": "Xương rồng"
+   },
+   {
+    "en": "Planet",
+    "vi": "Hành tinh"
+   },
+   {
+    "en": "Comet",
+    "vi": "Sao chổi"
+   },
+   {
+    "en": "Thunder",
+    "vi": "Sấm"
+   }
+  ],
+  "phrases": [
+   "I like the bush.",
+   "Look at the palm tree!",
+   "This is the rose."
+  ],
+  "dialogue": {
+   "scene": "💬 🌿 🌴 🌹 👦👧",
+   "setting": "💬",
+   "sceneCaption": "Nam và Mai đang trò chuyện",
+   "lines": [
+    "👧 Mai: Hi Nam! What do you like?",
+    "👦 Nam: Hi Mai! I like the bush. And you?",
+    "👧 Mai: I like the palm tree. It is nice.",
+    "👦 Nam: Look! The rose is over there.",
+    "👧 Mai: Wow! I like the rose too.",
+    "👦 Nam: Me too! Let's look together."
+   ],
+   "audioLines": [
+    "Hi Nam! What do you like?",
+    "Hi Mai! I like the bush. And you?",
+    "I like the palm tree. It is nice.",
+    "Look! The rose is over there.",
+    "Wow! I like the rose too.",
+    "Me too! Let's look together."
+   ],
+   "question": "Mai thích cái nào đầu tiên?",
+   "options": [
+    "the palm tree",
+    "the bush",
+    "the rose"
+   ],
+   "correct": 0
+  }
+ },
+ {
+  "id": "gen_nature_4",
+  "title": "Thiên nhiên · Phần 4",
+  "icon": "🌳",
+  "words": [
+   {
+    "en": "Lightning",
+    "vi": "Sét"
+   },
+   {
+    "en": "Fog",
+    "vi": "Sương mù"
+   },
+   {
+    "en": "Rainbow",
+    "vi": "Cầu vồng"
+   },
+   {
+    "en": "Fire",
+    "vi": "Lửa/Hỏa hoạn"
+   },
+   {
+    "en": "Tornado",
+    "vi": "Lốc xoáy"
+   },
+   {
+    "en": "Wave",
+    "vi": "Cái vẫy tay"
+   },
+   {
+    "en": "tulip",
+    "vi": "hoa tulip"
+   },
+   {
+    "en": "daisy",
+    "vi": "hoa cúc dại"
+   },
+   {
+    "en": "plant",
+    "vi": "trồng"
+   }
+  ],
+  "phrases": [
+   "I like the lightning.",
+   "Look at the fog!",
+   "This is the rainbow."
+  ],
+  "dialogue": {
+   "scene": "🔦 ⚡ 🌫️ 🌈 👦👧",
+   "setting": "🔦",
+   "sceneCaption": "Đi khám phá cùng nhau",
+   "lines": [
+    "👦 Nam: Mai, come and see what I found!",
+    "👧 Mai: Oh! Is that the lightning?",
+    "👦 Nam: Yes. And look, there is the fog too.",
+    "👧 Mai: Amazing. Where is the rainbow?",
+    "👦 Nam: The rainbow is behind the tree.",
+    "👧 Mai: What a wonderful day!"
+   ],
+   "audioLines": [
+    "Mai, come and see what I found!",
+    "Oh! Is that the lightning?",
+    "Yes. And look, there is the fog too.",
+    "Amazing. Where is the rainbow?",
+    "The rainbow is behind the tree.",
+    "What a wonderful day!"
+   ],
+   "question": "Cái gì ở sau gốc cây?",
+   "options": [
+    "the rainbow",
+    "the lightning",
+    "the fog"
+   ],
+   "correct": 0
+  }
+ },
+ {
   "id": "gen_sport",
-  "title": "Thể thao",
+  "title": "Thể thao · Phần 1",
   "icon": "⚽",
   "words": [
    {
@@ -1300,6 +3320,98 @@
   }
  },
  {
+  "id": "gen_sport_2",
+  "title": "Thể thao · Phần 2",
+  "icon": "⚽",
+  "words": [
+   {
+    "en": "Baseball",
+    "vi": "Bóng chày"
+   },
+   {
+    "en": "Boxing",
+    "vi": "Quyền anh"
+   },
+   {
+    "en": "Medal",
+    "vi": "Huy chương"
+   },
+   {
+    "en": "Trophy",
+    "vi": "Cúp"
+   },
+   {
+    "en": "Skateboard",
+    "vi": "Ván trượt"
+   },
+   {
+    "en": "Skiing",
+    "vi": "Trượt tuyết"
+   },
+   {
+    "en": "Surfing",
+    "vi": "Lướt sóng"
+   },
+   {
+    "en": "Cycling",
+    "vi": "Đạp xe"
+   },
+   {
+    "en": "Skating",
+    "vi": "Trượt băng"
+   },
+   {
+    "en": "Climbing",
+    "vi": "Leo núi"
+   },
+   {
+    "en": "Dumbbell",
+    "vi": "Tạ tay"
+   },
+   {
+    "en": "darts",
+    "vi": "phi tiêu"
+   },
+   {
+    "en": "ping pong",
+    "vi": "bóng bàn"
+   }
+  ],
+  "phrases": [
+   "I like baseball.",
+   "I like boxing.",
+   "Medal is fun!"
+  ],
+  "dialogue": {
+   "scene": "🏅 ⚾ 🥊 🏅 👦👧",
+   "setting": "🏅",
+   "sceneCaption": "Ngày hội thể thao ở trường",
+   "lines": [
+    "👦 Nam: Mai, sports day is tomorrow!",
+    "👧 Mai: I know! I will do boxing.",
+    "👦 Nam: Really? I will do baseball.",
+    "👧 Mai: My brother is very good at medal.",
+    "👦 Nam: Then he will win the medal!",
+    "👧 Mai: Good luck to everyone!"
+   ],
+   "audioLines": [
+    "Mai, sports day is tomorrow!",
+    "I know! I will do boxing.",
+    "Really? I will do baseball.",
+    "My brother is very good at medal.",
+    "Then he will win the medal!",
+    "Good luck to everyone!"
+   ],
+   "question": "Ngày mai Nam thi môn nào?",
+   "options": [
+    "baseball",
+    "boxing",
+    "medal"
+   ],
+   "correct": 0
+  }
+ },
+ {
   "id": "gen_music",
   "title": "Âm nhạc & Nhạc cụ",
   "icon": "🎵",
@@ -1335,6 +3447,26 @@
    {
     "en": "Trumpet",
     "vi": "Kèn trumpet"
+   },
+   {
+    "en": "Microphone",
+    "vi": "Micro"
+   },
+   {
+    "en": "saxophone",
+    "vi": "kèn saxophone"
+   },
+   {
+    "en": "accordion",
+    "vi": "đàn accordion"
+   },
+   {
+    "en": "banjo",
+    "vi": "đàn banjo"
+   },
+   {
+    "en": "Headphones",
+    "vi": "Tai nghe"
    }
   ],
   "phrases": [
@@ -1373,7 +3505,7 @@
  },
  {
   "id": "gen_countries",
-  "title": "Quốc gia",
+  "title": "Quốc gia · Phần 1",
   "icon": "🏳️",
   "words": [
    {
@@ -1439,6 +3571,78 @@
     "Vietnam",
     "America",
     "England"
+   ],
+   "correct": 0
+  }
+ },
+ {
+  "id": "gen_countries_2",
+  "title": "Quốc gia · Phần 2",
+  "icon": "🏳️",
+  "words": [
+   {
+    "en": "Australia",
+    "vi": "Úc"
+   },
+   {
+    "en": "Canada",
+    "vi": "Canada"
+   },
+   {
+    "en": "Thailand",
+    "vi": "Thái Lan"
+   },
+   {
+    "en": "India",
+    "vi": "Ấn Độ"
+   },
+   {
+    "en": "Russia",
+    "vi": "Nga"
+   },
+   {
+    "en": "Italy",
+    "vi": "Ý"
+   },
+   {
+    "en": "Spain",
+    "vi": "Tây Ban Nha"
+   },
+   {
+    "en": "Brazil",
+    "vi": "Brazil"
+   }
+  ],
+  "phrases": [
+   "I am from Australia.",
+   "This is Canada.",
+   "I like Thailand."
+  ],
+  "dialogue": {
+   "scene": "✈️ 🇦🇺 🇨🇦 🇹🇭 👦👧",
+   "setting": "✈️",
+   "sceneCaption": "Ở sân bay",
+   "lines": [
+    "👧 Mai: Nam, so many people at the airport today!",
+    "👦 Nam: Yes. That family is from Canada.",
+    "👧 Mai: And those students are from Australia.",
+    "👦 Nam: One day I want to visit Thailand.",
+    "👧 Mai: Thailand is beautiful. Let's go together!",
+    "👦 Nam: It is a promise!"
+   ],
+   "audioLines": [
+    "Nam, so many people at the airport today!",
+    "Yes. That family is from Canada.",
+    "And those students are from Australia.",
+    "One day I want to visit Thailand.",
+    "Thailand is beautiful. Let's go together!",
+    "It is a promise!"
+   ],
+   "question": "Nam muốn đi thăm nước nào?",
+   "options": [
+    "Thailand",
+    "Australia",
+    "Canada"
    ],
    "correct": 0
   }

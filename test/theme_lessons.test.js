@@ -139,6 +139,54 @@ for (const meta of TL.themes) {
     );
 }
 
+// ---- chunked multi-part themes + situation variety ------------------------------------------
+// Groups with more words than fit one lesson are split into "· Phần N" lessons so the old
+// vocabulary is actually taught instead of capped at 8 words per group.
+console.log('\n== multi-part themes ==');
+{
+    const ids = TL.themes.map((t) => t.id);
+    ok(new Set(ids).size === ids.length, 'every theme id is unique (chunking cannot collide)');
+    // part 1 must keep the parent id, so older links/saved state still resolve
+    const parts = GEN.filter((t) => /_\d+$/.test(t.id));
+    ok(parts.length > 0, 'chunking produced follow-on parts');
+    ok(
+        parts.every((t) => GEN.some((p) => p.id === t.id.replace(/_\d+$/, ''))),
+        'every follow-on part has its part-1 parent present under the original id'
+    );
+    // a parent and its part 2 must not replay the same scripted situation
+    let rotated = 0;
+    for (const t of parts) {
+        const base = GEN.find((p) => p.id === t.id.replace(/_\d+$/, ''));
+        const n = Number(t.id.match(/_(\d+)$/)[1]);
+        if (n === 2 && base) {
+            ok(
+                t.dialogue.sceneCaption !== base.dialogue.sceneCaption,
+                t.id + ': part 2 plays a different situation than part 1'
+            );
+            rotated++;
+        }
+    }
+    ok(rotated >= 5, 'several themes actually exercise the situation rotation');
+    // no lesson may be a stub, and no word may be taught twice inside one lesson
+    ok(
+        GEN.every((t) => t.words.length >= 6),
+        'no generated lesson is a stub (>=6 words each)'
+    );
+    ok(
+        GEN.every((t) => new Set(t.words.map((w) => w.en.toLowerCase())).size === t.words.length),
+        'no lesson repeats a word'
+    );
+    // the answer key must point at the line the question actually asks about
+    ok(
+        GEN.every((t) => t.dialogue.options[t.dialogue.correct] != null),
+        'every generated dialogue answer key is in range'
+    );
+    ok(
+        GEN.every((t) => new Set(t.dialogue.options).size === t.dialogue.options.length),
+        'every generated dialogue offers distinct options'
+    );
+}
+
 // ---- CONTEXT-bucket themes (numbers, colours, feelings, days, months…) ----------------------
 // These were the "no picture" topics. They must still SHOW something (every concept resolves to
 // an emoji) and must get the livelier queue: word↔meaning matching + fill-in-the-blank.

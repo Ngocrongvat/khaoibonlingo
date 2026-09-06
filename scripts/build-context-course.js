@@ -162,6 +162,23 @@ const THEMES = [
         ],
     },
     {
+        // Adjectives, not the season nouns in ctx_seasons — "It is sunny", not "I like spring".
+        id: 'ctx_weather_now',
+        title: 'Trời hôm nay thế nào?',
+        icon: '🌦️',
+        template: 'weathernow',
+        concepts: ['sunny', 'rainy', 'cloudy', 'hot', 'cold', 'windy', 'stormy'],
+    },
+    {
+        // The physical EXPRESSIONS of feeling (things you give/see), where ctx_emotions covers
+        // the adjectives you are.
+        id: 'ctx_expressions',
+        title: 'Cử chỉ & Biểu cảm',
+        icon: '🤗',
+        template: 'express',
+        concepts: ['smile', 'hug', 'kiss', 'handshake', 'laugh', 'frown'],
+    },
+    {
         id: 'ctx_daytime',
         title: 'Buổi trong ngày',
         icon: '🌅',
@@ -198,6 +215,8 @@ const SETTINGS = {
     month: { set: '🗓️', cap: 'Nói về ngày sinh nhật' },
     daytime: { set: '🌅', cap: 'Một ngày của bé' },
     celebrate: { set: '🎉', cap: 'Tiệc sinh nhật' },
+    weathernow: { set: '🪟', cap: 'Nhìn ra cửa sổ' },
+    express: { set: '🤝', cap: 'Gặp lại bạn cũ' },
 };
 
 // ---- templates ------------------------------------------------------------------------------
@@ -402,6 +421,48 @@ const TEMPLATES = {
             { sentence: `I play in the ${w[1]}.`, blank: w[1], distract: [w[0], w[2]] },
         ],
     }),
+    // Weather adjectives always sit after "It is" — never take an article.
+    weathernow: (w) => ({
+        phrases: [`It is ${w[0]} today.`, `It is very ${w[3]}!`, `Is it ${w[1]}?`],
+        dialogue: {
+            lines: [
+                '👦 Nam: Mai, look out the window!',
+                `👧 Mai: Oh, it is ${w[0]} today.`,
+                `👦 Nam: Yesterday it was ${w[1]}. I stayed home.`,
+                `👧 Mai: Today is nice, but it is very ${w[3]}.`,
+                `👦 Nam: Yes. In winter it is ${w[4]}.`,
+                "👧 Mai: Let's go outside now!",
+            ],
+            question: 'Hôm nay trời thế nào?',
+            options: [w[0], w[1], w[2]],
+            correct: 0,
+        },
+        fills: [
+            { sentence: `It is ${w[0]} today.`, blank: w[0], distract: [w[1], w[2]] },
+            { sentence: `In winter it is ${w[4]}.`, blank: w[4], distract: [w[3], w[0]] },
+        ],
+    }),
+    // Expressions you GIVE or HAVE — countable, so "a smile" / "a hug" all read correctly.
+    express: (w) => ({
+        phrases: [`Nam has a big ${w[0]}.`, `I give you a ${w[1]}.`, `That is a happy ${w[4]}.`],
+        dialogue: {
+            lines: [
+                '👧 Mai: Nam! Long time no see!',
+                `👦 Nam: Mai! You have a big ${w[0]} today.`,
+                `👧 Mai: I am so happy. Here, I give you a ${w[1]}.`,
+                `👦 Nam: Thank you! My dad gives a ${w[3]} to my teacher.`,
+                `👧 Mai: That is polite. My mum gives me a ${w[2]} every morning.`,
+                `👦 Nam: Friends make me happy — never a ${w[5]}!`,
+            ],
+            question: 'Mai tặng Nam cái gì?',
+            options: [`A ${w[1]}.`, `A ${w[3]}.`, `A ${w[2]}.`],
+            correct: 0,
+        },
+        fills: [
+            { sentence: `I give you a ${w[1]}.`, blank: w[1], distract: [w[3], w[2]] },
+            { sentence: `Nam has a big ${w[0]}.`, blank: w[0], distract: [w[1], w[4]] },
+        ],
+    }),
     celebrate: (w) => ({
         phrases: [`Happy ${w[0]}!`, `I like the ${w[1]}.`, `Look at the ${w[3]}!`],
         dialogue: {
@@ -484,6 +545,17 @@ for (const theme of THEMES) {
             .map((w) => w.en + EmojiMap.get(w.en))
             .join(' ')}`
     );
+    // Emoji flattening is first-wins, so a concept can silently resolve to an EARLIER group's
+    // glyph — "wave" reads as 🌊 (nature) not a waving hand. Surface the owning group for any
+    // concept the theme's own group didn't win, so a wrong picture is caught here rather than
+    // by eye in the browser.
+    const own = theme.template && theme.id.replace(/^ctx_/, '');
+    r.obj.words.forEach((w) => {
+        const g = EmojiMap.groupOf(w.en);
+        if (g && own && !own.startsWith(g) && !g.startsWith(own.split('_')[0])) {
+            report.push(`        ↳ note: "${w.en}" ${EmojiMap.get(w.en)} comes from group "${g}"`);
+        }
+    });
 }
 
 const header =

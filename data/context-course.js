@@ -745,6 +745,174 @@
   }
  },
  {
+  "id": "ctx_weather_now",
+  "title": "Trời hôm nay thế nào?",
+  "icon": "🌦️",
+  "kind": "context",
+  "words": [
+   {
+    "en": "sunny",
+    "vi": "Trời nắng"
+   },
+   {
+    "en": "rainy",
+    "vi": "Trời mưa"
+   },
+   {
+    "en": "cloudy",
+    "vi": "nhiều mây"
+   },
+   {
+    "en": "hot",
+    "vi": "nóng"
+   },
+   {
+    "en": "cold",
+    "vi": "Cảm lạnh"
+   },
+   {
+    "en": "windy",
+    "vi": "có gió"
+   },
+   {
+    "en": "stormy",
+    "vi": "có bão"
+   }
+  ],
+  "phrases": [
+   "It is sunny today.",
+   "It is very hot!",
+   "Is it rainy?"
+  ],
+  "fills": [
+   {
+    "sentence": "It is ___ today.",
+    "answer": "sunny",
+    "distract": [
+     "rainy",
+     "cloudy"
+    ]
+   },
+   {
+    "sentence": "In winter it is ___.",
+    "answer": "cold",
+    "distract": [
+     "hot",
+     "sunny"
+    ]
+   }
+  ],
+  "dialogue": {
+   "setting": "🪟",
+   "sceneCaption": "Nhìn ra cửa sổ",
+   "lines": [
+    "👦 Nam: Mai, look out the window!",
+    "👧 Mai: Oh, it is sunny today.",
+    "👦 Nam: Yesterday it was rainy. I stayed home.",
+    "👧 Mai: Today is nice, but it is very hot.",
+    "👦 Nam: Yes. In winter it is cold.",
+    "👧 Mai: Let's go outside now!"
+   ],
+   "audioLines": [
+    "Mai, look out the window!",
+    "Oh, it is sunny today.",
+    "Yesterday it was rainy. I stayed home.",
+    "Today is nice, but it is very hot.",
+    "Yes. In winter it is cold.",
+    "Let's go outside now!"
+   ],
+   "question": "Hôm nay trời thế nào?",
+   "options": [
+    "sunny",
+    "rainy",
+    "cloudy"
+   ],
+   "correct": 0
+  }
+ },
+ {
+  "id": "ctx_expressions",
+  "title": "Cử chỉ & Biểu cảm",
+  "icon": "🤗",
+  "kind": "context",
+  "words": [
+   {
+    "en": "smile",
+    "vi": "Nụ cười"
+   },
+   {
+    "en": "hug",
+    "vi": "Cái ôm"
+   },
+   {
+    "en": "kiss",
+    "vi": "Nụ hôn"
+   },
+   {
+    "en": "handshake",
+    "vi": "Cái bắt tay"
+   },
+   {
+    "en": "laugh",
+    "vi": "cười"
+   },
+   {
+    "en": "frown",
+    "vi": "Nhíu mày"
+   }
+  ],
+  "phrases": [
+   "Nam has a big smile.",
+   "I give you a hug.",
+   "That is a happy laugh."
+  ],
+  "fills": [
+   {
+    "sentence": "I give you a ___.",
+    "answer": "hug",
+    "distract": [
+     "handshake",
+     "kiss"
+    ]
+   },
+   {
+    "sentence": "Nam has a big ___.",
+    "answer": "smile",
+    "distract": [
+     "hug",
+     "laugh"
+    ]
+   }
+  ],
+  "dialogue": {
+   "setting": "🤝",
+   "sceneCaption": "Gặp lại bạn cũ",
+   "lines": [
+    "👧 Mai: Nam! Long time no see!",
+    "👦 Nam: Mai! You have a big smile today.",
+    "👧 Mai: I am so happy. Here, I give you a hug.",
+    "👦 Nam: Thank you! My dad gives a handshake to my teacher.",
+    "👧 Mai: That is polite. My mum gives me a kiss every morning.",
+    "👦 Nam: Friends make me happy — never a frown!"
+   ],
+   "audioLines": [
+    "Nam! Long time no see!",
+    "Mai! You have a big smile today.",
+    "I am so happy. Here, I give you a hug.",
+    "Thank you! My dad gives a handshake to my teacher.",
+    "That is polite. My mum gives me a kiss every morning.",
+    "Friends make me happy — never a frown!"
+   ],
+   "question": "Mai tặng Nam cái gì?",
+   "options": [
+    "A hug.",
+    "A handshake.",
+    "A kiss."
+   ],
+   "correct": 0
+  }
+ },
+ {
   "id": "ctx_daytime",
   "title": "Buổi trong ngày",
   "icon": "🌅",
